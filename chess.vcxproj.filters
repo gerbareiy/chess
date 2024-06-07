@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Chess">
+      <UniqueIdentifier>{6e1ff7c7-b731-45da-b241-6377c13e6fb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Chess\Pieces">
+      <UniqueIdentifier>{56d45924-84df-4d5b-958d-b2ab8d47c660}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Chess">
+      <UniqueIdentifier>{ee1193bd-3315-4cba-ac0b-bd14df182bf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Chess\Pieces">
+      <UniqueIdentifier>{6a5b2bee-1801-4707-9ac4-040a2011d794}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\chess\Chessboard.cpp">
+      <Filter>Source Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\Controller.cpp">
+      <Filter>Source Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\Coordinate.cpp">
+      <Filter>Source Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\ErrorConverter.cpp">
+      <Filter>Source Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\Game.cpp">
+      <Filter>Source Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\Console.cpp">
+      <Filter>Source Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\Bishop.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\King.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\KingChecker.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\Knight.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\KnightChecker.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\Pawn.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\Rook.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\Queen.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\PieceTypeConverter.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\PieceColorAndType.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\chess\Chessboard.h">
+      <Filter>Header Files\Chess</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\eConsoleColor.h">
+      <Filter>Header Files\Chess</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\Controller.h">
+      <Filter>Header Files\Chess</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\Coordinate.h">
+      <Filter>Header Files\Chess</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\Counts.h">
+      <Filter>Header Files\Chess</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\eError.h">
+      <Filter>Header Files\Chess</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\ErrorConverter.h">
+      <Filter>Header Files\Chess</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\Game.h">
+      <Filter>Header Files\Chess</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\Sizes.h">
+      <Filter>Header Files\Chess</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\Console.h">
+      <Filter>Header Files\Chess</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\Bishop.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\ePieceColor.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\ePieceType.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\IPiece.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\King.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\IMoveChecker.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\Knight.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\KingChecker.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\KnightChecker.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\Pawn.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\PieceColorAndType.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\PieceTypeConverter.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\Rook.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\Queen.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
