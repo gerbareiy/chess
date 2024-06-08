@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Controller.h"
 #include "Console.h"
+#include "Controller.h"
 
 #include <memory>
 

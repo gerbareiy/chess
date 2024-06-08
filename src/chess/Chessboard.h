@@ -1,8 +1,8 @@
 #pragma once
 
-#include "pieces/PieceColorAndType.h"
-#include "pieces/IPiece.h"
 #include "Coordinate.h"
+#include "pieces/IPiece.h"
+#include "pieces/PieceColorAndType.h"
 
 #include <memory>
 #include <vector>

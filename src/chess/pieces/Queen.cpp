@@ -1,8 +1,8 @@
 #include "Queen.h"
 
-#include "../Sizes.h"
 #include "../eError.h"
 #include "../ErrorConverter.h"
+#include "../Sizes.h"
 
 #include <iostream>
 #include <math.h>

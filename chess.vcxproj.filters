@@ -78,6 +78,9 @@
     <ClCompile Include="src\chess\pieces\PieceColorAndType.cpp">
       <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
+    <ClCompile Include="src\chess\pieces\PawnChecker.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chess\Chessboard.h">
@@ -150,6 +153,9 @@
       <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\pieces\Queen.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\PawnChecker.h">
       <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
   </ItemGroup>

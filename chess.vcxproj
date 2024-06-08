@@ -67,12 +67,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <ExternalIncludePath>C:\local\boost_1_85_0;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <ExternalIncludePath>C:\local\boost_1_85_0;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -119,6 +121,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\chess\pieces\PawnChecker.cpp" />
     <ClCompile Include="src\chess\Chessboard.cpp" />
     <ClCompile Include="src\chess\Controller.cpp" />
     <ClCompile Include="src\chess\ErrorConverter.cpp" />
@@ -138,6 +141,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\chess\pieces\PawnChecker.h" />
     <ClInclude Include="src\chess\Chessboard.h" />
     <ClInclude Include="src\chess\Counts.h" />
     <ClInclude Include="src\chess\Sizes.h" />

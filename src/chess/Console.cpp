@@ -1,7 +1,7 @@
 #include "Console.h"
 
-#include "Sizes.h"
 #include "pieces/PieceTypeConverter.h"
+#include "Sizes.h"
 
 #include <conio.h>
 #include <iostream>

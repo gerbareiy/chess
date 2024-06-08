@@ -2,24 +2,26 @@
 
 #include "ePieceType.h"
 #include "../Counts.h"
-#include "../Sizes.h"
 #include "../eError.h"
 #include "../ErrorConverter.h"
+#include "../Sizes.h"
 
 #include <algorithm>
 #include <stdexcept>
 
-std::vector<Chess::Coordinate> Chess::KingChecker::FilterMoves(std::vector<Coordinate> moves, const std::shared_ptr<King> piece, const std::vector<std::shared_ptr<IPiece>> piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::KingChecker::FilterMoves(std::vector<Coordinate> moves, const std::shared_ptr<King> king, const std::vector<std::shared_ptr<IPiece>> piecesOnBoard)
 {
 	//std::vector<Chess::Coordinate> filteredMoves;
 	//filteredMoves.reserve(COUNT_OF_KING_WAYS);
 
 	//for (const auto& move : moves)
 	//{
-	//	auto pieceIterator = std::find_if(piecesOnBoard.begin(), piecesOnBoard.end(), [move, piece](const std::shared_ptr<IPiece> piece)
-	//			{
-	//				return  piece->get_Position() == move && piece->get_ColorAndType().get_Color() == piece->get_ColorAndType().get_Color();
-	//			});
+	//	auto pieceIterator = std::find_if(piecesOnBoard.begin(), piecesOnBoard.end(), [move, king](const std::shared_ptr<IPiece> piece)
+	//		{
+	//			return piece->get_Position() == move && piece->get_ColorAndType().get_Color() == king->get_ColorAndType().get_Color();
+
+	//			//TODO: Remake this logic -> maybe bug
+	//		});
 
 	//	if (pieceIterator == piecesOnBoard.end())
 	//	{
@@ -30,12 +32,12 @@ std::vector<Chess::Coordinate> Chess::KingChecker::FilterMoves(std::vector<Coord
 	return std::vector<Coordinate>();
 }
 
-std::vector<Chess::Coordinate> Chess::KingChecker::GetAllMoves(const std::shared_ptr<King> piece, const std::vector<std::shared_ptr<IPiece>> piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::KingChecker::FindAllMoves(const std::shared_ptr<King> king)
 {
-	if (piece->get_Position().get_File() < 'A'
-		|| piece->get_Position().get_File() > 'A' + CHESSBOARD_SIZE - 1
-		|| piece->get_Position().get_Rank() < 1
-		|| piece->get_Position().get_Rank() > CHESSBOARD_SIZE)
+	if (king->get_Position().get_File() < 'A'
+		|| king->get_Position().get_File() > 'A' + CHESSBOARD_SIZE - 1
+		|| king->get_Position().get_Rank() < 1
+		|| king->get_Position().get_Rank() > CHESSBOARD_SIZE)
 	{
 		throw std::out_of_range(ErrorConverter::ToString(Chess::eError::OUT_OF_CHESSBOARD));
 	}
@@ -52,8 +54,8 @@ std::vector<Chess::Coordinate> Chess::KingChecker::GetAllMoves(const std::shared
 	//			continue;
 	//		}
 
-	//		auto newFile = piece->get_Position().get_File() + deltaFile;
-	//		auto newRank = piece->get_Position().get_Rank() + deltaRank;
+	//		auto newFile = king->get_Position().get_File() + deltaFile;
+	//		auto newRank = king->get_Position().get_Rank() + deltaRank;
 
 	//		if (newFile >= 'A' && newFile <= 'A' + CHESSBOARD_SIZE - 1 && newRank >= 1 && newRank <= CHESSBOARD_SIZE)
 	//		{
@@ -61,6 +63,8 @@ std::vector<Chess::Coordinate> Chess::KingChecker::GetAllMoves(const std::shared
 	//		}
 	//	}
 	//}
+
+	//TODO:: Add a castling logic
 
 	return moves;
 }
@@ -72,7 +76,7 @@ std::vector<Chess::Coordinate> Chess::KingChecker::GetPossibleMoves(const std::s
 		throw std::out_of_range(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
 	}
 
-	auto allMoves = GetAllMoves(std::static_pointer_cast<King>(piece), piecesOnBoard);
+	auto allMoves = FindAllMoves(std::static_pointer_cast<King>(piece));
 
 	return FilterMoves(allMoves, std::static_pointer_cast<King>(piece), piecesOnBoard);
 }

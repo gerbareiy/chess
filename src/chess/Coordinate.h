@@ -19,5 +19,6 @@ namespace Chess
 	public:
 		Coordinate& operator=(const Coordinate& other);
 		bool operator==(const Coordinate& other) const;
+		bool operator<(const Coordinate& other) const;
 	};
 }

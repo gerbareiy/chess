@@ -1,14 +1,14 @@
 #include "Chessboard.h"
 
 #include "Counts.h"
+#include "pieces/Bishop.h"
 #include "pieces/ePieceColor.h"
 #include "pieces/IPiece.h"
-#include "pieces/Bishop.h"
 #include "pieces/King.h"
 #include "pieces/Knight.h"
 #include "pieces/Pawn.h"
-#include "pieces/Rook.h"
 #include "pieces/Queen.h"
+#include "pieces/Rook.h"
 #include "Sizes.h"
 
 Chess::Chessboard::Chessboard()

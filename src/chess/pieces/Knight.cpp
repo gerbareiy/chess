@@ -2,9 +2,9 @@
 
 #include "ePieceColor.h"
 #include "ePieceType.h"
-#include "../Sizes.h"
 #include "../eError.h"
 #include "../ErrorConverter.h"
+#include "../Sizes.h"
 
 #include <stdexcept>
 

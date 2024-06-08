@@ -1,19 +1,17 @@
 #include "Pawn.h"
 
-#include "../Sizes.h"
 #include "../eError.h"
 #include "../ErrorConverter.h"
+#include "../Sizes.h"
 
 #include <stdexcept>
 
-Chess::Pawn::Pawn(ePieceColor color, char file)
+Chess::Pawn::Pawn(ePieceColor color, char file) : m_colorAndType(color, ePieceType::PAWN)
 {
 	if (file < 'A' || file > 'A' + CHESSBOARD_SIZE - 1)
 	{
 		throw std::out_of_range(ErrorConverter::ToString(Chess::eError::OUT_OF_CHESSBOARD));
 	}
-
-	m_colorAndType = PieceColorAndType(color, ePieceType::PAWN);
 
 	switch (color)
 	{
@@ -30,5 +28,16 @@ Chess::Pawn::Pawn(ePieceColor color, char file)
 
 void Chess::Pawn::Move(Coordinate to)
 {
+	m_isNotMoved = false;
+
+	if (abs(to.get_Rank() - m_position.get_Rank()) == 2)
+	{
+		m_canEnPassant = true;
+	}
+	else
+	{
+		m_canEnPassant = false;
+	}
+
 	m_position = to;
 }
