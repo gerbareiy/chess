@@ -25,10 +25,10 @@ namespace Chess
 		~Pawn() {};
 
 	public:
-		bool get_CanEnPassant() const { return m_canEnPassant; };
-		PieceColorAndType get_ColorAndType() const override { return m_colorAndType; };
-		bool get_IsNotMoved() const { return m_isNotMoved; };
-		Coordinate get_Position() const override { return m_position; }
+		bool get_CanEnPassant() const;
+		PieceColorAndType get_ColorAndType() const override;
+		bool get_IsNotMoved() const;
+		Coordinate get_Position() const override;
 
 	private:
 		void LostEnPassant() { m_canEnPassant = false; }

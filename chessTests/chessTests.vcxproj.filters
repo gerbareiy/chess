@@ -81,5 +81,11 @@
     <ClCompile Include="..\chess\src\chess\pieces\Rook.cpp">
       <Filter>Resource Files\Chess\Pieces</Filter>
     </ClCompile>
+    <ClCompile Include="test\chess\pieces\KnightCheckerTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\mainTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

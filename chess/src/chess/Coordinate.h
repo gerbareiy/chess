@@ -13,8 +13,8 @@ namespace Chess
 		Coordinate(char file, int rank);
 
 	public:
-		char get_File() const { return m_file; }
-		int get_Rank() const { return m_rank; }
+		char get_File() const;
+		int get_Rank() const;
 
 	public:
 		Coordinate& operator=(const Coordinate& other);

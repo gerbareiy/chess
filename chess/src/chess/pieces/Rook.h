@@ -2,6 +2,7 @@
 
 #include "ePieceColor.h"
 #include "IPiece.h"
+#include "King.h"
 #include "PieceColorAndType.h"
 #include "../Coordinate.h"
 
@@ -10,6 +11,7 @@ namespace Chess
 	class Rook : public IPiece
 	{
 	private:
+		bool m_canMakeCastling = true;
 		PieceColorAndType m_colorAndType{};
 		Coordinate m_position{};
 
@@ -18,10 +20,15 @@ namespace Chess
 		~Rook() {};
 
 	public:
-		PieceColorAndType get_ColorAndType() const override { return m_colorAndType; };
-		Coordinate get_Position() const override { return m_position; }
+		bool get_CanMakeCasting() const;
+		PieceColorAndType get_ColorAndType() const override;
+		Coordinate get_Position() const override;
+
+	private:
+		void DisableCastling();
 
 	public:
 		void Move(Coordinate to) override;
+		void OnCasting(King king);
 	};
 }

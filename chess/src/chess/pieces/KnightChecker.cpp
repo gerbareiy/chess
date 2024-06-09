@@ -8,7 +8,7 @@
 #include <memory>
 #include <stdexcept>
 
-std::vector<Chess::Coordinate> Chess::KnightChecker::FindAllMoves(const std::shared_ptr<Knight>& knight, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std::shared_ptr<Knight>& knight, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
 	if (knight->get_Position().get_File() < 'A'
 		|| knight->get_Position().get_File() >= 'A' + CHESSBOARD_SIZE
@@ -61,5 +61,5 @@ std::vector<Chess::Coordinate> Chess::KnightChecker::GetPossibleMoves(const std:
 		throw std::out_of_range(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
 	}
 
-	return FindAllMoves(std::static_pointer_cast<Knight>(piece), piecesOnBoard);
+	return FindPossibleMoves(std::static_pointer_cast<Knight>(piece), piecesOnBoard);
 }

@@ -32,7 +32,34 @@ Chess::Rook::Rook(ePieceColor color, int orderNumber)
 	}
 }
 
+bool Chess::Rook::get_CanMakeCasting() const
+{
+	return m_canMakeCastling;
+}
+
+Chess::PieceColorAndType Chess::Rook::get_ColorAndType() const
+{
+	return m_colorAndType;
+}
+
+Chess::Coordinate Chess::Rook::get_Position() const
+{
+	return m_position;
+}
+
+void Chess::Rook::DisableCastling()
+{
+	m_canMakeCastling = false;
+}
+
 void Chess::Rook::Move(Coordinate to)
 {
+	DisableCastling();
+
 	m_position = to;
+}
+
+void Chess::Rook::OnCasting(King king)
+{
+	DisableCastling();
 }

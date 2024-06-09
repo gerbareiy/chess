@@ -20,8 +20,8 @@ namespace Chess
 		~Queen() {};
 
 	public:
-		PieceColorAndType get_ColorAndType() const override { return m_colorAndType; };
-		Coordinate get_Position() const override { return m_position; }
+		PieceColorAndType get_ColorAndType() const override;
+		Coordinate get_Position() const override;
 
 	public:
 		void Move(Coordinate to) override;

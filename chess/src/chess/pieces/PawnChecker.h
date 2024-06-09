@@ -15,7 +15,7 @@ namespace Chess
 	private:
 		std::map<Coordinate, std::shared_ptr<IPiece>> CreatePieceMap(const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard);
 		bool IsPositionValid(const Coordinate& position);
-		std::vector<Coordinate> FindAllMoves(const std::shared_ptr<Pawn>& pawn, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard);
+		std::vector<Coordinate> FindPossibleMoves(const std::shared_ptr<Pawn>& pawn, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard);
 		std::vector<Coordinate> GetDiagonalMoves(const std::shared_ptr<Pawn>& pawn, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard);
 		void ValidatePawn(const std::shared_ptr<Pawn>& pawn);
 

@@ -32,6 +32,16 @@ Chess::Knight::Knight(ePieceColor color, int orderNumber)
 	}
 }
 
+Chess::PieceColorAndType Chess::Knight::get_ColorAndType() const
+{
+	return m_colorAndType;
+}
+
+Chess::Coordinate Chess::Knight::get_Position() const
+{
+	return m_position;
+}
+
 void Chess::Knight::Move(Coordinate to)
 {
 	m_position = to;

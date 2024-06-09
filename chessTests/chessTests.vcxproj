@@ -37,6 +37,8 @@
     <ClCompile Include="..\chess\src\chess\pieces\Queen.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\Rook.cpp" />
     <ClCompile Include="test\chess\pieces\PawnCheckerTests.cpp" />
+    <ClCompile Include="test\chess\pieces\KnightCheckerTests.cpp" />
+    <ClCompile Include="test\mainTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\chess\chess.vcxproj">

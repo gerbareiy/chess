@@ -20,7 +20,7 @@ namespace Chess
 		};
 
 	private:
-		std::vector<Coordinate> FindAllMoves(const std::shared_ptr<Knight>& knight, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard);
+		std::vector<Coordinate> FindPossibleMoves(const std::shared_ptr<Knight>& knight, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard);
 
 	public:
 		std::vector<Coordinate> GetPossibleMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard);

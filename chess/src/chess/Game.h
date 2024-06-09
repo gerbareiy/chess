@@ -15,7 +15,6 @@ namespace Chess
 
 	public:
 		Game();
-		~Game() {};
 
 	public:
 		void Play();

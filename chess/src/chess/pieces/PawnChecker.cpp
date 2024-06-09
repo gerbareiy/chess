@@ -29,7 +29,7 @@ bool Chess::PawnChecker::IsPositionValid(const Coordinate& position)
 		&& position.get_Rank() <= CHESSBOARD_SIZE;
 }
 
-std::vector<Chess::Coordinate> Chess::PawnChecker::FindAllMoves(const std::shared_ptr<Pawn>& pawn, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::PawnChecker::FindPossibleMoves(const std::shared_ptr<Pawn>& pawn, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
 	ValidatePawn(pawn);
 
@@ -99,7 +99,8 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(const std::s
 			moves.push_back(leftDiagonal);
 		}
 		else if (pieceMap.find(left) != pieceMap.end()
-			&& std::dynamic_pointer_cast<Pawn>(pieceMap.at(left))->get_CanEnPassant()
+			&& typeid(*pieceMap.at(left)) != typeid(Pawn)
+			&& std::static_pointer_cast<Pawn>(pieceMap.at(left))->get_CanEnPassant()
 			&& pieceMap.at(left)->get_ColorAndType().get_Color() != pawn->get_ColorAndType().get_Color())
 		{
 			moves.push_back(leftDiagonal);
@@ -130,7 +131,7 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetPossibleMoves(const std::s
 
 	std::vector<Coordinate> allMoves;
 
-	auto forwardMoves = FindAllMoves(std::static_pointer_cast<Pawn>(piece), piecesOnBoard);
+	auto forwardMoves = FindPossibleMoves(std::static_pointer_cast<Pawn>(piece), piecesOnBoard);
 	auto diagonalMoves = GetDiagonalMoves(std::static_pointer_cast<Pawn>(piece), piecesOnBoard);
 
 	allMoves.insert(allMoves.end(), forwardMoves.begin(), forwardMoves.end());

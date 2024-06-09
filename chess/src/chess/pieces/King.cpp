@@ -25,7 +25,34 @@ Chess::King::King(ePieceColor color)
 	}
 }
 
+bool Chess::King::get_CanMakeCasting() const
+{
+	return m_canMakeCastling;
+}
+
+Chess::PieceColorAndType Chess::King::get_ColorAndType() const
+{
+	return m_colorAndType;
+}
+
+bool Chess::King::get_IsCheck() const
+{
+	return m_isCheck;
+}
+
+Chess::Coordinate Chess::King::get_Position() const
+{
+	return m_position;
+}
+
+void Chess::King::DisableCastling()
+{
+	m_canMakeCastling = false;
+}
+
 void Chess::King::Move(Coordinate to)
 {
+	DisableCastling();
+
 	m_position = to;
 }

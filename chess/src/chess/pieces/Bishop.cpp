@@ -32,6 +32,16 @@ Chess::Bishop::Bishop(ePieceColor color, int orderNumber)
 	}
 }
 
+Chess::PieceColorAndType Chess::Bishop::get_ColorAndType() const
+{
+	return m_colorAndType;
+}
+
+Chess::Coordinate Chess::Bishop::get_Position() const
+{
+	return m_position;
+}
+
 void Chess::Bishop::Move(Coordinate to)
 {
 	m_position = to;

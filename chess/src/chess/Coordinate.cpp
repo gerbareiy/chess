@@ -12,6 +12,16 @@ Chess::Coordinate::Coordinate(char file, int rank)
 	m_rank = rank;
 }
 
+char Chess::Coordinate::get_File() const
+{
+	return m_file;
+}
+
+int Chess::Coordinate::get_Rank() const
+{
+	return m_rank;
+}
+
 Chess::Coordinate& Chess::Coordinate::operator=(const Coordinate& other)
 {
 	if (this == &other)
@@ -32,10 +42,10 @@ bool Chess::Coordinate::operator==(const Coordinate& other) const
 
 bool Chess::Coordinate::operator<(const Coordinate& other) const
 {
-	if (this->get_File() == other.get_File())
+	if (get_File() == other.get_File())
 	{
-		return this->get_Rank() < other.get_Rank();
+		return get_Rank() < other.get_Rank();
 	}
 
-	return this->get_File() < other.get_File();
+	return get_File() < other.get_File();
 }

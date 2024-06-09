@@ -26,18 +26,29 @@ Chess::Pawn::Pawn(ePieceColor color, char file) : m_colorAndType(color, ePieceTy
 	}
 }
 
+bool Chess::Pawn::get_CanEnPassant() const
+{
+	return m_canEnPassant;
+}
+
+Chess::PieceColorAndType Chess::Pawn::get_ColorAndType() const
+{
+	return m_colorAndType;
+}
+
+bool Chess::Pawn::get_IsNotMoved() const
+{
+	return m_isNotMoved;
+}
+
+Chess::Coordinate Chess::Pawn::get_Position() const
+{
+	return m_position;
+}
+
 void Chess::Pawn::Move(Coordinate to)
 {
+	m_canEnPassant = m_isNotMoved;
 	m_isNotMoved = false;
-
-	if (abs(to.get_Rank() - m_position.get_Rank()) == 2)
-	{
-		m_canEnPassant = true;
-	}
-	else
-	{
-		m_canEnPassant = false;
-	}
-
 	m_position = to;
 }

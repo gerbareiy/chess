@@ -32,7 +32,7 @@ std::vector<Chess::Coordinate> Chess::KingChecker::FilterMoves(std::vector<Coord
 	return std::vector<Coordinate>();
 }
 
-std::vector<Chess::Coordinate> Chess::KingChecker::FindAllMoves(const std::shared_ptr<King> king)
+std::vector<Chess::Coordinate> Chess::KingChecker::FindPossibleMoves(const std::shared_ptr<King> king)
 {
 	if (king->get_Position().get_File() < 'A'
 		|| king->get_Position().get_File() > 'A' + CHESSBOARD_SIZE - 1
@@ -45,24 +45,24 @@ std::vector<Chess::Coordinate> Chess::KingChecker::FindAllMoves(const std::share
 	std::vector<Coordinate> moves;
 	moves.reserve(COUNT_OF_KING_WAYS);
 
-	//for (auto deltaFile = -1; deltaFile <= 1; ++deltaFile)
-	//{
-	//	for (auto deltaRank = -1; deltaRank <= 1; ++deltaRank)
-	//	{
-	//		if (deltaFile == 0 && deltaRank == 0)
-	//		{
-	//			continue;
-	//		}
+	for (auto deltaFile = -1; deltaFile <= 1; ++deltaFile)
+	{
+		for (auto deltaRank = -1; deltaRank <= 1; ++deltaRank)
+		{
+			if (deltaFile == 0 && deltaRank == 0)
+			{
+				continue;
+			}
 
-	//		auto newFile = king->get_Position().get_File() + deltaFile;
-	//		auto newRank = king->get_Position().get_Rank() + deltaRank;
+			auto newFile = king->get_Position().get_File() + deltaFile;
+			auto newRank = king->get_Position().get_Rank() + deltaRank;
 
-	//		if (newFile >= 'A' && newFile <= 'A' + CHESSBOARD_SIZE - 1 && newRank >= 1 && newRank <= CHESSBOARD_SIZE)
-	//		{
-	//			moves.push_back(Coordinate(newFile, newRank));
-	//		}
-	//	}
-	//}
+			if (newFile >= 'A' && newFile <= 'A' + CHESSBOARD_SIZE - 1 && newRank >= 1 && newRank <= CHESSBOARD_SIZE)
+			{
+				moves.push_back(Coordinate(newFile, newRank));
+			}
+		}
+	}
 
 	//TODO:: Add a castling logic
 
@@ -76,7 +76,7 @@ std::vector<Chess::Coordinate> Chess::KingChecker::GetPossibleMoves(const std::s
 		throw std::out_of_range(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
 	}
 
-	auto allMoves = FindAllMoves(std::static_pointer_cast<King>(piece));
+	auto allMoves = FindPossibleMoves(std::static_pointer_cast<King>(piece));
 
 	return FilterMoves(allMoves, std::static_pointer_cast<King>(piece), piecesOnBoard);
 }
