@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Chess">
+      <UniqueIdentifier>{5f333845-4eb2-45e6-b02c-138f695d892a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Chess\Pieces">
+      <UniqueIdentifier>{410ee60b-e992-4a16-994a-94e13b4ed146}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Chess">
+      <UniqueIdentifier>{2825ecf7-d2fb-423e-a828-8f1301979639}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Chess\Pieces">
+      <UniqueIdentifier>{45dd66f7-c074-4595-b566-49fc98302a2a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="test\chess\pieces\PawnCheckerTests.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\Bishop.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\Chessboard.cpp">
+      <Filter>Resource Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\Console.cpp">
+      <Filter>Resource Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\Controller.cpp">
+      <Filter>Resource Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\Coordinate.cpp">
+      <Filter>Resource Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\ErrorConverter.cpp">
+      <Filter>Resource Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\Game.cpp">
+      <Filter>Resource Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\King.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\KingChecker.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\Knight.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\KnightChecker.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\PawnChecker.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\Pawn.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\PieceColorAndType.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\PieceTypeConverter.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\Queen.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\Rook.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

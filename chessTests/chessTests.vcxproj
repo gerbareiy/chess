@@ -18,31 +18,64 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\chess\src\chess\Chessboard.cpp" />
+    <ClCompile Include="..\chess\src\chess\Console.cpp" />
+    <ClCompile Include="..\chess\src\chess\Controller.cpp" />
+    <ClCompile Include="..\chess\src\chess\Coordinate.cpp" />
+    <ClCompile Include="..\chess\src\chess\ErrorConverter.cpp" />
+    <ClCompile Include="..\chess\src\chess\Game.cpp" />
+    <ClCompile Include="..\chess\src\chess\pieces\Bishop.cpp" />
+    <ClCompile Include="..\chess\src\chess\pieces\King.cpp" />
+    <ClCompile Include="..\chess\src\chess\pieces\KingChecker.cpp" />
+    <ClCompile Include="..\chess\src\chess\pieces\Knight.cpp" />
+    <ClCompile Include="..\chess\src\chess\pieces\KnightChecker.cpp" />
+    <ClCompile Include="..\chess\src\chess\pieces\Pawn.cpp" />
+    <ClCompile Include="..\chess\src\chess\pieces\PawnChecker.cpp" />
+    <ClCompile Include="..\chess\src\chess\pieces\PieceColorAndType.cpp" />
+    <ClCompile Include="..\chess\src\chess\pieces\PieceTypeConverter.cpp" />
+    <ClCompile Include="..\chess\src\chess\pieces\Queen.cpp" />
+    <ClCompile Include="..\chess\src\chess\pieces\Rook.cpp" />
+    <ClCompile Include="test\chess\pieces\PawnCheckerTests.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\chess\chess.vcxproj">
+      <Project>{949030b6-36da-49a7-9fea-2c21c483fedd}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
-    <ProjectGuid>{949030B6-36DA-49A7-9FEA-2C21C483FEDD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{ebd713c7-e05c-4526-a5ec-b9026ef5731a}</ProjectGuid>
+    <RootNamespace>chessTests</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -62,111 +95,69 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-    <ExternalIncludePath>C:\local\boost_1_85_0;$(ExternalIncludePath)</ExternalIncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <ExternalIncludePath>C:\local\boost_1_85_0;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <WarningLevel>Level3</WarningLevel>
-    </ClCompile>
-    <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Learning\CPP\learncpp\chess\chess\src;C:\local\boost_1_85_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\local\boost_1_85_0\lib64-msvc-14.3;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\local\boost_1_85_0;C:\Learning\CPP\learncpp\chess\chess\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\local\boost_1_85_0\lib64-msvc-14.3;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\chess\pieces\PawnChecker.cpp" />
-    <ClCompile Include="src\chess\Chessboard.cpp" />
-    <ClCompile Include="src\chess\Controller.cpp" />
-    <ClCompile Include="src\chess\ErrorConverter.cpp" />
-    <ClCompile Include="src\chess\Game.cpp" />
-    <ClCompile Include="src\chess\pieces\Bishop.cpp" />
-    <ClCompile Include="src\chess\pieces\PieceTypeConverter.cpp" />
-    <ClCompile Include="src\chess\pieces\King.cpp" />
-    <ClCompile Include="src\chess\pieces\KingChecker.cpp" />
-    <ClCompile Include="src\chess\pieces\Knight.cpp" />
-    <ClCompile Include="src\chess\pieces\KnightChecker.cpp" />
-    <ClCompile Include="src\chess\pieces\Pawn.cpp" />
-    <ClCompile Include="src\chess\pieces\Queen.cpp" />
-    <ClCompile Include="src\chess\pieces\Rook.cpp" />
-    <ClCompile Include="src\chess\pieces\PieceColorAndType.cpp" />
-    <ClCompile Include="src\chess\Coordinate.cpp" />
-    <ClCompile Include="src\chess\Console.cpp" />
-    <ClCompile Include="src\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\chess\pieces\PawnChecker.h" />
-    <ClInclude Include="src\chess\Chessboard.h" />
-    <ClInclude Include="src\chess\Counts.h" />
-    <ClInclude Include="src\chess\Sizes.h" />
-    <ClInclude Include="src\chess\Controller.h" />
-    <ClInclude Include="src\chess\eConsoleColor.h" />
-    <ClInclude Include="src\chess\eError.h" />
-    <ClInclude Include="src\chess\ErrorConverter.h" />
-    <ClInclude Include="src\chess\Game.h" />
-    <ClInclude Include="src\chess\pieces\Bishop.h" />
-    <ClInclude Include="src\chess\pieces\ePieceColor.h" />
-    <ClInclude Include="src\chess\pieces\ePieceType.h" />
-    <ClInclude Include="src\chess\pieces\PieceTypeConverter.h" />
-    <ClInclude Include="src\chess\pieces\IMoveChecker.h" />
-    <ClInclude Include="src\chess\pieces\IPiece.h" />
-    <ClInclude Include="src\chess\pieces\King.h" />
-    <ClInclude Include="src\chess\pieces\KingChecker.h" />
-    <ClInclude Include="src\chess\pieces\Knight.h" />
-    <ClInclude Include="src\chess\pieces\KnightChecker.h" />
-    <ClInclude Include="src\chess\pieces\Pawn.h" />
-    <ClInclude Include="src\chess\pieces\Queen.h" />
-    <ClInclude Include="src\chess\pieces\Rook.h" />
-    <ClInclude Include="src\chess\pieces\PieceColorAndType.h" />
-    <ClInclude Include="src\chess\Coordinate.h" />
-    <ClInclude Include="src\chess\Console.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
