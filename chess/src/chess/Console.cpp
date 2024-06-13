@@ -75,13 +75,14 @@ void Chess::Console::DisplayChessboard()
 	{
 		std::cout << y << (isChessboardSizeDigit ? ' ' : '\t');
 
-		for (auto x = 0; x < CHESSBOARD_SIZE; ++x)
+		for (auto x = 'A'; x < 'A' + CHESSBOARD_SIZE; ++x)
 		{
-			auto colorAndType = m_chessboard->GetPieceColorAndType(Coordinate('A' + x, y));
+			auto colorAndType = m_chessboard->GetPieceColorAndType(Coordinate(x, y));
 			auto textColor = colorAndType.get_Color() == ePieceColor::BLACK ? eConsoleColor::BLACK
 				: (colorAndType.get_Color() == ePieceColor::WHITE ? eConsoleColor::WHITE : static_cast<eConsoleColor>(originalTextColor));
 
-			auto background = ((x + y) % 2) ? eConsoleColor::BROWN : eConsoleColor::YELLOW;
+			auto background = m_chessboard->IsCoordinateInPossibleMoves(Coordinate(x, y)) ? eConsoleColor::RED :
+				((static_cast<int>(x + 1) + y) % 2) ? eConsoleColor::BROWN : eConsoleColor::YELLOW;
 
 			SetConsoleColor(textColor, background);
 

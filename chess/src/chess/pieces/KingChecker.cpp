@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <stdexcept>
 
-std::vector<Chess::Coordinate> Chess::KingChecker::FilterMoves(std::vector<Coordinate> moves, const std::shared_ptr<King> king, const std::vector<std::shared_ptr<IPiece>> piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::KingChecker::FilterMoves(std::vector<Coordinate> moves, const std::shared_ptr<King>& king, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
 	//std::vector<Chess::Coordinate> filteredMoves;
 	//filteredMoves.reserve(COUNT_OF_KING_WAYS);
@@ -32,7 +32,7 @@ std::vector<Chess::Coordinate> Chess::KingChecker::FilterMoves(std::vector<Coord
 	return std::vector<Coordinate>();
 }
 
-std::vector<Chess::Coordinate> Chess::KingChecker::FindPossibleMoves(const std::shared_ptr<King> king)
+std::vector<Chess::Coordinate> Chess::KingChecker::FindPossibleMoves(const std::shared_ptr<King>& king)
 {
 	if (king->get_Position().get_File() < 'A'
 		|| king->get_Position().get_File() > 'A' + CHESSBOARD_SIZE - 1
@@ -69,7 +69,7 @@ std::vector<Chess::Coordinate> Chess::KingChecker::FindPossibleMoves(const std::
 	return moves;
 }
 
-std::vector<Chess::Coordinate> Chess::KingChecker::GetPossibleMoves(const std::shared_ptr<IPiece> piece, const std::vector<std::shared_ptr<IPiece>> piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::KingChecker::GetPossibleMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
 	if (!piece || typeid(piece) != typeid(King) || piece->get_ColorAndType().get_Type() != ePieceType::KING)
 	{

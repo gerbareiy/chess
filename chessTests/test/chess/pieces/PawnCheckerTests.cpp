@@ -10,7 +10,7 @@
 
 #include <memory>
 
-BOOST_AUTO_TEST_SUITE(KnightTests)
+BOOST_AUTO_TEST_SUITE(MoveCheckerTests)
 
 BOOST_AUTO_TEST_CASE(FindPosiblePawnMoves_Test)
 {

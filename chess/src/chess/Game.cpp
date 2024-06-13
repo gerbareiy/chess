@@ -23,11 +23,20 @@ void Chess::Game::Play()
 
 		auto from = m_window->EnterFrom();
 
-		if (from.get_File() < 'A' || from.get_File() > 'A' + CHESSBOARD_SIZE - 1 || from.get_Rank() < 1 || from.get_Rank() > CHESSBOARD_SIZE)
+		if (from.get_File() < 'A'
+			|| from.get_File() > 'A' + CHESSBOARD_SIZE - 1
+			|| from.get_Rank() < 1
+			|| from.get_Rank() > CHESSBOARD_SIZE
+			|| !m_controller->TryInitPiece(from))
 		{
 			m_window->ShowInvalidMovePrompt(false);
 			continue;
 		}
+
+		system("CLS");
+
+		m_window->DisplayChessboard();
+		m_window->DisplayEmpty();
 
 		auto to = m_window->EnterTo();
 
@@ -37,6 +46,6 @@ void Chess::Game::Play()
 			continue;
 		}
 
-		m_window->ShowInvalidMovePrompt(m_controller->TryMovePiece(from, to));
+		m_window->ShowInvalidMovePrompt(m_controller->TryMovePiece(to));
 	}
 }

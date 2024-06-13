@@ -16,6 +16,7 @@ namespace Chess
 		Controller(std::shared_ptr<Chessboard> chessboard);
 
 	public:
-		bool TryMovePiece(Coordinate from, Coordinate to);
+		bool TryInitPiece(Coordinate from);
+		bool TryMovePiece(Coordinate to);
 	};
 }

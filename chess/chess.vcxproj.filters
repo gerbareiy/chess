@@ -84,14 +84,20 @@
     <ClCompile Include="src\chess\pieces\RookChecker.cpp">
       <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
-    <ClCompile Include="src\chess\pieces\PieceFinder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\chess\PositionChecker.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Chess</Filter>
     </ClCompile>
     <ClCompile Include="src\chess\pieces\BishopChecker.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\PieceFinder.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\QueenChecker.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\MoveChecker.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,14 +179,20 @@
     <ClInclude Include="src\chess\pieces\RookChecker.h">
       <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
-    <ClInclude Include="src\chess\pieces\PieceFinder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\chess\PositionChecker.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Chess</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\pieces\BishopChecker.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\PieceFinder.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\QueenChecker.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\MoveChecker.h">
+      <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

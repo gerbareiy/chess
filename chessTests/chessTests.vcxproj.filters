@@ -103,7 +103,13 @@
       <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
     <ClCompile Include="..\chess\src\chess\pieces\BishopChecker.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\QueenChecker.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="test\chess\pieces\QueenCheckerTests.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

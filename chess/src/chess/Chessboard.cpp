@@ -13,6 +13,8 @@
 
 Chess::Chessboard::Chessboard()
 {
+	m_checker = std::make_shared<MoveChecker>();
+
 	m_piecesOnBoard.reserve(MAX_COUNT_ELEMENTS);
 	m_eatenPieces.reserve(MAX_COUNT_ELEMENTS);
 
@@ -52,14 +54,19 @@ std::shared_ptr<Chess::IPiece> Chess::Chessboard::GetPiece(Coordinate from) cons
 	return nullptr;
 }
 
-bool Chess::Chessboard::IsValidMove(std::shared_ptr<Chess::IPiece> piece, Coordinate to) const
+bool Chess::Chessboard::IsValidMove(Coordinate to)
 {
-	if (!piece)
+	if (!m_carrentPiece)
 	{
 		return false;
 	}
 
-	// TODO: check valid move logic
+	auto it = std::find(m_possibleMoves.begin(), m_possibleMoves.end(), to);
+
+	if (it == m_possibleMoves.end())
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -76,16 +83,31 @@ Chess::PieceColorAndType Chess::Chessboard::GetPieceColorAndType(Coordinate from
 	return piece->get_ColorAndType();
 }
 
-bool Chess::Chessboard::TryMovePiece(Coordinate from, Coordinate to)
+bool Chess::Chessboard::TryInitPiece(Coordinate from)
 {
-	auto piece = GetPiece(from);
+	if (m_carrentPiece = GetPiece(from))
+	{
+		m_possibleMoves = m_checker->GetPossibleMoves(m_carrentPiece, m_piecesOnBoard);
+		return true;
+	}
 
-	if (!IsValidMove(piece, to))
+	return false;
+}
+
+bool Chess::Chessboard::IsCoordinateInPossibleMoves(Coordinate coordinate)
+{
+	auto it = std::find(m_possibleMoves.begin(), m_possibleMoves.end(), coordinate);
+	return it != m_possibleMoves.end();
+}
+
+bool Chess::Chessboard::TryMovePiece(Coordinate to)
+{
+	if (!IsValidMove(to))
 	{
 		return false;
 	}
 
-	piece->Move(to);
+	m_carrentPiece->Move(to);
 
 	return true;
 }

@@ -37,9 +37,11 @@
     <ClCompile Include="..\chess\src\chess\pieces\PieceFinder.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\PieceTypeConverter.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\Queen.cpp" />
+    <ClCompile Include="..\chess\src\chess\pieces\QueenChecker.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\Rook.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\RookChecker.cpp" />
     <ClCompile Include="..\chess\src\chess\PositionChecker.cpp" />
+    <ClCompile Include="test\chess\pieces\QueenCheckerTests.cpp" />
     <ClCompile Include="test\chess\pieces\BishopCheckerTests.cpp" />
     <ClCompile Include="test\chess\pieces\RookCheckerTests.cpp" />
     <ClCompile Include="test\chess\pieces\PawnCheckerTests.cpp" />
