@@ -81,10 +81,28 @@
     <ClCompile Include="..\chess\src\chess\pieces\Rook.cpp">
       <Filter>Resource Files\Chess\Pieces</Filter>
     </ClCompile>
-    <ClCompile Include="test\chess\pieces\KnightCheckerTests.cpp">
+    <ClCompile Include="test\mainTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test\mainTests.cpp">
+    <ClCompile Include="..\chess\src\chess\pieces\PieceFinder.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="test\chess\pieces\KnightCheckerTests.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\RookChecker.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\PositionChecker.cpp">
+      <Filter>Resource Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="test\chess\pieces\RookCheckerTests.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="test\chess\pieces\BishopCheckerTests.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\BishopChecker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

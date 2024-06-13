@@ -14,7 +14,9 @@ namespace Chess
 
 	public:
 		char get_File() const;
+		void set_File(char file);
 		int get_Rank() const;
+		void set_Rank(int rank);
 
 	public:
 		Coordinate& operator=(const Coordinate& other);

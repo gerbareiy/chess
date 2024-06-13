@@ -125,6 +125,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\chess\pieces\BishopChecker.cpp" />
+    <ClCompile Include="src\chess\PositionChecker.cpp" />
+    <ClCompile Include="src\chess\pieces\PieceFinder.cpp" />
+    <ClCompile Include="src\chess\pieces\RookChecker.cpp" />
     <ClCompile Include="src\chess\pieces\PawnChecker.cpp" />
     <ClCompile Include="src\chess\Chessboard.cpp" />
     <ClCompile Include="src\chess\Controller.cpp" />
@@ -145,6 +149,10 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\chess\pieces\BishopChecker.h" />
+    <ClInclude Include="src\chess\PositionChecker.h" />
+    <ClInclude Include="src\chess\pieces\PieceFinder.h" />
+    <ClInclude Include="src\chess\pieces\RookChecker.h" />
     <ClInclude Include="src\chess\pieces\PawnChecker.h" />
     <ClInclude Include="src\chess\Chessboard.h" />
     <ClInclude Include="src\chess\Counts.h" />

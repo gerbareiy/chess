@@ -1,4 +1,5 @@
 #include "../../../../chess/src/chess/Sizes.h"
+#include "../../../../chess/src/chess/Coordinate.h"
 #include "../../../../chess/src/chess/pieces/ePieceColor.h"
 #include "../../../../chess/src/chess/pieces/King.h"
 #include "../../../../chess/src/chess/pieces/Pawn.h"
@@ -37,12 +38,10 @@ BOOST_AUTO_TEST_CASE(FindPosiblePawnMoves_Test)
 	whitePawn->Move(Chess::Coordinate('B', Chess::CHESSBOARD_SIZE));
 	BOOST_CHECK_EQUAL(pawnChecker->GetPossibleMoves(whitePawn, pieces).size(), 0);
 
+	blackKing->Move(Chess::Coordinate('B', Chess::CHESSBOARD_SIZE - 3));
 	whitePawn->Move(Chess::Coordinate('C', Chess::CHESSBOARD_SIZE - 3));
 	blackPawn->Move(Chess::Coordinate('D', Chess::CHESSBOARD_SIZE - 3));
 	BOOST_CHECK_EQUAL(pawnChecker->GetPossibleMoves(whitePawn, pieces).size(), 2);
-
-	whitePawn->Move(Chess::Coordinate('C', Chess::CHESSBOARD_SIZE - 3));
-	blackKing->Move(Chess::Coordinate('B', Chess::CHESSBOARD_SIZE - 3));
-	BOOST_CHECK_EQUAL(pawnChecker->GetPossibleMoves(whitePawn, pieces).size(), 2);
 }
+
 BOOST_AUTO_TEST_SUITE_END()

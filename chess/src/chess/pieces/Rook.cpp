@@ -8,7 +8,7 @@
 
 #include <stdexcept>
 
-Chess::Rook::Rook(ePieceColor color, int orderNumber)
+Chess::Rook::Rook(ePieceColor color, int orderNumber) : m_canMakeCastling(true)
 {
 	if (orderNumber < 1 || orderNumber > 2)
 	{

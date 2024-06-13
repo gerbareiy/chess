@@ -11,7 +11,7 @@ namespace Chess
 	class Rook : public IPiece
 	{
 	private:
-		bool m_canMakeCastling = true;
+		bool m_canMakeCastling = false;
 		PieceColorAndType m_colorAndType{};
 		Coordinate m_position{};
 

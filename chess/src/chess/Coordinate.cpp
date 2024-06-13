@@ -17,9 +17,19 @@ char Chess::Coordinate::get_File() const
 	return m_file;
 }
 
+void Chess::Coordinate::set_File(char file)
+{
+	m_file = file;
+}
+
 int Chess::Coordinate::get_Rank() const
 {
 	return m_rank;
+}
+
+void Chess::Coordinate::set_Rank(int rank)
+{
+	m_rank = rank;
 }
 
 Chess::Coordinate& Chess::Coordinate::operator=(const Coordinate& other)

@@ -1,3 +1,4 @@
+#include "../../../../chess/src/chess/Coordinate.h"
 #include "../../../../chess/src/chess/pieces/ePieceColor.h"
 #include "../../../../chess/src/chess/pieces/Knight.h"
 #include "../../../../chess/src/chess/pieces/KnightChecker.h"
