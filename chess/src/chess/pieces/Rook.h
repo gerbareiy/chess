@@ -17,7 +17,6 @@ namespace Chess
 
 	public:
 		Rook(ePieceColor pieceColor, int orderNumber);
-		~Rook() {};
 
 	public:
 		bool get_CanMakeCasting() const;

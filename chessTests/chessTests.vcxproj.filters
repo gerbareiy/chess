@@ -111,5 +111,11 @@
     <ClCompile Include="test\chess\pieces\QueenCheckerTests.cpp">
       <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\BishopQueenRookDirectionChecker.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\MoveChecker.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

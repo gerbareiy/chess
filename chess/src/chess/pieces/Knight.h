@@ -15,7 +15,6 @@ namespace Chess
 
 	public:
 		Knight(ePieceColor pieceColor, int orderNumber);
-		~Knight() {};
 
 	public:
 		PieceColorAndType get_ColorAndType() const override;

@@ -22,14 +22,19 @@ namespace Chess
 	public:
 		Chessboard();
 
+	public:
+		const std::vector<std::shared_ptr<IPiece>>& get_EatenPieces() const;
+
+
 	private:
 		std::shared_ptr<Chess::IPiece> GetPiece(Coordinate from) const;
 		bool IsValidMove(Coordinate to);
+		void Take(int indexOnBoard);
 
 	public:
 		PieceColorAndType GetPieceColorAndType(Coordinate from) const;
-		bool TryInitPiece(Coordinate from);
 		bool IsCoordinateInPossibleMoves(Coordinate coord);
+		bool TryInitPiece(Coordinate from);
 		bool TryMovePiece(Coordinate to);
 	};
 }

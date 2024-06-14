@@ -90,6 +90,7 @@
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -125,6 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\chess\pieces\BishopQueenRookDirectionChecker.cpp" />
     <ClCompile Include="src\chess\pieces\MoveChecker.cpp" />
     <ClCompile Include="src\chess\pieces\QueenChecker.cpp" />
     <ClCompile Include="src\chess\pieces\BishopChecker.cpp" />
@@ -151,6 +153,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\chess\pieces\BishopQueenRookDirectionChecker.h" />
     <ClInclude Include="src\chess\pieces\MoveChecker.h" />
     <ClInclude Include="src\chess\pieces\QueenChecker.h" />
     <ClInclude Include="src\chess\pieces\BishopChecker.h" />

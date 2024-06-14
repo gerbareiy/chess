@@ -17,7 +17,6 @@ namespace Chess
 		
 	public:
 		King(ePieceColor color);
-		~King() {};
 
 	public:
 		bool get_CanMakeCasting() const;

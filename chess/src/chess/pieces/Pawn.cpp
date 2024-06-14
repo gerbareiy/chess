@@ -46,9 +46,22 @@ Chess::Coordinate Chess::Pawn::get_Position() const
 	return m_position;
 }
 
+void Chess::Pawn::LostEnPassant()
+{
+	m_canEnPassant = false;
+}
+
 void Chess::Pawn::Move(Coordinate to)
 {
-	m_canEnPassant = m_isNotMoved;
+	if (abs(to.get_Rank() - get_Position().get_Rank()) == 2)
+	{
+		m_canEnPassant = m_isNotMoved;
+	}
+	else
+	{
+		LostEnPassant();
+	}
+	
 	m_isNotMoved = false;
 	m_position = to;
 }

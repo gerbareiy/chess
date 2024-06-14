@@ -22,7 +22,6 @@ namespace Chess
 
 	public:
 		Pawn(ePieceColor color, char file);
-		~Pawn() {};
 
 	public:
 		bool get_CanEnPassant() const;
@@ -31,7 +30,7 @@ namespace Chess
 		Coordinate get_Position() const override;
 
 	private:
-		void LostEnPassant() { m_canEnPassant = false; }
+		void LostEnPassant();
 
 	public:
 		void Move(Coordinate to) override;

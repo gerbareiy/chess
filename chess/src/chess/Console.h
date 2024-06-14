@@ -2,6 +2,7 @@
 
 #include "Chessboard.h"
 #include "eConsoleColor.h"
+#include "pieces/ePieceColor.h"
 
 #include <memory>
 #include <windows.h>
@@ -22,6 +23,10 @@ namespace Chess
 		void SetConsoleColor(eConsoleColor textColor, eConsoleColor backgroundColor) const;
 
 	public:
+		// You can choose this default Display
+		void Display();
+		// Or create own Display by combining methiods below
+		void DisplayTakenPieces(ePieceColor color) const;
 		void DisplayEmpty() const;
 		void DisplayChessboard();
 		Coordinate EnterFrom();

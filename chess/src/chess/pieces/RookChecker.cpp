@@ -1,5 +1,6 @@
 #include "RookChecker.h"
 
+#include "BishopQueenRookDirectionChecker.h"
 #include "PieceFinder.h"
 #include "../eError.h"
 #include "../ErrorConverter.h"
@@ -17,39 +18,15 @@ std::vector<Chess::Coordinate> Chess::RookChecker::FindPossibleMoves(const std::
 	const auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
 	auto coordinate = rook->get_Position();
 
-	auto checkDirection = [&](int fileIncrement, int rankIncrement)
-		{
-			Coordinate current = rook->get_Position();
+	auto first = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, rook, { -1, 0 });
+	auto second = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, rook, { 1, 0 });
+	auto third = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, rook, { 0, -1 });
+	auto fourth = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, rook, { 0, 1 });
 
-			while (true)
-			{
-				current.set_File(current.get_File() + fileIncrement);
-				current.set_Rank(current.get_Rank() + rankIncrement);
-
-				if (!PositionChecker::IsPositionValid(current))
-				{
-					break;
-				}
-
-				const auto found = finder->Find(current);
-				if (found)
-				{
-					if (found->get_ColorAndType().get_Color() != rook->get_ColorAndType().get_Color())
-					{
-						moves.emplace_back(current);
-					}
-
-					break;
-				}
-
-				moves.emplace_back(current);
-			}
-		};
-
-	checkDirection(1, 0);
-	checkDirection(-1, 0);
-	checkDirection(0, 1);
-	checkDirection(0, -1);
+	moves.insert(moves.end(), first.begin(), first.end());
+	moves.insert(moves.end(), second.begin(), second.end());
+	moves.insert(moves.end(), third.begin(), third.end());
+	moves.insert(moves.end(), fourth.begin(), fourth.end());
 
 	return moves;
 }

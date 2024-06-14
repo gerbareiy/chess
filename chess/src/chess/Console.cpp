@@ -56,6 +56,31 @@ void Chess::Console::SetConsoleColor(eConsoleColor textColor, eConsoleColor back
 	SetConsoleTextAttribute(hConsole, (static_cast<int>(backgroundColor) << 4) | static_cast<int>(textColor));
 }
 
+void Chess::Console::Display()
+{
+	DisplayTakenPieces(ePieceColor::WHITE);
+	DisplayEmpty();
+	DisplayChessboard();
+	DisplayEmpty();
+	DisplayTakenPieces(ePieceColor::BLACK);
+	DisplayEmpty();
+}
+
+void Chess::Console::DisplayTakenPieces(ePieceColor color) const
+{
+	const auto eatenPieces = m_chessboard->get_EatenPieces();
+
+	for (const auto& piece : eatenPieces)
+	{
+		if (piece->get_ColorAndType().get_Color() == color)
+		{
+			std::cout << PieceTypeConverter::ConvertToString(piece->get_ColorAndType().get_Type());
+		}
+	}
+
+	std::cout << '\n';
+}
+
 void Chess::Console::DisplayEmpty() const
 {
 	std::cout << '\n';

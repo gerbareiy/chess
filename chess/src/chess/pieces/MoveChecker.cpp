@@ -35,6 +35,10 @@ std::vector<Chess::Coordinate> Chess::MoveChecker::GetPossibleMoves(const std::s
     {
         return std::make_unique<PawnChecker>()->GetPossibleMoves(piece, piecesOnBoard);
     }
+    if (typeid(*piece) == typeid(Queen))
+    {
+        return std::make_unique<QueenChecker>()->GetPossibleMoves(piece, piecesOnBoard);
+    }
     if (typeid(*piece) == typeid(Rook))
     {
         return std::make_unique<RookChecker>()->GetPossibleMoves(piece, piecesOnBoard);

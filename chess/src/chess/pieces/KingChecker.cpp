@@ -71,7 +71,7 @@ std::vector<Chess::Coordinate> Chess::KingChecker::FindPossibleMoves(const std::
 
 std::vector<Chess::Coordinate> Chess::KingChecker::GetPossibleMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
-	if (!piece || typeid(piece) != typeid(King) || piece->get_ColorAndType().get_Type() != ePieceType::KING)
+	if (!piece || typeid(*piece) != typeid(King) || piece->get_ColorAndType().get_Type() != ePieceType::KING)
 	{
 		throw std::out_of_range(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
 	}
