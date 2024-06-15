@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE(FindPosibleKnightMoves_Test)
 
 	auto knightChecker = std::make_shared<Chess::KnightChecker>();
 
-	BOOST_CHECK_THROW(knightChecker->GetPossibleMoves(blackPawn, pieces), std::out_of_range);
+	BOOST_CHECK_THROW(knightChecker->GetPossibleMoves(blackPawn, pieces), std::invalid_argument);
 
 	blackKnight->Move(Chess::Coordinate('D', 1));
 	blackPawn->Move(Chess::Coordinate('F', 2));

@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE(FindPosibleQueenMoves_Test)
 	std::vector<std::shared_ptr<Chess::IPiece>> pieces = { blackBishop, whiteQueen, whiteKnight };
 	auto bishopChecker = std::make_shared<Chess::QueenChecker>();
 
-	BOOST_CHECK_THROW(bishopChecker->GetPossibleMoves(whiteKnight, pieces), std::out_of_range);
+	BOOST_CHECK_THROW(bishopChecker->GetPossibleMoves(whiteKnight, pieces), std::invalid_argument);
 
 	blackBishop->Move(Chess::Coordinate('G', 2));
 	whiteQueen->Move(Chess::Coordinate('E', 4));

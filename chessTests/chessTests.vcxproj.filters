@@ -25,6 +25,12 @@
     <Filter Include="Resource Files\Chess\Pieces">
       <UniqueIdentifier>{45dd66f7-c074-4595-b566-49fc98302a2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Chess\Pieces\Logic">
+      <UniqueIdentifier>{0c1adab3-c68b-4095-ae64-838569b0fd13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Chess\Logic">
+      <UniqueIdentifier>{e04e5dbb-9f75-426c-9462-7b0cf099dd4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test\chess\pieces\PawnCheckerTests.cpp">
@@ -94,28 +100,34 @@
       <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
     <ClCompile Include="..\chess\src\chess\pieces\logic\BishopQueenRookDirectionChecker.cpp">
-      <Filter>Resource Files\Chess\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\chess\src\chess\pieces\logic\PieceColorAndType.cpp">
-      <Filter>Resource Files\Chess\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\chess\src\chess\pieces\logic\PieceFinder.cpp">
-      <Filter>Resource Files\Chess\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\chess\src\chess\pieces\logic\PieceTypeConverter.cpp">
-      <Filter>Resource Files\Chess\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\chess\src\chess\pieces\logic\MoveChecker.cpp">
-      <Filter>Resource Files\Chess\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\chess\src\chess\logic\Coordinate.cpp">
-      <Filter>Resource Files\Chess\Pieces</Filter>
+      <Filter>Resource Files\Chess\Pieces\Logic</Filter>
     </ClCompile>
     <ClCompile Include="..\chess\src\chess\logic\ErrorConverter.cpp">
-      <Filter>Resource Files\Chess\Pieces</Filter>
+      <Filter>Resource Files\Chess\Pieces\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\logic\MoveChecker.cpp">
+      <Filter>Resource Files\Chess\Pieces\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\logic\PieceColorAndType.cpp">
+      <Filter>Resource Files\Chess\Pieces\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\logic\PieceFinder.cpp">
+      <Filter>Resource Files\Chess\Pieces\Logic</Filter>
     </ClCompile>
     <ClCompile Include="..\chess\src\chess\pieces\logic\PositionChecker.cpp">
-      <Filter>Resource Files\Chess\Pieces</Filter>
+      <Filter>Resource Files\Chess\Pieces\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\logic\PieceTypeConverter.cpp">
+      <Filter>Resource Files\Chess\Pieces\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\logic\MoveValidator.cpp">
+      <Filter>Resource Files\Chess\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\logic\PieceDirector.cpp">
+      <Filter>Resource Files\Chess\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\logic\Coordinate.cpp">
+      <Filter>Resource Files\Chess\Logic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
