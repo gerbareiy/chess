@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Coordinate.h"
+#include "logic/Coordinate.h"
 #include "pieces/IPiece.h"
 #include "pieces/logic/MoveChecker.h"
 #include "pieces/logic/PieceColorAndType.h"
@@ -28,7 +28,7 @@ namespace Chess
 	private:
 		std::shared_ptr<Chess::IPiece> GetPiece(Coordinate from) const;
 		bool IsValidMove(Coordinate to);
-		void Take(int indexOnBoard);
+		void Take(size_t indexOnBoard);
 
 	public:
 		PieceColorAndType GetPieceColorAndType(Coordinate from) const;

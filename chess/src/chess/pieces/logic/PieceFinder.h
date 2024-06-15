@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../IPiece.h"
-#include "../../Coordinate.h"
+#include "../../logic/Coordinate.h"
 
 #include <map>
 #include <memory>

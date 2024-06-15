@@ -1,7 +1,7 @@
 #include "Game.h"
 
 #include "Chessboard.h"
-#include "Sizes.h"
+#include "logic/Sizes.h"
 
 #include <stdlib.h>
 

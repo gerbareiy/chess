@@ -1,9 +1,9 @@
 #include "KnightChecker.h"
 
-#include "../Counts.h"
-#include "../eError.h"
-#include "../ErrorConverter.h"
-#include "../Sizes.h"
+#include "../logic/Counts.h"
+#include "../logic/eError.h"
+#include "../logic/ErrorConverter.h"
+#include "../logic/Sizes.h"
 
 #include <memory>
 #include <stdexcept>

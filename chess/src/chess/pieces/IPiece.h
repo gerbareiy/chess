@@ -1,7 +1,7 @@
 #pragma once
 
 #include "logic/PieceColorAndType.h"
-#include "../Coordinate.h"
+#include "../logic/Coordinate.h"
 
 namespace Chess
 {

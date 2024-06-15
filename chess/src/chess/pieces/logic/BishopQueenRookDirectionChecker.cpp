@@ -1,6 +1,6 @@
 #include "BishopQueenRookDirectionChecker.h"
 
-#include "../../PositionChecker.h"
+#include "PositionChecker.h"
 
 std::vector<Chess::Coordinate> Chess::BishopQueenRookDirectionChecker::FindPossibleMoves(const std::shared_ptr<PieceFinder>& finder, const std::shared_ptr<IPiece>& current, std::pair <int, int> coordinateIncrement)
 {

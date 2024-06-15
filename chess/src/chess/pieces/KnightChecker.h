@@ -3,7 +3,7 @@
 #include "logic/IMoveChecker.h"
 #include "IPiece.h"
 #include "Knight.h"
-#include "../Coordinate.h"
+#include "../logic/Coordinate.h"
 
 #include <memory>
 #include <vector>

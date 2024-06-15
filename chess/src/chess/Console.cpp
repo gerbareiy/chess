@@ -1,7 +1,7 @@
 #include "Console.h"
 
 #include "pieces/logic/PieceTypeConverter.h"
-#include "Sizes.h"
+#include "logic/Sizes.h"
 
 #include <conio.h>
 #include <iostream>

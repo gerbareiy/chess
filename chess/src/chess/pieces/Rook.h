@@ -4,7 +4,7 @@
 #include "IPiece.h"
 #include "King.h"
 #include "logic/PieceColorAndType.h"
-#include "../Coordinate.h"
+#include "../logic/Coordinate.h"
 
 namespace Chess
 {

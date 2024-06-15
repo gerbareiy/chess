@@ -3,7 +3,7 @@
 #include "logic/ePieceColor.h"
 #include "IPiece.h"
 #include "logic/PieceColorAndType.h"
-#include "../Coordinate.h"
+#include "../logic/Coordinate.h"
 
 namespace Chess
 {

@@ -1,6 +1,6 @@
 #include "Chessboard.h"
 
-#include "Counts.h"
+#include "logic/Counts.h"
 #include "pieces/Bishop.h"
 #include "pieces/logic/ePieceColor.h"
 #include "pieces/IPiece.h"
@@ -9,7 +9,7 @@
 #include "pieces/Pawn.h"
 #include "pieces/Queen.h"
 #include "pieces/Rook.h"
-#include "Sizes.h"
+#include "logic/Sizes.h"
 
 Chess::Chessboard::Chessboard()
 {
@@ -76,7 +76,7 @@ bool Chess::Chessboard::IsValidMove(Coordinate to)
 	return true;
 }
 
-void Chess::Chessboard::Take(int indexOnBoard)
+void Chess::Chessboard::Take(size_t indexOnBoard)
 {
 	m_eatenPieces.push_back(std::move(m_piecesOnBoard[indexOnBoard]));
 	m_piecesOnBoard.erase(m_piecesOnBoard.begin() + indexOnBoard);

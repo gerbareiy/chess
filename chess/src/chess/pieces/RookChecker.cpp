@@ -2,10 +2,10 @@
 
 #include "logic/BishopQueenRookDirectionChecker.h"
 #include "logic/PieceFinder.h"
-#include "../eError.h"
-#include "../ErrorConverter.h"
-#include "../Counts.h"
-#include "../PositionChecker.h"
+#include "../logic/eError.h"
+#include "../logic/ErrorConverter.h"
+#include "../logic/Counts.h"
+#include "logic/PositionChecker.h"
 
 #include <memory>
 #include <stdexcept>

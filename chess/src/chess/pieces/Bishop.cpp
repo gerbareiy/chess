@@ -2,9 +2,9 @@
 
 #include "logic/ePieceColor.h"
 #include "logic/ePieceType.h"
-#include "../eError.h"
-#include "../ErrorConverter.h"
-#include "../Sizes.h"
+#include "../logic/eError.h"
+#include "../logic/ErrorConverter.h"
+#include "../logic/Sizes.h"
 
 #include <stdexcept>
 

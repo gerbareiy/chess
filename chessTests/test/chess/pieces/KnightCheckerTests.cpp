@@ -1,4 +1,4 @@
-#include "../../../../chess/src/chess/Coordinate.h"
+#include "../../../../chess/src/chess/logic/Coordinate.h"
 #include "../../../../chess/src/chess/pieces/logic/ePieceColor.h"
 #include "../../../../chess/src/chess/pieces/Knight.h"
 #include "../../../../chess/src/chess/pieces/KnightChecker.h"

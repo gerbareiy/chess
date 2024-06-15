@@ -12,7 +12,7 @@
 #include "../QueenChecker.h"
 #include "../Rook.h"
 #include "../RookChecker.h"
-#include "../../Coordinate.h"
+#include "../../logic/Coordinate.h"
 
 #include <memory>
 #include <vector>

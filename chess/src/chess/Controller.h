@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Chessboard.h"
-#include "Coordinate.h"
+#include "logic/Coordinate.h"
 
 #include <memory>
 

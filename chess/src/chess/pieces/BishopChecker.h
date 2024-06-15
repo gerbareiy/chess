@@ -2,7 +2,7 @@
 
 #include "Bishop.h"
 #include "logic/IMoveChecker.h"
-#include "../Coordinate.h"
+#include "../logic/Coordinate.h"
 
 #include <memory>
 #include <vector>

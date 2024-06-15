@@ -42,12 +42,6 @@
     <ClCompile Include="..\chess\src\chess\Controller.cpp">
       <Filter>Resource Files\Chess</Filter>
     </ClCompile>
-    <ClCompile Include="..\chess\src\chess\Coordinate.cpp">
-      <Filter>Resource Files\Chess</Filter>
-    </ClCompile>
-    <ClCompile Include="..\chess\src\chess\ErrorConverter.cpp">
-      <Filter>Resource Files\Chess</Filter>
-    </ClCompile>
     <ClCompile Include="..\chess\src\chess\Game.cpp">
       <Filter>Resource Files\Chess</Filter>
     </ClCompile>
@@ -84,9 +78,6 @@
     <ClCompile Include="..\chess\src\chess\pieces\RookChecker.cpp">
       <Filter>Resource Files\Chess\Pieces</Filter>
     </ClCompile>
-    <ClCompile Include="..\chess\src\chess\PositionChecker.cpp">
-      <Filter>Resource Files\Chess</Filter>
-    </ClCompile>
     <ClCompile Include="test\chess\pieces\RookCheckerTests.cpp">
       <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
@@ -115,6 +106,15 @@
       <Filter>Resource Files\Chess\Pieces</Filter>
     </ClCompile>
     <ClCompile Include="..\chess\src\chess\pieces\logic\MoveChecker.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\logic\Coordinate.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\logic\ErrorConverter.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\logic\PositionChecker.cpp">
       <Filter>Resource Files\Chess\Pieces</Filter>
     </ClCompile>
   </ItemGroup>

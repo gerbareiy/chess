@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Chessboard.h"
-#include "eConsoleColor.h"
+#include "logic/eConsoleColor.h"
 #include "pieces/logic/ePieceColor.h"
 
 #include <memory>
