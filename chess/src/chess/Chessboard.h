@@ -1,8 +1,8 @@
 #pragma once
 
 #include "logic/Coordinate.h"
-#include "pieces/IPiece.h"
-#include "pieces/logic/MoveChecker.h"
+#include "logic/MoveValidator.h"
+#include "logic/PieceDirector.h"
 #include "pieces/logic/PieceColorAndType.h"
 
 #include <memory>
@@ -13,27 +13,19 @@ namespace Chess
 	class Chessboard
 	{
 	private:
-		std::shared_ptr<MoveChecker> m_checker{};
-		std::vector<std::shared_ptr<IPiece>> m_eatenPieces{};
-		std::shared_ptr<IPiece> m_carrentPiece{};
-		std::vector<std::shared_ptr<IPiece>> m_piecesOnBoard{};
-		std::vector<Coordinate> m_possibleMoves{};
+		std::shared_ptr<PieceDirector> m_director{};
+		std::shared_ptr<MoveValidator> m_validator{};
 
 	public:
 		Chessboard();
 
 	public:
-		const std::vector<std::shared_ptr<IPiece>>& get_EatenPieces() const;
-
-	private:
-		std::shared_ptr<Chess::IPiece> GetPiece(Coordinate from) const;
-		bool IsValidMove(Coordinate to);
-		void Take(size_t indexOnBoard);
+		const std::shared_ptr<PieceDirector>& get_PieceDirector() const;
+		const std::shared_ptr<MoveValidator>& get_MoveValidator() const;
 
 	public:
-		PieceColorAndType GetPieceColorAndType(Coordinate from) const;
-		bool IsCoordinateInPossibleMoves(Coordinate coord);
-		bool TryInitPiece(Coordinate from);
-		bool TryMovePiece(Coordinate to);
+		PieceColorAndType GetPieceColorAndType(const Coordinate& from) const;
+		bool TryInitPiece(const Coordinate& from);
+		bool TryMovePiece(const Coordinate& to);
 	};
 }

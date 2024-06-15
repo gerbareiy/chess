@@ -13,8 +13,10 @@
 #include "../Rook.h"
 #include "../RookChecker.h"
 #include "../../logic/Coordinate.h"
+#include "../../logic/eError.h"
+#include "../../logic/ErrorConverter.h"
 
-#include <memory>
+#include "stdexcept"
 #include <vector>
 
 std::vector<Chess::Coordinate> Chess::MoveChecker::GetPossibleMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
@@ -43,5 +45,6 @@ std::vector<Chess::Coordinate> Chess::MoveChecker::GetPossibleMoves(const std::s
     {
         return std::make_unique<RookChecker>()->GetPossibleMoves(piece, piecesOnBoard);
     }
-    return std::vector<Coordinate>();
+
+    throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
 }

@@ -31,18 +31,18 @@
     <Filter Include="Source Files\Chess\Pieces\Logic">
       <UniqueIdentifier>{b786c730-2221-4164-a90e-ead80bd88ad2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Chess\Logic">
+      <UniqueIdentifier>{a640a104-0c6a-4c75-b0b7-b9cd1ee46e56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Chess\Logic">
+      <UniqueIdentifier>{1ede4df8-b75a-42fa-a3e0-b04b5f52dc89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\chess\Chessboard.cpp">
       <Filter>Source Files\Chess</Filter>
     </ClCompile>
     <ClCompile Include="src\chess\Controller.cpp">
-      <Filter>Source Files\Chess</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chess\logic\Coordinate.cpp">
-      <Filter>Source Files\Chess</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chess\logic\ErrorConverter.cpp">
       <Filter>Source Files\Chess</Filter>
     </ClCompile>
     <ClCompile Include="src\chess\Game.cpp">
@@ -84,9 +84,6 @@
     <ClCompile Include="src\chess\pieces\RookChecker.cpp">
       <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
-    <ClCompile Include="src\chess\pieces\logic\PositionChecker.cpp">
-      <Filter>Source Files\Chess</Filter>
-    </ClCompile>
     <ClCompile Include="src\chess\pieces\BishopChecker.cpp">
       <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
@@ -105,36 +102,33 @@
     <ClCompile Include="src\chess\pieces\logic\BishopQueenRookDirectionChecker.cpp">
       <Filter>Source Files\Chess\Pieces\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="src\chess\pieces\logic\MoveChecker.cpp">
+    <ClCompile Include="src\chess\logic\ErrorConverter.cpp">
+      <Filter>Source Files\Chess\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\logic\Coordinate.cpp">
+      <Filter>Source Files\Chess\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\logic\PositionChecker.cpp">
       <Filter>Source Files\Chess\Pieces\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\logic\PieceDirector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\logic\MoveValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\logic\MoveChecker.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chess\Chessboard.h">
       <Filter>Header Files\Chess</Filter>
     </ClInclude>
-    <ClInclude Include="src\chess\logic\eConsoleColor.h">
-      <Filter>Header Files\Chess</Filter>
-    </ClInclude>
     <ClInclude Include="src\chess\Controller.h">
       <Filter>Header Files\Chess</Filter>
     </ClInclude>
-    <ClInclude Include="src\chess\logic\Coordinate.h">
-      <Filter>Header Files\Chess</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chess\logic\Counts.h">
-      <Filter>Header Files\Chess</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chess\logic\eError.h">
-      <Filter>Header Files\Chess</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chess\logic\ErrorConverter.h">
-      <Filter>Header Files\Chess</Filter>
-    </ClInclude>
     <ClInclude Include="src\chess\Game.h">
-      <Filter>Header Files\Chess</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chess\logic\Sizes.h">
       <Filter>Header Files\Chess</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\Console.h">
@@ -173,9 +167,6 @@
     <ClInclude Include="src\chess\pieces\RookChecker.h">
       <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
-    <ClInclude Include="src\chess\pieces\logic\PositionChecker.h">
-      <Filter>Header Files\Chess</Filter>
-    </ClInclude>
     <ClInclude Include="src\chess\pieces\BishopChecker.h">
       <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
@@ -203,8 +194,35 @@
     <ClInclude Include="src\chess\pieces\logic\IMoveChecker.h">
       <Filter>Header Files\Chess\Pieces\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="src\chess\pieces\logic\MoveChecker.h">
+    <ClInclude Include="src\chess\pieces\logic\PositionChecker.h">
       <Filter>Header Files\Chess\Pieces\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\logic\Coordinate.h">
+      <Filter>Header Files\Chess\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\logic\eConsoleColor.h">
+      <Filter>Header Files\Chess\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\logic\eError.h">
+      <Filter>Header Files\Chess\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\logic\ErrorConverter.h">
+      <Filter>Header Files\Chess\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\logic\Counts.h">
+      <Filter>Header Files\Chess\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\logic\Sizes.h">
+      <Filter>Header Files\Chess\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\logic\PieceDirector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\logic\MoveValidator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\logic\MoveChecker.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

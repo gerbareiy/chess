@@ -35,7 +35,7 @@ std::vector<Chess::Coordinate> Chess::RookChecker::GetPossibleMoves(const std::s
 {
 	if (!piece || typeid(*piece) != typeid(Rook) || piece->get_ColorAndType().get_Type() != ePieceType::ROOK)
 	{
-		throw std::out_of_range(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
+		throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
 	}
 
 	return FindPossibleMoves(std::static_pointer_cast<Rook>(piece), piecesOnBoard);

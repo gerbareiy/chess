@@ -4,8 +4,6 @@
 #include "../logic/ErrorConverter.h"
 #include "../logic/Sizes.h"
 
-#include <iostream>
-#include <math.h>
 #include <stdexcept>
 
 Chess::Queen::Queen(ePieceColor color)

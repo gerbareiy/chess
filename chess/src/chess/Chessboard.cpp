@@ -13,78 +13,23 @@
 
 Chess::Chessboard::Chessboard()
 {
-	m_checker = std::make_shared<MoveChecker>();
-
-	m_piecesOnBoard.reserve(MAX_COUNT_ELEMENTS);
-	m_eatenPieces.reserve(MAX_COUNT_ELEMENTS);
-
-	for (auto i = 1; i <= COUNT_OF_BISHOP_KNIGHT_ROOK_WITH_1_COLOR; ++i)
-	{
-		m_piecesOnBoard.push_back(std::make_shared<Bishop>(ePieceColor::BLACK, i));
-		m_piecesOnBoard.push_back(std::make_shared<Bishop>(ePieceColor::WHITE, i));
-		m_piecesOnBoard.push_back(std::make_shared<Knight>(ePieceColor::BLACK, i));
-		m_piecesOnBoard.push_back(std::make_shared<Knight>(ePieceColor::WHITE, i));
-		m_piecesOnBoard.push_back(std::make_shared<Rook>(ePieceColor::BLACK, i));
-		m_piecesOnBoard.push_back(std::make_shared<Rook>(ePieceColor::WHITE, i));
-	}
-
-	m_piecesOnBoard.push_back(std::make_shared<King>(ePieceColor::BLACK));
-	m_piecesOnBoard.push_back(std::make_shared<King>(ePieceColor::WHITE));
-
-	for (auto i = 0; i < CHESSBOARD_SIZE; ++i)
-	{
-		m_piecesOnBoard.push_back(std::make_shared<Pawn>(ePieceColor::BLACK, 'A' + i));
-		m_piecesOnBoard.push_back(std::make_shared<Pawn>(ePieceColor::WHITE, 'A' + i));
-	}
-
-	m_piecesOnBoard.push_back(std::make_shared<Queen>(ePieceColor::BLACK));
-	m_piecesOnBoard.push_back(std::make_shared<Queen>(ePieceColor::WHITE));
+	m_director = std::make_shared<PieceDirector>();
+	m_validator = std::make_shared<MoveValidator>();
 }
 
-const std::vector<std::shared_ptr<Chess::IPiece>>& Chess::Chessboard::get_EatenPieces() const
+const std::shared_ptr<Chess::PieceDirector>& Chess::Chessboard::get_PieceDirector() const
 {
-	return m_eatenPieces;
+	return m_director;
 }
 
-std::shared_ptr<Chess::IPiece> Chess::Chessboard::GetPiece(Coordinate from) const
+const std::shared_ptr<Chess::MoveValidator>& Chess::Chessboard::get_MoveValidator() const
 {
-	for (std::shared_ptr<Chess::IPiece> pieceOnBoard : m_piecesOnBoard)
-	{
-		if (pieceOnBoard->get_Position() == from)
-		{
-			return pieceOnBoard;
-		}
-	}
-
-	return nullptr;
+	return m_validator;
 }
 
-bool Chess::Chessboard::IsValidMove(Coordinate to)
+Chess::PieceColorAndType Chess::Chessboard::GetPieceColorAndType(const Coordinate& from) const
 {
-	if (!m_carrentPiece)
-	{
-		return false;
-	}
-
-	auto it = std::find(m_possibleMoves.begin(), m_possibleMoves.end(), to);
-
-	if (it == m_possibleMoves.end())
-	{
-		return false;
-	}
-
-	return true;
-}
-
-void Chess::Chessboard::Take(size_t indexOnBoard)
-{
-	m_eatenPieces.push_back(std::move(m_piecesOnBoard[indexOnBoard]));
-	m_piecesOnBoard.erase(m_piecesOnBoard.begin() + indexOnBoard);
-}
-
-Chess::PieceColorAndType Chess::Chessboard::GetPieceColorAndType(Coordinate from) const
-{
-	auto piece = GetPiece(from);
+	auto piece = m_director->GetPiece(from);
 
 	if (!piece)
 	{
@@ -94,25 +39,18 @@ Chess::PieceColorAndType Chess::Chessboard::GetPieceColorAndType(Coordinate from
 	return piece->get_ColorAndType();
 }
 
-bool Chess::Chessboard::IsCoordinateInPossibleMoves(Coordinate coordinate)
+bool Chess::Chessboard::TryInitPiece(const Coordinate& from)
 {
-	auto it = std::find(m_possibleMoves.begin(), m_possibleMoves.end(), coordinate);
-
-	return it != m_possibleMoves.end();
-}
-
-bool Chess::Chessboard::TryInitPiece(Coordinate from)
-{
-	m_carrentPiece = GetPiece(from);
+	m_director->InitCurrantPiece(from);
 	
-	if (!m_carrentPiece)
+	if (!m_director->get_CurrentPiece())
 	{
 		return false;
 	}
 
-	m_possibleMoves = m_checker->GetPossibleMoves(m_carrentPiece, m_piecesOnBoard);
+	m_validator->CalculatePossibleMoves(m_director->get_CurrentPiece(), m_director->get_PiecesOnBoard());
 
-	if (m_possibleMoves.size() < 1)
+	if (m_validator->get_PossibleMoves().size() < 1)
 	{
 		return false;
 	}
@@ -120,26 +58,15 @@ bool Chess::Chessboard::TryInitPiece(Coordinate from)
 	return true;
 }
 
-bool Chess::Chessboard::TryMovePiece(Coordinate to)
+bool Chess::Chessboard::TryMovePiece(const Coordinate& to)
 {
-	if (!IsValidMove(to))
+	if (!m_validator->IsValidMove(m_director->get_CurrentPiece(), to))
 	{
 		return false;
 	}
 
-	m_possibleMoves.clear();
-
-	auto it = std::find_if(m_piecesOnBoard.begin(), m_piecesOnBoard.end(), [to](std::shared_ptr<IPiece> current)
-		{
-			return current->get_Position() == to;
-		});
-
-	if (it != m_piecesOnBoard.end())
-	{
-		Take(std::distance(m_piecesOnBoard.begin(), it));
-	}
-
-	m_carrentPiece->Move(to);
+	m_validator->ClearPossibleMoves();
+	m_director->MovePiece(to);
 
 	return true;
 }

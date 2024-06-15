@@ -58,7 +58,7 @@ std::vector<Chess::Coordinate> Chess::KnightChecker::GetPossibleMoves(const std:
 {
 	if (!piece || typeid(*piece) != typeid(Knight) || piece->get_ColorAndType().get_Type() != ePieceType::KNIGHT)
 	{
-		throw std::out_of_range(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
+		throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
 	}
 
 	return FindPossibleMoves(std::static_pointer_cast<Knight>(piece), piecesOnBoard);

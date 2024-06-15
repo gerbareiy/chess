@@ -68,7 +68,7 @@ void Chess::Console::Display()
 
 void Chess::Console::DisplayTakenPieces(ePieceColor color) const
 {
-	const auto eatenPieces = m_chessboard->get_EatenPieces();
+	const auto eatenPieces = m_chessboard->get_PieceDirector()->get_EatenPieces();
 
 	for (const auto& piece : eatenPieces)
 	{
@@ -106,7 +106,7 @@ void Chess::Console::DisplayChessboard()
 			auto textColor = colorAndType.get_Color() == ePieceColor::BLACK ? eConsoleColor::BLACK
 				: (colorAndType.get_Color() == ePieceColor::WHITE ? eConsoleColor::WHITE : static_cast<eConsoleColor>(originalTextColor));
 
-			auto background = m_chessboard->IsCoordinateInPossibleMoves(Coordinate(x, y)) ? eConsoleColor::RED :
+			auto background = m_chessboard->get_MoveValidator()->IsCoordinateInPossibleMoves(Coordinate(x, y)) ? eConsoleColor::RED :
 				((static_cast<int>(x + 1) + y) % 2) ? eConsoleColor::BROWN : eConsoleColor::YELLOW;
 
 			SetConsoleColor(textColor, background);

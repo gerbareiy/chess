@@ -2,10 +2,9 @@
 
 #include "logic/BishopQueenRookDirectionChecker.h"
 #include "logic/PieceFinder.h"
+#include "../logic/Counts.h"
 #include "../logic/eError.h"
 #include "../logic/ErrorConverter.h"
-#include "../logic/Counts.h"
-#include "logic/PositionChecker.h"
 
 #include <memory>
 #include <stdexcept>
@@ -35,7 +34,7 @@ std::vector<Chess::Coordinate> Chess::BishopChecker::GetPossibleMoves(const std:
 {
 	if (!piece || typeid(*piece) != typeid(Bishop) || piece->get_ColorAndType().get_Type() != ePieceType::BISHOP)
 	{
-		throw std::out_of_range(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
+		throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
 	}
 
 	return FindPossibleMoves(std::static_pointer_cast<Bishop>(piece), piecesOnBoard);

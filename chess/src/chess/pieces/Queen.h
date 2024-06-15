@@ -5,8 +5,6 @@
 #include "logic/PieceColorAndType.h"
 #include "../logic/Coordinate.h"
 
-#include <vector>
-
 namespace Chess
 {
 	class Queen : public IPiece

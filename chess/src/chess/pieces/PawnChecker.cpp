@@ -98,7 +98,7 @@ void Chess::PawnChecker::ValidatePawn(const std::shared_ptr<Pawn>& pawn)
 	}
 	if (pawn->get_ColorAndType().get_Color() == ePieceColor::NONE)
 	{
-		throw std::out_of_range(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
+		throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
 	}
 }
 
@@ -106,7 +106,7 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetPossibleMoves(const std::s
 {
 	if (!piece || typeid(*piece) != typeid(Pawn) || piece->get_ColorAndType().get_Type() != ePieceType::PAWN)
 	{
-		throw std::out_of_range(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
+		throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
 	}
 
 	std::vector<Coordinate> allMoves;

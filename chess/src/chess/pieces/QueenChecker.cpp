@@ -43,7 +43,7 @@ std::vector<Chess::Coordinate> Chess::QueenChecker::GetPossibleMoves(const std::
 {
 	if (!piece || typeid(*piece) != typeid(Queen) || piece->get_ColorAndType().get_Type() != ePieceType::QUEEN)
 	{
-		throw std::out_of_range(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
+		throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
 	}
 
 	return FindPossibleMoves(std::static_pointer_cast<Queen>(piece), piecesOnBoard);
