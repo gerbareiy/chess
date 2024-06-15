@@ -1,7 +1,7 @@
 #include "../../../../chess/src/chess/Sizes.h"
 #include "../../../../chess/src/chess/Coordinate.h"
 #include "../../../../chess/src/chess/pieces/Bishop.h"
-#include "../../../../chess/src/chess/pieces/ePieceColor.h"
+#include "../../../../chess/src/chess/pieces/logic/ePieceColor.h"
 #include "../../../../chess/src/chess/pieces/Rook.h"
 #include "../../../../chess/src/chess/pieces/RookChecker.h"
 

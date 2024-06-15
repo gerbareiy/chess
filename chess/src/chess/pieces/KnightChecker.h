@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IMoveChecker.h"
+#include "logic/IMoveChecker.h"
 #include "IPiece.h"
 #include "Knight.h"
 #include "../Coordinate.h"

@@ -1,7 +1,7 @@
 #include "Knight.h"
 
-#include "ePieceColor.h"
-#include "ePieceType.h"
+#include "logic/ePieceColor.h"
+#include "logic/ePieceType.h"
 #include "../eError.h"
 #include "../ErrorConverter.h"
 #include "../Sizes.h"

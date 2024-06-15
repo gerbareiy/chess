@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Bishop.h"
-#include "IMoveChecker.h"
+#include "logic/IMoveChecker.h"
 #include "../Coordinate.h"
 
 #include <memory>

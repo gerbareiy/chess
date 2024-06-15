@@ -126,12 +126,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\chess\pieces\BishopQueenRookDirectionChecker.cpp" />
-    <ClCompile Include="src\chess\pieces\MoveChecker.cpp" />
+    <ClCompile Include="src\chess\pieces\logic\BishopQueenRookDirectionChecker.cpp" />
+    <ClCompile Include="src\chess\pieces\logic\MoveChecker.cpp" />
     <ClCompile Include="src\chess\pieces\QueenChecker.cpp" />
     <ClCompile Include="src\chess\pieces\BishopChecker.cpp" />
     <ClCompile Include="src\chess\PositionChecker.cpp" />
-    <ClCompile Include="src\chess\pieces\PieceFinder.cpp" />
+    <ClCompile Include="src\chess\pieces\logic\PieceFinder.cpp" />
     <ClCompile Include="src\chess\pieces\RookChecker.cpp" />
     <ClCompile Include="src\chess\pieces\PawnChecker.cpp" />
     <ClCompile Include="src\chess\Chessboard.cpp" />
@@ -139,7 +139,7 @@
     <ClCompile Include="src\chess\ErrorConverter.cpp" />
     <ClCompile Include="src\chess\Game.cpp" />
     <ClCompile Include="src\chess\pieces\Bishop.cpp" />
-    <ClCompile Include="src\chess\pieces\PieceTypeConverter.cpp" />
+    <ClCompile Include="src\chess\pieces\logic\PieceTypeConverter.cpp" />
     <ClCompile Include="src\chess\pieces\King.cpp" />
     <ClCompile Include="src\chess\pieces\KingChecker.cpp" />
     <ClCompile Include="src\chess\pieces\Knight.cpp" />
@@ -147,18 +147,18 @@
     <ClCompile Include="src\chess\pieces\Pawn.cpp" />
     <ClCompile Include="src\chess\pieces\Queen.cpp" />
     <ClCompile Include="src\chess\pieces\Rook.cpp" />
-    <ClCompile Include="src\chess\pieces\PieceColorAndType.cpp" />
+    <ClCompile Include="src\chess\pieces\logic\PieceColorAndType.cpp" />
     <ClCompile Include="src\chess\Coordinate.cpp" />
     <ClCompile Include="src\chess\Console.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\chess\pieces\BishopQueenRookDirectionChecker.h" />
-    <ClInclude Include="src\chess\pieces\MoveChecker.h" />
+    <ClInclude Include="src\chess\pieces\logic\BishopQueenRookDirectionChecker.h" />
+    <ClInclude Include="src\chess\pieces\logic\MoveChecker.h" />
     <ClInclude Include="src\chess\pieces\QueenChecker.h" />
     <ClInclude Include="src\chess\pieces\BishopChecker.h" />
     <ClInclude Include="src\chess\PositionChecker.h" />
-    <ClInclude Include="src\chess\pieces\PieceFinder.h" />
+    <ClInclude Include="src\chess\pieces\logic\PieceFinder.h" />
     <ClInclude Include="src\chess\pieces\RookChecker.h" />
     <ClInclude Include="src\chess\pieces\PawnChecker.h" />
     <ClInclude Include="src\chess\Chessboard.h" />
@@ -170,10 +170,10 @@
     <ClInclude Include="src\chess\ErrorConverter.h" />
     <ClInclude Include="src\chess\Game.h" />
     <ClInclude Include="src\chess\pieces\Bishop.h" />
-    <ClInclude Include="src\chess\pieces\ePieceColor.h" />
-    <ClInclude Include="src\chess\pieces\ePieceType.h" />
-    <ClInclude Include="src\chess\pieces\PieceTypeConverter.h" />
-    <ClInclude Include="src\chess\pieces\IMoveChecker.h" />
+    <ClInclude Include="src\chess\pieces\logic\ePieceColor.h" />
+    <ClInclude Include="src\chess\pieces\logic\ePieceType.h" />
+    <ClInclude Include="src\chess\pieces\logic\PieceTypeConverter.h" />
+    <ClInclude Include="src\chess\pieces\logic\IMoveChecker.h" />
     <ClInclude Include="src\chess\pieces\IPiece.h" />
     <ClInclude Include="src\chess\pieces\King.h" />
     <ClInclude Include="src\chess\pieces\KingChecker.h" />
@@ -182,7 +182,7 @@
     <ClInclude Include="src\chess\pieces\Pawn.h" />
     <ClInclude Include="src\chess\pieces\Queen.h" />
     <ClInclude Include="src\chess\pieces\Rook.h" />
-    <ClInclude Include="src\chess\pieces\PieceColorAndType.h" />
+    <ClInclude Include="src\chess\pieces\logic\PieceColorAndType.h" />
     <ClInclude Include="src\chess\Coordinate.h" />
     <ClInclude Include="src\chess\Console.h" />
   </ItemGroup>

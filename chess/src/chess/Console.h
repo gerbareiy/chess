@@ -2,7 +2,7 @@
 
 #include "Chessboard.h"
 #include "eConsoleColor.h"
-#include "pieces/ePieceColor.h"
+#include "pieces/logic/ePieceColor.h"
 
 #include <memory>
 #include <windows.h>

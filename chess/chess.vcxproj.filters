@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Chess\Pieces">
       <UniqueIdentifier>{6a5b2bee-1801-4707-9ac4-040a2011d794}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Chess\Pieces\Logic">
+      <UniqueIdentifier>{2cf57ccc-3b4a-4b1b-bf44-985ad57aa4fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Chess\Pieces\Logic">
+      <UniqueIdentifier>{b786c730-2221-4164-a90e-ead80bd88ad2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\chess\Chessboard.cpp">
@@ -72,12 +78,6 @@
     <ClCompile Include="src\chess\pieces\Queen.cpp">
       <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
-    <ClCompile Include="src\chess\pieces\PieceTypeConverter.cpp">
-      <Filter>Source Files\Chess\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chess\pieces\PieceColorAndType.cpp">
-      <Filter>Source Files\Chess\Pieces</Filter>
-    </ClCompile>
     <ClCompile Include="src\chess\pieces\PawnChecker.cpp">
       <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
@@ -90,17 +90,23 @@
     <ClCompile Include="src\chess\pieces\BishopChecker.cpp">
       <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
-    <ClCompile Include="src\chess\pieces\PieceFinder.cpp">
-      <Filter>Source Files\Chess\Pieces</Filter>
-    </ClCompile>
     <ClCompile Include="src\chess\pieces\QueenChecker.cpp">
       <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
-    <ClCompile Include="src\chess\pieces\MoveChecker.cpp">
-      <Filter>Source Files\Chess\Pieces</Filter>
+    <ClCompile Include="src\chess\pieces\logic\PieceFinder.cpp">
+      <Filter>Source Files\Chess\Pieces\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="src\chess\pieces\BishopQueenRookDirectionChecker.cpp">
-      <Filter>Source Files\Chess\Pieces</Filter>
+    <ClCompile Include="src\chess\pieces\logic\PieceTypeConverter.cpp">
+      <Filter>Source Files\Chess\Pieces\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\logic\PieceColorAndType.cpp">
+      <Filter>Source Files\Chess\Pieces\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\logic\BishopQueenRookDirectionChecker.cpp">
+      <Filter>Source Files\Chess\Pieces\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\logic\MoveChecker.cpp">
+      <Filter>Source Files\Chess\Pieces\Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,19 +143,10 @@
     <ClInclude Include="src\chess\pieces\Bishop.h">
       <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
-    <ClInclude Include="src\chess\pieces\ePieceColor.h">
-      <Filter>Header Files\Chess\Pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chess\pieces\ePieceType.h">
-      <Filter>Header Files\Chess\Pieces</Filter>
-    </ClInclude>
     <ClInclude Include="src\chess\pieces\IPiece.h">
       <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\pieces\King.h">
-      <Filter>Header Files\Chess\Pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chess\pieces\IMoveChecker.h">
       <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\pieces\Knight.h">
@@ -162,12 +159,6 @@
       <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\pieces\Pawn.h">
-      <Filter>Header Files\Chess\Pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chess\pieces\PieceColorAndType.h">
-      <Filter>Header Files\Chess\Pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chess\pieces\PieceTypeConverter.h">
       <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\pieces\Rook.h">
@@ -188,17 +179,32 @@
     <ClInclude Include="src\chess\pieces\BishopChecker.h">
       <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
-    <ClInclude Include="src\chess\pieces\PieceFinder.h">
-      <Filter>Header Files\Chess\Pieces</Filter>
-    </ClInclude>
     <ClInclude Include="src\chess\pieces\QueenChecker.h">
       <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
-    <ClInclude Include="src\chess\pieces\MoveChecker.h">
-      <Filter>Header Files\Chess\Pieces</Filter>
+    <ClInclude Include="src\chess\pieces\logic\BishopQueenRookDirectionChecker.h">
+      <Filter>Header Files\Chess\Pieces\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="src\chess\pieces\BishopQueenRookDirectionChecker.h">
-      <Filter>Header Files\Chess\Pieces</Filter>
+    <ClInclude Include="src\chess\pieces\logic\PieceFinder.h">
+      <Filter>Header Files\Chess\Pieces\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\logic\PieceTypeConverter.h">
+      <Filter>Header Files\Chess\Pieces\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\logic\PieceColorAndType.h">
+      <Filter>Header Files\Chess\Pieces\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\logic\ePieceColor.h">
+      <Filter>Header Files\Chess\Pieces\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\logic\ePieceType.h">
+      <Filter>Header Files\Chess\Pieces\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\logic\IMoveChecker.h">
+      <Filter>Header Files\Chess\Pieces\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\logic\MoveChecker.h">
+      <Filter>Header Files\Chess\Pieces\Logic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

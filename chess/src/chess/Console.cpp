@@ -1,6 +1,6 @@
 #include "Console.h"
 
-#include "pieces/PieceTypeConverter.h"
+#include "pieces/logic/PieceTypeConverter.h"
 #include "Sizes.h"
 
 #include <conio.h>

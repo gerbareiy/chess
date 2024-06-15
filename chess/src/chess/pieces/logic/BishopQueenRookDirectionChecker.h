@@ -1,8 +1,8 @@
 #pragma once
 
-#include "IPiece.h"
+#include "../IPiece.h"
 #include "PieceFinder.h"
-#include "../Coordinate.h"
+#include "../../Coordinate.h"
 
 #include <memory>
 #include <vector>

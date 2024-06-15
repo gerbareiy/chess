@@ -1,6 +1,6 @@
 #include "PawnChecker.h"
 
-#include "ePieceColor.h"
+#include "logic/ePieceColor.h"
 #include "../Counts.h"
 #include "../eError.h"
 #include "../ErrorConverter.h"

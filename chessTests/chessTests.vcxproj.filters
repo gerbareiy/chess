@@ -69,12 +69,6 @@
     <ClCompile Include="..\chess\src\chess\pieces\Pawn.cpp">
       <Filter>Resource Files\Chess\Pieces</Filter>
     </ClCompile>
-    <ClCompile Include="..\chess\src\chess\pieces\PieceColorAndType.cpp">
-      <Filter>Resource Files\Chess\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\chess\src\chess\pieces\PieceTypeConverter.cpp">
-      <Filter>Resource Files\Chess\Pieces</Filter>
-    </ClCompile>
     <ClCompile Include="..\chess\src\chess\pieces\Queen.cpp">
       <Filter>Resource Files\Chess\Pieces</Filter>
     </ClCompile>
@@ -83,9 +77,6 @@
     </ClCompile>
     <ClCompile Include="test\mainTests.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\chess\src\chess\pieces\PieceFinder.cpp">
-      <Filter>Resource Files\Chess\Pieces</Filter>
     </ClCompile>
     <ClCompile Include="test\chess\pieces\KnightCheckerTests.cpp">
       <Filter>Source Files\Chess\Pieces</Filter>
@@ -111,10 +102,19 @@
     <ClCompile Include="test\chess\pieces\QueenCheckerTests.cpp">
       <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
-    <ClCompile Include="..\chess\src\chess\pieces\BishopQueenRookDirectionChecker.cpp">
+    <ClCompile Include="..\chess\src\chess\pieces\logic\BishopQueenRookDirectionChecker.cpp">
       <Filter>Resource Files\Chess\Pieces</Filter>
     </ClCompile>
-    <ClCompile Include="..\chess\src\chess\pieces\MoveChecker.cpp">
+    <ClCompile Include="..\chess\src\chess\pieces\logic\PieceColorAndType.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\logic\PieceFinder.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\logic\PieceTypeConverter.cpp">
+      <Filter>Resource Files\Chess\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\logic\MoveChecker.cpp">
       <Filter>Resource Files\Chess\Pieces</Filter>
     </ClCompile>
   </ItemGroup>

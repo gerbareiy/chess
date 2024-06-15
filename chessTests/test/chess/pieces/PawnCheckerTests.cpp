@@ -1,6 +1,6 @@
 #include "../../../../chess/src/chess/Sizes.h"
 #include "../../../../chess/src/chess/Coordinate.h"
-#include "../../../../chess/src/chess/pieces/ePieceColor.h"
+#include "../../../../chess/src/chess/pieces/logic/ePieceColor.h"
 #include "../../../../chess/src/chess/pieces/King.h"
 #include "../../../../chess/src/chess/pieces/Pawn.h"
 #include "../../../../chess/src/chess/pieces/PawnChecker.h"

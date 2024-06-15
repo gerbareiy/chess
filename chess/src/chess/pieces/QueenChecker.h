@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Queen.h"
-#include "IMoveChecker.h"
+#include "logic/IMoveChecker.h"
 #include "../Coordinate.h"
 
 #include <vector>

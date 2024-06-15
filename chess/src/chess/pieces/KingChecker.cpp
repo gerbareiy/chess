@@ -1,6 +1,6 @@
 #include "KingChecker.h"
 
-#include "ePieceType.h"
+#include "logic/ePieceType.h"
 #include "../Counts.h"
 #include "../eError.h"
 #include "../ErrorConverter.h"

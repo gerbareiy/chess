@@ -2,8 +2,8 @@
 
 #include "Coordinate.h"
 #include "pieces/IPiece.h"
-#include "pieces/MoveChecker.h"
-#include "pieces/PieceColorAndType.h"
+#include "pieces/logic/MoveChecker.h"
+#include "pieces/logic/PieceColorAndType.h"
 
 #include <memory>
 #include <vector>
@@ -24,7 +24,6 @@ namespace Chess
 
 	public:
 		const std::vector<std::shared_ptr<IPiece>>& get_EatenPieces() const;
-
 
 	private:
 		std::shared_ptr<Chess::IPiece> GetPiece(Coordinate from) const;

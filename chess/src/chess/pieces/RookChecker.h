@@ -1,5 +1,5 @@
 #pragma once
-#include "IMoveChecker.h"
+#include "logic/IMoveChecker.h"
 
 #include "Rook.h"
 

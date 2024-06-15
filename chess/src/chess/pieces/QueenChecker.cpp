@@ -1,7 +1,7 @@
 #include "QueenChecker.h"
 
-#include "BishopQueenRookDirectionChecker.h"
-#include "PieceFinder.h"
+#include "logic/BishopQueenRookDirectionChecker.h"
+#include "logic/PieceFinder.h"
 #include "../eError.h"
 #include "../ErrorConverter.h"
 #include "../Counts.h"

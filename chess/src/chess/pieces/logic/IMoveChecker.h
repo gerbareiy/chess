@@ -1,7 +1,7 @@
 #pragma once
 
-#include "IPiece.h"
-#include "../Coordinate.h"
+#include "../IPiece.h"
+#include "../../Coordinate.h"
 
 #include <memory>
 #include <vector>

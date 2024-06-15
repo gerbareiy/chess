@@ -2,7 +2,7 @@
 
 #include "Counts.h"
 #include "pieces/Bishop.h"
-#include "pieces/ePieceColor.h"
+#include "pieces/logic/ePieceColor.h"
 #include "pieces/IPiece.h"
 #include "pieces/King.h"
 #include "pieces/Knight.h"

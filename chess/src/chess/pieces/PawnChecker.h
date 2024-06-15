@@ -1,9 +1,9 @@
 #pragma once
 
-#include "IMoveChecker.h"
+#include "logic/IMoveChecker.h"
 #include "IPiece.h"
 #include "Pawn.h"
-#include "PieceFinder.h"
+#include "logic/PieceFinder.h"
 
 #include <map>
 #include <memory>
