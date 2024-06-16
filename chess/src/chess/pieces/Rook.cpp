@@ -32,7 +32,7 @@ Chess::Rook::Rook(ePieceColor color, int orderNumber) : m_canMakeCastling(true)
 	}
 }
 
-bool Chess::Rook::get_CanMakeCasting() const
+bool Chess::Rook::get_CanMakeCastling() const
 {
 	return m_canMakeCastling;
 }
@@ -62,4 +62,5 @@ void Chess::Rook::Move(Coordinate to)
 void Chess::Rook::OnCasting(King king)
 {
 	DisableCastling();
+
 }

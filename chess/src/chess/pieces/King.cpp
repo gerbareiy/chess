@@ -25,7 +25,7 @@ Chess::King::King(ePieceColor color)
 	}
 }
 
-bool Chess::King::get_CanMakeCasting() const
+bool Chess::King::get_CanMakeCastling() const
 {
 	return m_canMakeCastling;
 }

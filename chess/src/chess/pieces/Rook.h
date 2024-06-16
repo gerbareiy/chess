@@ -3,12 +3,13 @@
 #include "logic/ePieceColor.h"
 #include "IPiece.h"
 #include "King.h"
+#include "logic/ICastlable.h"
 #include "logic/PieceColorAndType.h"
 #include "../logic/Coordinate.h"
 
 namespace Chess
 {
-	class Rook : public IPiece
+	class Rook : public IPiece, public ICastable
 	{
 	private:
 		bool m_canMakeCastling = false;
@@ -19,7 +20,7 @@ namespace Chess
 		Rook(ePieceColor pieceColor, int orderNumber);
 
 	public:
-		bool get_CanMakeCasting() const;
+		bool get_CanMakeCastling() const override;
 		PieceColorAndType get_ColorAndType() const override;
 		Coordinate get_Position() const override;
 
@@ -28,6 +29,6 @@ namespace Chess
 
 	public:
 		void Move(Coordinate to) override;
-		void OnCasting(King king);
+		void OnCasting(King king) override;
 	};
 }

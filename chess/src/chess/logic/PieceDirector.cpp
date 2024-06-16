@@ -18,25 +18,25 @@ Chess::PieceDirector::PieceDirector()
 
 	for (auto i = 1; i <= COUNT_OF_BISHOP_KNIGHT_ROOK_WITH_1_COLOR; ++i)
 	{
-		m_piecesOnBoard.push_back(std::make_shared<Bishop>(ePieceColor::BLACK, i));
-		m_piecesOnBoard.push_back(std::make_shared<Bishop>(ePieceColor::WHITE, i));
-		m_piecesOnBoard.push_back(std::make_shared<Knight>(ePieceColor::BLACK, i));
-		m_piecesOnBoard.push_back(std::make_shared<Knight>(ePieceColor::WHITE, i));
-		m_piecesOnBoard.push_back(std::make_shared<Rook>(ePieceColor::BLACK, i));
-		m_piecesOnBoard.push_back(std::make_shared<Rook>(ePieceColor::WHITE, i));
+		m_piecesOnBoard.emplace_back(new Bishop(ePieceColor::BLACK, i));
+		m_piecesOnBoard.emplace_back(new Bishop(ePieceColor::WHITE, i));
+		m_piecesOnBoard.emplace_back(new Knight(ePieceColor::BLACK, i));
+		m_piecesOnBoard.emplace_back(new Knight(ePieceColor::WHITE, i));
+		m_piecesOnBoard.emplace_back(new Rook(ePieceColor::BLACK, i));
+		m_piecesOnBoard.emplace_back(new Rook(ePieceColor::WHITE, i));
 	}
 
-	m_piecesOnBoard.push_back(std::make_shared<King>(ePieceColor::BLACK));
-	m_piecesOnBoard.push_back(std::make_shared<King>(ePieceColor::WHITE));
+	m_piecesOnBoard.emplace_back(new King(ePieceColor::BLACK));
+	m_piecesOnBoard.emplace_back(new King(ePieceColor::WHITE));
 
 	for (auto i = 0; i < CHESSBOARD_SIZE; ++i)
 	{
-		m_piecesOnBoard.push_back(std::make_shared<Pawn>(ePieceColor::BLACK, 'A' + i));
-		m_piecesOnBoard.push_back(std::make_shared<Pawn>(ePieceColor::WHITE, 'A' + i));
+		m_piecesOnBoard.emplace_back(new Pawn(ePieceColor::BLACK, 'A' + i));
+		m_piecesOnBoard.emplace_back(new Pawn(ePieceColor::WHITE, 'A' + i));
 	}
 
-	m_piecesOnBoard.push_back(std::make_shared<Queen>(ePieceColor::BLACK));
-	m_piecesOnBoard.push_back(std::make_shared<Queen>(ePieceColor::WHITE));
+	m_piecesOnBoard.emplace_back(new Queen(ePieceColor::BLACK));
+	m_piecesOnBoard.emplace_back(new Queen(ePieceColor::WHITE));
 }
 
 const std::shared_ptr<Chess::IPiece>& Chess::PieceDirector::get_CurrentPiece() const
@@ -56,7 +56,7 @@ const std::vector<std::shared_ptr<Chess::IPiece>>& Chess::PieceDirector::get_Pie
 
 void Chess::PieceDirector::Take(size_t indexOnBoard)
 {
-	m_eatenPieces.push_back(std::move(m_piecesOnBoard[indexOnBoard]));
+	m_eatenPieces.emplace_back(std::move(m_piecesOnBoard[indexOnBoard]));
 	m_piecesOnBoard.erase(m_piecesOnBoard.begin() + indexOnBoard);
 }
 

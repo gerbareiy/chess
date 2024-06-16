@@ -158,6 +158,9 @@
     <ClInclude Include="src\chess\logic\MoveValidator.h" />
     <ClInclude Include="src\chess\logic\PieceDirector.h" />
     <ClInclude Include="src\chess\pieces\logic\BishopQueenRookDirectionChecker.h" />
+    <ClInclude Include="src\chess\pieces\logic\ICanMakeCastingGetter.h" />
+    <ClInclude Include="src\chess\pieces\logic\ICastlable.h" />
+    <ClInclude Include="src\chess\pieces\logic\IKing.h" />
     <ClInclude Include="src\chess\pieces\logic\MoveChecker.h" />
     <ClInclude Include="src\chess\pieces\QueenChecker.h" />
     <ClInclude Include="src\chess\pieces\BishopChecker.h" />

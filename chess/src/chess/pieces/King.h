@@ -1,13 +1,14 @@
 #pragma once
 
-#include "logic/ePieceColor.h"
 #include "IPiece.h"
+#include "logic/ePieceColor.h"
+#include "logic/IKing.h"
 #include "logic/PieceColorAndType.h"
 #include "../logic/Coordinate.h"
 
 namespace Chess
 {
-	class King : public IPiece
+	class King : public IPiece, public IKing
 	{
 	private:
 		bool m_canMakeCastling = true;
@@ -19,9 +20,9 @@ namespace Chess
 		King(ePieceColor color);
 
 	public:
-		bool get_CanMakeCasting() const;
+		bool get_CanMakeCastling() const;
 		PieceColorAndType get_ColorAndType() const override;
-		bool get_IsCheck() const;
+		bool get_IsCheck() const override;
 		Coordinate get_Position() const override;
 
 	private:

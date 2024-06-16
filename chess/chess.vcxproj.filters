@@ -224,5 +224,14 @@
     <ClInclude Include="src\chess\pieces\logic\MoveChecker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\chess\pieces\logic\ICastlable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\logic\IKing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\logic\ICanMakeCastingGetter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

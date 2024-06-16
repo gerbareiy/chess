@@ -1,6 +1,7 @@
 #include "KingChecker.h"
 
 #include "logic/ePieceType.h"
+#include "logic/ICanMakeCastingGetter.h"
 #include "../logic/Counts.h"
 #include "../logic/eError.h"
 #include "../logic/ErrorConverter.h"
@@ -9,64 +10,104 @@
 #include <algorithm>
 #include <stdexcept>
 
-std::vector<Chess::Coordinate> Chess::KingChecker::FilterMoves(std::vector<Coordinate> moves, const std::shared_ptr<King>& king, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::KingChecker::FindCastlingMoves(const std::shared_ptr<King>& king, const std::shared_ptr<PieceFinder>& finder)
 {
-	//std::vector<Chess::Coordinate> filteredMoves;
-	//filteredMoves.reserve(COUNT_OF_KING_WAYS);
+    std::vector<Coordinate> castlingMoves;
 
-	//for (const auto& move : moves)
-	//{
-	//	auto pieceIterator = std::find_if(piecesOnBoard.begin(), piecesOnBoard.end(), [move, king](const std::shared_ptr<IPiece> piece)
-	//		{
-	//			return piece->get_Position() == move && piece->get_ColorAndType().get_Color() == king->get_ColorAndType().get_Color();
+    if (!king->get_IsCheck() && king->get_CanMakeCastling())
+    {
+        auto leftRook = finder->Find(Coordinate('A', king->get_Position().get_Rank()));
+        auto rightRook = finder->Find(Coordinate('A' + CHESSBOARD_SIZE - 1, king->get_Position().get_Rank()));
 
-	//			//TODO: Remake this logic -> maybe bug
-	//		});
+        bool canCastleLeft = leftRook && std::dynamic_pointer_cast<ICanMakeCastlingGetter>(leftRook)
+            && std::dynamic_pointer_cast<ICanMakeCastlingGetter>(leftRook)->get_CanMakeCastling()
+            && leftRook->get_ColorAndType().get_Color() == king->get_ColorAndType().get_Color();
 
-	//	if (pieceIterator == piecesOnBoard.end())
-	//	{
-	//		filteredMoves.push_back(move);
-	//	}
-	//}
+        bool canCastleRight = rightRook && std::dynamic_pointer_cast<ICanMakeCastlingGetter>(rightRook)
+            && std::dynamic_pointer_cast<ICanMakeCastlingGetter>(rightRook)->get_CanMakeCastling()
+            && rightRook->get_ColorAndType().get_Color() == king->get_ColorAndType().get_Color();
 
-	return std::vector<Coordinate>();
+        if (canCastleLeft)
+        {
+            bool pathClear = true;
+            for (char file = 'B'; file < king->get_Position().get_File(); ++file)
+            {
+                if (finder->Find(Coordinate(file, king->get_Position().get_Rank())))
+                {
+                    pathClear = false;
+                    break;
+                }
+            }
+
+            if (pathClear)
+            {
+                castlingMoves.emplace_back(king->get_Position().get_File() - 2, king->get_Position().get_Rank());
+            }
+        }
+
+        if (canCastleRight)
+        {
+            bool pathClear = true;
+            for (char file = king->get_Position().get_File() + 1; file < 'A' + CHESSBOARD_SIZE - 1; ++file)
+            {
+                if (finder->Find(Coordinate(file, king->get_Position().get_Rank())))
+                {
+                    pathClear = false;
+                    break;
+                }
+            }
+
+            if (pathClear)
+            {
+                castlingMoves.emplace_back(king->get_Position().get_File() + 2, king->get_Position().get_Rank());
+            }
+        }
+    }
+
+    return castlingMoves;
 }
 
-std::vector<Chess::Coordinate> Chess::KingChecker::FindPossibleMoves(const std::shared_ptr<King>& king)
+std::vector<Chess::Coordinate> Chess::KingChecker::FindPossibleMoves(const std::shared_ptr<King>& king, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
-	if (king->get_Position().get_File() < 'A'
-		|| king->get_Position().get_File() > 'A' + CHESSBOARD_SIZE - 1
-		|| king->get_Position().get_Rank() < 1
-		|| king->get_Position().get_Rank() > CHESSBOARD_SIZE)
-	{
-		throw std::out_of_range(ErrorConverter::ToString(Chess::eError::OUT_OF_CHESSBOARD));
-	}
+    if (king->get_Position().get_File() < 'A'
+        || king->get_Position().get_File() > 'A' + CHESSBOARD_SIZE - 1
+        || king->get_Position().get_Rank() < 1
+        || king->get_Position().get_Rank() > CHESSBOARD_SIZE)
+    {
+        throw std::out_of_range(ErrorConverter::ToString(Chess::eError::OUT_OF_CHESSBOARD));
+    }
 
-	std::vector<Coordinate> moves;
-	moves.reserve(COUNT_OF_KING_WAYS);
+    std::vector<Coordinate> moves;
+    moves.reserve(COUNT_OF_KING_WAYS);
 
-	for (auto deltaFile = -1; deltaFile <= 1; ++deltaFile)
-	{
-		for (auto deltaRank = -1; deltaRank <= 1; ++deltaRank)
-		{
-			if (deltaFile == 0 && deltaRank == 0)
-			{
-				continue;
-			}
+    const auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
 
-			auto newFile = king->get_Position().get_File() + deltaFile;
-			auto newRank = king->get_Position().get_Rank() + deltaRank;
+    for (auto deltaFile = -1; deltaFile <= 1; ++deltaFile)
+    {
+        for (auto deltaRank = -1; deltaRank <= 1; ++deltaRank)
+        {
+            if (deltaFile == 0 && deltaRank == 0)
+            {
+                continue;
+            }
 
-			if (newFile >= 'A' && newFile <= 'A' + CHESSBOARD_SIZE - 1 && newRank >= 1 && newRank <= CHESSBOARD_SIZE)
-			{
-				moves.push_back(Coordinate(newFile, newRank));
-			}
-		}
-	}
+            auto newFile = king->get_Position().get_File() + deltaFile;
+            auto newRank = king->get_Position().get_Rank() + deltaRank;
 
-	//TODO:: Add a castling logic
+            auto piece = finder->Find(Coordinate(newFile, newRank));
 
-	return moves;
+            if (newFile >= 'A' && newFile <= 'A' + CHESSBOARD_SIZE - 1 && newRank >= 1 && newRank <= CHESSBOARD_SIZE
+                && (!piece || piece->get_ColorAndType().get_Color() != king->get_ColorAndType().get_Color()))
+            {
+                moves.emplace_back(newFile, newRank);
+            }
+        }
+    }
+
+    auto castlingMoves = FindCastlingMoves(king, finder);
+    moves.insert(moves.end(), castlingMoves.begin(), castlingMoves.end());
+
+    return moves;
 }
 
 std::vector<Chess::Coordinate> Chess::KingChecker::GetPossibleMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
@@ -76,7 +117,5 @@ std::vector<Chess::Coordinate> Chess::KingChecker::GetPossibleMoves(const std::s
 		throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
 	}
 
-	auto allMoves = FindPossibleMoves(std::static_pointer_cast<King>(piece));
-
-	return FilterMoves(allMoves, std::static_pointer_cast<King>(piece), piecesOnBoard);
+	return FindPossibleMoves(std::static_pointer_cast<King>(piece), piecesOnBoard);
 }
