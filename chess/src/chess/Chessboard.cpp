@@ -27,18 +27,6 @@ const std::shared_ptr<Chess::MoveValidator>& Chess::Chessboard::get_MoveValidato
 	return m_validator;
 }
 
-Chess::PieceColorAndType Chess::Chessboard::GetPieceColorAndType(const Coordinate& from) const
-{
-	auto piece = m_director->GetPiece(from);
-
-	if (!piece)
-	{
-		return PieceColorAndType();
-	}
-
-	return piece->get_ColorAndType();
-}
-
 bool Chess::Chessboard::TryInitPiece(const Coordinate& from)
 {
 	m_director->InitCurrantPiece(from);

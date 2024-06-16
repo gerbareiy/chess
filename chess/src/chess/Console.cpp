@@ -102,7 +102,7 @@ void Chess::Console::DisplayChessboard()
 
 		for (auto x = 'A'; x < 'A' + CHESSBOARD_SIZE; ++x)
 		{
-			auto colorAndType = m_chessboard->GetPieceColorAndType(Coordinate(x, y));
+			auto colorAndType = m_chessboard->get_PieceDirector()->GetPieceColorAndType(Coordinate(x, y));
 			auto textColor = colorAndType.get_Color() == ePieceColor::BLACK ? eConsoleColor::BLACK
 				: (colorAndType.get_Color() == ePieceColor::WHITE ? eConsoleColor::WHITE : static_cast<eConsoleColor>(originalTextColor));
 

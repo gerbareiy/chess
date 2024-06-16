@@ -6,6 +6,7 @@
 #include "../pieces/King.h"
 #include "../pieces/Knight.h"
 #include "../pieces/logic/ePieceColor.h"
+#include "../pieces/logic/PieceColorAndType.h"
 #include "../pieces/Pawn.h"
 #include "../pieces/Queen.h"
 #include "../pieces/Rook.h"
@@ -57,6 +58,18 @@ void Chess::PieceDirector::Take(size_t indexOnBoard)
 {
 	m_eatenPieces.push_back(std::move(m_piecesOnBoard[indexOnBoard]));
 	m_piecesOnBoard.erase(m_piecesOnBoard.begin() + indexOnBoard);
+}
+
+Chess::PieceColorAndType Chess::PieceDirector::GetPieceColorAndType(const Coordinate& from) const
+{
+	auto piece = GetPiece(from);
+
+	if (!piece)
+	{
+		return PieceColorAndType();
+	}
+
+	return piece->get_ColorAndType();
 }
 
 std::shared_ptr<Chess::IPiece> Chess::PieceDirector::GetPiece(const Coordinate& from) const

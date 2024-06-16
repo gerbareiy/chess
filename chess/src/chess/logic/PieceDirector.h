@@ -27,6 +27,7 @@ namespace Chess
 		void Take(size_t indexOnBoard);
 
 	public:
+		PieceColorAndType GetPieceColorAndType(const Coordinate& from) const;
 		std::shared_ptr<Chess::IPiece> GetPiece(const Coordinate& from) const;
 		void InitCurrantPiece(const Coordinate& from);
 		void MovePiece(const Coordinate& to);
