@@ -10,12 +10,15 @@
 #include "../logic/Coordinate.h"
 #include <stdio.h>
 
+#include <boost/signals2.hpp>
+
 namespace Chess
 {
 	class Rook : public IPiece, public ICastable
 	{
 	private:
 		bool m_canMakeCastling = false;
+		boost::signals2::connection m_castlingConnection;
 		PieceColorAndType m_colorAndType{};
 		Coordinate m_position{};
 
@@ -33,6 +36,6 @@ namespace Chess
 
 	public:
 		void Move(Coordinate to) override;
-		void OnCasting(Coordinate to, eCastleSide side) override;
+		void OnCastling(Coordinate to, eCastleSide side) override;
 	};
 }

@@ -15,6 +15,6 @@ namespace Chess
 		virtual bool get_CanMakeCastling() const = 0;
 
 	public:
-		virtual void OnCasting(Coordinate to, eCastleSide side) = 0;
+		virtual void OnCastling(Coordinate to, eCastleSide side) = 0;
 	};
 }

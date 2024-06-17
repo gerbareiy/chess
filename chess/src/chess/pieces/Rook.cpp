@@ -39,10 +39,7 @@ Chess::Rook::Rook(ePieceColor pieceColor, int orderNumber, std::shared_ptr<King>
 		return;
 	}
 
-	king->ConnectCastling([this](Coordinate to, eCastleSide side)
-		{
-			this->OnCasting(to, side);
-		});
+	m_castlingConnection = king->ConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 bool Chess::Rook::get_CanMakeCastling() const
@@ -72,7 +69,7 @@ void Chess::Rook::Move(Coordinate to)
 	m_position = to;
 }
 
-void Chess::Rook::OnCasting(Coordinate to, eCastleSide side)
+void Chess::Rook::OnCastling(Coordinate to, eCastleSide side)
 {
 	if (get_CanMakeCastling())
 	{
@@ -85,4 +82,6 @@ void Chess::Rook::OnCasting(Coordinate to, eCastleSide side)
 			Move(Coordinate(to.get_File() - 1, to.get_Rank()));
 		}
 	}
+
+	m_castlingConnection.disconnect();
 }
