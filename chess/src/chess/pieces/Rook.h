@@ -3,9 +3,12 @@
 #include "logic/ePieceColor.h"
 #include "IPiece.h"
 #include "King.h"
+#include "logic/eCastleSide.h"
 #include "logic/ICastlable.h"
+#include "logic/IKing.h"
 #include "logic/PieceColorAndType.h"
 #include "../logic/Coordinate.h"
+#include <stdio.h>
 
 namespace Chess
 {
@@ -18,6 +21,7 @@ namespace Chess
 
 	public:
 		Rook(ePieceColor pieceColor, int orderNumber);
+		Rook(ePieceColor pieceColor, int orderNumber, std::shared_ptr<King> king);
 
 	public:
 		bool get_CanMakeCastling() const override;
@@ -29,6 +33,6 @@ namespace Chess
 
 	public:
 		void Move(Coordinate to) override;
-		void OnCasting(King king) override;
+		void OnCasting(Coordinate to, eCastleSide side) override;
 	};
 }

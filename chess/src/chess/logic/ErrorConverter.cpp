@@ -10,6 +10,8 @@ std::string Chess::ErrorConverter::ToString(eError error)
 		return "Wrong order number was entered";
 	case eError::NOT_CORRECT_PIECE:
 		return "Piece is not correct";
+	case eError::NOT_CORRECT_MOVE:
+		return "Move is imposible";
 	default:
 		return "Unknown error";
 	}

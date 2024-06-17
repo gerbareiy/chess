@@ -1,5 +1,6 @@
 #pragma once
 
+#include "eCastleSide.h"
 #include "ICanMakeCastingGetter.h"
 #include "../King.h"
 
@@ -14,6 +15,6 @@ namespace Chess
 		virtual bool get_CanMakeCastling() const = 0;
 
 	public:
-		virtual void OnCasting(King king) = 0;
+		virtual void OnCasting(Coordinate to, eCastleSide side) = 0;
 	};
 }

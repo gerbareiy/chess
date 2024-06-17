@@ -19,17 +19,17 @@ std::vector<Chess::Coordinate> Chess::KingChecker::FindCastlingMoves(const std::
         auto leftRook = finder->Find(Coordinate('A', king->get_Position().get_Rank()));
         auto rightRook = finder->Find(Coordinate('A' + CHESSBOARD_SIZE - 1, king->get_Position().get_Rank()));
 
-        bool canCastleLeft = leftRook && std::dynamic_pointer_cast<ICanMakeCastlingGetter>(leftRook)
+        auto canCastleLeft = leftRook && std::dynamic_pointer_cast<ICanMakeCastlingGetter>(leftRook)
             && std::dynamic_pointer_cast<ICanMakeCastlingGetter>(leftRook)->get_CanMakeCastling()
             && leftRook->get_ColorAndType().get_Color() == king->get_ColorAndType().get_Color();
 
-        bool canCastleRight = rightRook && std::dynamic_pointer_cast<ICanMakeCastlingGetter>(rightRook)
+        auto canCastleRight = rightRook && std::dynamic_pointer_cast<ICanMakeCastlingGetter>(rightRook)
             && std::dynamic_pointer_cast<ICanMakeCastlingGetter>(rightRook)->get_CanMakeCastling()
             && rightRook->get_ColorAndType().get_Color() == king->get_ColorAndType().get_Color();
 
         if (canCastleLeft)
         {
-            bool pathClear = true;
+            auto pathClear = true;
             for (char file = 'B'; file < king->get_Position().get_File(); ++file)
             {
                 if (finder->Find(Coordinate(file, king->get_Position().get_Rank())))
@@ -47,7 +47,7 @@ std::vector<Chess::Coordinate> Chess::KingChecker::FindCastlingMoves(const std::
 
         if (canCastleRight)
         {
-            bool pathClear = true;
+            auto pathClear = true;
             for (char file = king->get_Position().get_File() + 1; file < 'A' + CHESSBOARD_SIZE - 1; ++file)
             {
                 if (finder->Find(Coordinate(file, king->get_Position().get_Rank())))
