@@ -12,7 +12,7 @@ Chess::Rook::Rook(ePieceColor color, int orderNumber) : m_canMakeCastling(true)
 {
 	if (orderNumber < 1 || orderNumber > 2)
 	{
-		throw std::out_of_range(ErrorConverter::ToString(Chess::eError::OUT_OF_COUNT_OF_BISHOP_KNIGHT_ROOK_WITH_1_COLOR));
+		throw std::out_of_range(ErrorConverter::ToString(Chess::eError::OUT_OF_COUNT_OF_BISHOP_KNIGHT_ROOK_WITH_ONE_COLOR));
 	}
 
 	m_colorAndType = PieceColorAndType(color, ePieceType::ROOK);
@@ -32,7 +32,7 @@ Chess::Rook::Rook(ePieceColor color, int orderNumber) : m_canMakeCastling(true)
 	}
 }
 
-Chess::Rook::Rook(ePieceColor pieceColor, int orderNumber, std::shared_ptr<King> king) : Rook(pieceColor, orderNumber)
+Chess::Rook::Rook(ePieceColor pieceColor, int orderNumber, std::shared_ptr<IKing> king) : Rook(pieceColor, orderNumber)
 {
 	if (!king)
 	{
@@ -62,13 +62,6 @@ void Chess::Rook::DisableCastling()
 	m_canMakeCastling = false;
 }
 
-void Chess::Rook::Move(Coordinate to)
-{
-	DisableCastling();
-
-	m_position = to;
-}
-
 void Chess::Rook::OnCastling(Coordinate to, eCastleSide side)
 {
 	if (get_CanMakeCastling())
@@ -84,4 +77,11 @@ void Chess::Rook::OnCastling(Coordinate to, eCastleSide side)
 	}
 
 	m_castlingConnection.disconnect();
+}
+
+void Chess::Rook::Move(Coordinate to)
+{
+	DisableCastling();
+
+	m_position = to;
 }

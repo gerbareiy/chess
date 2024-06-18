@@ -26,6 +26,22 @@ Chess::Pawn::Pawn(ePieceColor color, char file) : m_colorAndType(color, ePieceTy
 	}
 }
 
+Chess::Pawn::Pawn(ePieceColor color, char file, PieceDirector* director) : Pawn(color, file)
+{
+	if (!director)
+	{
+		return;
+	}
+
+	director->ConnectMove([this]()
+		{
+			if (!m_isThisPawnFirstMove)
+			{
+				LostEnPassant();
+			}
+		});
+}
+
 bool Chess::Pawn::get_CanEnPassant() const
 {
 	return m_canEnPassant;
@@ -61,7 +77,8 @@ void Chess::Pawn::Move(Coordinate to)
 	{
 		LostEnPassant();
 	}
-	
+
+	m_isThisPawnFirstMove = m_isNotMoved;
 	m_isNotMoved = false;
 	m_position = to;
 }

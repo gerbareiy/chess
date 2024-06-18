@@ -50,11 +50,6 @@ void Chess::King::DisableCastling()
 	m_canMakeCastling = false;
 }
 
-boost::signals2::connection Chess::King::ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber)
-{
-	return m_signalCastling.connect(subscriber);
-}
-
 void Chess::King::Move(Coordinate to)
 {
 	DisableCastling();
@@ -80,4 +75,9 @@ void Chess::King::Move(Coordinate to)
 	}
 
 	m_position = to;
+}
+
+boost::signals2::connection Chess::King::ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber)
+{
+	return m_signalCastling.connect(subscriber);
 }

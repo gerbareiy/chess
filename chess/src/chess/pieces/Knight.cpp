@@ -12,7 +12,7 @@ Chess::Knight::Knight(ePieceColor color, int orderNumber)
 {
 	if (orderNumber < 1 || orderNumber > 2)
 	{
-		throw std::out_of_range(ErrorConverter::ToString(Chess::eError::OUT_OF_COUNT_OF_BISHOP_KNIGHT_ROOK_WITH_1_COLOR));
+		throw std::out_of_range(ErrorConverter::ToString(Chess::eError::OUT_OF_COUNT_OF_BISHOP_KNIGHT_ROOK_WITH_ONE_COLOR));
 	}
 
 	m_colorAndType = PieceColorAndType(color, ePieceType::KNIGHT);

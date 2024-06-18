@@ -24,7 +24,7 @@ namespace Chess
 
 	public:
 		Rook(ePieceColor pieceColor, int orderNumber);
-		Rook(ePieceColor pieceColor, int orderNumber, std::shared_ptr<King> king);
+		Rook(ePieceColor pieceColor, int orderNumber, std::shared_ptr<IKing> king);
 
 	public:
 		bool get_CanMakeCastling() const override;
@@ -33,9 +33,9 @@ namespace Chess
 
 	private:
 		void DisableCastling();
+		void OnCastling(Coordinate to, eCastleSide side);
 
 	public:
 		void Move(Coordinate to) override;
-		void OnCastling(Coordinate to, eCastleSide side) override;
 	};
 }

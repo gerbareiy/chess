@@ -1,5 +1,6 @@
 #include "KnightChecker.h"
 
+#include "logic/PieceFinder.h"
 #include "../logic/Counts.h"
 #include "../logic/eError.h"
 #include "../logic/ErrorConverter.h"
@@ -22,6 +23,7 @@ std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std
 	moves.reserve(COUNT_OF_KNIGHT_WAYS);
 
 	auto currentPos = knight->get_Position();
+	auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
 
 	for (const auto& move : m_knightMoveDirections)
 	{
@@ -33,19 +35,9 @@ std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std
 			continue;
 		}
 
-		auto isBlocked = false;
+		auto piece = finder->Find(Coordinate(newFile, newRank));
 
-		for (const auto& piece : piecesOnBoard)
-		{
-			if (piece->get_Position() == Coordinate(newFile, newRank)
-				&& piece->get_ColorAndType().get_Color() == knight->get_ColorAndType().get_Color())
-			{
-				isBlocked = true;
-				break;
-			}
-		}
-
-		if (!isBlocked)
+		if (!piece || piece->get_ColorAndType().get_Color() != knight->get_ColorAndType().get_Color())
 		{
 			moves.emplace_back(newFile, newRank);
 		}

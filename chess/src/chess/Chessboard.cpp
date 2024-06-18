@@ -29,7 +29,7 @@ const std::shared_ptr<Chess::MoveValidator>& Chess::Chessboard::get_MoveValidato
 
 bool Chess::Chessboard::TryInitPiece(const Coordinate& from)
 {
-	m_director->InitCurrantPiece(from);
+	m_director->InitCurrentPiece(from);
 	
 	if (!m_director->get_CurrentPiece())
 	{

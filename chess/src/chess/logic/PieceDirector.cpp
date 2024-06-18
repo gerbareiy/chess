@@ -7,6 +7,7 @@
 #include "../pieces/Knight.h"
 #include "../pieces/logic/ePieceColor.h"
 #include "../pieces/logic/PieceColorAndType.h"
+#include "../pieces/logic/PieceFinder.h"
 #include "../pieces/Pawn.h"
 #include "../pieces/Queen.h"
 #include "../pieces/Rook.h"
@@ -34,8 +35,8 @@ Chess::PieceDirector::PieceDirector()
 
 	for (auto i = 0; i < CHESSBOARD_SIZE; ++i)
 	{
-		m_piecesOnBoard.emplace_back(new Pawn(ePieceColor::BLACK, 'A' + i));
-		m_piecesOnBoard.emplace_back(new Pawn(ePieceColor::WHITE, 'A' + i));
+		m_piecesOnBoard.emplace_back(new Pawn(ePieceColor::BLACK, 'A' + i, this));
+		m_piecesOnBoard.emplace_back(new Pawn(ePieceColor::WHITE, 'A' + i, this));
 	}
 
 	m_piecesOnBoard.emplace_back(new Queen(ePieceColor::BLACK));
@@ -88,22 +89,48 @@ std::shared_ptr<Chess::IPiece> Chess::PieceDirector::GetPiece(const Coordinate& 
 	return nullptr;
 }
 
-void Chess::PieceDirector::InitCurrantPiece(const Coordinate& from)
+void Chess::PieceDirector::InitCurrentPiece(const Coordinate& from)
 {
 	m_currentPiece = GetPiece(from);
 }
 
 void Chess::PieceDirector::MovePiece(const Coordinate& to)
 {
-	auto it = std::find_if(m_piecesOnBoard.begin(), m_piecesOnBoard.end(), [to](std::shared_ptr<IPiece> current)
-		{
-			return current->get_Position() == to;
-		});
+	auto pawnOnPassCoordinate = Coordinate(to.get_File(), get_CurrentPiece()->get_Position().get_Rank());
+	auto finder = std::make_shared<PieceFinder>(m_piecesOnBoard);
+	auto currentPawn = std::dynamic_pointer_cast<Pawn>(get_CurrentPiece());
+	auto opponentPawn = std::dynamic_pointer_cast<Pawn>(finder->Find(pawnOnPassCoordinate));
+	auto carrentColor = m_currentPiece->get_ColorAndType().get_Color();
 
-	if (it != m_piecesOnBoard.end())
+	auto takeIfCurrentPosition = [&](Coordinate takeFrom)
+		{
+			auto it = std::find_if(m_piecesOnBoard.begin(), m_piecesOnBoard.end(), [takeFrom](std::shared_ptr<IPiece> current)
+				{
+					return current->get_Position() == takeFrom;
+				});
+
+			if (it != m_piecesOnBoard.end())
+			{
+				Take(std::distance(m_piecesOnBoard.begin(), it));
+			}
+		};
+
+	if (currentPawn && opponentPawn
+		&& opponentPawn->get_CanEnPassant()
+		&& opponentPawn->get_ColorAndType().get_Color() != currentPawn->get_ColorAndType().get_Color())
 	{
-		Take(std::distance(m_piecesOnBoard.begin(), it));
+		takeIfCurrentPosition(pawnOnPassCoordinate);
+	}
+	else
+	{
+		takeIfCurrentPosition(to);
 	}
 
 	m_currentPiece->Move(to);
+	m_moveSignal();
+}
+
+boost::signals2::connection Chess::PieceDirector::ConnectMove(const boost::signals2::signal<void()>::slot_type& subscriber)
+{
+	return m_moveSignal.connect(subscriber);
 }

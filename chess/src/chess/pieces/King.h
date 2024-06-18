@@ -1,6 +1,5 @@
 #pragma once
 
-#include "IPiece.h"
 #include "logic/eCastleSide.h"
 #include "logic/ePieceColor.h"
 #include "logic/IKing.h"
@@ -11,13 +10,15 @@
 
 namespace Chess
 {
-	class King : public IPiece, public IKing
+	class King : public IKing
 	{
 	private:
 		bool m_canMakeCastling = true;
 		PieceColorAndType m_colorAndType{};
 		bool m_isCheck = false;
 		Coordinate m_position{};
+
+	private:
 		boost::signals2::signal<void(Coordinate, eCastleSide)> m_signalCastling;
 
 	public:
@@ -33,7 +34,9 @@ namespace Chess
 		void DisableCastling();
 
 	public:
-		boost::signals2::connection ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber) override;
 		void Move(Coordinate to) override;
+
+	public:
+		boost::signals2::connection ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber) override;
 	};
 }

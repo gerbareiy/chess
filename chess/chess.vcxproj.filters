@@ -230,9 +230,6 @@
     <ClInclude Include="src\chess\pieces\logic\IKing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\chess\pieces\logic\ICanMakeCastingGetter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\chess\pieces\logic\eCastleSide.h">
       <Filter>Header Files</Filter>
     </ClInclude>
