@@ -126,6 +126,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\chess\logic\PieceSignalDirector.cpp" />
+    <ClCompile Include="src\chess\logic\PieceInitializer.cpp" />
     <ClCompile Include="src\chess\logic\MoveValidator.cpp" />
     <ClCompile Include="src\chess\logic\PieceDirector.cpp" />
     <ClCompile Include="src\chess\pieces\logic\BishopQueenRookDirectionChecker.cpp" />
@@ -155,6 +157,8 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\chess\logic\PieceSignalDirector.h" />
+    <ClInclude Include="src\chess\logic\PieceInitializer.h" />
     <ClInclude Include="src\chess\logic\MoveValidator.h" />
     <ClInclude Include="src\chess\logic\PieceDirector.h" />
     <ClInclude Include="src\chess\pieces\logic\BishopQueenRookDirectionChecker.h" />

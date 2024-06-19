@@ -132,5 +132,11 @@
     <ClCompile Include="test\chess\pieces\KingCheckerTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\chess\src\chess\logic\PieceSignalDirector.cpp">
+      <Filter>Resource Files\Chess\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\logic\PieceInitializer.cpp">
+      <Filter>Resource Files\Chess\Logic</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

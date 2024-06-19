@@ -12,35 +12,9 @@
 #include "../pieces/Queen.h"
 #include "../pieces/Rook.h"
 
-Chess::PieceDirector::PieceDirector()
+Chess::PieceDirector::PieceDirector(std::vector<std::shared_ptr<IPiece>> piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector) : m_signalDirector(signalDirector), m_piecesOnBoard(piecesOnBoard)
 {
-	m_piecesOnBoard.reserve(MAX_COUNT_ELEMENTS);
 	m_eatenPieces.reserve(MAX_COUNT_ELEMENTS);
-
-	auto blackKing = std::make_shared<King>(ePieceColor::BLACK);
-	auto whiteKing = std::make_shared<King>(ePieceColor::WHITE);
-
-	for (auto i = 1; i <= COUNT_OF_BISHOP_KNIGHT_ROOK_WITH_1_COLOR; ++i)
-	{
-		m_piecesOnBoard.emplace_back(new Bishop(ePieceColor::BLACK, i));
-		m_piecesOnBoard.emplace_back(new Bishop(ePieceColor::WHITE, i));
-		m_piecesOnBoard.emplace_back(new Knight(ePieceColor::BLACK, i));
-		m_piecesOnBoard.emplace_back(new Knight(ePieceColor::WHITE, i));
-		m_piecesOnBoard.emplace_back(new Rook(ePieceColor::BLACK, i, blackKing));
-		m_piecesOnBoard.emplace_back(new Rook(ePieceColor::WHITE, i, whiteKing));
-	}
-
-	m_piecesOnBoard.emplace_back(blackKing);
-	m_piecesOnBoard.emplace_back(whiteKing);
-
-	for (auto i = 0; i < CHESSBOARD_SIZE; ++i)
-	{
-		m_piecesOnBoard.emplace_back(new Pawn(ePieceColor::BLACK, 'A' + i, this));
-		m_piecesOnBoard.emplace_back(new Pawn(ePieceColor::WHITE, 'A' + i, this));
-	}
-
-	m_piecesOnBoard.emplace_back(new Queen(ePieceColor::BLACK));
-	m_piecesOnBoard.emplace_back(new Queen(ePieceColor::WHITE));
 }
 
 const std::shared_ptr<Chess::IPiece>& Chess::PieceDirector::get_CurrentPiece() const
@@ -127,10 +101,5 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to)
 	}
 
 	m_currentPiece->Move(to);
-	m_moveSignal();
-}
-
-boost::signals2::connection Chess::PieceDirector::ConnectMove(const boost::signals2::signal<void()>::slot_type& subscriber)
-{
-	return m_moveSignal.connect(subscriber);
+	m_signalDirector->Invite();
 }

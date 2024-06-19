@@ -10,10 +10,13 @@
 #include "pieces/Queen.h"
 #include "pieces/Rook.h"
 #include "logic/Sizes.h"
+#include "logic/PieceInitializer.h"
+#include "logic/PieceSignalDirector.h"
 
 Chess::Chessboard::Chessboard()
 {
-	m_director = std::make_shared<PieceDirector>();
+	auto signalDirector = std::make_shared<PieceSignalDirector>();
+	m_director = std::make_shared<PieceDirector>(std::make_unique<PieceInitializer>()->Init(signalDirector), signalDirector);
 	m_validator = std::make_shared<MoveValidator>();
 }
 

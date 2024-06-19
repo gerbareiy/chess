@@ -27,6 +27,8 @@
     <ClCompile Include="..\chess\src\chess\logic\ErrorConverter.cpp" />
     <ClCompile Include="..\chess\src\chess\logic\MoveValidator.cpp" />
     <ClCompile Include="..\chess\src\chess\logic\PieceDirector.cpp" />
+    <ClCompile Include="..\chess\src\chess\logic\PieceInitializer.cpp" />
+    <ClCompile Include="..\chess\src\chess\logic\PieceSignalDirector.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\Bishop.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\BishopChecker.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\King.cpp" />
