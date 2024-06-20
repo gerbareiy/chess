@@ -7,7 +7,6 @@
 #include "../logic/ErrorConverter.h"
 
 #include <memory>
-#include <stdexcept>
 
 std::vector<Chess::Coordinate> Chess::BishopChecker::FindPossibleMoves(const std::shared_ptr<Bishop>& bishop, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
@@ -34,7 +33,7 @@ std::vector<Chess::Coordinate> Chess::BishopChecker::GetPossibleMoves(const std:
 {
 	if (!piece || typeid(*piece) != typeid(Bishop) || piece->get_ColorAndType().get_Type() != ePieceType::BISHOP)
 	{
-		throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
+		return std::vector<Coordinate>();
 	}
 
 	return FindPossibleMoves(std::static_pointer_cast<Bishop>(piece), piecesOnBoard);

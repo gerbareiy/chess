@@ -8,7 +8,6 @@
 #include "logic/PositionChecker.h"
 
 #include <memory>
-#include <stdexcept>
 
 std::vector<Chess::Coordinate> Chess::QueenChecker::FindPossibleMoves(const std::shared_ptr<Queen>& queen, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
@@ -43,7 +42,7 @@ std::vector<Chess::Coordinate> Chess::QueenChecker::GetPossibleMoves(const std::
 {
 	if (!piece || typeid(*piece) != typeid(Queen) || piece->get_ColorAndType().get_Type() != ePieceType::QUEEN)
 	{
-		throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
+		return std::vector<Coordinate>();
 	}
 
 	return FindPossibleMoves(std::static_pointer_cast<Queen>(piece), piecesOnBoard);

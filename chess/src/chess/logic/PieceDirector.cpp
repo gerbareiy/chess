@@ -12,7 +12,8 @@
 #include "../pieces/Queen.h"
 #include "../pieces/Rook.h"
 
-Chess::PieceDirector::PieceDirector(std::vector<std::shared_ptr<IPiece>> piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector) : m_signalDirector(signalDirector), m_piecesOnBoard(piecesOnBoard)
+Chess::PieceDirector::PieceDirector(std::vector<std::shared_ptr<IPiece>> piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector)
+	: m_piecesOnBoard(piecesOnBoard), m_signalDirector(signalDirector)
 {
 	m_eatenPieces.reserve(MAX_COUNT_ELEMENTS);
 }

@@ -129,14 +129,14 @@
     <ClCompile Include="..\chess\src\chess\logic\Coordinate.cpp">
       <Filter>Resource Files\Chess\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="test\chess\pieces\KingCheckerTests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\chess\src\chess\logic\PieceSignalDirector.cpp">
       <Filter>Resource Files\Chess\Logic</Filter>
     </ClCompile>
     <ClCompile Include="..\chess\src\chess\logic\PieceInitializer.cpp">
       <Filter>Resource Files\Chess\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="test\chess\pieces\KingCheckerTests.cpp">
+      <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

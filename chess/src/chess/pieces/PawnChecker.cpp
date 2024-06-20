@@ -106,7 +106,7 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetPossibleMoves(const std::s
 {
 	if (!piece || typeid(*piece) != typeid(Pawn) || piece->get_ColorAndType().get_Type() != ePieceType::PAWN)
 	{
-		throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
+		return std::vector<Coordinate>();
 	}
 
 	std::vector<Coordinate> allMoves;
