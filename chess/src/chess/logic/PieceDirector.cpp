@@ -1,6 +1,7 @@
 #include "PieceDirector.h"
 
 #include "Counts.h"
+#include "CheckChecker.h"
 #include "Sizes.h"
 #include "PieceTakeLocator.h"
 #include "../pieces/Bishop.h"
@@ -86,4 +87,7 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to)
 
 	m_currentPiece->Move(to);
 	m_signalDirector->Invite();
+
+	auto checkChecker = std::make_unique<CheckChecker>(std::make_shared<MoveChecker>());
+	m_signalDirector->Invite(checkChecker->IsCheck(m_currentPiece->get_ColorAndType().get_Color(), m_piecesOnBoard));
 }

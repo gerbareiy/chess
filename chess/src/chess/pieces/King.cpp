@@ -4,7 +4,6 @@
 #include "../logic/ErrorConverter.h"
 #include "../logic/Sizes.h"
 
-#include <iostream>
 #include <math.h>
 #include <stdexcept>
 
@@ -23,6 +22,19 @@ Chess::King::King(ePieceColor color)
 	default:
 		throw std::out_of_range(ErrorConverter::ToString(Chess::eError::OUT_OF_CHESSBOARD));
 	}
+}
+
+Chess::King::King(ePieceColor color, std::shared_ptr<PieceSignalDirector> signalDirector) : King(color)
+{
+	if (!signalDirector)
+	{
+		return;
+	}
+
+	signalDirector->ConnectMoveWithCheck([this](bool isCheck)
+		{
+			m_isCheck = isCheck;
+		});
 }
 
 bool Chess::King::get_CanMakeCastling() const

@@ -129,6 +129,9 @@
     <ClCompile Include="src\chess\logic\PieceTakeLocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\chess\logic\CheckChecker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chess\Chessboard.h">
@@ -249,6 +252,9 @@
       <Filter>Header Files\Chess\Logic</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\logic\PieceTakeLocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\logic\CheckChecker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

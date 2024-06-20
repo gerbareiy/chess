@@ -14,8 +14,8 @@ std::vector<std::shared_ptr<Chess::IPiece>> Chess::PieceInitializer::InitStandar
 	std::vector<std::shared_ptr<Chess::IPiece>> piecesOnBoard{};
 	piecesOnBoard.reserve(MAX_COUNT_ELEMENTS);
 
-	auto blackKing = std::make_shared<King>(ePieceColor::BLACK);
-	auto whiteKing = std::make_shared<King>(ePieceColor::WHITE);
+	auto blackKing = std::make_shared<King>(ePieceColor::BLACK, signalDirector);
+	auto whiteKing = std::make_shared<King>(ePieceColor::WHITE, signalDirector);
 
 	for (auto i = 1; i <= COUNT_OF_BISHOP_KNIGHT_ROOK_WITH_1_COLOR; ++i)
 	{

@@ -4,9 +4,12 @@
 #include "logic/ePieceColor.h"
 #include "logic/IKing.h"
 #include "logic/PieceColorAndType.h"
+#include "../logic/PieceSignalDirector.h"
 #include "../logic/Coordinate.h"
 
 #include <boost/signals2.hpp>
+
+#include <memory>
 
 namespace Chess
 {
@@ -23,6 +26,7 @@ namespace Chess
 
 	public:
 		King(ePieceColor color);
+		King(ePieceColor color, std::shared_ptr<PieceSignalDirector> signalDirector);
 
 	public:
 		bool get_CanMakeCastling() const;

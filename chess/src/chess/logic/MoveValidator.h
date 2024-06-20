@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Coordinate.h"
+#include "CheckChecker.h"
 #include "../pieces/IPiece.h"
 #include "../pieces/logic/MoveChecker.h"
 
@@ -13,7 +14,8 @@ namespace Chess
 	{
 	private:
 		std::vector<Coordinate> m_possibleMoves{};
-		std::shared_ptr<MoveChecker> m_checker{};
+		std::shared_ptr<MoveChecker> m_moveChecker{};
+		std::shared_ptr<CheckChecker> m_CheckChecker{};
 
 	public:
 		MoveValidator();

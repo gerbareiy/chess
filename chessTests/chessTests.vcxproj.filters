@@ -141,5 +141,8 @@
     <ClCompile Include="..\chess\src\chess\logic\PieceTakeLocator.cpp">
       <Filter>Resource Files\Chess\Logic</Filter>
     </ClCompile>
+    <ClCompile Include="..\chess\src\chess\logic\CheckChecker.cpp">
+      <Filter>Resource Files\Chess\Logic</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
