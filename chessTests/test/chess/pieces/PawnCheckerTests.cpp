@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_CASE(FindPosiblePawnMoves_Test)
 	std::vector<std::shared_ptr<Chess::IPiece>> pieces = { blackKing, blackPawn, whitePawn, whiteQueen };
 	auto pawnChecker = std::make_shared<Chess::PawnChecker>();
 
-	BOOST_CHECK_THROW(pawnChecker->GetPossibleMoves(blackKing, pieces), std::invalid_argument);
+	BOOST_CHECK_EQUAL(pawnChecker->GetPossibleMoves(blackKing, pieces).size(), 0);
 	BOOST_CHECK_EQUAL(pawnChecker->GetPossibleMoves(whitePawn, pieces).size(), 2);
 
 	blackKing->Move(Chess::Coordinate('B', 3));

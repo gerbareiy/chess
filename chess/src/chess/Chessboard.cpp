@@ -16,7 +16,7 @@
 Chess::Chessboard::Chessboard()
 {
 	auto signalDirector = std::make_shared<PieceSignalDirector>();
-	m_director = std::make_shared<PieceDirector>(std::make_unique<PieceInitializer>()->Init(signalDirector), signalDirector);
+	m_director = std::make_shared<PieceDirector>(std::make_unique<PieceInitializer>()->InitStandartBoard(signalDirector), signalDirector);
 	m_validator = std::make_shared<MoveValidator>();
 }
 

@@ -11,7 +11,7 @@ namespace Chess
 	class PieceInitializer
 	{
 	public:
-		std::vector<std::shared_ptr<IPiece>>Init(std::shared_ptr<PieceSignalDirector> signalDirector);
+		std::vector<std::shared_ptr<IPiece>>InitStandartBoard(std::shared_ptr<PieceSignalDirector> signalDirector);
 	};
 }
 

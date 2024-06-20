@@ -2,6 +2,7 @@
 
 #include "Counts.h"
 #include "Sizes.h"
+#include "PieceTakeLocator.h"
 #include "../pieces/Bishop.h"
 #include "../pieces/King.h"
 #include "../pieces/Knight.h"
@@ -71,34 +72,16 @@ void Chess::PieceDirector::InitCurrentPiece(const Coordinate& from)
 
 void Chess::PieceDirector::MovePiece(const Coordinate& to)
 {
-	auto pawnOnPassCoordinate = Coordinate(to.get_File(), get_CurrentPiece()->get_Position().get_Rank());
-	auto finder = std::make_shared<PieceFinder>(m_piecesOnBoard);
-	auto currentPawn = std::dynamic_pointer_cast<Pawn>(get_CurrentPiece());
-	auto opponentPawn = std::dynamic_pointer_cast<Pawn>(finder->Find(pawnOnPassCoordinate));
-	auto carrentColor = m_currentPiece->get_ColorAndType().get_Color();
+	auto fromTake = std::make_unique<PieceTakeLocator>()->Find(m_currentPiece, m_piecesOnBoard, to);
 
-	auto takeIfCurrentPosition = [&](Coordinate takeFrom)
+	auto it = std::find_if(m_piecesOnBoard.begin(), m_piecesOnBoard.end(), [fromTake](std::shared_ptr<IPiece> current)
 		{
-			auto it = std::find_if(m_piecesOnBoard.begin(), m_piecesOnBoard.end(), [takeFrom](std::shared_ptr<IPiece> current)
-				{
-					return current->get_Position() == takeFrom;
-				});
+			return current->get_Position() == fromTake;
+		});
 
-			if (it != m_piecesOnBoard.end())
-			{
-				Take(std::distance(m_piecesOnBoard.begin(), it));
-			}
-		};
-
-	if (currentPawn && opponentPawn
-		&& opponentPawn->get_CanEnPassant()
-		&& opponentPawn->get_ColorAndType().get_Color() != currentPawn->get_ColorAndType().get_Color())
+	if (it != m_piecesOnBoard.end())
 	{
-		takeIfCurrentPosition(pawnOnPassCoordinate);
-	}
-	else
-	{
-		takeIfCurrentPosition(to);
+		Take(std::distance(m_piecesOnBoard.begin(), it));
 	}
 
 	m_currentPiece->Move(to);

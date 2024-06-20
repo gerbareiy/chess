@@ -138,5 +138,8 @@
     <ClCompile Include="test\chess\pieces\KingCheckerTests.cpp">
       <Filter>Source Files\Chess\Pieces</Filter>
     </ClCompile>
+    <ClCompile Include="..\chess\src\chess\logic\PieceTakeLocator.cpp">
+      <Filter>Resource Files\Chess\Logic</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

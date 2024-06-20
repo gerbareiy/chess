@@ -126,6 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\chess\logic\PieceTakeLocator.cpp" />
     <ClCompile Include="src\chess\logic\PieceSignalDirector.cpp" />
     <ClCompile Include="src\chess\logic\PieceInitializer.cpp" />
     <ClCompile Include="src\chess\logic\MoveValidator.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\chess\logic\PieceTakeLocator.h" />
     <ClInclude Include="src\chess\logic\PieceSignalDirector.h" />
     <ClInclude Include="src\chess\logic\PieceInitializer.h" />
     <ClInclude Include="src\chess\logic\MoveValidator.h" />

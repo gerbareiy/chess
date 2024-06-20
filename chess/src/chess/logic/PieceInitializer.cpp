@@ -9,7 +9,7 @@
 #include "../pieces/Queen.h"
 #include "../pieces/Rook.h"
 
-std::vector<std::shared_ptr<Chess::IPiece>> Chess::PieceInitializer::Init(std::shared_ptr<PieceSignalDirector> signalDirector)
+std::vector<std::shared_ptr<Chess::IPiece>> Chess::PieceInitializer::InitStandartBoard(std::shared_ptr<PieceSignalDirector> signalDirector)
 {
 	std::vector<std::shared_ptr<Chess::IPiece>> piecesOnBoard{};
 	piecesOnBoard.reserve(MAX_COUNT_ELEMENTS);

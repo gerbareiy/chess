@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_CASE(FindPosibleRookMoves_Test)
 	std::vector<std::shared_ptr<Chess::IPiece>> pieces = { blackRook, whiteBishop, whiteRook };
 	auto rookChecker = std::make_shared<Chess::RookChecker>();
 
-	BOOST_CHECK_THROW(rookChecker->GetPossibleMoves(whiteBishop, pieces), std::invalid_argument);
+	BOOST_CHECK_EQUAL(rookChecker->GetPossibleMoves(whiteBishop, pieces).size(), 0);
 
 	blackRook->Move(Chess::Coordinate('A', 7));
 	BOOST_CHECK_EQUAL(rookChecker->GetPossibleMoves(whiteRook, pieces).size(), 7);

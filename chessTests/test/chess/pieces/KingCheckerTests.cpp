@@ -22,7 +22,7 @@ BOOST_AUTO_TEST_CASE(FindPosibleKingMoves_Test)
 	std::vector<std::shared_ptr<Chess::IPiece>> pieces = { blackRook, whiteRook1, whiteRook2, whiteKing };
 	auto kingChecker = std::make_shared<Chess::KingChecker>();
 
-	BOOST_CHECK_THROW(kingChecker->GetPossibleMoves(whiteRook1, pieces), std::invalid_argument);
+	BOOST_CHECK_EQUAL(kingChecker->GetPossibleMoves(whiteRook1, pieces).size(), 0);
 	BOOST_CHECK_EQUAL(kingChecker->GetPossibleMoves(whiteKing, pieces).size(), 7);
 
 	auto whiteRook1Coordiante = whiteRook1->get_Position();
