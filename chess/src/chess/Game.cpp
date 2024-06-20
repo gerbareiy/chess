@@ -9,7 +9,8 @@ Chess::Game::Game()
 {
 	auto chessboard = std::make_shared<Chessboard>();
 	m_controller = std::make_unique<Controller>(chessboard);
-	m_window = std::make_unique<Console>(chessboard);
+	m_displayer = std::make_unique<ChessboardDisplayer>(chessboard);
+	m_inputHandler = std::make_unique<InputHandler>();
 }
 
 void Chess::Game::Play()
@@ -21,13 +22,17 @@ void Chess::Game::Play()
 		{
 			system("CLS");
 
-			m_window->Display();
+			m_displayer->Show();
 
-			from = m_window->EnterFrom();
+			from = m_inputHandler->EnterFrom();
 
-			if (from.get_File() < 'A' || from.get_File() > 'A' + CHESSBOARD_SIZE - 1 || from.get_Rank() < 1 || from.get_Rank() > CHESSBOARD_SIZE || !m_controller->TryInitPiece(from))
+			auto isCorrectInit = from.get_File() < 'A' || from.get_File() > 'A' + CHESSBOARD_SIZE - 1
+				|| from.get_Rank() < 1 || from.get_Rank() > CHESSBOARD_SIZE
+				|| !m_controller->TryInitPiece(from);
+
+			if (isCorrectInit)
 			{
-				m_window->ShowInvalidMovePrompt(false);
+				m_displayer->ShowInvalidMovePrompt(false);
 				continue;
 			}
 
@@ -39,13 +44,17 @@ void Chess::Game::Play()
 		{
 			system("CLS");
 
-			m_window->Display();
+			m_displayer->Show();
 
-			to = m_window->EnterTo();
+			to = m_inputHandler->EnterTo();
 
-			if (to.get_File() < 'A' || to.get_File() > 'A' + CHESSBOARD_SIZE - 1 || to.get_Rank() < 1 || to.get_Rank() > CHESSBOARD_SIZE || !m_controller->TryMovePiece(to))
+			auto isCorrectMove = to.get_File() < 'A' || to.get_File() > 'A' + CHESSBOARD_SIZE - 1
+				|| to.get_Rank() < 1 || to.get_Rank() > CHESSBOARD_SIZE
+				|| !m_controller->TryMovePiece(to);
+
+			if (isCorrectMove)
 			{
-				m_window->ShowInvalidMovePrompt(false);
+				m_displayer->ShowInvalidMovePrompt(false);
 				continue;
 			}
 

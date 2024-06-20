@@ -2,7 +2,7 @@
 
 #include "../pieces/logic/IKing.h"
 
-Chess::MoveValidator::MoveValidator()
+Chess::MoveValidator::MoveValidator(const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) : m_piecesOnBoard(piecesOnBoard)
 {
 	m_moveChecker = std::make_shared<MoveChecker>();
 }
@@ -12,9 +12,9 @@ std::vector<Chess::Coordinate> Chess::MoveValidator::get_PossibleMoves()
 	return m_possibleMoves;
 }
 
-void Chess::MoveValidator::CalculatePossibleMoves(std::shared_ptr<IPiece> piece, std::vector<std::shared_ptr<IPiece>> piecesOnBoard)
+void Chess::MoveValidator::CalculatePossibleMoves(std::shared_ptr<IPiece> piece)
 {
-	m_possibleMoves = m_moveChecker->GetPossibleMoves(piece, piecesOnBoard);
+	m_possibleMoves = m_moveChecker->GetPossibleMoves(piece, m_piecesOnBoard);
 }
 
 void Chess::MoveValidator::ClearPossibleMoves()

@@ -4,33 +4,31 @@
 #include "logic/eConsoleColor.h"
 #include "pieces/logic/ePieceColor.h"
 
-#include <memory>
 #include <windows.h>
 
 namespace Chess
 {
-	class Console
+	class ChessboardDisplayer
 	{
 	private:
 		const std::shared_ptr<Chessboard> m_chessboard;
 
 	public:
-		Console(const std::shared_ptr<Chessboard> chessboard);
+		ChessboardDisplayer(const std::shared_ptr<Chessboard> chessboard);
 
 	private:
-		Coordinate EnterCoordinate();
+		eConsoleColor GetBackgroundConsoleColor(Coordinate coordinate);
 		void GetOriginalConsoleColor(WORD& originalColors);
+		eConsoleColor GetTextConsoleColor(Chess::PieceColorAndType& colorAndType, int originalTextColor);
 		void SetConsoleColor(eConsoleColor textColor, eConsoleColor backgroundColor) const;
 
 	public:
 		// You can choose this default Display
-		void Display();
-		// Or create own Display by combining methiods below
-		void DisplayTakenPieces(ePieceColor color) const;
-		void DisplayEmpty() const;
-		void DisplayChessboard();
-		Coordinate EnterFrom();
-		Coordinate EnterTo();
+		void Show();
+		// Or create own Display by combining some methiods below
+		void ShowChessboard();
+		void ShowEmpty() const;
 		void ShowInvalidMovePrompt(bool isValidMove) const;
+		void ShowTakenPieces(ePieceColor color) const;
 	};
 }

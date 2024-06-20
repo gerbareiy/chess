@@ -42,9 +42,6 @@
     <ClCompile Include="..\chess\src\chess\Chessboard.cpp">
       <Filter>Resource Files\Chess</Filter>
     </ClCompile>
-    <ClCompile Include="..\chess\src\chess\Console.cpp">
-      <Filter>Resource Files\Chess</Filter>
-    </ClCompile>
     <ClCompile Include="..\chess\src\chess\Controller.cpp">
       <Filter>Resource Files\Chess</Filter>
     </ClCompile>
@@ -142,6 +139,15 @@
       <Filter>Resource Files\Chess\Logic</Filter>
     </ClCompile>
     <ClCompile Include="..\chess\src\chess\logic\CheckChecker.cpp">
+      <Filter>Resource Files\Chess\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\InputHandler.cpp">
+      <Filter>Resource Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\ChessboardDisplayer.cpp">
+      <Filter>Resource Files\Chess\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\InputDisplayer.cpp">
       <Filter>Resource Files\Chess\Logic</Filter>
     </ClCompile>
   </ItemGroup>

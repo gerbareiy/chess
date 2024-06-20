@@ -126,6 +126,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\chess\InputDisplayer.cpp" />
+    <ClCompile Include="src\chess\ChessboardDisplayer.cpp" />
     <ClCompile Include="src\chess\logic\CheckChecker.cpp" />
     <ClCompile Include="src\chess\logic\PieceTakeLocator.cpp" />
     <ClCompile Include="src\chess\logic\PieceSignalDirector.cpp" />
@@ -155,10 +157,12 @@
     <ClCompile Include="src\chess\pieces\Rook.cpp" />
     <ClCompile Include="src\chess\pieces\logic\PieceColorAndType.cpp" />
     <ClCompile Include="src\chess\logic\Coordinate.cpp" />
-    <ClCompile Include="src\chess\Console.cpp" />
+    <ClCompile Include="src\chess\InputHandler.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\chess\InputDisplayer.h" />
+    <ClInclude Include="src\chess\ChessboardDisplayer.h" />
     <ClInclude Include="src\chess\logic\CheckChecker.h" />
     <ClInclude Include="src\chess\logic\PieceTakeLocator.h" />
     <ClInclude Include="src\chess\logic\PieceSignalDirector.h" />
@@ -199,7 +203,7 @@
     <ClInclude Include="src\chess\pieces\Rook.h" />
     <ClInclude Include="src\chess\pieces\logic\PieceColorAndType.h" />
     <ClInclude Include="src\chess\logic\Coordinate.h" />
-    <ClInclude Include="src\chess\Console.h" />
+    <ClInclude Include="src\chess\InputHandler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

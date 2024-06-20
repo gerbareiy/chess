@@ -16,8 +16,9 @@
 Chess::Chessboard::Chessboard()
 {
 	auto signalDirector = std::make_shared<PieceSignalDirector>();
-	m_director = std::make_shared<PieceDirector>(std::make_unique<PieceInitializer>()->InitStandartBoard(signalDirector), signalDirector);
-	m_validator = std::make_shared<MoveValidator>();
+	auto pieces = std::make_unique<PieceInitializer>()->InitStandartBoard(signalDirector);
+	m_director = std::make_shared<PieceDirector>(pieces, signalDirector);
+	m_validator = std::make_shared<MoveValidator>(pieces);
 }
 
 const std::shared_ptr<Chess::PieceDirector>& Chess::Chessboard::get_PieceDirector() const
@@ -39,7 +40,7 @@ bool Chess::Chessboard::TryInitPiece(const Coordinate& from)
 		return false;
 	}
 
-	m_validator->CalculatePossibleMoves(m_director->get_CurrentPiece(), m_director->get_PiecesOnBoard());
+	m_validator->CalculatePossibleMoves(m_director->get_CurrentPiece());
 
 	if (m_validator->get_PossibleMoves().size() < 1)
 	{
