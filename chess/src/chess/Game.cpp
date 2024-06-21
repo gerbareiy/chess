@@ -8,9 +8,10 @@
 Chess::Game::Game()
 {
 	auto chessboard = std::make_shared<Chessboard>();
+	m_chessboardDisplayer = std::make_unique<ChessboardDisplayer>(chessboard);
 	m_controller = std::make_unique<Controller>(chessboard);
-	m_displayer = std::make_unique<ChessboardDisplayer>(chessboard);
-	m_inputHandler = std::make_unique<InputHandler>();
+	m_inputHandler = std::make_shared<InputHandler>();
+	m_inputDisplayer = std::make_unique<InputDisplayer>(m_inputHandler);
 }
 
 void Chess::Game::Play()
@@ -22,7 +23,7 @@ void Chess::Game::Play()
 		{
 			system("CLS");
 
-			m_displayer->Show();
+			m_chessboardDisplayer->Show();
 
 			from = m_inputHandler->EnterFrom();
 
@@ -32,7 +33,7 @@ void Chess::Game::Play()
 
 			if (isCorrectInit)
 			{
-				m_displayer->ShowInvalidMovePrompt(false);
+				m_chessboardDisplayer->ShowInvalidMovePrompt(false);
 				continue;
 			}
 
@@ -44,7 +45,7 @@ void Chess::Game::Play()
 		{
 			system("CLS");
 
-			m_displayer->Show();
+			m_chessboardDisplayer->Show();
 
 			to = m_inputHandler->EnterTo();
 
@@ -54,7 +55,7 @@ void Chess::Game::Play()
 
 			if (isCorrectMove)
 			{
-				m_displayer->ShowInvalidMovePrompt(false);
+				m_chessboardDisplayer->ShowInvalidMovePrompt(false);
 				continue;
 			}
 

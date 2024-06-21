@@ -2,22 +2,12 @@
 
 #include <iostream>
 
-void Chess::InputDisplayer::ShowFile() const
+Chess::InputDisplayer::InputDisplayer(const std::shared_ptr<InputHandler>& handler)
 {
-	std::cout << "File: ";
+	handler->ConnectEnter(std::bind(&InputDisplayer::Show, this, std::placeholders::_1));
 }
 
-void Chess::InputDisplayer::ShowFrom() const
+void Chess::InputDisplayer::Show(std::string toPrint) const
 {
-	std::cout << "FROM\n";
-}
-
-void Chess::InputDisplayer::ShowRank() const
-{
-	std::cout << "Rank: ";
-}
-
-void Chess::InputDisplayer::ShowTo() const
-{
-	std::cout << "TO\n";
+	std::cout << toPrint;
 }

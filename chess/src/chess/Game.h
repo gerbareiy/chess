@@ -1,8 +1,9 @@
 #pragma once
 
-#include "InputHandler.h"
-#include "Controller.h"
 #include "ChessboardDisplayer.h"
+#include "Controller.h"
+#include "InputDisplayer.h"
+#include "InputHandler.h"
 
 #include <memory>
 
@@ -11,9 +12,10 @@ namespace Chess
 	class Game
 	{
 	private:
+		std::unique_ptr<ChessboardDisplayer> m_chessboardDisplayer;
 		std::unique_ptr<Controller> m_controller;
-		std::unique_ptr<ChessboardDisplayer> m_displayer;
-		std::unique_ptr<InputHandler> m_inputHandler;
+		std::shared_ptr<InputHandler> m_inputHandler;
+		std::unique_ptr<InputDisplayer> m_inputDisplayer;
 
 	public:
 		Game();

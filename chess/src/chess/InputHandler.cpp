@@ -7,45 +7,65 @@
 
 Chess::Coordinate Chess::InputHandler::EnterCoordinate()
 {
+	auto file = EnterFile();
+	auto rank = EnterRank();
+
+	return Coordinate(file, rank);
+}
+
+char Chess::InputHandler::EnterFile()
+{
+	m_signalEnter("File: ");
+
 	std::string input{};
+	char file{};
+	std::getline(std::cin, input);
+	file = *input.data();
+
+	// In this code selection we can get bug if CHESSBOARD_SIZE > 26
+	if (file >= 'a' && file <= 'a' + CHESSBOARD_SIZE - 1)
+	{
+		file = std::toupper(file);
+	}
+
+	return file;
+}
+
+int Chess::InputHandler::EnterRank()
+{
+	m_signalEnter("Rank: ");
+
+	std::string input{};
+	int rank{};
+	std::getline(std::cin, input);
 
 	try
 	{
-		// событие
-
-		char file{};
-		std::getline(std::cin, input);
-		file = *input.data();
-
-		if (file >= 'a' && file <= 'a' + CHESSBOARD_SIZE - 1)
-		{
-			file = std::toupper(file);
-		}
-
-		// событие
-
-		int rank{};
-		std::getline(std::cin, input);
 		rank = std::stoi(input);
-
-		return Coordinate(file, rank);
 	}
 	catch (...)
 	{
-		return Coordinate(0, 0);
+		return 0;
 	}
+
+	return rank;
 }
 
 Chess::Coordinate Chess::InputHandler::EnterFrom()
 {
-	// ToDo:: событие
+	m_signalEnter("FROM\n");
 
 	return EnterCoordinate();
 }
 
 Chess::Coordinate Chess::InputHandler::EnterTo()
 {
-	// ToDo:: событие
+	m_signalEnter("TO\n");
 
 	return EnterCoordinate();
+}
+
+boost::signals2::connection Chess::InputHandler::ConnectEnter(const boost::signals2::signal<void(std::string)>::slot_type& subscriber)
+{
+	return m_signalEnter.connect(subscriber);
 }

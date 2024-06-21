@@ -11,7 +11,7 @@ Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard
 eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate coordinate)
 {
 	eConsoleColor color;
-	// more if
+	// more ifs
 	if (m_chessboard->get_MoveValidator()->IsCoordinateInPossibleMoves(coordinate))
 	{
 		color = eConsoleColor::RED;
@@ -26,6 +26,18 @@ eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate c
 	}
 
 	return color;
+}
+
+std::string Chess::ChessboardDisplayer::GetChessboardFiles()
+{
+	std::string files = "";
+
+	for (auto i = 0; i < CHESSBOARD_SIZE; ++i)
+	{
+		files += static_cast<char>('A' + i);
+	}
+
+	return files;
 }
 
 void Chess::ChessboardDisplayer::GetOriginalConsoleColor(WORD& originalColors)
@@ -48,52 +60,65 @@ void Chess::ChessboardDisplayer::SetConsoleColor(eConsoleColor textColor, eConso
 	SetConsoleTextAttribute(hConsole, (static_cast<int>(backgroundColor) << 4) | static_cast<int>(textColor));
 }
 
-void Chess::ChessboardDisplayer::Show()
+void Chess::ChessboardDisplayer::ShowChessboardFiles(bool isChessboardSizeOneDigit)
 {
-	ShowTakenPieces(ePieceColor::WHITE);
 	ShowEmpty();
-	ShowChessboard();
+
+	std::cout << (isChessboardSizeOneDigit ? "   " : "\t");
+	std::cout << GetChessboardFiles();
+
 	ShowEmpty();
-	ShowTakenPieces(ePieceColor::BLACK);
 	ShowEmpty();
 }
 
-void Chess::ChessboardDisplayer::ShowChessboard()
+void Chess::ChessboardDisplayer::ShowChessboardRank(int y, bool isChessboardSizeOneDigit)
+{
+	auto space = (isChessboardSizeOneDigit ? ' ' : '\t');
+	std::cout << space << y << space;
+}
+
+void Chess::ChessboardDisplayer::ShowChessboardRowWithRank(int y, int originalTextColor)
+{
+	for (auto x = 'A'; x < 'A' + CHESSBOARD_SIZE; ++x)
+	{
+		auto colorAndType = m_chessboard->get_PieceDirector()->GetPieceColorAndType(Coordinate(x, y));
+		auto textColor = GetTextConsoleColor(colorAndType, originalTextColor);
+		auto background = GetBackgroundConsoleColor(Coordinate(x, y));
+
+		SetConsoleColor(textColor, background);
+
+		std::cout << PieceTypeConverter::ConvertToString(colorAndType.get_Type())[0];
+	}
+}
+
+void Chess::ChessboardDisplayer::Show()
+{
+	ShowTakenPieces(ePieceColor::WHITE);
+	ShowChessboardWithCoordinates();
+	ShowTakenPieces(ePieceColor::BLACK);
+}
+
+void Chess::ChessboardDisplayer::ShowChessboardWithCoordinates()
 {
 	WORD originalColors;
 	GetOriginalConsoleColor(originalColors);
 
 	auto originalTextColor = originalColors & 0x0F;
 	auto originalBackgroundColor = (originalColors & 0xF0) >> 4;
+	auto isChessboardSizeOneDigit = CHESSBOARD_SIZE < 10;
 
-	auto isChessboardSizeDigit = CHESSBOARD_SIZE < 10;
+	ShowChessboardFiles(isChessboardSizeOneDigit);
 
-	for (auto y = CHESSBOARD_SIZE; y > 0; --y, std::cout << '\n')
+	for (auto y = CHESSBOARD_SIZE; y > 0; --y, ShowEmpty())
 	{
-		std::cout << y << (isChessboardSizeDigit ? ' ' : '\t');
+		ShowChessboardRank(y, isChessboardSizeOneDigit);
 
-		for (auto x = 'A'; x < 'A' + CHESSBOARD_SIZE; ++x)
-		{
-			auto colorAndType = m_chessboard->get_PieceDirector()->GetPieceColorAndType(Coordinate(x, y));
-			auto textColor = GetTextConsoleColor(colorAndType, originalTextColor);
-			auto background = GetBackgroundConsoleColor(Coordinate(x, y));
-
-			SetConsoleColor(textColor, background);
-
-			std::cout << PieceTypeConverter::ConvertToString(colorAndType.get_Type())[0];
-		}
+		ShowChessboardRowWithRank(y, originalTextColor);
 		SetConsoleColor(static_cast<eConsoleColor>(originalTextColor), static_cast<eConsoleColor>(originalBackgroundColor));
+		ShowChessboardRank(y, isChessboardSizeOneDigit);
 	}
 
-	std::cout << '\n';
-	std::cout << (isChessboardSizeDigit ? "  " : "\t");
-
-	for (auto i = 0; i < CHESSBOARD_SIZE; ++i)
-	{
-		std::cout << static_cast<char>('A' + i);
-	}
-
-	std::cout << '\n';
+	ShowChessboardFiles(isChessboardSizeOneDigit);
 }
 
 void Chess::ChessboardDisplayer::ShowEmpty() const
@@ -105,7 +130,8 @@ void Chess::ChessboardDisplayer::ShowInvalidMovePrompt(bool isValidMove) const
 {
 	if (!isValidMove)
 	{
-		std::cout << "Move is invalid\n";
+		std::cout << "Move is invalid";
+		ShowEmpty();
 		std::cout << "Press any key to continue...";
 		auto _ = _getch();
 	}
@@ -115,6 +141,8 @@ void Chess::ChessboardDisplayer::ShowTakenPieces(ePieceColor color) const
 {
 	const auto eatenPieces = m_chessboard->get_PieceDirector()->get_EatenPieces();
 
+	ShowEmpty();
+
 	for (const auto& piece : eatenPieces)
 	{
 		if (piece->get_ColorAndType().get_Color() == color)
@@ -123,5 +151,5 @@ void Chess::ChessboardDisplayer::ShowTakenPieces(ePieceColor color) const
 		}
 	}
 
-	std::cout << '\n';
+	ShowEmpty();
 }

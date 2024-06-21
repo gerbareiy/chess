@@ -1,11 +1,17 @@
 #pragma once
+
+#include "InputHandler.h"
+
+#include <string>
+
 namespace Chess
 {
 	class InputDisplayer
 	{
-		void ShowFile() const;
-		void ShowFrom() const;
-		void ShowRank() const;
-		void ShowTo() const;
+	public:
+		InputDisplayer(const std::shared_ptr<InputHandler>& handler);
+
+	private:
+		void Show(std::string toPrint) const;
 	};
 }
