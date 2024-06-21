@@ -88,6 +88,6 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to)
 	m_currentPiece->Move(to);
 	m_signalDirector->Invite();
 
-	auto checkChecker = std::make_unique<CheckChecker>(std::make_shared<MoveChecker>());
+	auto checkChecker = std::make_unique<CheckChecker>();
 	m_signalDirector->Invite(checkChecker->IsCheck(m_currentPiece->get_ColorAndType().get_Color(), m_piecesOnBoard));
 }

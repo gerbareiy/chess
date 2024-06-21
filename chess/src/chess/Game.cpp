@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #include "Chessboard.h"
+#include "pieces/logic/PositionChecker.h"
 #include "logic/Sizes.h"
 
 #include <stdlib.h>
@@ -14,52 +15,41 @@ Chess::Game::Game()
 	m_inputDisplayer = std::make_unique<InputDisplayer>(m_inputHandler);
 }
 
+Chess::Coordinate Chess::Game::HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction)
+{
+	Coordinate coordinate;
+
+	while (true)
+	{
+		system("CLS");
+
+		m_chessboardDisplayer->Show();
+
+		coordinate = inputFunction();
+
+		if (!(PositionChecker::IsPositionValid(coordinate) && initFunction(coordinate)))
+		{
+			m_chessboardDisplayer->ShowInvalidMovePrompt(false);
+			continue;
+		}
+
+		break;
+	}
+	return coordinate;
+}
+
 void Chess::Game::Play()
 {
 	while (true)
 	{
-		Coordinate from;
-		while (true)
-		{
-			system("CLS");
+		Coordinate from = HandleInput(
+			std::bind(&InputHandler::EnterFrom, m_inputHandler),
+			std::bind(&Controller::TryInitPiece, m_controller.get(), std::placeholders::_1)
+		);
 
-			m_chessboardDisplayer->Show();
-
-			from = m_inputHandler->EnterFrom();
-
-			auto isCorrectInit = from.get_File() < 'A' || from.get_File() > 'A' + CHESSBOARD_SIZE - 1
-				|| from.get_Rank() < 1 || from.get_Rank() > CHESSBOARD_SIZE
-				|| !m_controller->TryInitPiece(from);
-
-			if (isCorrectInit)
-			{
-				m_chessboardDisplayer->ShowInvalidMovePrompt(false);
-				continue;
-			}
-
-			break;
-		}
-		
-		Coordinate to;
-		while (true)
-		{
-			system("CLS");
-
-			m_chessboardDisplayer->Show();
-
-			to = m_inputHandler->EnterTo();
-
-			auto isCorrectMove = to.get_File() < 'A' || to.get_File() > 'A' + CHESSBOARD_SIZE - 1
-				|| to.get_Rank() < 1 || to.get_Rank() > CHESSBOARD_SIZE
-				|| !m_controller->TryMovePiece(to);
-
-			if (isCorrectMove)
-			{
-				m_chessboardDisplayer->ShowInvalidMovePrompt(false);
-				continue;
-			}
-
-			break;
-		}
+		Coordinate to = HandleInput(
+			std::bind(&InputHandler::EnterTo, m_inputHandler),
+			std::bind(&Controller::TryMovePiece, m_controller.get(), std::placeholders::_1)
+		);
 	}
 }

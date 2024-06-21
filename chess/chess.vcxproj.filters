@@ -138,6 +138,9 @@
     <ClCompile Include="src\chess\InputDisplayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\chess\pieces\logic\MoveCheckerFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chess\Chessboard.h">
@@ -267,6 +270,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\InputDisplayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\logic\MoveCheckerFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

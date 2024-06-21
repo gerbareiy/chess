@@ -15,8 +15,8 @@ namespace Chess
 		PieceColorAndType(ePieceColor color, ePieceType type);
 
 	public:
-		ePieceColor get_Color() const { return m_color; }
-		ePieceType get_Type() const { return m_type; }
+		ePieceColor get_Color() const;
+		ePieceType get_Type() const;
 
 	public:
 		PieceColorAndType& operator=(const PieceColorAndType& other);

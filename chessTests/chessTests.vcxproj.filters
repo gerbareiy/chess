@@ -150,5 +150,8 @@
     <ClCompile Include="..\chess\src\chess\InputDisplayer.cpp">
       <Filter>Resource Files\Chess\Logic</Filter>
     </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\logic\MoveCheckerFactory.cpp">
+      <Filter>Resource Files\Chess\Pieces\Logic</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

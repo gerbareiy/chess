@@ -2,19 +2,17 @@
 
 #include "../pieces/logic/IKing.h"
 
-Chess::MoveValidator::MoveValidator(const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) : m_piecesOnBoard(piecesOnBoard)
-{
-	m_moveChecker = std::make_shared<MoveChecker>();
-}
+Chess::MoveValidator::MoveValidator(const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) : m_piecesOnBoard(piecesOnBoard) { }
 
 std::vector<Chess::Coordinate> Chess::MoveValidator::get_PossibleMoves()
 {
 	return m_possibleMoves;
 }
 
-void Chess::MoveValidator::CalculatePossibleMoves(std::shared_ptr<IPiece> piece)
+void Chess::MoveValidator::CalculatePossibleMoves(const std::shared_ptr<IPiece>& piece)
 {
-	m_possibleMoves = m_moveChecker->GetPossibleMoves(piece, m_piecesOnBoard);
+	auto moveChecker = std::make_shared<MoveChecker>(piece);
+	m_possibleMoves = moveChecker->GetPossibleMoves(m_piecesOnBoard);
 }
 
 void Chess::MoveValidator::ClearPossibleMoves()
@@ -29,7 +27,7 @@ bool Chess::MoveValidator::IsCoordinateInPossibleMoves(Coordinate coordinate)
 	return it != m_possibleMoves.end();
 }
 
-bool Chess::MoveValidator::IsValidMove(std::shared_ptr<IPiece> piece, Coordinate to)
+bool Chess::MoveValidator::IsValidMove(const std::shared_ptr<IPiece> piece, Coordinate to)
 {
 	if (!piece)
 	{

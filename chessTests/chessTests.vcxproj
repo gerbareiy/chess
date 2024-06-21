@@ -41,6 +41,7 @@
     <ClCompile Include="..\chess\src\chess\pieces\KnightChecker.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\logic\BishopQueenRookDirectionChecker.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\logic\MoveChecker.cpp" />
+    <ClCompile Include="..\chess\src\chess\pieces\logic\MoveCheckerFactory.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\logic\PieceColorAndType.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\logic\PieceFinder.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\logic\PieceTypeConverter.cpp" />

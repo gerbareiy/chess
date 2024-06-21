@@ -20,6 +20,9 @@ namespace Chess
 	public:
 		Game();
 
+    private:
+		Coordinate HandleInput(std::function<Coordinate()> inputFunc, std::function<bool(const Coordinate&)> validateFunc);
+
 	public:
 		void Play();
 	};

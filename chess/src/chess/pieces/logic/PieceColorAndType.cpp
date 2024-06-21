@@ -12,6 +12,16 @@ Chess::PieceColorAndType::PieceColorAndType(ePieceColor color, ePieceType type)
 	m_type = type;
 }
 
+Chess::ePieceColor Chess::PieceColorAndType::get_Color() const
+{
+	return m_color;
+}
+
+Chess::ePieceType Chess::PieceColorAndType::get_Type() const
+{
+	return m_type;
+}
+
 Chess::PieceColorAndType& Chess::PieceColorAndType::operator=(const PieceColorAndType& other)
 {
 	if (this == &other)
