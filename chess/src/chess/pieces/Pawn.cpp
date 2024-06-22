@@ -26,7 +26,28 @@ Chess::Pawn::Pawn(ePieceColor color, char file) : m_colorAndType(color, ePieceTy
 	}
 }
 
-Chess::Pawn::Pawn(ePieceColor color, char file, std::shared_ptr<PieceSignalDirector> signalDirector) : Pawn(color, file)
+Chess::Pawn::Pawn(ePieceColor color, char file, const std::shared_ptr<PieceSignalDirector>& signalDirector) : Pawn(color, file)
+{
+	if (!signalDirector)
+	{
+		return;
+	}
+
+	signalDirector->ConnectMove([this]()
+		{
+			if (!m_isOnPawnFirstMove)
+			{
+				LostEnPassant();
+			}
+
+			m_isOnPawnFirstMove = false;
+		});
+}
+
+Chess::Pawn::Pawn(ePieceColor color, Coordinate coordinate)
+	: m_colorAndType(PieceColorAndType(color, ePieceType::PAWN)), m_position(coordinate) { }
+
+Chess::Pawn::Pawn(ePieceColor color, Coordinate coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector) : Pawn(color, coordinate)
 {
 	if (!signalDirector)
 	{

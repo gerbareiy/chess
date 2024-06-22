@@ -33,7 +33,7 @@ namespace Chess
 	public:
 		PieceColorAndType GetPieceColorAndType(const Coordinate& from) const;
 		std::shared_ptr<Chess::IPiece> GetPiece(const Coordinate& from) const;
-		void InitCurrentPiece(const Coordinate& from, const std::vector<std::shared_ptr<IPiece>>& pieces);
+		void InitCurrentPiece(const Coordinate& from);
 		void MovePiece(const Coordinate& to);
 	};
 }

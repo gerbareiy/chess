@@ -141,6 +141,9 @@
     <ClCompile Include="src\chess\pieces\logic\CheckChecker.cpp">
       <Filter>Source Files\Chess\Pieces\Logic</Filter>
     </ClCompile>
+    <ClCompile Include="src\chess\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chess\Chessboard.h">
@@ -274,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="src\chess\pieces\logic\CheckChecker.h">
       <Filter>Header Files\Chess\Pieces\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\Player.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

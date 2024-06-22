@@ -66,7 +66,7 @@ std::shared_ptr<Chess::IPiece> Chess::PieceDirector::GetPiece(const Coordinate& 
 	return nullptr;
 }
 
-void Chess::PieceDirector::InitCurrentPiece(const Coordinate& from, const std::vector<std::shared_ptr<IPiece>>& pieces)
+void Chess::PieceDirector::InitCurrentPiece(const Coordinate& from)
 {
 	m_currentPiece = GetPiece(from);
 }

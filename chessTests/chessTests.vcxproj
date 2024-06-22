@@ -52,6 +52,7 @@
     <ClCompile Include="..\chess\src\chess\pieces\QueenChecker.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\Rook.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\RookChecker.cpp" />
+    <ClCompile Include="..\chess\src\chess\Player.cpp" />
     <ClCompile Include="test\chess\pieces\KingCheckerTests.cpp" />
     <ClCompile Include="test\chess\pieces\logic\CheckCheckerTests.cpp" />
     <ClCompile Include="test\chess\pieces\logic\MoveCheckerTests.cpp" />

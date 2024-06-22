@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Chess::Controller::Controller(std::shared_ptr<Chessboard> chessboard)
+Chess::Controller::Controller(std::shared_ptr<Chessboard>& chessboard)
 	: m_chessboard(chessboard) { }
 
 bool Chess::Controller::TryInitPiece(Coordinate from)
@@ -12,5 +12,14 @@ bool Chess::Controller::TryInitPiece(Coordinate from)
 
 bool Chess::Controller::TryMovePiece(Coordinate to)
 {
-	return m_chessboard->TryMovePiece(to);
+	auto isMoved = m_chessboard->TryMovePiece(to);
+
+	m_signalMove();
+
+	return isMoved;
+}
+
+boost::signals2::connection Chess::Controller::ConnectMove(const boost::signals2::signal<void()>::slot_type& subscriber)
+{
+	return m_signalMove.connect(subscriber);
 }

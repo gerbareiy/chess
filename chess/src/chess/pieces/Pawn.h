@@ -24,7 +24,9 @@ namespace Chess
 
 	public:
 		Pawn(ePieceColor color, char file);
-		Pawn(ePieceColor color, char file, std::shared_ptr<PieceSignalDirector> signalDirector);
+		Pawn(ePieceColor color, char file, const std::shared_ptr<PieceSignalDirector>& signalDirector);
+		Pawn(ePieceColor color, Coordinate coordinate);
+		Pawn(ePieceColor color, Coordinate coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector);
 
 	public:
 		bool get_CanEnPassant() const;

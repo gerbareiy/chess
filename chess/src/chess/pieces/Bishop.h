@@ -15,6 +15,7 @@ namespace Chess
 
 	public:
 		Bishop(ePieceColor color, int orderNumber);
+		Bishop(ePieceColor color, Coordinate coordinate);
 
 	public:
 		PieceColorAndType get_ColorAndType() const override;

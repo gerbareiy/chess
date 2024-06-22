@@ -23,6 +23,9 @@ Chess::Queen::Queen(ePieceColor color)
 	}
 }
 
+Chess::Queen::Queen(ePieceColor color, Coordinate coordinate)
+	: m_colorAndType(PieceColorAndType(color, ePieceType::QUEEN)), m_position(coordinate) { }
+
 Chess::PieceColorAndType Chess::Queen::get_ColorAndType() const
 {
 	return m_colorAndType;

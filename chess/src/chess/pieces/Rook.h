@@ -25,6 +25,8 @@ namespace Chess
 	public:
 		Rook(ePieceColor pieceColor, int orderNumber);
 		Rook(ePieceColor pieceColor, int orderNumber, const std::shared_ptr<IKing>& king);
+		Rook(ePieceColor color, Coordinate coordinate);
+		Rook(ePieceColor color, Coordinate coordinate, const std::shared_ptr<IKing>& king);
 
 	public:
 		bool get_CanMakeCastling() const override;

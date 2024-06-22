@@ -8,14 +8,12 @@
 
 #include <stdexcept>
 
-Chess::Knight::Knight(ePieceColor color, int orderNumber)
+Chess::Knight::Knight(ePieceColor color, int orderNumber) : m_colorAndType(PieceColorAndType(color, ePieceType::KNIGHT))
 {
 	if (orderNumber < 1 || orderNumber > 2)
 	{
 		throw std::out_of_range(ErrorConverter::ToString(Chess::eError::OUT_OF_COUNT_OF_BISHOP_KNIGHT_ROOK_WITH_ONE_COLOR));
 	}
-
-	m_colorAndType = PieceColorAndType(color, ePieceType::KNIGHT);
 
 	auto file = orderNumber == 1 ? 'B' : 'G';
 
@@ -31,6 +29,9 @@ Chess::Knight::Knight(ePieceColor color, int orderNumber)
 		throw std::out_of_range(ErrorConverter::ToString(Chess::eError::OUT_OF_CHESSBOARD));
 	}
 }
+
+Chess::Knight::Knight(ePieceColor color, Coordinate coordinate)
+	: m_colorAndType(PieceColorAndType(color, ePieceType::KNIGHT)), m_position(coordinate) { }
 
 Chess::PieceColorAndType Chess::Knight::get_ColorAndType() const
 {

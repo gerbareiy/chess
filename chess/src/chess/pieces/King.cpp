@@ -7,10 +7,8 @@
 #include <math.h>
 #include <stdexcept>
 
-Chess::King::King(ePieceColor color)
+Chess::King::King(ePieceColor color) : m_colorAndType(PieceColorAndType(color, ePieceType::KING))
 {
-	m_colorAndType = PieceColorAndType(color, ePieceType::KING);
-
 	switch (color)
 	{
 	case Chess::ePieceColor::BLACK:
@@ -25,6 +23,22 @@ Chess::King::King(ePieceColor color)
 }
 
 Chess::King::King(ePieceColor color, const std::shared_ptr<PieceSignalDirector>& signalDirector) : King(color)
+{
+	if (!signalDirector)
+	{
+		return;
+	}
+
+	signalDirector->ConnectMoveWithCheck([this](bool isCheck)
+		{
+			m_isCheck = isCheck;
+		});
+}
+
+Chess::King::King(ePieceColor color, Coordinate coordinate)
+	: m_colorAndType(PieceColorAndType(color, ePieceType::KING)), m_position(coordinate) { }
+
+Chess::King::King(ePieceColor color, Coordinate coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector) : King(color, coordinate)
 {
 	if (!signalDirector)
 	{

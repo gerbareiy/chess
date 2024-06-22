@@ -42,6 +42,19 @@ Chess::Rook::Rook(ePieceColor pieceColor, int orderNumber, const std::shared_ptr
 	m_castlingConnection = king->ConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
 }
 
+Chess::Rook::Rook(ePieceColor color, Coordinate coordinate)
+	: m_colorAndType(PieceColorAndType(color, ePieceType::ROOK)), m_position(coordinate) { }
+
+Chess::Rook::Rook(ePieceColor color, Coordinate coordinate, const std::shared_ptr<IKing>& king)
+{
+	if (!king)
+	{
+		return;
+	}
+
+	m_castlingConnection = king->ConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
+}
+
 bool Chess::Rook::get_CanMakeCastling() const
 {
 	return m_canMakeCastling;

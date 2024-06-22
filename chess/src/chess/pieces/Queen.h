@@ -15,6 +15,7 @@ namespace Chess
 
 	public:
 		Queen(ePieceColor color);
+		Queen(ePieceColor color, Coordinate coordinate);
 
 	public:
 		PieceColorAndType get_ColorAndType() const override;
