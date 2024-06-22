@@ -31,6 +31,9 @@
     <Filter Include="Resource Files\Chess\Logic">
       <UniqueIdentifier>{e04e5dbb-9f75-426c-9462-7b0cf099dd4d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Chess\Pieces\Logic">
+      <UniqueIdentifier>{0d0285ec-ccf2-4c9f-97cb-eca3ac94aab2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test\chess\pieces\PawnCheckerTests.cpp">
@@ -138,9 +141,6 @@
     <ClCompile Include="..\chess\src\chess\logic\PieceTakeLocator.cpp">
       <Filter>Resource Files\Chess\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="..\chess\src\chess\logic\CheckChecker.cpp">
-      <Filter>Resource Files\Chess\Logic</Filter>
-    </ClCompile>
     <ClCompile Include="..\chess\src\chess\InputHandler.cpp">
       <Filter>Resource Files\Chess</Filter>
     </ClCompile>
@@ -152,6 +152,15 @@
     </ClCompile>
     <ClCompile Include="..\chess\src\chess\pieces\logic\MoveCheckerFactory.cpp">
       <Filter>Resource Files\Chess\Pieces\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\logic\CheckChecker.cpp">
+      <Filter>Resource Files\Chess\Pieces\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="test\chess\pieces\logic\MoveCheckerTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test\chess\pieces\logic\CheckCheckerTests.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

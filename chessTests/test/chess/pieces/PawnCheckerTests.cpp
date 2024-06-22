@@ -1,7 +1,7 @@
-#include "../../../../chess/src/chess/logic/Sizes.h"
 #include "../../../../chess/src/chess/logic/Coordinate.h"
-#include "../../../../chess/src/chess/pieces/logic/ePieceColor.h"
+#include "../../../../chess/src/chess/logic/Sizes.h"
 #include "../../../../chess/src/chess/pieces/King.h"
+#include "../../../../chess/src/chess/pieces/logic/ePieceColor.h"
 #include "../../../../chess/src/chess/pieces/Pawn.h"
 #include "../../../../chess/src/chess/pieces/PawnChecker.h"
 #include "../../../../chess/src/chess/pieces/Queen.h"
@@ -22,26 +22,26 @@ BOOST_AUTO_TEST_CASE(FindPosiblePawnMoves_Test)
 	std::vector<std::shared_ptr<Chess::IPiece>> pieces = { blackKing, blackPawn, whitePawn, whiteQueen };
 	auto pawnChecker = std::make_shared<Chess::PawnChecker>();
 
-	BOOST_CHECK_EQUAL(pawnChecker->GetPossibleMoves(blackKing, pieces).size(), 0);
-	BOOST_CHECK_EQUAL(pawnChecker->GetPossibleMoves(whitePawn, pieces).size(), 2);
+	BOOST_CHECK_EQUAL(pawnChecker->GetMoves(blackKing, pieces).size(), 0);
+	BOOST_CHECK_EQUAL(pawnChecker->GetMoves(whitePawn, pieces).size(), 2);
 
 	blackKing->Move(Chess::Coordinate('B', 3));
-	BOOST_CHECK_EQUAL(pawnChecker->GetPossibleMoves(whitePawn, pieces).size(), 0);
+	BOOST_CHECK_EQUAL(pawnChecker->GetMoves(whitePawn, pieces).size(), 0);
 
 	blackKing->Move(Chess::Coordinate('C', 3));
 	whiteQueen->Move(Chess::Coordinate('A', 3));
-	BOOST_CHECK_EQUAL(pawnChecker->GetPossibleMoves(whitePawn, pieces).size(), 3);
+	BOOST_CHECK_EQUAL(pawnChecker->GetMoves(whitePawn, pieces).size(), 3);
 
 	whitePawn->Move(Chess::Coordinate('B', Chess::CHESSBOARD_SIZE - 1));
-	BOOST_CHECK_EQUAL(pawnChecker->GetPossibleMoves(whitePawn, pieces).size(), 1);
+	BOOST_CHECK_EQUAL(pawnChecker->GetMoves(whitePawn, pieces).size(), 1);
 
 	whitePawn->Move(Chess::Coordinate('B', Chess::CHESSBOARD_SIZE));
-	BOOST_CHECK_EQUAL(pawnChecker->GetPossibleMoves(whitePawn, pieces).size(), 0);
+	BOOST_CHECK_EQUAL(pawnChecker->GetMoves(whitePawn, pieces).size(), 0);
 
 	blackKing->Move(Chess::Coordinate('B', Chess::CHESSBOARD_SIZE - 3));
 	whitePawn->Move(Chess::Coordinate('C', Chess::CHESSBOARD_SIZE - 3));
 	blackPawn->Move(Chess::Coordinate('D', Chess::CHESSBOARD_SIZE - 3));
-	BOOST_CHECK_EQUAL(pawnChecker->GetPossibleMoves(whitePawn, pieces).size(), 2);
+	BOOST_CHECK_EQUAL(pawnChecker->GetMoves(whitePawn, pieces).size(), 2);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

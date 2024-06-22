@@ -13,8 +13,8 @@ namespace Chess
 	class Chessboard
 	{
 	private:
-		std::shared_ptr<PieceDirector> m_director{};
-		std::shared_ptr<MoveValidator> m_validator{};
+		std::shared_ptr<PieceDirector> m_director;
+		std::shared_ptr<MoveValidator> m_validator;
 
 	public:
 		Chessboard();

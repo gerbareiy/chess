@@ -1,7 +1,7 @@
 #include "../../../../chess/src/chess/logic/Coordinate.h"
-#include "../../../../chess/src/chess/pieces/logic/ePieceColor.h"
 #include "../../../../chess/src/chess/pieces/Knight.h"
 #include "../../../../chess/src/chess/pieces/KnightChecker.h"
+#include "../../../../chess/src/chess/pieces/logic/ePieceColor.h"
 #include "../../../../chess/src/chess/pieces/Pawn.h"
 
 #include <boost/test/unit_test.hpp>
@@ -21,13 +21,13 @@ BOOST_AUTO_TEST_CASE(FindPosibleKnightMoves_Test)
 
 	auto knightChecker = std::make_shared<Chess::KnightChecker>();
 
-	BOOST_CHECK_EQUAL(knightChecker->GetPossibleMoves(blackPawn, pieces).size(), 0);
+	BOOST_CHECK_EQUAL(knightChecker->GetMoves(blackPawn, pieces).size(), 0);
 
 	blackKnight->Move(Chess::Coordinate('D', 1));
 	blackPawn->Move(Chess::Coordinate('F', 2));
 	whitePawn1->Move(Chess::Coordinate('E', 3));
 	whitePawn2->Move(Chess::Coordinate('C', 3));
-	BOOST_CHECK_EQUAL(knightChecker->GetPossibleMoves(blackKnight, pieces).size(), 3);
+	BOOST_CHECK_EQUAL(knightChecker->GetMoves(blackKnight, pieces).size(), 3);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

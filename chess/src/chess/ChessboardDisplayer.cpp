@@ -6,7 +6,7 @@
 #include <conio.h>
 #include <iostream>
 
-Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard> chessboard) : m_chessboard(chessboard) { }
+Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard) : m_chessboard(chessboard) { }
 
 eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate coordinate)
 {
@@ -112,7 +112,6 @@ void Chess::ChessboardDisplayer::ShowChessboardWithCoordinates()
 	for (auto y = CHESSBOARD_SIZE; y > 0; --y, ShowEmpty())
 	{
 		ShowChessboardRank(y, isChessboardSizeOneDigit);
-
 		ShowChessboardRowWithRank(y, originalTextColor);
 		SetConsoleColor(static_cast<eConsoleColor>(originalTextColor), static_cast<eConsoleColor>(originalBackgroundColor));
 		ShowChessboardRank(y, isChessboardSizeOneDigit);

@@ -126,20 +126,20 @@
     <ClCompile Include="src\chess\logic\PieceDirector.cpp">
       <Filter>Source Files\Chess\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="src\chess\logic\PieceTakeLocator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chess\logic\CheckChecker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chess\ChessboardDisplayer.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\chess\pieces\logic\MoveCheckerFactory.cpp">
+      <Filter>Source Files\Chess\Pieces\Logic</Filter>
     </ClCompile>
     <ClCompile Include="src\chess\InputDisplayer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Chess</Filter>
     </ClCompile>
-    <ClCompile Include="src\chess\pieces\logic\MoveCheckerFactory.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\chess\ChessboardDisplayer.cpp">
+      <Filter>Source Files\Chess</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\logic\PieceTakeLocator.cpp">
+      <Filter>Source Files\Chess\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\pieces\logic\CheckChecker.cpp">
+      <Filter>Source Files\Chess\Pieces\Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -260,20 +260,20 @@
     <ClInclude Include="src\chess\logic\PieceDirector.h">
       <Filter>Header Files\Chess\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="src\chess\logic\PieceTakeLocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chess\logic\CheckChecker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\chess\ChessboardDisplayer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Chess</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\InputDisplayer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Chess</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\pieces\logic\MoveCheckerFactory.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Chess\Pieces\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\logic\PieceTakeLocator.h">
+      <Filter>Header Files\Chess\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\pieces\logic\CheckChecker.h">
+      <Filter>Header Files\Chess\Pieces\Logic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

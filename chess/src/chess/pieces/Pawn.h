@@ -17,10 +17,10 @@ namespace Chess
 
 	private:
 		bool m_canEnPassant = false;
-		PieceColorAndType m_colorAndType{};
+		PieceColorAndType m_colorAndType;
 		bool m_isOnPawnFirstMove = false;
 		bool m_isNotMoved = true;
-		Coordinate m_position{};
+		Coordinate m_position;
 
 	public:
 		Pawn(ePieceColor color, char file);

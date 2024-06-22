@@ -19,8 +19,8 @@ namespace Chess
 	private:
 		bool m_canMakeCastling = false;
 		boost::signals2::connection m_castlingConnection;
-		PieceColorAndType m_colorAndType{};
-		Coordinate m_position{};
+		PieceColorAndType m_colorAndType;
+		Coordinate m_position;
 
 	public:
 		Rook(ePieceColor pieceColor, int orderNumber);

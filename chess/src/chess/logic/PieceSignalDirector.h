@@ -8,8 +8,8 @@ namespace Chess
 	{
 
 	private:
-		boost::signals2::signal<void()> m_moveSignal{};
-		boost::signals2::signal<void(bool)> m_moveWithCheckSignal{};
+		boost::signals2::signal<void()> m_moveSignal;
+		boost::signals2::signal<void(bool)> m_moveWithCheckSignal;
 
 	public:
 		boost::signals2::connection ConnectMove(const boost::signals2::signal<void()>::slot_type& subscriber);

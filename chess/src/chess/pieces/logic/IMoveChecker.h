@@ -14,6 +14,6 @@ namespace Chess
 		virtual ~IMoveChecker() = default;
 
 	public:
-		virtual std::vector<Coordinate> GetPossibleMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) = 0;
+		virtual std::vector<Coordinate> GetMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) = 0;
 	};
 }

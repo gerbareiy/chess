@@ -17,8 +17,8 @@ char Chess::InputHandler::EnterFile()
 {
 	m_signalEnter("File: ");
 
-	std::string input{};
-	char file{};
+	std::string input;
+	char file;
 	std::getline(std::cin, input);
 	file = *input.data();
 
@@ -35,8 +35,8 @@ int Chess::InputHandler::EnterRank()
 {
 	m_signalEnter("Rank: ");
 
-	std::string input{};
-	int rank{};
+	std::string input;
+	int rank;
 	std::getline(std::cin, input);
 
 	try

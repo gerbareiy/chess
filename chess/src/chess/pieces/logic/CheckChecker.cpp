@@ -1,6 +1,6 @@
 #include "CheckChecker.h"
 
-#include "../pieces/logic/MoveCheckerFactory.h"
+#include "MoveCheckerFactory.h"
 
 bool Chess::CheckChecker::IsCheck(std::shared_ptr<IKing> king, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
@@ -9,7 +9,7 @@ bool Chess::CheckChecker::IsCheck(std::shared_ptr<IKing> king, const std::vector
 		if (piece->get_ColorAndType().get_Color() != king->get_ColorAndType().get_Color())
 		{
 			auto moveChecker = std::make_unique<MoveCheckerFactory>()->Create(piece);
-			auto moves = moveChecker->GetPossibleMoves(piece, piecesOnBoard);
+			auto moves = moveChecker->GetMoves(piece, piecesOnBoard);
 
 			for (const auto& move : moves)
 			{

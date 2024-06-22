@@ -1,12 +1,12 @@
 #include "PieceDirector.h"
 
 #include "Counts.h"
-#include "CheckChecker.h"
 #include "Sizes.h"
 #include "PieceTakeLocator.h"
 #include "../pieces/Bishop.h"
 #include "../pieces/King.h"
 #include "../pieces/Knight.h"
+#include "../pieces/logic/CheckChecker.h"
 #include "../pieces/logic/ePieceColor.h"
 #include "../pieces/logic/PieceColorAndType.h"
 #include "../pieces/logic/PieceFinder.h"

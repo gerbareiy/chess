@@ -15,7 +15,7 @@ namespace Chess
 		const std::shared_ptr<Chessboard> m_chessboard;
 
 	public:
-		ChessboardDisplayer(const std::shared_ptr<Chessboard> chessboard);
+		ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard);
 
 	private:
 		eConsoleColor GetBackgroundConsoleColor(Coordinate coordinate);

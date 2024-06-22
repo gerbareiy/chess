@@ -10,8 +10,8 @@ namespace Chess
 	class Knight : public IPiece
 	{
 	private:
-		PieceColorAndType m_colorAndType{};
-		Coordinate m_position{};
+		PieceColorAndType m_colorAndType;
+		Coordinate m_position;
 
 	public:
 		Knight(ePieceColor pieceColor, int orderNumber);

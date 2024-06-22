@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Coordinate.h"
-#include "CheckChecker.h"
 #include "../pieces/IPiece.h"
+#include "../pieces/logic/CheckChecker.h"
 #include "../pieces/logic/MoveChecker.h"
 
 #include <memory>
@@ -13,8 +13,8 @@ namespace Chess
 	class MoveValidator
 	{
 	private:
-		std::vector<Coordinate> m_possibleMoves{};
-		std::shared_ptr<CheckChecker> m_checkChecker{};
+		std::vector<Coordinate> m_possibleMoves;
+		std::shared_ptr<CheckChecker> m_checkChecker;
 		const std::vector<std::shared_ptr<IPiece>> m_piecesOnBoard;
 
 	public:

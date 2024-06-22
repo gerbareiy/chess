@@ -10,8 +10,8 @@ namespace Chess
 	class Bishop : public IPiece
 	{
 	private:
-		PieceColorAndType m_colorAndType{};
-		Coordinate m_position{};
+		PieceColorAndType m_colorAndType;
+		Coordinate m_position;
 
 	public:
 		Bishop(ePieceColor color, int orderNumber);

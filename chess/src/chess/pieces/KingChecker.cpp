@@ -110,7 +110,7 @@ std::vector<Chess::Coordinate> Chess::KingChecker::FindPossibleMoves(const std::
 	return moves;
 }
 
-std::vector<Chess::Coordinate> Chess::KingChecker::GetPossibleMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::KingChecker::GetMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
 	if (!piece || typeid(*piece) != typeid(King) || piece->get_ColorAndType().get_Type() != ePieceType::KING)
 	{

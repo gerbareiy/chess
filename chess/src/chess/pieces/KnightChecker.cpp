@@ -46,7 +46,7 @@ std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std
 	return moves;
 }
 
-std::vector<Chess::Coordinate> Chess::KnightChecker::GetPossibleMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::KnightChecker::GetMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
 	if (!piece || typeid(*piece) != typeid(Knight) || piece->get_ColorAndType().get_Type() != ePieceType::KNIGHT)
 	{

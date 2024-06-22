@@ -14,9 +14,9 @@ namespace Chess
 	class PieceDirector
 	{
 	private:
-		std::vector<std::shared_ptr<IPiece>> m_eatenPieces{};
-		std::shared_ptr<IPiece> m_currentPiece{};
-		std::vector<std::shared_ptr<IPiece>> m_piecesOnBoard{};
+		std::vector<std::shared_ptr<IPiece>> m_eatenPieces;
+		std::shared_ptr<IPiece> m_currentPiece;
+		std::vector<std::shared_ptr<IPiece>> m_piecesOnBoard;
 		std::shared_ptr<PieceSignalDirector> m_signalDirector;
 
 	public:

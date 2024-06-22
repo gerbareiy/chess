@@ -29,7 +29,7 @@ std::vector<Chess::Coordinate> Chess::BishopChecker::FindPossibleMoves(const std
 	return moves;
 }
 
-std::vector<Chess::Coordinate> Chess::BishopChecker::GetPossibleMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::BishopChecker::GetMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
 	if (!piece || typeid(*piece) != typeid(Bishop) || piece->get_ColorAndType().get_Type() != ePieceType::BISHOP)
 	{

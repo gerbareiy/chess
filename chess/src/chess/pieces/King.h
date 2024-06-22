@@ -17,9 +17,9 @@ namespace Chess
 	{
 	private:
 		bool m_canMakeCastling = true;
-		PieceColorAndType m_colorAndType{};
+		PieceColorAndType m_colorAndType;
 		bool m_isCheck = false;
-		Coordinate m_position{};
+		Coordinate m_position;
 
 	private:
 		boost::signals2::signal<void(Coordinate, eCastleSide)> m_signalCastling;

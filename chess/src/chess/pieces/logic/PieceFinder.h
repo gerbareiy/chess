@@ -12,7 +12,7 @@ namespace Chess
 	class PieceFinder
 	{
 	private:
-		std::map<Coordinate, std::shared_ptr<IPiece>> m_pieceMap{};
+		std::map<Coordinate, std::shared_ptr<IPiece>> m_pieceMap;
 
 	public:
 		PieceFinder(const std::vector<std::shared_ptr<IPiece>>& pieces);

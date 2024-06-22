@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../pieces/IPiece.h"
-#include "../pieces/logic/IKing.h"
-#include "../pieces/logic/MoveChecker.h"
-#include "../pieces/logic/PieceFinder.h"
+#include "../IPiece.h"
+#include "IKing.h"
+#include "MoveChecker.h"
+#include "PieceFinder.h"
 
 #include <memory>
 #include <vector>

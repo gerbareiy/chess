@@ -11,7 +11,7 @@
 
 std::vector<std::shared_ptr<Chess::IPiece>> Chess::PieceInitializer::InitStandartBoard(std::shared_ptr<PieceSignalDirector> signalDirector)
 {
-	std::vector<std::shared_ptr<Chess::IPiece>> piecesOnBoard{};
+	std::vector<std::shared_ptr<Chess::IPiece>> piecesOnBoard;
 	piecesOnBoard.reserve(MAX_COUNT_ELEMENTS);
 
 	auto blackKing = std::make_shared<King>(ePieceColor::BLACK, signalDirector);

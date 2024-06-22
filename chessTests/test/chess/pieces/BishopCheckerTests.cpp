@@ -1,9 +1,8 @@
-#include "../../../../chess/src/chess/logic/Sizes.h"
 #include "../../../../chess/src/chess/logic/Coordinate.h"
 #include "../../../../chess/src/chess/pieces/Bishop.h"
 #include "../../../../chess/src/chess/pieces/BishopChecker.h"
-#include "../../../../chess/src/chess/pieces/logic/ePieceColor.h"
 #include "../../../../chess/src/chess/pieces/Knight.h"
+#include "../../../../chess/src/chess/pieces/logic/ePieceColor.h"
 
 #include <boost/test/unit_test.hpp>
 
@@ -20,12 +19,12 @@ BOOST_AUTO_TEST_CASE(FindPosibleBishopMoves_Test)
 	std::vector<std::shared_ptr<Chess::IPiece>> pieces = { blackBishop, whiteBishop, whiteKnight };
 	auto bishopChecker = std::make_shared<Chess::BishopChecker>();
 
-	BOOST_CHECK_EQUAL(bishopChecker->GetPossibleMoves(whiteKnight, pieces).size(), 0);
+	BOOST_CHECK_EQUAL(bishopChecker->GetMoves(whiteKnight, pieces).size(), 0);
 
 	blackBishop->Move(Chess::Coordinate('G', 2));
 	whiteBishop->Move(Chess::Coordinate('E', 4));
 	whiteKnight->Move(Chess::Coordinate('G', 6));
-	BOOST_CHECK_EQUAL(bishopChecker->GetPossibleMoves(whiteBishop, pieces).size(), 10);
+	BOOST_CHECK_EQUAL(bishopChecker->GetMoves(whiteBishop, pieces).size(), 10);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

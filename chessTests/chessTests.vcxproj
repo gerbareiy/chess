@@ -25,7 +25,6 @@
     <ClCompile Include="..\chess\src\chess\Game.cpp" />
     <ClCompile Include="..\chess\src\chess\InputDisplayer.cpp" />
     <ClCompile Include="..\chess\src\chess\InputHandler.cpp" />
-    <ClCompile Include="..\chess\src\chess\logic\CheckChecker.cpp" />
     <ClCompile Include="..\chess\src\chess\logic\Coordinate.cpp" />
     <ClCompile Include="..\chess\src\chess\logic\ErrorConverter.cpp" />
     <ClCompile Include="..\chess\src\chess\logic\MoveValidator.cpp" />
@@ -40,6 +39,7 @@
     <ClCompile Include="..\chess\src\chess\pieces\Knight.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\KnightChecker.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\logic\BishopQueenRookDirectionChecker.cpp" />
+    <ClCompile Include="..\chess\src\chess\pieces\logic\CheckChecker.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\logic\MoveChecker.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\logic\MoveCheckerFactory.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\logic\PieceColorAndType.cpp" />
@@ -53,6 +53,8 @@
     <ClCompile Include="..\chess\src\chess\pieces\Rook.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\RookChecker.cpp" />
     <ClCompile Include="test\chess\pieces\KingCheckerTests.cpp" />
+    <ClCompile Include="test\chess\pieces\logic\CheckCheckerTests.cpp" />
+    <ClCompile Include="test\chess\pieces\logic\MoveCheckerTests.cpp" />
     <ClCompile Include="test\chess\pieces\QueenCheckerTests.cpp" />
     <ClCompile Include="test\chess\pieces\BishopCheckerTests.cpp" />
     <ClCompile Include="test\chess\pieces\RookCheckerTests.cpp" />

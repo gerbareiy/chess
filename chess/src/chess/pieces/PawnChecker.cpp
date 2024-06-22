@@ -102,7 +102,7 @@ void Chess::PawnChecker::ValidatePawn(const std::shared_ptr<Pawn>& pawn)
 	}
 }
 
-std::vector<Chess::Coordinate> Chess::PawnChecker::GetPossibleMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::PawnChecker::GetMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
 	if (!piece || typeid(*piece) != typeid(Pawn) || piece->get_ColorAndType().get_Type() != ePieceType::PAWN)
 	{

@@ -68,7 +68,7 @@ void Chess::King::Move(Coordinate to)
 
 	if (abs(get_Position().get_File() - to.get_File()) > 1)
 	{
-		eCastleSide side{};
+		eCastleSide side;
 
 		if (to.get_File() > get_Position().get_File())
 		{
