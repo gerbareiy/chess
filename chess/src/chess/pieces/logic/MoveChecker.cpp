@@ -20,16 +20,23 @@ std::vector<Chess::Coordinate> Chess::MoveChecker::GetPossibleMoves(const std::v
 
     for (const auto& move : notFilteredMoves)
     {
-        /*if (finder->Find(move))
+        auto capturedPiece = finder->Find(move);
+
+        if (capturedPiece)
         {
-            filteredMoves.emplace_back(move);
-        }*/
+            capturedPiece->Move(Coordinate( 0, 0 ));
+        }
 
         m_piece->Move(move);
 
         if (!checker->IsCheck(m_piece->get_ColorAndType().get_Color(), piecesOnBoard))
         {
             filteredMoves.emplace_back(move);
+        }
+
+        if (capturedPiece)
+        {
+            capturedPiece->Move(move);
         }
     }
 

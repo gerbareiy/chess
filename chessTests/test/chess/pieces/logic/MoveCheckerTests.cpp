@@ -1,4 +1,5 @@
 #include "../../../../../chess/src/chess/logic/Coordinate.h"
+#include "../../../../../chess/src/chess/pieces/Bishop.h"
 #include "../../../../../chess/src/chess/pieces/King.h"
 #include "../../../../../chess/src/chess/pieces/logic/MoveChecker.h"
 #include "../../../../../chess/src/chess/pieces/Rook.h"
@@ -20,10 +21,17 @@ BOOST_AUTO_TEST_CASE(FilterMoveChecker_Test)
 
 	BOOST_CHECK_EQUAL(checker->GetPossibleMoves(pieces).size(), 10);
 
-	blackRook->Move(Chess::Coordinate(whiteKing->get_Position().get_File(), whiteKing->get_Position().get_Rank() - 1));
+	blackRook->Move(Chess::Coordinate(whiteKing->get_Position().get_File() - 1, whiteKing->get_Position().get_Rank()));
 	BOOST_CHECK_EQUAL(checker->GetPossibleMoves(pieces).size(), 1);
 
-	blackRook->Move(Chess::Coordinate(whiteKing->get_Position().get_File() + 1, whiteKing->get_Position().get_Rank()));
+	blackRook->Move(Chess::Coordinate(whiteKing->get_Position().get_File(), whiteKing->get_Position().get_Rank() + 1));
+	BOOST_CHECK_EQUAL(checker->GetPossibleMoves(pieces).size(), 0);
+
+	auto blackBishop = std::make_shared<Chess::Bishop>(Chess::ePieceColor::BLACK, 1);
+	pieces.emplace_back(blackBishop);
+
+	blackBishop->Move(Chess::Coordinate(whiteKing->get_Position().get_File() + 2, whiteKing->get_Position().get_Rank() + 2));
+	blackRook->Move(Chess::Coordinate(whiteKing->get_Position().get_File() - 1, whiteKing->get_Position().get_Rank()));
 	BOOST_CHECK_EQUAL(checker->GetPossibleMoves(pieces).size(), 0);
 }
 
