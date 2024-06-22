@@ -8,13 +8,13 @@
 #include <vector>
 
 Chess::MoveChecker::MoveChecker(const std::shared_ptr<IPiece>& piece)
-    : m_piece(piece), m_moveChecker(std::unique_ptr<MoveCheckerFactory>()->Create(piece)) { }
+    : m_piece(piece), m_moveCheckerOfPiece(std::unique_ptr<MoveCheckerFactory>()->Create(piece)) { }
 
 std::vector<Chess::Coordinate> Chess::MoveChecker::GetPossibleMoves(const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
     const auto checker = std::unique_ptr<CheckChecker>();
     std::vector<Chess::Coordinate> filteredMoves;
-    auto notFilteredMoves = m_moveChecker->GetMoves(m_piece, piecesOnBoard);
+    auto notFilteredMoves = m_moveCheckerOfPiece->GetMoves(m_piece, piecesOnBoard);
     auto pieceCoordinate = m_piece->get_Position();
     auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
 

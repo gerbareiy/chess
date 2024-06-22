@@ -126,6 +126,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\chess\Player.cpp" />
     <ClCompile Include="src\chess\pieces\logic\MoveCheckerFactory.cpp" />
     <ClCompile Include="src\chess\InputDisplayer.cpp" />
     <ClCompile Include="src\chess\ChessboardDisplayer.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\chess\Player.h" />
     <ClInclude Include="src\chess\pieces\logic\MoveCheckerFactory.h" />
     <ClInclude Include="src\chess\InputDisplayer.h" />
     <ClInclude Include="src\chess\ChessboardDisplayer.h" />

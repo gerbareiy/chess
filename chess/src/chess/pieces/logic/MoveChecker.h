@@ -10,7 +10,7 @@ namespace Chess
 	class MoveChecker
 	{
 	private:
-		std::shared_ptr<IMoveChecker> m_moveChecker;
+		std::shared_ptr<IMoveChecker> m_moveCheckerOfPiece;
 		std::shared_ptr<IPiece> m_piece;
 
 	public:

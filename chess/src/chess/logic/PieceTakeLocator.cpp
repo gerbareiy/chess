@@ -5,7 +5,7 @@
 
 #include <memory>
 
-Chess::Coordinate Chess::PieceTakeLocator::Find(std::shared_ptr<IPiece> piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard, Coordinate to)
+Chess::Coordinate Chess::PieceTakeLocator::Find(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard, Coordinate to)
 {
 	auto pawnOnPassCoordinate = Coordinate(to.get_File(), piece->get_Position().get_Rank());
 	auto finder = std::make_shared<PieceFinder>(piecesOnBoard);

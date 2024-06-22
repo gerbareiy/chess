@@ -32,7 +32,7 @@ Chess::Rook::Rook(ePieceColor color, int orderNumber) : m_canMakeCastling(true)
 	}
 }
 
-Chess::Rook::Rook(ePieceColor pieceColor, int orderNumber, std::shared_ptr<IKing> king) : Rook(pieceColor, orderNumber)
+Chess::Rook::Rook(ePieceColor pieceColor, int orderNumber, const std::shared_ptr<IKing>& king) : Rook(pieceColor, orderNumber)
 {
 	if (!king)
 	{

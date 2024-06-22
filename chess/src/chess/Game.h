@@ -4,8 +4,10 @@
 #include "Controller.h"
 #include "InputDisplayer.h"
 #include "InputHandler.h"
+#include "Player.h"
 
 #include <memory>
+#include <variant>
 
 namespace Chess
 {
@@ -13,15 +15,16 @@ namespace Chess
 	{
 	private:
 		std::unique_ptr<ChessboardDisplayer> m_chessboardDisplayer;
-		std::unique_ptr<Controller> m_controller;
+		std::shared_ptr<Controller> m_controller;
 		std::shared_ptr<InputHandler> m_inputHandler;
 		std::unique_ptr<InputDisplayer> m_inputDisplayer;
+		std::shared_ptr<Player> m_player;
 
 	public:
 		Game();
 
     private:
-		Coordinate HandleInput(std::function<Coordinate()> inputFunc, std::function<bool(const Coordinate&)> validateFunc);
+		Coordinate HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction);
 
 	public:
 		void Play();

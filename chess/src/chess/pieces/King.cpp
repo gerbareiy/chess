@@ -24,7 +24,7 @@ Chess::King::King(ePieceColor color)
 	}
 }
 
-Chess::King::King(ePieceColor color, std::shared_ptr<PieceSignalDirector> signalDirector) : King(color)
+Chess::King::King(ePieceColor color, const std::shared_ptr<PieceSignalDirector>& signalDirector) : King(color)
 {
 	if (!signalDirector)
 	{

@@ -11,8 +11,12 @@ Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard
 eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate coordinate)
 {
 	eConsoleColor color;
-	// more ifs
-	if (m_chessboard->get_MoveValidator()->IsCoordinateInPossibleMoves(coordinate))
+
+	if (true)
+	{
+		color = eConsoleColor::CERULEAN;
+	}
+	else if (m_chessboard->get_MoveValidator()->IsCoordinateInPossibleMoves(coordinate))
 	{
 		color = eConsoleColor::RED;
 	}

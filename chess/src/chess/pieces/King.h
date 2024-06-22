@@ -26,7 +26,7 @@ namespace Chess
 
 	public:
 		King(ePieceColor color);
-		King(ePieceColor color, std::shared_ptr<PieceSignalDirector> signalDirector);
+		King(ePieceColor color, const std::shared_ptr<PieceSignalDirector>& signalDirector);
 
 	public:
 		bool get_CanMakeCastling() const;
