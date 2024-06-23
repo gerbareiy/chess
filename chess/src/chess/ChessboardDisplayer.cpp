@@ -12,7 +12,7 @@ eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate c
 {
 	eConsoleColor color;
 
-	if (true)
+	if (m_chessboard->get_MoveValidator()->IsCoordinateInPieceCanMove(coordinate))
 	{
 		color = eConsoleColor::CERULEAN;
 	}

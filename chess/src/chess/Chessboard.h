@@ -4,6 +4,7 @@
 #include "logic/MoveValidator.h"
 #include "logic/PieceDirector.h"
 #include "pieces/logic/PieceColorAndType.h"
+#include "Player.h"
 
 #include <memory>
 #include <vector>
@@ -14,6 +15,7 @@ namespace Chess
 	{
 	private:
 		std::shared_ptr<PieceDirector> m_director;
+		std::shared_ptr<Player> m_player;
 		std::shared_ptr<MoveValidator> m_validator;
 
 	public:

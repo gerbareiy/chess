@@ -4,7 +4,6 @@
 #include "Controller.h"
 #include "InputDisplayer.h"
 #include "InputHandler.h"
-#include "Player.h"
 
 #include <memory>
 #include <variant>
@@ -18,7 +17,6 @@ namespace Chess
 		std::shared_ptr<Controller> m_controller;
 		std::shared_ptr<InputHandler> m_inputHandler;
 		std::unique_ptr<InputDisplayer> m_inputDisplayer;
-		std::shared_ptr<Player> m_player;
 
 	public:
 		Game();

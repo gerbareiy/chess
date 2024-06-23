@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Controller.h"
+#include "logic/PieceSignalDirector.h"
 #include "pieces/logic/ePieceColor.h"
 
 #include <memory>
@@ -16,7 +16,7 @@ namespace Chess
 		ePieceColor get_PlayerColor();
 
 	public:
-		Player(ePieceColor firstMoveColor, const std::shared_ptr<Controller>& controller);
+		Player(ePieceColor firstMoveColor, const std::shared_ptr<PieceSignalDirector>& signalDirector);
 
 	private:
 		void ChangeColor();

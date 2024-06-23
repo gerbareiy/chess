@@ -3,32 +3,27 @@
 #include "Counts.h"
 #include "../pieces/logic/IKing.h"
 
-Chess::MoveValidator::MoveValidator(const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) : m_piecesOnBoard(piecesOnBoard) { }
+Chess::MoveValidator::MoveValidator(const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard, const std::shared_ptr<Player>& player)
+	: m_piecesOnBoard(piecesOnBoard), m_player(player)
+{
+	CalculatePiecesCanMove();
+}
 
 std::vector<Chess::Coordinate> Chess::MoveValidator::get_PossibleMoves()
 {
 	return m_possibleMoves;
 }
 
-void Chess::MoveValidator::CalculatePossibleMoves(const std::shared_ptr<IPiece>& piece)
+void Chess::MoveValidator::CalculatePiecesCanMove()
 {
-	auto moveChecker = std::make_shared<MoveChecker>(piece);
-	m_possibleMoves = moveChecker->GetPossibleMoves(m_piecesOnBoard);
-}
+	m_piecesCanMove.clear();
 
-void Chess::MoveValidator::ClearPossibleMoves()
-{
-	m_possibleMoves.clear();
-}
-
-const std::vector<std::shared_ptr<Chess::IPiece>>& Chess::MoveValidator::GetPiecesCanMove(ePieceColor pieceColor)
-{
 	std::vector<std::shared_ptr<Chess::IPiece>> pieces;
 	pieces.reserve(MAX_COUNT_ELEMENTS);
 
 	for (const auto& piece : m_piecesOnBoard)
 	{
-		if (piece->get_ColorAndType().get_Color() == pieceColor)
+		if (piece->get_ColorAndType().get_Color() == m_player->get_PlayerColor())
 		{
 			const auto moveChecker = std::make_unique<MoveChecker>(piece);
 
@@ -39,7 +34,30 @@ const std::vector<std::shared_ptr<Chess::IPiece>>& Chess::MoveValidator::GetPiec
 		}
 	}
 
-	return pieces;
+	m_piecesCanMove = pieces;
+}
+
+void Chess::MoveValidator::CalculatePossibleMoves(const std::shared_ptr<IPiece>& piece)
+{
+	auto it = std::find(m_piecesCanMove.begin(), m_piecesCanMove.end(), piece);
+
+	if (it != m_piecesCanMove.end())
+	{
+		auto moveChecker = std::make_shared<MoveChecker>(piece);
+		m_possibleMoves = moveChecker->GetPossibleMoves(m_piecesOnBoard);
+	}
+}
+
+void Chess::MoveValidator::ClearPossibleMoves()
+{
+	m_possibleMoves.clear();
+}
+
+bool Chess::MoveValidator::IsCoordinateInPieceCanMove(Coordinate coordinate)
+{
+	auto finder = std::make_unique<PieceFinder>(m_piecesCanMove);
+
+	return !!finder->Find(coordinate);
 }
 
 bool Chess::MoveValidator::IsCoordinateInPossibleMoves(Coordinate coordinate)

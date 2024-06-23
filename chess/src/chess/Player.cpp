@@ -7,10 +7,10 @@ Chess::ePieceColor Chess::Player::get_PlayerColor()
 	return m_playerColor;
 }
 
-Chess::Player::Player(ePieceColor firstMoveColor, const std::shared_ptr<Controller>& controller)
+Chess::Player::Player(ePieceColor firstMoveColor, const std::shared_ptr<PieceSignalDirector>& signalDirector)
 	: m_playerColor(firstMoveColor == ePieceColor::NONE ? ePieceColor::WHITE : firstMoveColor)
 {
-	controller->ConnectMove(std::bind(&Player::ChangeColor, this));
+	signalDirector->ConnectMove(std::bind(&Player::ChangeColor, this));
 }
 
 void Chess::Player::ChangeColor()

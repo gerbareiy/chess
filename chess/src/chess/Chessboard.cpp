@@ -18,7 +18,8 @@ Chess::Chessboard::Chessboard()
 	auto signalDirector = std::make_shared<PieceSignalDirector>();
 	auto pieces = std::make_unique<PieceInitializer>()->InitStandartBoard(signalDirector);
 	m_director = std::make_shared<PieceDirector>(pieces, signalDirector);
-	m_validator = std::make_shared<MoveValidator>(pieces);
+	m_player = std::make_shared<Player>(ePieceColor::WHITE, signalDirector);
+	m_validator = std::make_shared<MoveValidator>(pieces, m_player);
 }
 
 const std::shared_ptr<Chess::PieceDirector>& Chess::Chessboard::get_PieceDirector() const
@@ -59,6 +60,7 @@ bool Chess::Chessboard::TryMovePiece(const Coordinate& to)
 
 	m_validator->ClearPossibleMoves();
 	m_director->MovePiece(to);
+	m_validator->CalculatePiecesCanMove();
 
 	return true;
 }

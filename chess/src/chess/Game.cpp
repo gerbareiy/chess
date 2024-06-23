@@ -12,7 +12,6 @@ Chess::Game::Game()
 	auto chessboard = std::make_shared<Chessboard>();
 	m_chessboardDisplayer = std::make_unique<ChessboardDisplayer>(chessboard);
 	m_controller = std::make_shared<Controller>(chessboard);
-	m_player = std::make_shared<Player>(ePieceColor::WHITE, m_controller);
 	m_inputHandler = std::make_shared<InputHandler>();
 	m_inputDisplayer = std::make_unique<InputDisplayer>(m_inputHandler);
 }
