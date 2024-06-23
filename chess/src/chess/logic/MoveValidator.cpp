@@ -17,6 +17,7 @@ std::vector<Chess::Coordinate> Chess::MoveValidator::get_PossibleMoves()
 void Chess::MoveValidator::CalculatePiecesCanMove()
 {
 	m_piecesCanMove.clear();
+	ClearPossibleMoves();
 
 	std::vector<std::shared_ptr<Chess::IPiece>> pieces;
 	pieces.reserve(MAX_COUNT_ELEMENTS);

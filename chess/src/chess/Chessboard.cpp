@@ -16,10 +16,9 @@
 Chess::Chessboard::Chessboard()
 {
 	auto signalDirector = std::make_shared<PieceSignalDirector>();
-	auto pieces = std::make_unique<PieceInitializer>()->InitStandartBoard(signalDirector);
-	m_director = std::make_shared<PieceDirector>(pieces, signalDirector);
-	m_player = std::make_shared<Player>(ePieceColor::WHITE, signalDirector);
-	m_validator = std::make_shared<MoveValidator>(pieces, m_player);
+	m_piecesOnBoard = std::make_unique<PieceInitializer>()->InitStandartBoard(signalDirector);
+	m_director = std::make_shared<PieceDirector>(m_piecesOnBoard, signalDirector);
+	m_validator = std::make_shared<MoveValidator>(m_piecesOnBoard, std::make_shared<Player>(ePieceColor::WHITE, signalDirector));
 }
 
 const std::shared_ptr<Chess::PieceDirector>& Chess::Chessboard::get_PieceDirector() const

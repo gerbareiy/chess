@@ -11,6 +11,7 @@ Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard
 eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate coordinate)
 {
 	eConsoleColor color;
+	auto isSquareBlack = (static_cast<int>(coordinate.get_File() + 1) + coordinate.get_Rank()) % 2;
 
 	if (m_chessboard->get_MoveValidator()->IsCoordinateInPieceCanMove(coordinate))
 	{
@@ -20,7 +21,7 @@ eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate c
 	{
 		color = eConsoleColor::RED;
 	}
-	else if ((static_cast<int>(coordinate.get_File() + 1) + coordinate.get_Rank()) % 2)
+	else if (isSquareBlack)
 	{
 		color = eConsoleColor::BROWN;
 	}

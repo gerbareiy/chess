@@ -15,9 +15,8 @@ namespace Chess
 	{
 	private:
 		std::vector<Coordinate> m_possibleMoves;
-		std::shared_ptr<CheckChecker> m_checkChecker;
 		std::vector<std::shared_ptr<IPiece>> m_piecesCanMove;
-		const std::vector<std::shared_ptr<IPiece>> m_piecesOnBoard;
+		const std::vector<std::shared_ptr<IPiece>>& m_piecesOnBoard;
 		const std::shared_ptr<Player> m_player;
 
 	public:

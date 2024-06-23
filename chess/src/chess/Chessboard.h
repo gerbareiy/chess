@@ -15,8 +15,8 @@ namespace Chess
 	{
 	private:
 		std::shared_ptr<PieceDirector> m_director;
-		std::shared_ptr<Player> m_player;
 		std::shared_ptr<MoveValidator> m_validator;
+		std::vector<std::shared_ptr<IPiece>> m_piecesOnBoard;
 
 	public:
 		Chessboard();
