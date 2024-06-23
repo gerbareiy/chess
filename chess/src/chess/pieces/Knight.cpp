@@ -43,7 +43,7 @@ Chess::Coordinate Chess::Knight::get_Position() const
 	return m_position;
 }
 
-void Chess::Knight::Move(Coordinate to)
+void Chess::Knight::Move(Coordinate to, bool isRealMove)
 {
 	m_position = to;
 }

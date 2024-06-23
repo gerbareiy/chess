@@ -22,6 +22,6 @@ namespace Chess
 		Coordinate get_Position() const override;
 
 	public:
-		void Move(Coordinate to) override;
+		void Move(Coordinate to, bool isRealMove = true) override;
 	};
 }

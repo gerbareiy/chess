@@ -90,18 +90,22 @@ void Chess::Pawn::LostEnPassant()
 	m_canEnPassant = false;
 }
 
-void Chess::Pawn::Move(Coordinate to)
+void Chess::Pawn::Move(Coordinate to, bool isRealMove)
 {
-	if (abs(to.get_Rank() - get_Position().get_Rank()) == 2)
+	if(isRealMove)
 	{
-		m_canEnPassant = m_isNotMoved;
-	}
-	else
-	{
-		LostEnPassant();
+		if (abs(to.get_Rank() - get_Position().get_Rank()) == 2)
+		{
+			m_canEnPassant = m_isNotMoved;
+		}
+		else
+		{
+			LostEnPassant();
+		}
+
+		m_isOnPawnFirstMove = m_isNotMoved;
+		m_isNotMoved = false;
 	}
 
-	m_isOnPawnFirstMove = m_isNotMoved;
-	m_isNotMoved = false;
 	m_position = to;
 }

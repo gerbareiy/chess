@@ -76,28 +76,31 @@ void Chess::King::DisableCastling()
 	m_canMakeCastling = false;
 }
 
-void Chess::King::Move(Coordinate to)
+void Chess::King::Move(Coordinate to, bool isRealMove)
 {
-	DisableCastling();
-
-	if (abs(get_Position().get_File() - to.get_File()) > 1)
+	if(isRealMove)
 	{
-		eCastleSide side;
+		DisableCastling();
 
-		if (to.get_File() > get_Position().get_File())
+		if (abs(get_Position().get_File() - to.get_File()) > 1)
 		{
-			side = eCastleSide::RIGHT;
-		}
-		else if (to.get_File() < get_Position().get_File())
-		{
-			side = eCastleSide::LEFT;
-		}
-		else
-		{
-			throw std::invalid_argument(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
-		}
+			eCastleSide side;
 
-		m_signalCastling(to, side);
+			if (to.get_File() > get_Position().get_File())
+			{
+				side = eCastleSide::RIGHT;
+			}
+			else if (to.get_File() < get_Position().get_File())
+			{
+				side = eCastleSide::LEFT;
+			}
+			else
+			{
+				throw std::invalid_argument(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
+			}
+
+			m_signalCastling(to, side);
+		}
 	}
 
 	m_position = to;

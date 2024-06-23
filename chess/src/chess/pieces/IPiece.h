@@ -15,6 +15,6 @@ namespace Chess
 		virtual Coordinate get_Position() const = 0;
 
 	public:
-		virtual void Move(Coordinate to) = 0;
+		virtual void Move(Coordinate to, bool isRealMove = true) = 0;
 	};
 }

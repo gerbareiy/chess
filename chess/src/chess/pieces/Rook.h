@@ -38,6 +38,6 @@ namespace Chess
 		void OnCastling(Coordinate to, eCastleSide side);
 
 	public:
-		void Move(Coordinate to) override;
+		void Move(Coordinate to, bool isRealMove = true) override;
 	};
 }

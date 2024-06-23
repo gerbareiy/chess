@@ -40,7 +40,7 @@ namespace Chess
 		void DisableCastling();
 
 	public:
-		void Move(Coordinate to) override;
+		void Move(Coordinate to, bool isRealMove = true) override;
 
 	public:
 		boost::signals2::connection ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber) override;

@@ -10,7 +10,7 @@
 Chess::MoveChecker::MoveChecker(const std::shared_ptr<IPiece>& piece)
     : m_piece(piece), m_moveCheckerOfPiece(std::unique_ptr<MoveCheckerFactory>()->Create(piece)) { }
 
-std::vector<Chess::Coordinate> Chess::MoveChecker::EmulateCheckIfMove(const Chess::Coordinate& move, const std::vector<std::shared_ptr<Chess::IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::MoveChecker::FindUncheckedMove(const Chess::Coordinate& move, const std::vector<std::shared_ptr<Chess::IPiece>>& piecesOnBoard)
 {
     const auto checker = std::unique_ptr<CheckChecker>();
     std::vector<Chess::Coordinate> filteredMoves;
@@ -24,7 +24,7 @@ std::vector<Chess::Coordinate> Chess::MoveChecker::EmulateCheckIfMove(const Ches
         tempPiecesOnBoard.erase(std::remove(tempPiecesOnBoard.begin(), tempPiecesOnBoard.end(), capturedPiece), tempPiecesOnBoard.end());
     }
 
-    m_piece->Move(move);
+    m_piece->Move(move, false);
 
     if (!checker->IsCheck(m_piece->get_ColorAndType().get_Color(), tempPiecesOnBoard))
     {
@@ -34,7 +34,7 @@ std::vector<Chess::Coordinate> Chess::MoveChecker::EmulateCheckIfMove(const Ches
     return filteredMoves;
 }
 
-std::vector<Chess::Coordinate> Chess::MoveChecker::GetPossibleMoves(const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::MoveChecker::GetFilteredMoves(const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
     std::vector<Chess::Coordinate> filteredMoves;
     auto notFilteredMoves = m_moveCheckerOfPiece->GetMoves(m_piece, piecesOnBoard);
@@ -42,11 +42,11 @@ std::vector<Chess::Coordinate> Chess::MoveChecker::GetPossibleMoves(const std::v
 
     for (const auto& move : notFilteredMoves)
     {
-        auto partOfFilteredMoves = EmulateCheckIfMove(move, piecesOnBoard);
+        auto partOfFilteredMoves = FindUncheckedMove(move, piecesOnBoard);
         filteredMoves.insert(filteredMoves.end(), partOfFilteredMoves.begin(), partOfFilteredMoves.end());
     }
 
-    m_piece->Move(pieceCoordinate);
+    m_piece->Move(pieceCoordinate, false);
 
     return filteredMoves;
 }

@@ -22,6 +22,6 @@ namespace Chess
 
 	public:
 		virtual boost::signals2::connection ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber) = 0;
-		virtual void Move(Coordinate to) = 0;
+		virtual void Move(Coordinate to, bool isRealMove = true) = 0;
 	};
 }

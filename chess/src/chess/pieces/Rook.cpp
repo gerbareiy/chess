@@ -92,9 +92,12 @@ void Chess::Rook::OnCastling(Coordinate to, eCastleSide side)
 	m_castlingConnection.disconnect();
 }
 
-void Chess::Rook::Move(Coordinate to)
+void Chess::Rook::Move(Coordinate to, bool isRealMove)
 {
-	DisableCastling();
+	if(isRealMove)
+	{
+		DisableCastling();
+	}
 
 	m_position = to;
 }

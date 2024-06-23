@@ -38,6 +38,6 @@ namespace Chess
 		void LostEnPassant();
 
 	public:
-		void Move(Coordinate to) override;
+		void Move(Coordinate to, bool isRealMove = true) override;
 	};
 }

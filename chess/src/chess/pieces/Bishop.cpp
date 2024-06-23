@@ -43,7 +43,7 @@ Chess::Coordinate Chess::Bishop::get_Position() const
 	return m_position;
 }
 
-void Chess::Bishop::Move(Coordinate to)
+void Chess::Bishop::Move(Coordinate to, bool isRealMove)
 {
 	m_position = to;
 }

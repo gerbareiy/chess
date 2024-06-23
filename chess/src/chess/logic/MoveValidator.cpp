@@ -27,7 +27,7 @@ void Chess::MoveValidator::CalculatePiecesCanMove()
 		{
 			const auto moveChecker = std::make_unique<MoveChecker>(piece);
 
-			if (moveChecker->GetPossibleMoves(m_piecesOnBoard).size())
+			if (moveChecker->GetFilteredMoves(m_piecesOnBoard).size())
 			{
 				pieces.emplace_back(piece);
 			}
@@ -44,7 +44,7 @@ void Chess::MoveValidator::CalculatePossibleMoves(const std::shared_ptr<IPiece>&
 	if (it != m_piecesCanMove.end())
 	{
 		auto moveChecker = std::make_shared<MoveChecker>(piece);
-		m_possibleMoves = moveChecker->GetPossibleMoves(m_piecesOnBoard);
+		m_possibleMoves = moveChecker->GetFilteredMoves(m_piecesOnBoard);
 	}
 }
 

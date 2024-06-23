@@ -36,7 +36,7 @@ Chess::Coordinate Chess::Queen::get_Position() const
 	return m_position;
 }
 
-void Chess::Queen::Move(Coordinate to)
+void Chess::Queen::Move(Coordinate to, bool isRealMove)
 {
 	m_position = to;
 }
