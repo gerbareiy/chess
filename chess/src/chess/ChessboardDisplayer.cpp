@@ -8,7 +8,7 @@
 
 Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard) : m_chessboard(chessboard) { }
 
-eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate coordinate)
+eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate coordinate) const
 {
 	eConsoleColor color;
 	auto isSquareBlack = (static_cast<int>(coordinate.get_File() + 1) + coordinate.get_Rank()) % 2;
@@ -33,7 +33,7 @@ eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate c
 	return color;
 }
 
-std::string Chess::ChessboardDisplayer::GetChessboardFiles()
+std::string Chess::ChessboardDisplayer::GetChessboardFiles() const
 {
 	std::string files = "";
 
@@ -45,7 +45,7 @@ std::string Chess::ChessboardDisplayer::GetChessboardFiles()
 	return files;
 }
 
-void Chess::ChessboardDisplayer::GetOriginalConsoleColor(WORD& originalColors)
+void Chess::ChessboardDisplayer::GetOriginalConsoleColor(WORD& originalColors) const
 {
 	auto handleConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
@@ -53,7 +53,7 @@ void Chess::ChessboardDisplayer::GetOriginalConsoleColor(WORD& originalColors)
 	originalColors = consoleInfo.wAttributes;
 }
 
-eConsoleColor Chess::ChessboardDisplayer::GetTextConsoleColor(Chess::PieceColorAndType& colorAndType, int originalTextColor)
+eConsoleColor Chess::ChessboardDisplayer::GetTextConsoleColor(Chess::PieceColorAndType& colorAndType, int originalTextColor) const
 {
 	return colorAndType.get_Color() == ePieceColor::BLACK ? eConsoleColor::BLACK
 		: (colorAndType.get_Color() == ePieceColor::WHITE ? eConsoleColor::WHITE : static_cast<eConsoleColor>(originalTextColor));
@@ -65,7 +65,7 @@ void Chess::ChessboardDisplayer::SetConsoleColor(eConsoleColor textColor, eConso
 	SetConsoleTextAttribute(hConsole, (static_cast<int>(backgroundColor) << 4) | static_cast<int>(textColor));
 }
 
-void Chess::ChessboardDisplayer::ShowChessboardFiles(bool isChessboardSizeOneDigit)
+void Chess::ChessboardDisplayer::ShowChessboardFiles(bool isChessboardSizeOneDigit) const
 {
 	ShowEmpty();
 
@@ -76,13 +76,13 @@ void Chess::ChessboardDisplayer::ShowChessboardFiles(bool isChessboardSizeOneDig
 	ShowEmpty();
 }
 
-void Chess::ChessboardDisplayer::ShowChessboardRank(int y, bool isChessboardSizeOneDigit)
+void Chess::ChessboardDisplayer::ShowChessboardRank(int y, bool isChessboardSizeOneDigit) const
 {
 	auto space = (isChessboardSizeOneDigit ? ' ' : '\t');
 	std::cout << space << y << space;
 }
 
-void Chess::ChessboardDisplayer::ShowChessboardRowWithRank(int y, int originalTextColor)
+void Chess::ChessboardDisplayer::ShowChessboardRowWithRank(int y, int originalTextColor) const
 {
 	for (auto x = 'A'; x < 'A' + CHESSBOARD_SIZE; ++x)
 	{
@@ -103,7 +103,7 @@ void Chess::ChessboardDisplayer::Show()
 	ShowTakenPieces(ePieceColor::BLACK);
 }
 
-void Chess::ChessboardDisplayer::ShowChessboardWithCoordinates()
+void Chess::ChessboardDisplayer::ShowChessboardWithCoordinates() const
 {
 	WORD originalColors;
 	GetOriginalConsoleColor(originalColors);

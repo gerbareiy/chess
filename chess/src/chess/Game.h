@@ -22,9 +22,9 @@ namespace Chess
 		Game();
 
     private:
-		Coordinate HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction);
+		Coordinate HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction) const;
 
 	public:
-		void Play();
+		void Play() const;
 	};
 }

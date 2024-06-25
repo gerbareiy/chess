@@ -35,7 +35,7 @@ const std::vector<std::shared_ptr<Chess::IPiece>>& Chess::PieceDirector::get_Pie
 	return m_piecesOnBoard;
 }
 
-void Chess::PieceDirector::Take(size_t indexOnBoard)
+void Chess::PieceDirector::Take(int indexOnBoard)
 {
 	m_eatenPieces.emplace_back(std::move(m_piecesOnBoard[indexOnBoard]));
 	m_piecesOnBoard.erase(m_piecesOnBoard.begin() + indexOnBoard);

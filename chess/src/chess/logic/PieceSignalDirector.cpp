@@ -10,12 +10,12 @@ boost::signals2::connection Chess::PieceSignalDirector::ConnectMoveWithCheck(con
 	return m_moveWithCheckSignal.connect(subscriber);
 }
 
-void Chess::PieceSignalDirector::Invite()
+void Chess::PieceSignalDirector::Invite() const
 {
 	m_moveSignal();
 }
 
-void Chess::PieceSignalDirector::Invite(bool isCheck)
+void Chess::PieceSignalDirector::Invite(bool isCheck) const
 {
 	m_moveWithCheckSignal(isCheck);
 }

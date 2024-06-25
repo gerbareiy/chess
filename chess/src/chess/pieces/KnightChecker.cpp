@@ -9,7 +9,7 @@
 #include <memory>
 #include <stdexcept>
 
-std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std::shared_ptr<Knight>& knight, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std::shared_ptr<Knight>& knight, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const
 {
 	if (knight->get_Position().get_File() < 'A'
 		|| knight->get_Position().get_File() >= 'A' + CHESSBOARD_SIZE
@@ -46,7 +46,7 @@ std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std
 	return moves;
 }
 
-std::vector<Chess::Coordinate> Chess::KnightChecker::GetMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::KnightChecker::GetMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const
 {
 	if (!piece || typeid(*piece) != typeid(Knight) || piece->get_ColorAndType().get_Type() != ePieceType::KNIGHT)
 	{

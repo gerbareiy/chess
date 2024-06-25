@@ -26,9 +26,9 @@ namespace Chess
 		const std::shared_ptr<MoveValidator>& get_MoveValidator() const;
 
 	public:
-		bool TryInitPiece(const Coordinate& from);
+		bool TryInitPiece(const Coordinate& from) const;
 		
 		//Before use this method, you need to InitPiece
-		bool TryMovePiece(const Coordinate& to);
+		bool TryMovePiece(const Coordinate& to) const;
 	};
 }

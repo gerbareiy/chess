@@ -16,7 +16,7 @@ Chess::Game::Game()
 	m_inputDisplayer = std::make_unique<InputDisplayer>(m_inputHandler);
 }
 
-Chess::Coordinate Chess::Game::HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction)
+Chess::Coordinate Chess::Game::HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction) const
 {
 	Coordinate coordinate;
 
@@ -39,7 +39,7 @@ Chess::Coordinate Chess::Game::HandleInput(std::function<Coordinate()> inputFunc
 	return coordinate;
 }
 
-void Chess::Game::Play()
+void Chess::Game::Play() const
 {
 	while (true)
 	{

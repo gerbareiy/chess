@@ -18,20 +18,20 @@ namespace Chess
 		ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard);
 
 	private:
-		eConsoleColor GetBackgroundConsoleColor(Coordinate coordinate);
-		std::string GetChessboardFiles();
-		void GetOriginalConsoleColor(WORD& originalColors);
-		eConsoleColor GetTextConsoleColor(Chess::PieceColorAndType& colorAndType, int originalTextColor);
+		eConsoleColor GetBackgroundConsoleColor(Coordinate coordinate) const;
+		std::string GetChessboardFiles() const;
+		void GetOriginalConsoleColor(WORD& originalColors) const;
+		eConsoleColor GetTextConsoleColor(Chess::PieceColorAndType& colorAndType, int originalTextColor) const;
 		void SetConsoleColor(eConsoleColor textColor, eConsoleColor backgroundColor) const;
-		void ShowChessboardFiles(bool isChessboardSizeOneDigit);
-		void ShowChessboardRank(int y, bool isChessboardSizeOneDigit);
-		void ShowChessboardWithCoordinates();
+		void ShowChessboardFiles(bool isChessboardSizeOneDigit) const;
+		void ShowChessboardRank(int y, bool isChessboardSizeOneDigit) const;
+		void ShowChessboardWithCoordinates() const;
 
 	public:
 		// You can choose this default Display
 		void Show();
 		// Or create own Display by combining some methiods below
-		void ShowChessboardRowWithRank(int y, int originalTextColor);
+		void ShowChessboardRowWithRank(int y, int originalTextColor) const;
 		void ShowEmpty() const;
 		void ShowInvalidMovePrompt(bool isValidMove) const;
 		void ShowTakenPieces(ePieceColor color) const;

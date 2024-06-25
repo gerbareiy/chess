@@ -54,21 +54,21 @@ void Chess::MoveValidator::ClearPossibleMoves()
 	m_possibleMoves.clear();
 }
 
-bool Chess::MoveValidator::IsCoordinateInPieceCanMove(Coordinate coordinate)
+bool Chess::MoveValidator::IsCoordinateInPieceCanMove(Coordinate coordinate) const
 {
 	auto finder = std::make_unique<PieceFinder>(m_piecesCanMove);
 
 	return !!finder->Find(coordinate);
 }
 
-bool Chess::MoveValidator::IsCoordinateInPossibleMoves(Coordinate coordinate)
+bool Chess::MoveValidator::IsCoordinateInPossibleMoves(Coordinate coordinate) const
 {
 	auto it = std::find(m_possibleMoves.begin(), m_possibleMoves.end(), coordinate);
 
 	return it != m_possibleMoves.end();
 }
-
-bool Chess::MoveValidator::IsValidMove(const std::shared_ptr<IPiece> piece, Coordinate to)
+ 
+bool Chess::MoveValidator::IsValidMove(const std::shared_ptr<IPiece> piece, Coordinate to) const
 {
 	if (!piece)
 	{

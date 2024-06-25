@@ -13,7 +13,7 @@ namespace Chess
 	class CheckChecker
 	{
 	public:
-		bool IsCheck(std::shared_ptr<IKing> king, const std::vector<std::shared_ptr<IPiece>>& piece);
-		bool IsCheck(const Chess::ePieceColor& kingColor, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard);
+		bool IsCheck(std::shared_ptr<IKing> king, const std::vector<std::shared_ptr<IPiece>>& piece) const;
+		bool IsCheck(const Chess::ePieceColor& kingColor, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const;
 	};
 }

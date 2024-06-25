@@ -18,6 +18,6 @@ namespace Chess
 		PieceFinder(const std::vector<std::shared_ptr<IPiece>>& pieces);
 
 	public:
-		std::shared_ptr<IPiece> Find(Coordinate coordinate);
+		std::shared_ptr<IPiece> Find(Coordinate coordinate) const;
 	};
 }

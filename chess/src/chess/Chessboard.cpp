@@ -31,7 +31,7 @@ const std::shared_ptr<Chess::MoveValidator>& Chess::Chessboard::get_MoveValidato
 	return m_validator;
 }
 
-bool Chess::Chessboard::TryInitPiece(const Coordinate& from)
+bool Chess::Chessboard::TryInitPiece(const Coordinate& from) const
 {
 	m_director->InitCurrentPiece(from);
 	
@@ -50,7 +50,7 @@ bool Chess::Chessboard::TryInitPiece(const Coordinate& from)
 	return true;
 }
 
-bool Chess::Chessboard::TryMovePiece(const Coordinate& to)
+bool Chess::Chessboard::TryMovePiece(const Coordinate& to) const
 {
 	if (!m_validator->IsValidMove(m_director->get_CurrentPiece(), to))
 	{

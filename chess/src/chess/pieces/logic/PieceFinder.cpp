@@ -8,7 +8,7 @@ Chess::PieceFinder::PieceFinder(const std::vector<std::shared_ptr<IPiece>>& piec
 	}
 }
 
-std::shared_ptr<Chess::IPiece> Chess::PieceFinder::Find(Coordinate coordinate)
+std::shared_ptr<Chess::IPiece> Chess::PieceFinder::Find(Coordinate coordinate) const
 {
 	auto it = m_pieceMap.find(coordinate);
 	if (it == m_pieceMap.end())

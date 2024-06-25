@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-Chess::Coordinate Chess::InputHandler::EnterCoordinate()
+Chess::Coordinate Chess::InputHandler::EnterCoordinate() const
 {
 	auto file = EnterFile();
 	auto rank = EnterRank();
@@ -13,7 +13,7 @@ Chess::Coordinate Chess::InputHandler::EnterCoordinate()
 	return Coordinate(file, rank);
 }
 
-char Chess::InputHandler::EnterFile()
+char Chess::InputHandler::EnterFile() const
 {
 	m_signalEnter("File: ");
 
@@ -22,7 +22,7 @@ char Chess::InputHandler::EnterFile()
 	std::getline(std::cin, input);
 	file = *input.data();
 
-	// In this code selection we can get bug if CHESSBOARD_SIZE > 26
+	// In this code selection we can get bug if CHESSBOARD_SIZE > 26 whan we need to do?
 	if (file >= 'a' && file <= 'a' + CHESSBOARD_SIZE - 1)
 	{
 		file = std::toupper(file);
@@ -31,7 +31,7 @@ char Chess::InputHandler::EnterFile()
 	return file;
 }
 
-int Chess::InputHandler::EnterRank()
+int Chess::InputHandler::EnterRank() const
 {
 	m_signalEnter("Rank: ");
 
@@ -51,14 +51,14 @@ int Chess::InputHandler::EnterRank()
 	return rank;
 }
 
-Chess::Coordinate Chess::InputHandler::EnterFrom()
+Chess::Coordinate Chess::InputHandler::EnterFrom() const
 {
 	m_signalEnter("FROM\n");
 
 	return EnterCoordinate();
 }
 
-Chess::Coordinate Chess::InputHandler::EnterTo()
+Chess::Coordinate Chess::InputHandler::EnterTo() const
 {
 	m_signalEnter("TO\n");
 

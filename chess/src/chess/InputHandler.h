@@ -18,13 +18,13 @@ namespace Chess
 		boost::signals2::signal<void(std::string)> m_signalEnter;
 
 	private:
-		Coordinate EnterCoordinate();
-		char EnterFile();
-		int EnterRank();
+		Coordinate EnterCoordinate() const;
+		char EnterFile() const;
+		int EnterRank() const;
 
 	public:
-		Coordinate EnterFrom();
-		Coordinate EnterTo();
+		Coordinate EnterFrom() const;
+		Coordinate EnterTo() const;
 
 	public:
 		boost::signals2::connection ConnectEnter(const boost::signals2::signal<void(std::string)>::slot_type& subscriber);

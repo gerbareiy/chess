@@ -165,5 +165,8 @@
     <ClCompile Include="..\chess\src\chess\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\chess\src\chess\logic\Promotion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

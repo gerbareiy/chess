@@ -10,7 +10,7 @@
 #include <stdexcept>
 #include <algorithm>
 
-std::vector<Chess::Coordinate> Chess::PawnChecker::GetForwardMoves(const std::shared_ptr<Pawn>& pawn, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard, const std::shared_ptr<PieceFinder>& finder)
+std::vector<Chess::Coordinate> Chess::PawnChecker::GetForwardMoves(const std::shared_ptr<Pawn>& pawn, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard, const std::shared_ptr<PieceFinder>& finder) const
 {
 	ValidatePawn(pawn);
 
@@ -39,7 +39,7 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetForwardMoves(const std::sh
 	return moves;
 }
 
-std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(const std::shared_ptr<Pawn>& pawn, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard, const std::shared_ptr<PieceFinder>& finder)
+std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(const std::shared_ptr<Pawn>& pawn, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard, const std::shared_ptr<PieceFinder>& finder) const
 {
 	ValidatePawn(pawn);
 
@@ -90,7 +90,7 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(const std::s
 	return moves;
 }
 
-void Chess::PawnChecker::ValidatePawn(const std::shared_ptr<Pawn>& pawn)
+void Chess::PawnChecker::ValidatePawn(const std::shared_ptr<Pawn>& pawn) const
 {
 	if (!PositionChecker::IsPositionValid(pawn->get_Position()))
 	{
@@ -102,7 +102,7 @@ void Chess::PawnChecker::ValidatePawn(const std::shared_ptr<Pawn>& pawn)
 	}
 }
 
-std::vector<Chess::Coordinate> Chess::PawnChecker::GetMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::PawnChecker::GetMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const
 {
 	if (!piece || typeid(*piece) != typeid(Pawn) || piece->get_ColorAndType().get_Type() != ePieceType::PAWN)
 	{

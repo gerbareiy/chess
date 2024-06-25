@@ -32,6 +32,7 @@
     <ClCompile Include="..\chess\src\chess\logic\PieceInitializer.cpp" />
     <ClCompile Include="..\chess\src\chess\logic\PieceSignalDirector.cpp" />
     <ClCompile Include="..\chess\src\chess\logic\PieceTakeLocator.cpp" />
+    <ClCompile Include="..\chess\src\chess\logic\Promotion.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\Bishop.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\BishopChecker.cpp" />
     <ClCompile Include="..\chess\src\chess\pieces\King.cpp" />

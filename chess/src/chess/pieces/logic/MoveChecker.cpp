@@ -10,7 +10,7 @@
 Chess::MoveChecker::MoveChecker(const std::shared_ptr<IPiece>& piece)
     : m_piece(piece), m_moveCheckerOfPiece(std::unique_ptr<MoveCheckerFactory>()->Create(piece)) { }
 
-std::vector<Chess::Coordinate> Chess::MoveChecker::FindUncheckedMove(const Chess::Coordinate& move, const std::vector<std::shared_ptr<Chess::IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::MoveChecker::FindUncheckedMove(const Chess::Coordinate& move, const std::vector<std::shared_ptr<Chess::IPiece>>& piecesOnBoard) const
 {
     const auto checker = std::unique_ptr<CheckChecker>();
     std::vector<Chess::Coordinate> filteredMoves;
@@ -34,7 +34,7 @@ std::vector<Chess::Coordinate> Chess::MoveChecker::FindUncheckedMove(const Chess
     return filteredMoves;
 }
 
-std::vector<Chess::Coordinate> Chess::MoveChecker::GetFilteredMoves(const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::MoveChecker::GetFilteredMoves(const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const
 {
     std::vector<Chess::Coordinate> filteredMoves;
     auto notFilteredMoves = m_moveCheckerOfPiece->GetMoves(m_piece, piecesOnBoard);

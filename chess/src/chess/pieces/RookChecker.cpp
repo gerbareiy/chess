@@ -9,7 +9,7 @@
 
 #include <memory>
 
-std::vector<Chess::Coordinate> Chess::RookChecker::FindPossibleMoves(const std::shared_ptr<Rook>& rook, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::RookChecker::FindPossibleMoves(const std::shared_ptr<Rook>& rook, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const
 {
 	std::vector<Coordinate> moves;
 	moves.reserve(COUNT_OF_ROOK_WAYS);
@@ -30,7 +30,7 @@ std::vector<Chess::Coordinate> Chess::RookChecker::FindPossibleMoves(const std::
 	return moves;
 }
 
-std::vector<Chess::Coordinate> Chess::RookChecker::GetMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+std::vector<Chess::Coordinate> Chess::RookChecker::GetMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const
 {
 	if (!piece || typeid(*piece) != typeid(Rook) || piece->get_ColorAndType().get_Type() != ePieceType::ROOK)
 	{

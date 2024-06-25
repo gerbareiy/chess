@@ -28,7 +28,7 @@ namespace Chess
 		const std::vector<std::shared_ptr<IPiece>>& get_PiecesOnBoard() const;
 
 	private:
-		void Take(size_t indexOnBoard);
+		void Take(int indexOnBoard);
 
 	public:
 		PieceColorAndType GetPieceColorAndType(const Coordinate& from) const;

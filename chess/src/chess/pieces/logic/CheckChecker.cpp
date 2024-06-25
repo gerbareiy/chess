@@ -2,7 +2,7 @@
 
 #include "MoveCheckerFactory.h"
 
-bool Chess::CheckChecker::IsCheck(std::shared_ptr<IKing> king, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+bool Chess::CheckChecker::IsCheck(std::shared_ptr<IKing> king, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const
 {
 	for (const auto& piece : piecesOnBoard)
 	{
@@ -24,7 +24,7 @@ bool Chess::CheckChecker::IsCheck(std::shared_ptr<IKing> king, const std::vector
 	return false;
 }
 
-bool Chess::CheckChecker::IsCheck(const Chess::ePieceColor& kingColor, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+bool Chess::CheckChecker::IsCheck(const Chess::ePieceColor& kingColor, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const
 {
 	for (const auto& piece : piecesOnBoard)
 	{

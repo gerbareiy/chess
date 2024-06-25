@@ -5,12 +5,12 @@
 Chess::Controller::Controller(std::shared_ptr<Chessboard>& chessboard)
 	: m_chessboard(chessboard) { }
 
-bool Chess::Controller::TryInitPiece(Coordinate from)
+bool Chess::Controller::TryInitPiece(Coordinate from) const
 {
 	return m_chessboard->TryInitPiece(from);
 }
 
-bool Chess::Controller::TryMovePiece(Coordinate to)
+bool Chess::Controller::TryMovePiece(Coordinate to) const
 {
 	auto isMoved = m_chessboard->TryMovePiece(to);
 

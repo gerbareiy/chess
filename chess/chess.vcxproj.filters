@@ -144,6 +144,9 @@
     <ClCompile Include="src\chess\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\chess\logic\Promotion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chess\Chessboard.h">
@@ -279,6 +282,9 @@
       <Filter>Header Files\Chess\Pieces\Logic</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\logic\Promotion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

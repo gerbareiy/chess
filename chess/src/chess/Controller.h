@@ -22,8 +22,8 @@ namespace Chess
 		Controller(std::shared_ptr<Chessboard>& chessboard);
 
 	public:
-		bool TryInitPiece(Coordinate from);
-		bool TryMovePiece(Coordinate to);
+		bool TryInitPiece(Coordinate from) const;
+		bool TryMovePiece(Coordinate to) const;
 
 	public:
 		boost::signals2::connection ConnectMove(const boost::signals2::signal<void()>::slot_type& subscriber);
