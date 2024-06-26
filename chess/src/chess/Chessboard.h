@@ -22,7 +22,6 @@ namespace Chess
 
 	private:
 		boost::signals2::signal<void()> m_signalChessboardUndated;
-		boost::signals2::signal<void()> m_signalInvalidInput;
 
 	public:
 		Chessboard();

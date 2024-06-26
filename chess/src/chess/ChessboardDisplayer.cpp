@@ -130,17 +130,6 @@ void Chess::ChessboardDisplayer::ShowEmpty() const
 	std::cout << '\n';
 }
 
-void Chess::ChessboardDisplayer::ShowInvalidMovePrompt(bool isValidMove) const
-{
-	if (!isValidMove)
-	{
-		std::cout << "Move is invalid\n";
-		ShowEmpty();
-		std::cout << "Press any key to continue...";
-		auto _ = _getch();
-	}
-}
-
 void Chess::ChessboardDisplayer::ShowTakenPieces(ePieceColor color) const
 {
 	const auto eatenPieces = m_chessboard->get_PieceDirector()->get_EatenPieces();

@@ -57,7 +57,6 @@ bool Chess::Chessboard::TryMovePiece(const Coordinate& to) const
 {
 	if (!m_validator->IsValidMove(m_director->get_CurrentPiece(), to))
 	{
-		m_signalInvalidInput();
 		return false;
 	}
 
