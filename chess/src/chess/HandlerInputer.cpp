@@ -22,12 +22,9 @@ char Chess::HandlerInputer::EnterFile() const
 	std::getline(std::cin, input);
 	file = *input.data();
 
-	// In this code selection we can get bug if CHESSBOARD_SIZE > 26 whan we need to do?
-	if (file >= 'a' && file <= 'a' + CHESSBOARD_SIZE - 1)
-	{
-		file = std::toupper(file);
-	}
-
+	// In this code selection we can get bug if sign not in abc...xyx what we need to do?
+	file = std::toupper(file);
+	
 	return file;
 }
 

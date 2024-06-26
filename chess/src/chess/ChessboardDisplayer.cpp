@@ -98,6 +98,7 @@ void Chess::ChessboardDisplayer::ShowChessboardRowWithRank(int y, int originalTe
 
 void Chess::ChessboardDisplayer::Show()
 {
+	system("CLS");
 	ShowTakenPieces(ePieceColor::WHITE);
 	ShowChessboardWithCoordinates();
 	ShowTakenPieces(ePieceColor::BLACK);

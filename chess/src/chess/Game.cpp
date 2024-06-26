@@ -22,8 +22,6 @@ Chess::Coordinate Chess::Game::HandleInput(std::function<Coordinate()> inputFunc
 
 	while (true)
 	{
-		system("CLS");
-
 		m_chessboardDisplayer->Show();
 
 		coordinate = inputFunction();
