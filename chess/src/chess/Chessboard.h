@@ -1,6 +1,5 @@
 #pragma once
 
-#include "ChessboardDisplayer.h"
 #include "logic/Coordinate.h"
 #include "logic/MoveValidator.h"
 #include "logic/PieceDirector.h"

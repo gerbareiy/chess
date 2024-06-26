@@ -16,7 +16,7 @@ std::vector<Chess::Coordinate> Chess::MoveValidator::get_PossibleMoves()
 
 void Chess::MoveValidator::CalculatePiecesCanMove()
 {
-	m_piecesCanMove.clear();
+	ClearPiecesCanMove();
 	ClearPossibleMoves();
 
 	std::vector<std::shared_ptr<Chess::IPiece>> pieces;
@@ -52,6 +52,11 @@ void Chess::MoveValidator::CalculatePossibleMoves(const std::shared_ptr<IPiece>&
 void Chess::MoveValidator::ClearPossibleMoves()
 {
 	m_possibleMoves.clear();
+}
+
+void Chess::MoveValidator::ClearPiecesCanMove()
+{
+	m_piecesCanMove.clear();
 }
 
 bool Chess::MoveValidator::IsCoordinateInPieceCanMove(Coordinate coordinate) const

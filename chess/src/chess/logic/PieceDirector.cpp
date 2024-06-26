@@ -89,10 +89,12 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2
 	m_currentPiece->Move(to);
 	m_signalDirector->Invite();
 
-	if (typeid(*m_currentPiece) == typeid(Pawn))
+	if (typeid(*m_currentPiece) == typeid(Pawn)
+		&& (m_currentPiece->get_Position().get_Rank() == 1 && m_currentPiece->get_ColorAndType().get_Color() == ePieceColor::BLACK
+		|| m_currentPiece->get_Position().get_Rank() == CHESSBOARD_SIZE && m_currentPiece->get_ColorAndType().get_Color() == ePieceColor::WHITE))
 	{
 		signalChessboardUndated();
-		m_promotion->PromoteConditionally(std::dynamic_pointer_cast<Pawn>(m_currentPiece), m_piecesOnBoard);
+		m_promotion->PromoteConditionally(std::static_pointer_cast<Pawn>(m_currentPiece), m_piecesOnBoard);
 	}
 
 	auto checkChecker = std::make_unique<CheckChecker>();

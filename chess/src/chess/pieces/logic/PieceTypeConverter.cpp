@@ -18,5 +18,7 @@ std::string Chess::PieceTypeConverter::ConvertToString(ePieceType type)
 		return "Q";
 	case ePieceType::ROOK:
 		return "R";
+	default:
+		return "Unknown piece";
 	}
 }

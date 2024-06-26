@@ -24,7 +24,7 @@ namespace Chess
 		eConsoleColor GetBackgroundConsoleColor(Coordinate coordinate) const;
 		std::string GetChessboardFiles() const;
 		void GetOriginalConsoleColor(WORD& originalColors) const;
-		eConsoleColor GetTextConsoleColor(Chess::PieceColorAndType& colorAndType, int originalTextColor) const;
+		eConsoleColor GetTextConsoleColor(PieceColorAndType& colorAndType, int originalTextColor) const;
 		void SetConsoleColor(eConsoleColor textColor, eConsoleColor backgroundColor) const;
 		void ShowChessboardFiles(bool isChessboardSizeOneDigit) const;
 		void ShowChessboardRank(int y, bool isChessboardSizeOneDigit) const;

@@ -8,7 +8,7 @@
 
 Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard) : m_chessboard(chessboard)
 {
-	chessboard->ConnectChessboardUndated(std::bind(&ChessboardDisplayer::Show, this));
+	m_chessboard->ConnectChessboardUndated(std::bind(&ChessboardDisplayer::Show, this));
 }
 
 eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate coordinate) const
@@ -18,19 +18,15 @@ eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate c
 
 	if (m_chessboard->get_MoveValidator()->IsCoordinateInPieceCanMove(coordinate))
 	{
-		color = eConsoleColor::CERULEAN;
+		color = isSquareBlack ? eConsoleColor::BLUE : eConsoleColor::CERULEAN;
 	}
 	else if (m_chessboard->get_MoveValidator()->IsCoordinateInPossibleMoves(coordinate))
 	{
-		color = eConsoleColor::RED;
-	}
-	else if (isSquareBlack)
-	{
-		color = eConsoleColor::BROWN;
+		color = isSquareBlack ? eConsoleColor::DARK_RED : eConsoleColor::RED;
 	}
 	else
 	{
-		color = eConsoleColor::YELLOW;
+		color = isSquareBlack ? eConsoleColor::BROWN : eConsoleColor::YELLOW;
 	}
 
 	return color;
@@ -56,7 +52,7 @@ void Chess::ChessboardDisplayer::GetOriginalConsoleColor(WORD& originalColors) c
 	originalColors = consoleInfo.wAttributes;
 }
 
-eConsoleColor Chess::ChessboardDisplayer::GetTextConsoleColor(Chess::PieceColorAndType& colorAndType, int originalTextColor) const
+eConsoleColor Chess::ChessboardDisplayer::GetTextConsoleColor(PieceColorAndType& colorAndType, int originalTextColor) const
 {
 	return colorAndType.get_Color() == ePieceColor::BLACK ? eConsoleColor::BLACK
 		: (colorAndType.get_Color() == ePieceColor::WHITE ? eConsoleColor::WHITE : static_cast<eConsoleColor>(originalTextColor));

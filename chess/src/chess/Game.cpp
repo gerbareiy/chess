@@ -14,6 +14,8 @@ Chess::Game::Game()
 	m_chessboardDisplayer = std::make_unique<ChessboardDisplayer>(chessboard);
 	m_handlerInputer = std::make_shared<HandlerInputer>();
 	m_inputDisplayer = std::make_unique<InputerDisplayer>(m_handlerInputer);
+
+	m_chessboardDisplayer->Show();
 }
 
 Chess::Coordinate Chess::Game::HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction) const
