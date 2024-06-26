@@ -1,6 +1,5 @@
 #include "Game.h"
 
-#include "Chessboard.h"
 #include "pieces/logic/PositionChecker.h"
 #include "logic/Sizes.h"
 #include "pieces/logic/ePieceColor.h"
@@ -9,24 +8,40 @@
 
 Chess::Game::Game()
 {
-	auto chessboard = std::make_shared<Chessboard>();
-	m_controller = std::make_shared<Controller>(chessboard);
-	m_chessboardDisplayer = std::make_unique<ChessboardDisplayer>(chessboard);
+	m_chessboard = std::make_shared<Chessboard>();
+	m_controller = std::make_shared<Controller>(m_chessboard);
+	m_chessboardDisplayer = std::make_unique<ChessboardDisplayer>(m_chessboard);
 	m_handlerInputer = std::make_shared<HandlerInputer>();
 	m_inputDisplayer = std::make_unique<LableDisplayer>(m_handlerInputer);
 
 	m_chessboardDisplayer->Show();
 }
 
+bool Chess::Game::IsGameContinue() const
+{
+	if (!m_chessboard->get_MoveValidator()->GetPiecesCanMoveCount() && m_chessboard->get_PieceDirector()->get_IsCheck())
+	{
+		m_inputDisplayer->Show("Checkmate!\n");
+		return false;
+	}
+	if (!m_chessboard->get_MoveValidator()->GetPiecesCanMoveCount())
+	{
+		m_inputDisplayer->Show("Draw!\n");
+		return false;
+	}
+	if (m_chessboard->get_PieceDirector()->get_IsCheck())
+	{
+		m_inputDisplayer->Show("Check!\n");
+	}
+
+	return true;
+}
+
 void Chess::Game::HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction) const
 {
-	Coordinate coordinate;
-
 	while (true)
 	{
-		coordinate = inputFunction();
-
-		if (PositionChecker::IsPositionValid(coordinate) && initFunction(coordinate))
+		if (initFunction(inputFunction()))
 		{
 			break;
 		}
@@ -37,6 +52,11 @@ void Chess::Game::Play() const
 {
 	while (true)
 	{
+		if (!IsGameContinue())
+		{
+			break;
+		}
+		
 		HandleInput(
 			std::bind(&HandlerInputer::EnterFrom, m_handlerInputer),
 			std::bind(&Controller::TryInitPiece, m_controller.get(), std::placeholders::_1));

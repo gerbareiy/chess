@@ -103,6 +103,18 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2
 	}
 
 	auto checkChecker = std::make_unique<CheckChecker>();
-	m_isCheck = checkChecker->IsCheck(m_currentPiece->get_ColorAndType().get_Color(), m_piecesOnBoard);
+
+	ePieceColor color;
+
+	if (m_currentPiece->get_ColorAndType().get_Color() == ePieceColor::BLACK)
+	{
+		color = ePieceColor::WHITE;
+	}
+	else if (m_currentPiece->get_ColorAndType().get_Color() == ePieceColor::WHITE)
+	{
+		color = ePieceColor::BLACK;
+	}
+
+	m_isCheck = checkChecker->IsCheck(color, m_piecesOnBoard);
 	m_signalDirector->Invite(m_isCheck);
 }

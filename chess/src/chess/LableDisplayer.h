@@ -11,7 +11,7 @@ namespace Chess
 	public:
 		LableDisplayer(const std::shared_ptr<Inputer>& Inputer);
 
-	private:
+	public:
 		void Show(std::string toPrint) const;
 	};
 }
