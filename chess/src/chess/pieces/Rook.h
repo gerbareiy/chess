@@ -8,7 +8,6 @@
 #include "logic/IKing.h"
 #include "logic/PieceColorAndType.h"
 #include "../logic/Coordinate.h"
-#include <stdio.h>
 
 #include <boost/signals2.hpp>
 

@@ -48,7 +48,7 @@
     <ClCompile Include="src\chess\Game.cpp">
       <Filter>Source Files\Chess</Filter>
     </ClCompile>
-    <ClCompile Include="src\chess\InputHandler.cpp">
+    <ClCompile Include="src\chess\HandlerInputer.cpp">
       <Filter>Source Files\Chess</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
@@ -129,7 +129,7 @@
     <ClCompile Include="src\chess\pieces\logic\MoveCheckerFactory.cpp">
       <Filter>Source Files\Chess\Pieces\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="src\chess\InputDisplayer.cpp">
+    <ClCompile Include="src\chess\InputerDisplayer.cpp">
       <Filter>Source Files\Chess</Filter>
     </ClCompile>
     <ClCompile Include="src\chess\ChessboardDisplayer.cpp">
@@ -147,6 +147,12 @@
     <ClCompile Include="src\chess\logic\Promotion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\chess\logic\PromotePieceInputer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chess\logic\Inputer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chess\Chessboard.h">
@@ -158,7 +164,7 @@
     <ClInclude Include="src\chess\Game.h">
       <Filter>Header Files\Chess</Filter>
     </ClInclude>
-    <ClInclude Include="src\chess\InputHandler.h">
+    <ClInclude Include="src\chess\HandlerInputer.h">
       <Filter>Header Files\Chess</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\pieces\Bishop.h">
@@ -269,7 +275,7 @@
     <ClInclude Include="src\chess\ChessboardDisplayer.h">
       <Filter>Header Files\Chess</Filter>
     </ClInclude>
-    <ClInclude Include="src\chess\InputDisplayer.h">
+    <ClInclude Include="src\chess\InputerDisplayer.h">
       <Filter>Header Files\Chess</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\pieces\logic\MoveCheckerFactory.h">
@@ -285,6 +291,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\logic\Promotion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\logic\PromotePieceInputer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chess\logic\Inputer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -11,6 +11,6 @@ namespace Chess
 	class Promotion
 	{
 	public:
-		void Promote(std::shared_ptr<Pawn> pawn, std::vector<std::shared_ptr<IPiece>>& piecesOnBoard);
+		void PromoteConditionally(std::shared_ptr<Pawn> pawn, std::vector<std::shared_ptr<IPiece>>& piecesOnBoard);
 	};
 }

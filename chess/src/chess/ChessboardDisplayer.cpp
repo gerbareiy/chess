@@ -134,7 +134,7 @@ void Chess::ChessboardDisplayer::ShowInvalidMovePrompt(bool isValidMove) const
 {
 	if (!isValidMove)
 	{
-		std::cout << "Move is invalid";
+		std::cout << "Move is invalid\n";
 		ShowEmpty();
 		std::cout << "Press any key to continue...";
 		auto _ = _getch();

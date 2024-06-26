@@ -2,8 +2,8 @@
 
 #include "ChessboardDisplayer.h"
 #include "Controller.h"
-#include "InputDisplayer.h"
-#include "InputHandler.h"
+#include "InputerDisplayer.h"
+#include "HandlerInputer.h"
 
 #include <memory>
 #include <variant>
@@ -15,8 +15,8 @@ namespace Chess
 	private:
 		std::unique_ptr<ChessboardDisplayer> m_chessboardDisplayer;
 		std::shared_ptr<Controller> m_controller;
-		std::shared_ptr<InputHandler> m_inputHandler;
-		std::unique_ptr<InputDisplayer> m_inputDisplayer;
+		std::shared_ptr<HandlerInputer> m_handlerInputer;
+		std::unique_ptr<InputerDisplayer> m_inputDisplayer;
 
 	public:
 		Game();

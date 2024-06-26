@@ -1,7 +1,7 @@
 #pragma once
 
-#include "logic/ePieceColor.h"
 #include "IPiece.h"
+#include "logic/ePieceColor.h"
 #include "logic/PieceColorAndType.h"
 #include "../logic/Coordinate.h"
 #include "../logic/PieceSignalDirector.h"

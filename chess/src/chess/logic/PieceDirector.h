@@ -2,7 +2,9 @@
 
 #include "Coordinate.h"
 #include "PieceSignalDirector.h"
+#include "Promotion.h"
 #include "../pieces/IPiece.h"
+#include "../InputerDisplayer.h"
 
 #include <boost/signals2.hpp>
 
@@ -14,9 +16,11 @@ namespace Chess
 	class PieceDirector
 	{
 	private:
-		std::vector<std::shared_ptr<IPiece>> m_eatenPieces;
 		std::shared_ptr<IPiece> m_currentPiece;
+		std::vector<std::shared_ptr<IPiece>> m_eatenPieces;
+		std::unique_ptr<InputerDisplayer> m_inputDisplayer;
 		std::vector<std::shared_ptr<IPiece>>& m_piecesOnBoard;
+		std::shared_ptr<Promotion> m_promotion;
 		std::shared_ptr<PieceSignalDirector> m_signalDirector;
 
 	public:

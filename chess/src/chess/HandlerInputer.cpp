@@ -1,11 +1,11 @@
-#include "InputHandler.h"
+#include "HandlerInputer.h"
 
 #include "logic/Sizes.h"
 
 #include <iostream>
 #include <string>
 
-Chess::Coordinate Chess::InputHandler::EnterCoordinate() const
+Chess::Coordinate Chess::HandlerInputer::EnterCoordinate() const
 {
 	auto file = EnterFile();
 	auto rank = EnterRank();
@@ -13,7 +13,7 @@ Chess::Coordinate Chess::InputHandler::EnterCoordinate() const
 	return Coordinate(file, rank);
 }
 
-char Chess::InputHandler::EnterFile() const
+char Chess::HandlerInputer::EnterFile() const
 {
 	m_signalEnter("File: ");
 
@@ -31,7 +31,7 @@ char Chess::InputHandler::EnterFile() const
 	return file;
 }
 
-int Chess::InputHandler::EnterRank() const
+int Chess::HandlerInputer::EnterRank() const
 {
 	m_signalEnter("Rank: ");
 
@@ -51,21 +51,16 @@ int Chess::InputHandler::EnterRank() const
 	return rank;
 }
 
-Chess::Coordinate Chess::InputHandler::EnterFrom() const
+Chess::Coordinate Chess::HandlerInputer::EnterFrom() const
 {
 	m_signalEnter("FROM\n");
 
 	return EnterCoordinate();
 }
 
-Chess::Coordinate Chess::InputHandler::EnterTo() const
+Chess::Coordinate Chess::HandlerInputer::EnterTo() const
 {
 	m_signalEnter("TO\n");
 
 	return EnterCoordinate();
-}
-
-boost::signals2::connection Chess::InputHandler::ConnectEnter(const boost::signals2::signal<void(std::string)>::slot_type& subscriber)
-{
-	return m_signalEnter.connect(subscriber);
 }

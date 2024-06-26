@@ -126,10 +126,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\chess\logic\Inputer.cpp" />
+    <ClCompile Include="src\chess\logic\PromotePieceInputer.cpp" />
     <ClCompile Include="src\chess\logic\Promotion.cpp" />
     <ClCompile Include="src\chess\Player.cpp" />
     <ClCompile Include="src\chess\pieces\logic\MoveCheckerFactory.cpp" />
-    <ClCompile Include="src\chess\InputDisplayer.cpp" />
+    <ClCompile Include="src\chess\InputerDisplayer.cpp" />
     <ClCompile Include="src\chess\ChessboardDisplayer.cpp" />
     <ClCompile Include="src\chess\pieces\logic\CheckChecker.cpp" />
     <ClCompile Include="src\chess\logic\PieceTakeLocator.cpp" />
@@ -160,14 +162,16 @@
     <ClCompile Include="src\chess\pieces\Rook.cpp" />
     <ClCompile Include="src\chess\pieces\logic\PieceColorAndType.cpp" />
     <ClCompile Include="src\chess\logic\Coordinate.cpp" />
-    <ClCompile Include="src\chess\InputHandler.cpp" />
+    <ClCompile Include="src\chess\HandlerInputer.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\chess\logic\Inputer.h" />
+    <ClInclude Include="src\chess\logic\PromotePieceInputer.h" />
     <ClInclude Include="src\chess\logic\Promotion.h" />
     <ClInclude Include="src\chess\Player.h" />
     <ClInclude Include="src\chess\pieces\logic\MoveCheckerFactory.h" />
-    <ClInclude Include="src\chess\InputDisplayer.h" />
+    <ClInclude Include="src\chess\InputerDisplayer.h" />
     <ClInclude Include="src\chess\ChessboardDisplayer.h" />
     <ClInclude Include="src\chess\pieces\logic\CheckChecker.h" />
     <ClInclude Include="src\chess\logic\PieceTakeLocator.h" />
@@ -209,7 +213,7 @@
     <ClInclude Include="src\chess\pieces\Rook.h" />
     <ClInclude Include="src\chess\pieces\logic\PieceColorAndType.h" />
     <ClInclude Include="src\chess\logic\Coordinate.h" />
-    <ClInclude Include="src\chess\InputHandler.h" />
+    <ClInclude Include="src\chess\HandlerInputer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -141,13 +141,7 @@
     <ClCompile Include="..\chess\src\chess\logic\PieceTakeLocator.cpp">
       <Filter>Resource Files\Chess\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="..\chess\src\chess\InputHandler.cpp">
-      <Filter>Resource Files\Chess</Filter>
-    </ClCompile>
     <ClCompile Include="..\chess\src\chess\ChessboardDisplayer.cpp">
-      <Filter>Resource Files\Chess\Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="..\chess\src\chess\InputDisplayer.cpp">
       <Filter>Resource Files\Chess\Logic</Filter>
     </ClCompile>
     <ClCompile Include="..\chess\src\chess\pieces\logic\MoveCheckerFactory.cpp">
@@ -166,6 +160,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\chess\src\chess\logic\Promotion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\HandlerInputer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\InputerDisplayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\logic\Inputer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\logic\PromotePieceInputer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

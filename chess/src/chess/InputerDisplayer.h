@@ -1,15 +1,15 @@
 #pragma once
 
-#include "InputHandler.h"
+#include "logic/Inputer.h"
 
 #include <string>
 
 namespace Chess
 {
-	class InputDisplayer
+	class InputerDisplayer
 	{
 	public:
-		InputDisplayer(const std::shared_ptr<InputHandler>& handler);
+		InputerDisplayer(const std::shared_ptr<Inputer>& Inputer);
 
 	private:
 		void Show(std::string toPrint) const;

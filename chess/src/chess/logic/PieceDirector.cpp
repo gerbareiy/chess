@@ -18,6 +18,8 @@ Chess::PieceDirector::PieceDirector(std::vector<std::shared_ptr<IPiece>>& pieces
 	: m_piecesOnBoard(piecesOnBoard), m_signalDirector(signalDirector)
 {
 	m_eatenPieces.reserve(MAX_COUNT_ELEMENTS);
+	m_promotion = std::make_shared<Promotion>();
+
 }
 
 const std::shared_ptr<Chess::IPiece>& Chess::PieceDirector::get_CurrentPiece() const
@@ -87,6 +89,7 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to)
 
 	m_currentPiece->Move(to);
 	m_signalDirector->Invite();
+	m_promotion->PromoteConditionally(std::dynamic_pointer_cast<Pawn>(m_currentPiece), m_piecesOnBoard);
 
 	auto checkChecker = std::make_unique<CheckChecker>();
 	m_signalDirector->Invite(checkChecker->IsCheck(m_currentPiece->get_ColorAndType().get_Color(), m_piecesOnBoard));
