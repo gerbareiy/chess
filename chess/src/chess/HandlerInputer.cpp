@@ -18,14 +18,9 @@ char Chess::HandlerInputer::EnterFile() const
 	m_signalEnter("File: ");
 
 	std::string input;
-	char file;
 	std::getline(std::cin, input);
-	file = *input.data();
-
-	// In this code selection we can get bug if sign not in abc...xyx what we need to do?
-	file = std::toupper(file);
 	
-	return file;
+	return std::toupper(*input.data());
 }
 
 int Chess::HandlerInputer::EnterRank() const

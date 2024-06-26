@@ -12,5 +12,6 @@ namespace Chess
 	{
 	public:
 		void PromoteConditionally(std::shared_ptr<Pawn> pawn, std::vector<std::shared_ptr<IPiece>>& piecesOnBoard);
+		void PromoteConditionally(Coordinate pawnPosition, std::vector<std::shared_ptr<IPiece>>& piecesOnBoard);
 	};
 }

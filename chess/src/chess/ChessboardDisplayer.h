@@ -1,9 +1,12 @@
 #pragma once
 
 #include "Chessboard.h"
+#include "logic/Coordinate.h"
 #include "logic/eConsoleColor.h"
 #include "pieces/logic/ePieceColor.h"
+#include "pieces/logic/PieceColorAndType.h"
 
+#include <memory>
 #include <string>
 #include <windows.h>
 

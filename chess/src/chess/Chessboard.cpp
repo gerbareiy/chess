@@ -12,6 +12,7 @@
 #include "logic/Sizes.h"
 #include "logic/PieceInitializer.h"
 #include "logic/PieceSignalDirector.h"
+#include "pieces/logic/PositionChecker.h"
 
 Chess::Chessboard::Chessboard()
 {
@@ -19,6 +20,7 @@ Chess::Chessboard::Chessboard()
 	m_piecesOnBoard = std::make_unique<PieceInitializer>()->InitStandartBoard(signalDirector);
 	m_director = std::make_shared<PieceDirector>(m_piecesOnBoard, signalDirector);
 	m_validator = std::make_shared<MoveValidator>(m_piecesOnBoard, std::make_shared<Player>(ePieceColor::WHITE, signalDirector));
+	m_signalChessboardUndated();
 }
 
 const std::shared_ptr<Chess::PieceDirector>& Chess::Chessboard::get_PieceDirector() const
@@ -54,12 +56,20 @@ bool Chess::Chessboard::TryMovePiece(const Coordinate& to) const
 {
 	if (!m_validator->IsValidMove(m_director->get_CurrentPiece(), to))
 	{
+		m_signalInvalidInput();
 		return false;
 	}
 
 	m_validator->ClearPossibleMoves();
-	m_director->MovePiece(to);
+	m_director->MovePiece(to, m_signalChessboardUndated);
 	m_validator->CalculatePiecesCanMove();
 
+	m_signalChessboardUndated();
+
 	return true;
+}
+
+boost::signals2::connection Chess::Chessboard::ConnectChessboardUndated(const boost::signals2::signal<void()>::slot_type& subscriber)
+{
+	return m_signalChessboardUndated.connect(subscriber);
 }

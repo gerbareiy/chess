@@ -2,6 +2,7 @@
 
 #include "PromotePieceInputer.h"
 #include "Sizes.h"
+#include "../pieces/logic/PieceFinder.h"
 #include "../InputerDisplayer.h"
 #include "../pieces/Bishop.h"
 #include "../pieces/Knight.h"
@@ -46,4 +47,10 @@ void Chess::Promotion::PromoteConditionally(std::shared_ptr<Pawn> pawn, std::vec
 		piecesOnBoard.emplace_back(piece);
 		piecesOnBoard.erase(std::find(piecesOnBoard.begin(), piecesOnBoard.end(), pawn));
 	}
+}
+
+void Chess::Promotion::PromoteConditionally(Coordinate pawnPosition, std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+{
+	auto finder = std::make_unique<PieceFinder>(piecesOnBoard);
+	PromoteConditionally(std::dynamic_pointer_cast<Pawn>(finder->Find(pawnPosition)), piecesOnBoard);
 }

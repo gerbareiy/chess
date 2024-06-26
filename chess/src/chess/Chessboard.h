@@ -1,10 +1,13 @@
 #pragma once
 
+#include "ChessboardDisplayer.h"
 #include "logic/Coordinate.h"
 #include "logic/MoveValidator.h"
 #include "logic/PieceDirector.h"
 #include "pieces/logic/PieceColorAndType.h"
 #include "Player.h"
+
+#include <boost/signals2.hpp>
 
 #include <memory>
 #include <vector>
@@ -18,6 +21,10 @@ namespace Chess
 		std::shared_ptr<MoveValidator> m_validator;
 		std::vector<std::shared_ptr<IPiece>> m_piecesOnBoard;
 
+	private:
+		boost::signals2::signal<void()> m_signalChessboardUndated;
+		boost::signals2::signal<void()> m_signalInvalidInput;
+
 	public:
 		Chessboard();
 
@@ -30,5 +37,8 @@ namespace Chess
 		
 		//Before use this method, you need to InitPiece
 		bool TryMovePiece(const Coordinate& to) const;
+
+	public:
+		boost::signals2::connection ConnectChessboardUndated(const boost::signals2::signal<void()>::slot_type& subscriber);
 	};
 }

@@ -6,7 +6,10 @@
 #include <conio.h>
 #include <iostream>
 
-Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard) : m_chessboard(chessboard) { }
+Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard) : m_chessboard(chessboard)
+{
+	chessboard->ConnectChessboardUndated(std::bind(&ChessboardDisplayer::Show, this));
+}
 
 eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate coordinate) const
 {

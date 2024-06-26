@@ -10,8 +10,8 @@
 Chess::Game::Game()
 {
 	auto chessboard = std::make_shared<Chessboard>();
-	m_chessboardDisplayer = std::make_unique<ChessboardDisplayer>(chessboard);
 	m_controller = std::make_shared<Controller>(chessboard);
+	m_chessboardDisplayer = std::make_unique<ChessboardDisplayer>(chessboard);
 	m_handlerInputer = std::make_shared<HandlerInputer>();
 	m_inputDisplayer = std::make_unique<InputerDisplayer>(m_handlerInputer);
 }
@@ -22,17 +22,12 @@ Chess::Coordinate Chess::Game::HandleInput(std::function<Coordinate()> inputFunc
 
 	while (true)
 	{
-		m_chessboardDisplayer->Show();
-
 		coordinate = inputFunction();
 
-		if (!(PositionChecker::IsPositionValid(coordinate) && initFunction(coordinate)))
+		if (PositionChecker::IsPositionValid(coordinate) && initFunction(coordinate))
 		{
-			m_chessboardDisplayer->ShowInvalidMovePrompt(false);
-			continue;
+			break;
 		}
-
-		break;
 	}
 	return coordinate;
 }
