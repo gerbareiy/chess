@@ -131,7 +131,7 @@
     <ClCompile Include="src\chess\logic\Promotion.cpp" />
     <ClCompile Include="src\chess\Player.cpp" />
     <ClCompile Include="src\chess\pieces\logic\MoveCheckerFactory.cpp" />
-    <ClCompile Include="src\chess\InputerDisplayer.cpp" />
+    <ClCompile Include="src\chess\LableDisplayer.cpp" />
     <ClCompile Include="src\chess\ChessboardDisplayer.cpp" />
     <ClCompile Include="src\chess\pieces\logic\CheckChecker.cpp" />
     <ClCompile Include="src\chess\logic\PieceTakeLocator.cpp" />
@@ -171,7 +171,7 @@
     <ClInclude Include="src\chess\logic\Promotion.h" />
     <ClInclude Include="src\chess\Player.h" />
     <ClInclude Include="src\chess\pieces\logic\MoveCheckerFactory.h" />
-    <ClInclude Include="src\chess\InputerDisplayer.h" />
+    <ClInclude Include="src\chess\LableDisplayer.h" />
     <ClInclude Include="src\chess\ChessboardDisplayer.h" />
     <ClInclude Include="src\chess\pieces\logic\CheckChecker.h" />
     <ClInclude Include="src\chess\logic\PieceTakeLocator.h" />

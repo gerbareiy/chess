@@ -4,7 +4,7 @@
 #include "PieceSignalDirector.h"
 #include "Promotion.h"
 #include "../pieces/IPiece.h"
-#include "../InputerDisplayer.h"
+#include "../LableDisplayer.h"
 
 #include <boost/signals2.hpp>
 
@@ -18,7 +18,8 @@ namespace Chess
 	private:
 		std::shared_ptr<IPiece> m_currentPiece;
 		std::vector<std::shared_ptr<IPiece>> m_eatenPieces;
-		std::unique_ptr<InputerDisplayer> m_inputDisplayer;
+		std::unique_ptr<LableDisplayer> m_inputDisplayer;
+		bool m_isCheck = false;
 		std::vector<std::shared_ptr<IPiece>>& m_piecesOnBoard;
 		std::shared_ptr<Promotion> m_promotion;
 		std::shared_ptr<PieceSignalDirector> m_signalDirector;
@@ -29,6 +30,7 @@ namespace Chess
 	public:
 		const std::shared_ptr<IPiece>& get_CurrentPiece() const;
 		const std::vector<std::shared_ptr<IPiece>>& get_EatenPieces() const;
+		bool get_IsCheck() const;
 		const std::vector<std::shared_ptr<IPiece>>& get_PiecesOnBoard() const;
 
 	private:

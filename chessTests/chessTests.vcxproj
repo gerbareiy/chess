@@ -24,7 +24,7 @@
     <ClCompile Include="..\chess\src\chess\Controller.cpp" />
     <ClCompile Include="..\chess\src\chess\Game.cpp" />
     <ClCompile Include="..\chess\src\chess\HandlerInputer.cpp" />
-    <ClCompile Include="..\chess\src\chess\InputerDisplayer.cpp" />
+    <ClCompile Include="..\chess\src\chess\LableDisplayer.cpp" />
     <ClCompile Include="..\chess\src\chess\logic\Coordinate.cpp" />
     <ClCompile Include="..\chess\src\chess\logic\ErrorConverter.cpp" />
     <ClCompile Include="..\chess\src\chess\logic\Inputer.cpp" />

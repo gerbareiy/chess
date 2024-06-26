@@ -2,14 +2,14 @@
 
 #include "PromotePieceInputer.h"
 #include "Sizes.h"
-#include "../pieces/logic/PieceFinder.h"
-#include "../InputerDisplayer.h"
+#include "../LableDisplayer.h"
 #include "../pieces/Bishop.h"
 #include "../pieces/Knight.h"
 #include "../pieces/Queen.h"
 #include "../pieces/Rook.h"
 #include "../pieces/logic/ePieceColor.h"
 #include "../pieces/logic/ePieceType.h"
+#include "../pieces/logic/PieceFinder.h"
 
 void Chess::Promotion::PromoteConditionally(std::shared_ptr<Pawn> pawn, std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
 {
@@ -22,7 +22,7 @@ void Chess::Promotion::PromoteConditionally(std::shared_ptr<Pawn> pawn, std::vec
 		|| pawn->get_Position().get_Rank() == CHESSBOARD_SIZE && pawn->get_ColorAndType().get_Color() == ePieceColor::WHITE)
 	{
 		auto inputer = std::make_shared<PromotePieceInputer>();
-		auto inputDisplayer = std::make_unique<InputerDisplayer>(inputer);
+		auto inputDisplayer = std::make_unique<LableDisplayer>(inputer);
 		auto promoteType = inputer->Input();
 		std::shared_ptr<IPiece> piece;
 		auto color = pawn->get_ColorAndType().get_Color();

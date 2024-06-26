@@ -2,7 +2,7 @@
 
 #include "ChessboardDisplayer.h"
 #include "Controller.h"
-#include "InputerDisplayer.h"
+#include "LableDisplayer.h"
 #include "HandlerInputer.h"
 
 #include <memory>
@@ -16,13 +16,13 @@ namespace Chess
 		std::unique_ptr<ChessboardDisplayer> m_chessboardDisplayer;
 		std::shared_ptr<Controller> m_controller;
 		std::shared_ptr<HandlerInputer> m_handlerInputer;
-		std::unique_ptr<InputerDisplayer> m_inputDisplayer;
+		std::unique_ptr<LableDisplayer> m_inputDisplayer;
 
 	public:
 		Game();
 
     private:
-		Coordinate HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction) const;
+		void HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction) const;
 
 	public:
 		void Play() const;

@@ -6,10 +6,10 @@
 
 namespace Chess
 {
-	class InputerDisplayer
+	class LableDisplayer
 	{
 	public:
-		InputerDisplayer(const std::shared_ptr<Inputer>& Inputer);
+		LableDisplayer(const std::shared_ptr<Inputer>& Inputer);
 
 	private:
 		void Show(std::string toPrint) const;

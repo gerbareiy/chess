@@ -31,6 +31,11 @@ const std::vector<std::shared_ptr<Chess::IPiece>>& Chess::PieceDirector::get_Eat
 	return m_eatenPieces;
 }
 
+bool Chess::PieceDirector::get_IsCheck() const
+{
+	return m_isCheck;
+}
+
 const std::vector<std::shared_ptr<Chess::IPiece>>& Chess::PieceDirector::get_PiecesOnBoard() const
 {
 	return m_piecesOnBoard;
@@ -98,5 +103,6 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2
 	}
 
 	auto checkChecker = std::make_unique<CheckChecker>();
-	m_signalDirector->Invite(checkChecker->IsCheck(m_currentPiece->get_ColorAndType().get_Color(), m_piecesOnBoard));
+	m_isCheck = checkChecker->IsCheck(m_currentPiece->get_ColorAndType().get_Color(), m_piecesOnBoard);
+	m_signalDirector->Invite(m_isCheck);
 }

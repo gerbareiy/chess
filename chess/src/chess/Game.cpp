@@ -13,12 +13,12 @@ Chess::Game::Game()
 	m_controller = std::make_shared<Controller>(chessboard);
 	m_chessboardDisplayer = std::make_unique<ChessboardDisplayer>(chessboard);
 	m_handlerInputer = std::make_shared<HandlerInputer>();
-	m_inputDisplayer = std::make_unique<InputerDisplayer>(m_handlerInputer);
+	m_inputDisplayer = std::make_unique<LableDisplayer>(m_handlerInputer);
 
 	m_chessboardDisplayer->Show();
 }
 
-Chess::Coordinate Chess::Game::HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction) const
+void Chess::Game::HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction) const
 {
 	Coordinate coordinate;
 
@@ -31,22 +31,18 @@ Chess::Coordinate Chess::Game::HandleInput(std::function<Coordinate()> inputFunc
 			break;
 		}
 	}
-	return coordinate;
 }
 
 void Chess::Game::Play() const
 {
 	while (true)
 	{
-		Coordinate from = HandleInput(
+		HandleInput(
 			std::bind(&HandlerInputer::EnterFrom, m_handlerInputer),
-			std::bind(&Controller::TryInitPiece, m_controller.get(), std::placeholders::_1)
+			std::bind(&Controller::TryInitPiece, m_controller.get(), std::placeholders::_1));
 
-		);
-
-		Coordinate to = HandleInput(
+		HandleInput(
 			std::bind(&HandlerInputer::EnterTo, m_handlerInputer),
-			std::bind(&Controller::TryMovePiece, m_controller.get(), std::placeholders::_1)
-		);
+			std::bind(&Controller::TryMovePiece, m_controller.get(), std::placeholders::_1));
 	}
 }

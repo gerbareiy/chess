@@ -59,6 +59,11 @@ void Chess::MoveValidator::ClearPiecesCanMove()
 	m_piecesCanMove.clear();
 }
 
+int Chess::MoveValidator::GetPiecesCanMoveCount()
+{
+	return m_piecesCanMove.size();
+}
+
 bool Chess::MoveValidator::IsCoordinateInPieceCanMove(Coordinate coordinate) const
 {
 	auto finder = std::make_unique<PieceFinder>(m_piecesCanMove);

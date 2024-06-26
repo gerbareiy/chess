@@ -165,13 +165,13 @@
     <ClCompile Include="..\chess\src\chess\HandlerInputer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\chess\src\chess\InputerDisplayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\chess\src\chess\logic\Inputer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\chess\src\chess\logic\PromotePieceInputer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\LableDisplayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

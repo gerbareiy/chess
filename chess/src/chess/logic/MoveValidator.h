@@ -14,8 +14,8 @@ namespace Chess
 	class MoveValidator
 	{
 	private:
-		std::vector<Coordinate> m_possibleMoves;
 		std::vector<std::shared_ptr<IPiece>> m_piecesCanMove;
+		std::vector<Coordinate> m_possibleMoves;
 		const std::vector<std::shared_ptr<IPiece>>& m_piecesOnBoard;
 		const std::shared_ptr<Player> m_player;
 
@@ -30,6 +30,7 @@ namespace Chess
 		void CalculatePossibleMoves(const std::shared_ptr<IPiece>& piece);
 		void ClearPossibleMoves();
 		void ClearPiecesCanMove();
+		int GetPiecesCanMoveCount();
 		bool IsCoordinateInPieceCanMove(Coordinate coordinate) const;
 		bool IsCoordinateInPossibleMoves(Coordinate coordinate) const;
 		bool IsValidMove(const std::shared_ptr<IPiece> piece, Coordinate to) const;
