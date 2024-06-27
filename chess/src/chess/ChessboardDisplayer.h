@@ -21,11 +21,11 @@ namespace Chess
 		ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard);
 
 	private:
-		eConsoleColor GetBackgroundConsoleColor(Coordinate coordinate) const;
+		Console::eConsoleColor GetBackgroundConsoleColor(Coordinate coordinate) const;
 		std::string GetChessboardFiles() const;
 		void GetOriginalConsoleColor(WORD& originalColors) const;
-		eConsoleColor GetTextConsoleColor(PieceColorAndType& colorAndType, int originalTextColor) const;
-		void SetConsoleColor(eConsoleColor textColor, eConsoleColor backgroundColor) const;
+		Console::eConsoleColor GetTextConsoleColor(PieceColorAndType& colorAndType, int originalTextColor) const;
+		void SetConsoleColor(Console::eConsoleColor textColor, Console::eConsoleColor backgroundColor) const;
 		void ShowChessboardFiles(bool isChessboardSizeOneDigit) const;
 		void ShowChessboardRank(int y, bool isChessboardSizeOneDigit) const;
 		void ShowChessboardWithCoordinates() const;

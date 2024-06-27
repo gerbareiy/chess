@@ -11,22 +11,22 @@ Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard
 	m_chessboard->ConnectChessboardUndated(std::bind(&ChessboardDisplayer::Show, this));
 }
 
-eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate coordinate) const
+Console::eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate coordinate) const
 {
-	eConsoleColor color;
+	Console::eConsoleColor color;
 	auto isSquareBlack = (static_cast<int>(coordinate.get_File() + 1) + coordinate.get_Rank()) % 2;
 
 	if (m_chessboard->get_MoveValidator()->IsCoordinateInPieceCanMove(coordinate))
 	{
-		color = isSquareBlack ? eConsoleColor::BLUE : eConsoleColor::CERULEAN;
+		color = isSquareBlack ? Console::eConsoleColor::BLUE : Console::eConsoleColor::CERULEAN;
 	}
 	else if (m_chessboard->get_MoveValidator()->IsCoordinateInPossibleMoves(coordinate))
 	{
-		color = isSquareBlack ? eConsoleColor::DARK_RED : eConsoleColor::RED;
+		color = isSquareBlack ? Console::eConsoleColor::DARK_RED : Console::eConsoleColor::RED;
 	}
 	else
 	{
-		color = isSquareBlack ? eConsoleColor::BROWN : eConsoleColor::YELLOW;
+		color = isSquareBlack ? Console::eConsoleColor::GRAY : Console::eConsoleColor::GREEN;
 	}
 
 	return color;
@@ -52,13 +52,13 @@ void Chess::ChessboardDisplayer::GetOriginalConsoleColor(WORD& originalColors) c
 	originalColors = consoleInfo.wAttributes;
 }
 
-eConsoleColor Chess::ChessboardDisplayer::GetTextConsoleColor(PieceColorAndType& colorAndType, int originalTextColor) const
+Console::eConsoleColor Chess::ChessboardDisplayer::GetTextConsoleColor(PieceColorAndType& colorAndType, int originalTextColor) const
 {
-	return colorAndType.get_Color() == ePieceColor::BLACK ? eConsoleColor::BLACK
-		: (colorAndType.get_Color() == ePieceColor::WHITE ? eConsoleColor::WHITE : static_cast<eConsoleColor>(originalTextColor));
+	return colorAndType.get_Color() == ePieceColor::BLACK ? Console::eConsoleColor::BLACK
+		: (colorAndType.get_Color() == ePieceColor::WHITE ? Console::eConsoleColor::WHITE : static_cast<Console::eConsoleColor>(originalTextColor));
 }
 
-void Chess::ChessboardDisplayer::SetConsoleColor(eConsoleColor textColor, eConsoleColor backgroundColor) const
+void Chess::ChessboardDisplayer::SetConsoleColor(Console::eConsoleColor textColor, Console::eConsoleColor backgroundColor) const
 {
 	auto hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, (static_cast<int>(backgroundColor) << 4) | static_cast<int>(textColor));
@@ -118,7 +118,7 @@ void Chess::ChessboardDisplayer::ShowChessboardWithCoordinates() const
 	{
 		ShowChessboardRank(y, isChessboardSizeOneDigit);
 		ShowChessboardRowWithRank(y, originalTextColor);
-		SetConsoleColor(static_cast<eConsoleColor>(originalTextColor), static_cast<eConsoleColor>(originalBackgroundColor));
+		SetConsoleColor(static_cast<Console::eConsoleColor>(originalTextColor), static_cast<Console::eConsoleColor>(originalBackgroundColor));
 		ShowChessboardRank(y, isChessboardSizeOneDigit);
 	}
 
@@ -144,5 +144,6 @@ void Chess::ChessboardDisplayer::ShowTakenPieces(ePieceColor color) const
 		}
 	}
 
+	ShowEmpty();
 	ShowEmpty();
 }
