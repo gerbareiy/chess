@@ -10,7 +10,9 @@ namespace Console
         CERULEAN = 3,
         DARK_RED = 4,
         GRAY = 8,
+        BROWN = 6,
         RED = 12,
+        YELLOW = 14,
         WHITE = 15
     };
 }

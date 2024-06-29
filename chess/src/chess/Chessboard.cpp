@@ -45,8 +45,9 @@ Chess::Coordinate Chess::Chessboard::get_To() const
 bool Chess::Chessboard::TryInitPiece(const Coordinate& from)
 {
 	m_from = from;
+	m_to = Coordinate(0, 0);
 	m_director->InitCurrentPiece(from);
-	
+
 	if (!m_director->get_CurrentPiece())
 	{
 		return false;

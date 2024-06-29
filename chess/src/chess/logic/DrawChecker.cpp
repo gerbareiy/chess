@@ -43,11 +43,7 @@ void Chess::DrawChecker::CalculateMovesCountWithoutPawnAndTaking(const std::shar
 
 	auto eatenPiecesCount = chessboard->get_PieceDirector()->get_EatenPieces().size();
 
-	if (typeid(*piece) == typeid(Pawn))
-	{
-		m_movesCountWithoutPawnAndTaking = 0;
-	}
-	if (m_lastCountEatenPeaces != eatenPiecesCount)
+	if (typeid(*piece) == typeid(Pawn) || m_lastCountEatenPeaces != eatenPiecesCount)
 	{
 		m_movesCountWithoutPawnAndTaking = 0;
 		m_lastCountEatenPeaces = eatenPiecesCount;

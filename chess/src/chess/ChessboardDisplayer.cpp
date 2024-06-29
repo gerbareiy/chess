@@ -16,7 +16,15 @@ Console::eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coo
 	Console::eConsoleColor color;
 	auto isSquareBlack = (static_cast<int>(coordinate.get_File() + 1) + coordinate.get_Rank()) % 2;
 
-	if (m_chessboard->get_MoveValidator()->IsCoordinateInPieceCanMove(coordinate))
+	if (coordinate == m_chessboard->get_From())
+	{
+		color = Console::eConsoleColor::BROWN;
+	}
+	else if (coordinate == m_chessboard->get_To())
+	{
+		color = Console::eConsoleColor::YELLOW;
+	}
+	else if (m_chessboard->get_MoveValidator()->IsCoordinateInPieceCanMove(coordinate))
 	{
 		color = isSquareBlack ? Console::eConsoleColor::BLUE : Console::eConsoleColor::CERULEAN;
 	}
