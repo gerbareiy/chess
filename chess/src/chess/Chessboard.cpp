@@ -22,9 +22,9 @@ Chess::Chessboard::Chessboard()
 	m_validator = std::make_shared<MoveValidator>(m_piecesOnBoard, std::make_shared<Player>(ePieceColor::WHITE, signalDirector));
 }
 
-const std::shared_ptr<Chess::PieceDirector>& Chess::Chessboard::get_PieceDirector() const
+Chess::Coordinate Chess::Chessboard::get_From() const
 {
-	return m_director;
+	return m_from;
 }
 
 const std::shared_ptr<Chess::MoveValidator>& Chess::Chessboard::get_MoveValidator() const
@@ -32,8 +32,19 @@ const std::shared_ptr<Chess::MoveValidator>& Chess::Chessboard::get_MoveValidato
 	return m_validator;
 }
 
-bool Chess::Chessboard::TryInitPiece(const Coordinate& from) const
+const std::shared_ptr<Chess::PieceDirector>& Chess::Chessboard::get_PieceDirector() const
 {
+	return m_director;
+}
+
+Chess::Coordinate Chess::Chessboard::get_To() const
+{
+	return m_to;
+}
+
+bool Chess::Chessboard::TryInitPiece(const Coordinate& from)
+{
+	m_from = from;
 	m_director->InitCurrentPiece(from);
 	
 	if (!m_director->get_CurrentPiece())
@@ -53,8 +64,10 @@ bool Chess::Chessboard::TryInitPiece(const Coordinate& from) const
 	return true;
 }
 
-bool Chess::Chessboard::TryMovePiece(const Coordinate& to) const
+bool Chess::Chessboard::TryMovePiece(const Coordinate& to)
 {
+	m_to = to;
+
 	if (!m_validator->IsValidMove(m_director->get_CurrentPiece(), to))
 	{
 		return false;
