@@ -28,20 +28,7 @@ Chess::Pawn::Pawn(ePieceColor color, char file) : m_colorAndType(color, ePieceTy
 
 Chess::Pawn::Pawn(ePieceColor color, char file, const std::shared_ptr<PieceSignalDirector>& signalDirector) : Pawn(color, file)
 {
-	if (!signalDirector)
-	{
-		return;
-	}
-
-	signalDirector->ConnectMove([this]()
-		{
-			if (!m_isOnPawnFirstMove)
-			{
-				LostEnPassant();
-			}
-
-			m_isOnPawnFirstMove = false;
-		});
+	MakeTracking(signalDirector);
 }
 
 Chess::Pawn::Pawn(ePieceColor color, Coordinate coordinate)
@@ -49,20 +36,7 @@ Chess::Pawn::Pawn(ePieceColor color, Coordinate coordinate)
 
 Chess::Pawn::Pawn(ePieceColor color, Coordinate coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector) : Pawn(color, coordinate)
 {
-	if (!signalDirector)
-	{
-		return;
-	}
-
-	signalDirector->ConnectMove([this]()
-		{
-			if (!m_isOnPawnFirstMove)
-			{
-				LostEnPassant();
-			}
-
-			m_isOnPawnFirstMove = false;
-		});
+	MakeTracking(signalDirector);
 }
 
 bool Chess::Pawn::get_CanEnPassant() const
@@ -88,6 +62,24 @@ Chess::Coordinate Chess::Pawn::get_Position() const
 void Chess::Pawn::LostEnPassant()
 {
 	m_canEnPassant = false;
+}
+
+void Chess::Pawn::MakeTracking(const std::shared_ptr<Chess::PieceSignalDirector>& signalDirector)
+{
+	if (!signalDirector)
+	{
+		return;
+	}
+
+	signalDirector->ConnectMove([this]()
+		{
+			if (!m_isOnPawnFirstMove)
+			{
+				LostEnPassant();
+			}
+
+			m_isOnPawnFirstMove = false;
+		});
 }
 
 void Chess::Pawn::Move(Coordinate to, bool isRealMove)

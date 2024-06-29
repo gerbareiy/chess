@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #include "pieces/logic/PositionChecker.h"
+#include "logic/DrawChecker.h"
 #include "logic/Sizes.h"
 #include "pieces/logic/ePieceColor.h"
 
@@ -19,12 +20,14 @@ Chess::Game::Game()
 
 bool Chess::Game::IsGameContinue() const
 {
+	auto drawChecker = std::make_unique<DrawChecker>();
+
 	if (!m_chessboard->get_MoveValidator()->GetPiecesCanMoveCount() && m_chessboard->get_PieceDirector()->get_IsCheck())
 	{
 		m_inputDisplayer->Show("Checkmate!\n");
 		return false;
 	}
-	if (!m_chessboard->get_MoveValidator()->GetPiecesCanMoveCount())
+	if (drawChecker->IsDraw(m_chessboard))
 	{
 		m_inputDisplayer->Show("Draw!\n");
 		return false;

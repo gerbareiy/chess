@@ -28,6 +28,7 @@ namespace Chess
 		Pawn(ePieceColor color, Coordinate coordinate);
 		Pawn(ePieceColor color, Coordinate coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector);
 
+
 	public:
 		bool get_CanEnPassant() const;
 		PieceColorAndType get_ColorAndType() const override;
@@ -36,6 +37,7 @@ namespace Chess
 
 	private:
 		void LostEnPassant();
+		void MakeTracking(const std::shared_ptr<Chess::PieceSignalDirector>& signalDirector);
 
 	public:
 		void Move(Coordinate to, bool isRealMove = true) override;

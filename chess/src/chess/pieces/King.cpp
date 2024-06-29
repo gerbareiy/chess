@@ -24,15 +24,7 @@ Chess::King::King(ePieceColor color) : m_colorAndType(PieceColorAndType(color, e
 
 Chess::King::King(ePieceColor color, const std::shared_ptr<PieceSignalDirector>& signalDirector) : King(color)
 {
-	if (!signalDirector)
-	{
-		return;
-	}
-
-	signalDirector->ConnectMoveWithCheck([this](bool isCheck)
-		{
-			m_isCheck = isCheck;
-		});
+	MakeTracking(signalDirector);
 }
 
 Chess::King::King(ePieceColor color, Coordinate coordinate)
@@ -40,15 +32,7 @@ Chess::King::King(ePieceColor color, Coordinate coordinate)
 
 Chess::King::King(ePieceColor color, Coordinate coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector) : King(color, coordinate)
 {
-	if (!signalDirector)
-	{
-		return;
-	}
-
-	signalDirector->ConnectMoveWithCheck([this](bool isCheck)
-		{
-			m_isCheck = isCheck;
-		});
+	MakeTracking(signalDirector);
 }
 
 bool Chess::King::get_CanMakeCastling() const
@@ -74,6 +58,19 @@ Chess::Coordinate Chess::King::get_Position() const
 void Chess::King::DisableCastling()
 {
 	m_canMakeCastling = false;
+}
+
+void Chess::King::MakeTracking(const std::shared_ptr<Chess::PieceSignalDirector>& signalDirector)
+{
+	if (!signalDirector)
+	{
+		return;
+	}
+
+	signalDirector->ConnectMoveWithCheck([this](bool isCheck)
+		{
+			m_isCheck = isCheck;
+		});
 }
 
 void Chess::King::Move(Coordinate to, bool isRealMove)

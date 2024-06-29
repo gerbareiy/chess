@@ -34,12 +34,7 @@ Chess::Rook::Rook(ePieceColor color, int orderNumber) : m_canMakeCastling(true)
 
 Chess::Rook::Rook(ePieceColor pieceColor, int orderNumber, const std::shared_ptr<IKing>& king) : Rook(pieceColor, orderNumber)
 {
-	if (!king)
-	{
-		return;
-	}
-
-	m_castlingConnection = king->ConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
+	MakeTracking(king);
 }
 
 Chess::Rook::Rook(ePieceColor color, Coordinate coordinate)
@@ -47,12 +42,7 @@ Chess::Rook::Rook(ePieceColor color, Coordinate coordinate)
 
 Chess::Rook::Rook(ePieceColor color, Coordinate coordinate, const std::shared_ptr<IKing>& king)
 {
-	if (!king)
-	{
-		return;
-	}
-
-	m_castlingConnection = king->ConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
+	MakeTracking(king);
 }
 
 bool Chess::Rook::get_CanMakeCastling() const
@@ -73,6 +63,16 @@ Chess::Coordinate Chess::Rook::get_Position() const
 void Chess::Rook::DisableCastling()
 {
 	m_canMakeCastling = false;
+}
+
+void Chess::Rook::MakeTracking(const std::shared_ptr<Chess::IKing>& king)
+{
+	if (!king)
+	{
+		return;
+	}
+
+	m_castlingConnection = king->ConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void Chess::Rook::OnCastling(Coordinate to, eCastleSide side)

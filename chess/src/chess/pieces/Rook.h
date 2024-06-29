@@ -34,6 +34,7 @@ namespace Chess
 
 	private:
 		void DisableCastling();
+		void MakeTracking(const std::shared_ptr<Chess::IKing>& king);
 		void OnCastling(Coordinate to, eCastleSide side);
 
 	public:

@@ -38,6 +38,7 @@ namespace Chess
 
 	private:
 		void DisableCastling();
+		void MakeTracking(const std::shared_ptr<Chess::PieceSignalDirector>& signalDirector);
 
 	public:
 		void Move(Coordinate to, bool isRealMove = true) override;

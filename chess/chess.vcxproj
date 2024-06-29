@@ -126,9 +126,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\chess\logic\DrawChecker.cpp" />
     <ClCompile Include="src\chess\logic\Inputer.cpp" />
     <ClCompile Include="src\chess\logic\PromotePieceInputer.cpp" />
     <ClCompile Include="src\chess\logic\Promotion.cpp" />
+    <ClCompile Include="src\chess\pieces\logic\PieceColorConverter.cpp" />
     <ClCompile Include="src\chess\Player.cpp" />
     <ClCompile Include="src\chess\pieces\logic\MoveCheckerFactory.cpp" />
     <ClCompile Include="src\chess\LableDisplayer.cpp" />
@@ -166,9 +168,11 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\chess\logic\DrawChecker.h" />
     <ClInclude Include="src\chess\logic\Inputer.h" />
     <ClInclude Include="src\chess\logic\PromotePieceInputer.h" />
     <ClInclude Include="src\chess\logic\Promotion.h" />
+    <ClInclude Include="src\chess\pieces\logic\PieceColorConverter.h" />
     <ClInclude Include="src\chess\Player.h" />
     <ClInclude Include="src\chess\pieces\logic\MoveCheckerFactory.h" />
     <ClInclude Include="src\chess\LableDisplayer.h" />

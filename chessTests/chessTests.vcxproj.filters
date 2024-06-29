@@ -174,5 +174,11 @@
     <ClCompile Include="..\chess\src\chess\LableDisplayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\chess\src\chess\logic\DrawChecker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\logic\PieceColorConverter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
