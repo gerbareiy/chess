@@ -28,21 +28,27 @@ void Chess::Promotion::PromoteConditionally(std::shared_ptr<Pawn> pawn, std::vec
 		auto color = pawn->get_ColorAndType().get_Color();
 		auto position = pawn->get_Position();
 
-		if (promoteType == ePieceType::BISHOP)
+		switch (promoteType)
 		{
+		case Chess::ePieceType::BISHOP:
 			piece = std::make_shared<Bishop>(color, position);
-		}
-		else if (promoteType == ePieceType::KNIGHT)
-		{
+			break;
+		case Chess::ePieceType::KNIGHT:
 			piece = std::make_shared<Knight>(color, position);
-		}
-		else if (promoteType == ePieceType::QUEEN)
-		{
+			break;
+		case Chess::ePieceType::QUEEN:
 			piece = std::make_shared<Queen>(color, position);
-		}
-		else if (promoteType == ePieceType::ROOK)
-		{
+			break;
+		case Chess::ePieceType::ROOK:
 			piece = std::make_shared<Rook>(color, position);
+			break;
+		default:
+			break;
+		}
+
+		if (!piece)
+		{
+			return;
 		}
 		piecesOnBoard.emplace_back(piece);
 		piecesOnBoard.erase(std::find(piecesOnBoard.begin(), piecesOnBoard.end(), pawn));

@@ -85,12 +85,5 @@ bool Chess::MoveValidator::IsValidMove(const std::shared_ptr<IPiece> piece, Coor
 		return false;
 	}
 
-	auto it = std::find(m_possibleMoves.begin(), m_possibleMoves.end(), to);
-
-	if (it == m_possibleMoves.end())
-	{
-		return false;
-	}
-
-	return true;
+	return std::find(m_possibleMoves.begin(), m_possibleMoves.end(), to) != m_possibleMoves.end();
 }

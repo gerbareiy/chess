@@ -93,7 +93,7 @@ void Chess::King::Move(Coordinate to, bool isRealMove)
 			}
 			else
 			{
-				throw std::invalid_argument(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
+				throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_MOVE));
 			}
 
 			m_signalCastling(to, side);
