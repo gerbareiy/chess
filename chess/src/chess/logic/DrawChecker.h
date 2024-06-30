@@ -15,7 +15,6 @@ namespace Chess
 		int m_lastCountEatenPeaces = 0;
 
 	private:
-		std::string GetLastBoardPosition(const std::shared_ptr<Chessboard>& chessboard);
 		void CalculateMovesCountWithoutPawnAndTaking(const std::shared_ptr<Chessboard>& chessboard);
 
 	public:
