@@ -18,7 +18,7 @@ Chess::Game::Game()
 	m_chessboardDisplayer->Show();
 }
 
-bool Chess::Game::IsGameContinue() const
+bool Chess::Game::ContinueGame() const
 {
 	auto drawChecker = std::make_unique<DrawChecker>();
 
@@ -55,7 +55,7 @@ void Chess::Game::Play() const
 {
 	while (true)
 	{
-		if (!IsGameContinue())
+		if (!ContinueGame())
 		{
 			break;
 		}
