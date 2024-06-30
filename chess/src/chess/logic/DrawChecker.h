@@ -16,6 +16,7 @@ namespace Chess
 
 	private:
 		void CalculateMovesCountWithoutPawnAndTaking(const std::shared_ptr<Chessboard>& chessboard);
+		bool IsInsufficientMaterial(const std::shared_ptr<Chessboard>& chessboard);
 
 	public:
 		bool IsDraw(const std::shared_ptr<Chessboard>& chessboard);
