@@ -35,14 +35,14 @@ void Chess::DrawChecker::CalculateMovesCountWithoutPawnAndTaking(const std::shar
 
 bool Chess::DrawChecker::IsInsufficientMaterial(const std::shared_ptr<Chessboard>& chessboard)
 {
-	int blackBishopDarkCount = 0;
-	int blackBishopLightCount = 0;
-	bool blackKing = false;
-	int blackKnightCount = 0;
-	int whiteBishopDarkCount = 0;
-	int whiteBishopLightCount = 0;
-	bool whiteKing = false;
-	int whiteKnightCount = 0;
+	auto blackBishopDarkCount = 0;
+	auto blackBishopLightCount = 0;
+	auto blackKing = false;
+	auto blackKnightCount = 0;
+	auto whiteBishopDarkCount = 0;
+	auto whiteBishopLightCount = 0;
+	auto whiteKing = false;
+	auto whiteKnightCount = 0;
 
 	for (auto y = CHESSBOARD_SIZE; y > 0; --y)
 	{
@@ -81,8 +81,8 @@ bool Chess::DrawChecker::IsInsufficientMaterial(const std::shared_ptr<Chessboard
 		}
 	}
 
-	bool insufficientWhiteBishops = (whiteBishopLightCount == 0 || whiteBishopDarkCount == 0);
-	bool insufficientBlackBishops = (blackBishopLightCount == 0 || blackBishopDarkCount == 0);
+	auto insufficientWhiteBishops = (whiteBishopLightCount == 0 || whiteBishopDarkCount == 0);
+	auto insufficientBlackBishops = (blackBishopLightCount == 0 || blackBishopDarkCount == 0);
 
 	if (whiteKing && blackKing
 		&& (blackKnightCount + blackBishopLightCount + blackBishopDarkCount + whiteBishopLightCount + whiteBishopDarkCount + whiteKnightCount <= 1
