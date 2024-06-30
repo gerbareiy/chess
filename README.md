@@ -1,4 +1,5 @@
 Взаимодействие с игрой через консоль
+
 Те фигуры, которые доступны для хода, подсвечиваются синим
 
 ![image](https://github.com/Jamy-Konstantinopol/chess/assets/119047289/c4f36a54-2d21-4238-a56f-6db9d9e1ec24)
@@ -22,6 +23,7 @@
 ![image](https://github.com/Jamy-Konstantinopol/chess/assets/119047289/e762680e-bc5d-4cfa-9709-0b40f0e354db)
 
 Обработка ситуаций, когда ход вызовет шах
+
 В данном случае белый король не может ходить, так как ему угрожает вражеская королева
 
 ![image](https://github.com/Jamy-Konstantinopol/chess/assets/119047289/19a56fbf-a535-45b9-b5fe-5123b0c2b248)
