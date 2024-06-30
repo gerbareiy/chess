@@ -63,7 +63,8 @@ void Chess::ChessboardDisplayer::GetOriginalConsoleColor(WORD& originalColors) c
 Console::eConsoleColor Chess::ChessboardDisplayer::GetTextConsoleColor(PieceColorAndType& colorAndType, int originalTextColor) const
 {
 	return colorAndType.get_Color() == ePieceColor::BLACK ? Console::eConsoleColor::BLACK
-		: (colorAndType.get_Color() == ePieceColor::WHITE ? Console::eConsoleColor::WHITE : static_cast<Console::eConsoleColor>(originalTextColor));
+		: (colorAndType.get_Color() == ePieceColor::WHITE ? Console::eConsoleColor::WHITE
+			: static_cast<Console::eConsoleColor>(originalTextColor));
 }
 
 void Chess::ChessboardDisplayer::SetConsoleColor(Console::eConsoleColor textColor, Console::eConsoleColor backgroundColor) const
