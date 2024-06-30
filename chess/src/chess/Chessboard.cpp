@@ -84,7 +84,7 @@ bool Chess::Chessboard::TryMovePiece(const Coordinate& to)
 	return true;
 }
 
-boost::signals2::connection Chess::Chessboard::ConnectChessboardUndated(const boost::signals2::signal<void()>::slot_type& subscriber)
+boost::signals2::connection Chess::Chessboard::ConnectChessboardUpdated(const boost::signals2::signal<void()>::slot_type& subscriber)
 {
 	return m_signalChessboardUndated.connect(subscriber);
 }

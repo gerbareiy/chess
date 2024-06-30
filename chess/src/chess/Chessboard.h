@@ -41,6 +41,6 @@ namespace Chess
 		bool TryMovePiece(const Coordinate& to);
 
 	public:
-		boost::signals2::connection ConnectChessboardUndated(const boost::signals2::signal<void()>::slot_type& subscriber);
+		boost::signals2::connection ConnectChessboardUpdated(const boost::signals2::signal<void()>::slot_type& subscriber);
 	};
 }

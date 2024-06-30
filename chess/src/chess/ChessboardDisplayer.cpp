@@ -8,7 +8,7 @@
 
 Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard) : m_chessboard(chessboard)
 {
-	m_chessboard->ConnectChessboardUndated(std::bind(&ChessboardDisplayer::Show, this));
+	m_chessboard->ConnectChessboardUpdated(std::bind(&ChessboardDisplayer::Show, this));
 }
 
 Console::eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate coordinate) const
