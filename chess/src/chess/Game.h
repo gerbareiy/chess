@@ -22,8 +22,8 @@ namespace Chess
 
 	public:
 		Game();
-
-    private:
+	
+	private:
 		bool ContinueGame() const;
 		void HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction) const;
 
