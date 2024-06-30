@@ -14,6 +14,5 @@ namespace Chess
 	constexpr int COUNT_OF_ROOK_WAYS = CHESSBOARD_SIZE * 2;
 
 	constexpr int MAX_COUNT_ELEMENTS = 32;
-	constexpr int MAX_COUNT_SAME_BOARD_POSITION = 5;
 	constexpr int MAX_MOVES_COUNT_WITHOUT_PAWN_MOVE_AND_TAKING = 75;
 }
