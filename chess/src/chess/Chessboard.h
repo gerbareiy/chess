@@ -26,7 +26,7 @@ namespace Chess
 		boost::signals2::signal<void()> m_signalChessboardUndated;
 
 	public:
-		Chessboard();
+		Chessboard(std::vector<std::shared_ptr<IPiece>> piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector);
 
 	public:
 		Coordinate get_From() const;

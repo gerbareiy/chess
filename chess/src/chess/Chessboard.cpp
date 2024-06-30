@@ -10,14 +10,12 @@
 #include "pieces/Queen.h"
 #include "pieces/Rook.h"
 #include "logic/Sizes.h"
-#include "logic/PieceInitializer.h"
 #include "logic/PieceSignalDirector.h"
 #include "pieces/logic/PositionChecker.h"
 
-Chess::Chessboard::Chessboard()
+Chess::Chessboard::Chessboard(std::vector<std::shared_ptr<IPiece>> piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector)
 {
-	auto signalDirector = std::make_shared<PieceSignalDirector>();
-	m_piecesOnBoard = std::make_unique<PieceInitializer>()->InitStandartBoard(signalDirector);
+	m_piecesOnBoard = piecesOnBoard;
 	m_director = std::make_shared<PieceDirector>(m_piecesOnBoard, signalDirector);
 	m_validator = std::make_shared<MoveValidator>(m_piecesOnBoard, std::make_shared<Player>(ePieceColor::WHITE, signalDirector));
 }

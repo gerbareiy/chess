@@ -2,6 +2,7 @@
 
 #include "pieces/logic/PositionChecker.h"
 #include "logic/DrawChecker.h"
+#include "logic/PieceInitializer.h"
 #include "logic/Sizes.h"
 #include "pieces/logic/ePieceColor.h"
 
@@ -9,7 +10,8 @@
 
 Chess::Game::Game()
 {
-	m_chessboard = std::make_shared<Chessboard>();
+	auto signalDirector = std::make_shared<PieceSignalDirector>();
+	m_chessboard = std::make_shared<Chessboard>(std::make_shared<PieceInitializer>()->InitStandartBoard(signalDirector), signalDirector);
 	m_controller = std::make_shared<Controller>(m_chessboard);
 	m_chessboardDisplayer = std::make_unique<ChessboardDisplayer>(m_chessboard);
 	m_handlerInputer = std::make_shared<HandlerInputer>();

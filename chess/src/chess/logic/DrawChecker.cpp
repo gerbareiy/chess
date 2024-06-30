@@ -35,10 +35,12 @@ void Chess::DrawChecker::CalculateMovesCountWithoutPawnAndTaking(const std::shar
 
 bool Chess::DrawChecker::IsInsufficientMaterial(const std::shared_ptr<Chessboard>& chessboard)
 {
-	int blackBishopCount = 0;
+	int blackBishopDarkCount = 0;
+	int blackBishopLightCount = 0;
 	bool blackKing = false;
 	int blackKnightCount = 0;
-	int whiteBishopCount = 0;
+	int whiteBishopDarkCount = 0;
+	int whiteBishopLightCount = 0;
 	bool whiteKing = false;
 	int whiteKnightCount = 0;
 
@@ -58,7 +60,14 @@ bool Chess::DrawChecker::IsInsufficientMaterial(const std::shared_ptr<Chessboard
 			switch (colorAndType.get_Type())
 			{
 			case ePieceType::BISHOP:
-				(colorAndType.get_Color() == ePieceColor::BLACK) ? ++blackBishopCount : ++whiteBishopCount;
+				if (colorAndType.get_Color() == ePieceColor::BLACK)
+				{
+					((x + y) % 2 == 0) ? ++blackBishopLightCount : ++blackBishopDarkCount;
+				}
+				else
+				{
+					((x + y) % 2 == 0) ? ++whiteBishopLightCount : ++whiteBishopDarkCount;
+				}
 				break;
 			case ePieceType::KNIGHT:
 				(colorAndType.get_Color() == ePieceColor::BLACK) ? ++blackKnightCount : ++whiteKnightCount;
@@ -72,8 +81,13 @@ bool Chess::DrawChecker::IsInsufficientMaterial(const std::shared_ptr<Chessboard
 		}
 	}
 
+	bool insufficientWhiteBishops = (whiteBishopLightCount == 0 || whiteBishopDarkCount == 0);
+	bool insufficientBlackBishops = (blackBishopLightCount == 0 || blackBishopDarkCount == 0);
+
 	if (whiteKing && blackKing
-		&& blackKnightCount + blackBishopCount + whiteBishopCount + whiteKnightCount <= 1)
+		&& (blackKnightCount + blackBishopLightCount + blackBishopDarkCount + whiteBishopLightCount + whiteBishopDarkCount + whiteKnightCount <= 1
+			|| (blackKnightCount + blackBishopLightCount + blackBishopDarkCount + whiteBishopLightCount + whiteBishopDarkCount + whiteKnightCount <= 2
+				&& insufficientWhiteBishops && insufficientBlackBishops)))
 	{
 		return true;
 	}
@@ -86,5 +100,6 @@ bool Chess::DrawChecker::IsDraw(const std::shared_ptr<Chessboard>& chessboard)
 	CalculateMovesCountWithoutPawnAndTaking(chessboard);
 
 	return !chessboard->get_MoveValidator()->GetPiecesCanMoveCount()
-		|| m_movesCountWithoutPawnAndTaking >= MAX_MOVES_COUNT_WITHOUT_PAWN_MOVE_AND_TAKING;
+		|| m_movesCountWithoutPawnAndTaking >= MAX_MOVES_COUNT_WITHOUT_PAWN_MOVE_AND_TAKING
+		|| IsInsufficientMaterial(chessboard);
 }
