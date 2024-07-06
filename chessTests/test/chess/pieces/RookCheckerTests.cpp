@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE(FindPosibleRookMoves_Test)
 	auto whiteBishop = std::make_shared<Chess::Bishop>(Chess::ePieceColor::WHITE, 1);
 	auto whiteRook = std::make_shared<Chess::Rook>(Chess::ePieceColor::WHITE , 1);
 
-	std::vector<std::shared_ptr<Chess::IPiece>> pieces = { blackRook, whiteBishop, whiteRook };
+	std::vector<std::shared_ptr<Chess::Piece>> pieces = { blackRook, whiteBishop, whiteRook };
 	auto rookChecker = std::make_shared<Chess::RookChecker>();
 
 	BOOST_CHECK_EQUAL(rookChecker->GetMoves(whiteBishop, pieces).size(), 0);

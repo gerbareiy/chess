@@ -24,19 +24,4 @@ Chess::Queen::Queen(ePieceColor color)
 }
 
 Chess::Queen::Queen(ePieceColor color, Coordinate coordinate)
-	: m_colorAndType(PieceColorAndType(color, ePieceType::QUEEN)), m_position(coordinate) { }
-
-Chess::PieceColorAndType Chess::Queen::get_ColorAndType() const
-{
-	return m_colorAndType;
-}
-
-Chess::Coordinate Chess::Queen::get_Position() const
-{
-	return m_position;
-}
-
-void Chess::Queen::Move(Coordinate to, bool isRealMove)
-{
-	m_position = to;
-}
+	: Piece(PieceColorAndType(color, ePieceType::QUEEN), coordinate) { }

@@ -1,27 +1,16 @@
 #pragma once
 
-#include "IPiece.h"
+#include "Piece.h"
 #include "logic/ePieceColor.h"
 #include "logic/PieceColorAndType.h"
 #include "../logic/Coordinate.h"
 
 namespace Chess
 {
-	class Knight : public IPiece
+	class Knight : public Piece
 	{
-	private:
-		PieceColorAndType m_colorAndType;
-		Coordinate m_position;
-
 	public:
 		Knight(ePieceColor pieceColor, int orderNumber);
 		Knight(ePieceColor color, Coordinate coordinate);
-
-	public:
-		PieceColorAndType get_ColorAndType() const override;
-		Coordinate get_Position() const override;
-
-	public:
-		void Move(Coordinate to, bool isRealMove = true) override;
 	};
 }

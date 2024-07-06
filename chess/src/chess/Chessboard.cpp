@@ -3,7 +3,7 @@
 #include "logic/Counts.h"
 #include "pieces/Bishop.h"
 #include "pieces/logic/ePieceColor.h"
-#include "pieces/IPiece.h"
+#include "pieces/Piece.h"
 #include "pieces/King.h"
 #include "pieces/Knight.h"
 #include "pieces/Pawn.h"
@@ -13,7 +13,7 @@
 #include "logic/PieceSignalDirector.h"
 #include "pieces/logic/PositionChecker.h"
 
-Chess::Chessboard::Chessboard(std::vector<std::shared_ptr<IPiece>> piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector)
+Chess::Chessboard::Chessboard(std::vector<std::shared_ptr<Piece>> piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector)
 {
 	m_piecesOnBoard = piecesOnBoard;
 	m_director = std::make_shared<PieceDirector>(m_piecesOnBoard, signalDirector);

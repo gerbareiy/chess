@@ -19,14 +19,14 @@ namespace Chess
 		std::shared_ptr<PieceDirector> m_director;
 		Coordinate m_from = Coordinate(0, 0);
 		std::shared_ptr<MoveValidator> m_validator;
-		std::vector<std::shared_ptr<IPiece>> m_piecesOnBoard;
+		std::vector<std::shared_ptr<Piece>> m_piecesOnBoard;
 		Coordinate m_to = Coordinate(0, 0);
 
 	private:
 		boost::signals2::signal<void()> m_signalChessboardUndated;
 
 	public:
-		Chessboard(std::vector<std::shared_ptr<IPiece>> piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector);
+		Chessboard(std::vector<std::shared_ptr<Piece>> piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector);
 
 	public:
 		Coordinate get_From() const;

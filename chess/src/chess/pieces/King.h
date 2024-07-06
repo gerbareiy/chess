@@ -2,8 +2,9 @@
 
 #include "logic/eCastleSide.h"
 #include "logic/ePieceColor.h"
-#include "logic/IKing.h"
+#include "logic/ICastlable.h"
 #include "logic/PieceColorAndType.h"
+#include "Piece.h"
 #include "../logic/PieceSignalDirector.h"
 #include "../logic/Coordinate.h"
 
@@ -13,13 +14,11 @@
 
 namespace Chess
 {
-	class King : public IKing
+	class King : public ICastable, public Piece
 	{
 	private:
 		bool m_canMakeCastling = true;
-		PieceColorAndType m_colorAndType;
 		bool m_isCheck = false;
-		Coordinate m_position;
 
 	private:
 		boost::signals2::signal<void(Coordinate, eCastleSide)> m_signalCastling;
@@ -32,9 +31,7 @@ namespace Chess
 
 	public:
 		bool get_CanMakeCastling() const;
-		PieceColorAndType get_ColorAndType() const override;
-		bool get_IsCheck() const override;
-		Coordinate get_Position() const override;
+		bool get_IsCheck() const;
 
 	private:
 		void DisableCastling();
@@ -44,6 +41,6 @@ namespace Chess
 		void Move(Coordinate to, bool isRealMove = true) override;
 
 	public:
-		boost::signals2::connection ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber) override;
+		boost::signals2::connection ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber);
 	};
 }

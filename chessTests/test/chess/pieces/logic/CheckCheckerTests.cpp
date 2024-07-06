@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(Check_Test)
 	auto whiteRook = std::make_shared<Chess::Rook>(Chess::ePieceColor::WHITE, 1);
 	auto checker = std::make_shared<Chess::CheckChecker>();
 
-	std::vector<std::shared_ptr<Chess::IPiece>> pieces = { blackRook, whiteRook, whiteKing };
+	std::vector<std::shared_ptr<Chess::Piece>> pieces = { blackRook, whiteRook, whiteKing };
 
 	BOOST_CHECK(!checker->IsCheck(whiteKing, pieces));
 	BOOST_CHECK(!checker->IsCheck(whiteRook->get_ColorAndType().get_Color(), pieces));

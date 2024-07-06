@@ -1,7 +1,7 @@
 #pragma once
 
 #include "logic/IMoveChecker.h"
-#include "IPiece.h"
+#include "Piece.h"
 #include "Knight.h"
 #include "../logic/Coordinate.h"
 
@@ -20,9 +20,9 @@ namespace Chess
 		};
 
 	private:
-		std::vector<Coordinate> FindPossibleMoves(const std::shared_ptr<Knight>& knight, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const;
+		std::vector<Coordinate> FindPossibleMoves(const std::shared_ptr<Knight>& knight, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const;
 
 	public:
-		std::vector<Coordinate> GetMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const override;
+		std::vector<Coordinate> GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override;
 	};
 }

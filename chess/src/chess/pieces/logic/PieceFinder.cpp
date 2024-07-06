@@ -1,6 +1,6 @@
 #include "PieceFinder.h"
 
-Chess::PieceFinder::PieceFinder(const std::vector<std::shared_ptr<IPiece>>& pieces)
+Chess::PieceFinder::PieceFinder(const std::vector<std::shared_ptr<Piece>>& pieces)
 {
 	for (const auto& piece : pieces)
 	{
@@ -8,9 +8,10 @@ Chess::PieceFinder::PieceFinder(const std::vector<std::shared_ptr<IPiece>>& piec
 	}
 }
 
-std::shared_ptr<Chess::IPiece> Chess::PieceFinder::Find(Coordinate coordinate) const
+std::shared_ptr<Chess::Piece> Chess::PieceFinder::Find(Coordinate coordinate) const
 {
 	auto it = m_pieceMap.find(coordinate);
+
 	if (it == m_pieceMap.end())
 	{
 		return nullptr;

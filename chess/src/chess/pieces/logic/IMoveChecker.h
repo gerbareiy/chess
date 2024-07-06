@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../IPiece.h"
+#include "../Piece.h"
 #include "../../logic/Coordinate.h"
 
 #include <memory>
@@ -14,6 +14,6 @@ namespace Chess
 		virtual ~IMoveChecker() = default;
 
 	public:
-		virtual std::vector<Coordinate> GetMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const = 0;
+		virtual std::vector<Coordinate> GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const = 0;
 	};
 }

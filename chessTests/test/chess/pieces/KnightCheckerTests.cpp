@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE(FindPosibleKnightMoves_Test)
 	auto whitePawn1 = std::make_shared<Chess::Pawn>(Chess::ePieceColor::WHITE, 'B');
 	auto whitePawn2 = std::make_shared<Chess::Pawn>(Chess::ePieceColor::WHITE, 'B');
 
-	std::vector<std::shared_ptr<Chess::IPiece>> pieces = { blackKnight, blackPawn, whitePawn1, whitePawn2 };
+	std::vector<std::shared_ptr<Chess::Piece>> pieces = { blackKnight, blackPawn, whitePawn1, whitePawn2 };
 
 	auto knightChecker = std::make_shared<Chess::KnightChecker>();
 

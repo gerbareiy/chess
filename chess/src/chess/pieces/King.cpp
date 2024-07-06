@@ -7,8 +7,10 @@
 #include <math.h>
 #include <stdexcept>
 
-Chess::King::King(ePieceColor color) : m_colorAndType(PieceColorAndType(color, ePieceType::KING))
+Chess::King::King(ePieceColor color)
 {
+	m_colorAndType = PieceColorAndType(color, ePieceType::KING);
+
 	switch (color)
 	{
 	case Chess::ePieceColor::BLACK:
@@ -28,7 +30,7 @@ Chess::King::King(ePieceColor color, const std::shared_ptr<PieceSignalDirector>&
 }
 
 Chess::King::King(ePieceColor color, Coordinate coordinate)
-	: m_colorAndType(PieceColorAndType(color, ePieceType::KING)), m_position(coordinate) { }
+	: Piece(PieceColorAndType(color, ePieceType::KING), coordinate) { }
 
 Chess::King::King(ePieceColor color, Coordinate coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector) : King(color, coordinate)
 {
@@ -40,19 +42,9 @@ bool Chess::King::get_CanMakeCastling() const
 	return m_canMakeCastling;
 }
 
-Chess::PieceColorAndType Chess::King::get_ColorAndType() const
-{
-	return m_colorAndType;
-}
-
 bool Chess::King::get_IsCheck() const
 {
 	return m_isCheck;
-}
-
-Chess::Coordinate Chess::King::get_Position() const
-{
-	return m_position;
 }
 
 void Chess::King::DisableCastling()
@@ -100,7 +92,7 @@ void Chess::King::Move(Coordinate to, bool isRealMove)
 		}
 	}
 
-	m_position = to;
+	Piece::Move(to);
 }
 
 boost::signals2::connection Chess::King::ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber)

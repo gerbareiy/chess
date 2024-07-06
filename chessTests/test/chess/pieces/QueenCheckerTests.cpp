@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE(FindPosibleQueenMoves_Test)
 	auto whiteQueen = std::make_shared<Chess::Queen>(Chess::ePieceColor::WHITE);
 	auto whiteKnight = std::make_shared<Chess::Knight>(Chess::ePieceColor::WHITE, 1);
 
-	std::vector<std::shared_ptr<Chess::IPiece>> pieces = { blackBishop, whiteQueen, whiteKnight };
+	std::vector<std::shared_ptr<Chess::Piece>> pieces = { blackBishop, whiteQueen, whiteKnight };
 	auto bishopChecker = std::make_shared<Chess::QueenChecker>();
 
 	BOOST_CHECK_EQUAL(bishopChecker->GetMoves(whiteKnight, pieces).size(), 0);

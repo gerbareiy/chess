@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE(FindPosiblePawnMoves_Test)
 	auto whitePawn = std::make_shared<Chess::Pawn>(Chess::ePieceColor::WHITE, 'B');
 	auto whiteQueen = std::make_shared<Chess::Queen>(Chess::ePieceColor::WHITE);
 
-	std::vector<std::shared_ptr<Chess::IPiece>> pieces = { blackKing, blackPawn, whitePawn, whiteQueen };
+	std::vector<std::shared_ptr<Chess::Piece>> pieces = { blackKing, blackPawn, whitePawn, whiteQueen };
 	auto pawnChecker = std::make_shared<Chess::PawnChecker>();
 
 	BOOST_CHECK_EQUAL(pawnChecker->GetMoves(blackKing, pieces).size(), 0);

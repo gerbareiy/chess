@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IMoveChecker.h"
-#include "../IPiece.h"
+#include "../Piece.h"
 
 #include <memory>
 
@@ -11,15 +11,15 @@ namespace Chess
 	{
 	private:
 		std::shared_ptr<IMoveChecker> m_moveCheckerOfPiece;
-		std::shared_ptr<IPiece> m_piece;
+		std::shared_ptr<Piece> m_piece;
 
 	public:
-		MoveChecker(const std::shared_ptr<IPiece>& piece);
+		MoveChecker(const std::shared_ptr<Piece>& piece);
 
 	private:
-		std::vector<Coordinate> FindUncheckedMove(const Chess::Coordinate& move, const std::vector<std::shared_ptr<Chess::IPiece>>& piecesOnBoard) const;
+		std::vector<Coordinate> FindUncheckedMove(const Chess::Coordinate& move, const std::vector<std::shared_ptr<Chess::Piece>>& piecesOnBoard) const;
 
 	public:
-		std::vector<Coordinate> GetFilteredMoves(const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const;
+		std::vector<Coordinate> GetFilteredMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const;
 	};
 }

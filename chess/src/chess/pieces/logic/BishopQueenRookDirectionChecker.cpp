@@ -2,7 +2,7 @@
 
 #include "PositionChecker.h"
 
-std::vector<Chess::Coordinate> Chess::BishopQueenRookDirectionChecker::FindPossibleMoves(const std::shared_ptr<PieceFinder>& finder, const std::shared_ptr<IPiece>& current, std::pair <int, int> coordinateIncrement)
+std::vector<Chess::Coordinate> Chess::BishopQueenRookDirectionChecker::FindPossibleMoves(const std::shared_ptr<PieceFinder>& finder, const std::shared_ptr<Piece>& current, std::pair <int, int> coordinateIncrement)
 {
 	std::vector<Coordinate> moves;
 	auto currentCoordinate = current->get_Position();

@@ -6,12 +6,14 @@
 
 #include <stdexcept>
 
-Chess::Pawn::Pawn(ePieceColor color, char file) : m_colorAndType(color, ePieceType::PAWN)
+Chess::Pawn::Pawn(ePieceColor color, char file)
 {
 	if (file < 'A' || file > 'A' + CHESSBOARD_SIZE - 1)
 	{
 		throw std::out_of_range(ErrorConverter::ToString(Chess::eError::OUT_OF_CHESSBOARD));
 	}
+
+	m_colorAndType = PieceColorAndType(color, ePieceType::PAWN);
 
 	switch (color)
 	{
@@ -32,7 +34,7 @@ Chess::Pawn::Pawn(ePieceColor color, char file, const std::shared_ptr<PieceSigna
 }
 
 Chess::Pawn::Pawn(ePieceColor color, Coordinate coordinate)
-	: m_colorAndType(PieceColorAndType(color, ePieceType::PAWN)), m_position(coordinate) { }
+	: Piece(PieceColorAndType(color, ePieceType::PAWN), coordinate) { }
 
 Chess::Pawn::Pawn(ePieceColor color, Coordinate coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector) : Pawn(color, coordinate)
 {
@@ -44,19 +46,9 @@ bool Chess::Pawn::get_CanEnPassant() const
 	return m_canEnPassant;
 }
 
-Chess::PieceColorAndType Chess::Pawn::get_ColorAndType() const
-{
-	return m_colorAndType;
-}
-
 bool Chess::Pawn::get_IsNotMoved() const
 {
 	return m_isNotMoved;
-}
-
-Chess::Coordinate Chess::Pawn::get_Position() const
-{
-	return m_position;
 }
 
 void Chess::Pawn::LostEnPassant()
@@ -99,5 +91,5 @@ void Chess::Pawn::Move(Coordinate to, bool isRealMove)
 		m_isNotMoved = false;
 	}
 
-	m_position = to;
+	Piece::Move(to);
 }

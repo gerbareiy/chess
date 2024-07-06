@@ -9,9 +9,9 @@
 #include "../pieces/Queen.h"
 #include "../pieces/Rook.h"
 
-std::vector<std::shared_ptr<Chess::IPiece>> Chess::PieceInitializer::InitStandartBoard(std::shared_ptr<PieceSignalDirector> signalDirector) const
+std::vector<std::shared_ptr<Chess::Piece>> Chess::PieceInitializer::InitStandartBoard(std::shared_ptr<PieceSignalDirector> signalDirector) const
 {
-	std::vector<std::shared_ptr<Chess::IPiece>> piecesOnBoard;
+	std::vector<std::shared_ptr<Chess::Piece>> piecesOnBoard;
 	piecesOnBoard.reserve(MAX_COUNT_ELEMENTS);
 
 	auto blackKing = std::make_shared<King>(ePieceColor::BLACK, signalDirector);

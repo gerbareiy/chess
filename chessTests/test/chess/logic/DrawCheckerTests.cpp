@@ -23,33 +23,33 @@ BOOST_AUTO_TEST_CASE(IsInsufficientMaterial_Test)
 	auto whitePawn1 = std::make_shared<Chess::Pawn>(Chess::ePieceColor::WHITE, Chess::Coordinate('A', 1));
 	auto whiteKing1 = std::make_shared<Chess::King>(Chess::ePieceColor::WHITE, Chess::Coordinate('A', 3));
 	auto whiteKnight1 = std::make_shared<Chess::Knight>(Chess::ePieceColor::WHITE, Chess::Coordinate('A', 2));
-	std::vector<std::shared_ptr<Chess::IPiece>> pieces1 = { blackKing1, whitePawn1, whiteKing1, whiteKnight1 };
+	std::vector<std::shared_ptr<Chess::Piece>> pieces1 = { blackKing1, whitePawn1, whiteKing1, whiteKnight1 };
 	auto chessboard1 = std::make_shared<Chess::Chessboard>(pieces1, signalDirector);
 
 	auto blackKing2 = std::make_shared<Chess::King>(Chess::ePieceColor::BLACK, Chess::Coordinate('A', 5));
 	auto whiteKing2 = std::make_shared<Chess::King>(Chess::ePieceColor::WHITE, Chess::Coordinate('A', 3));
 	auto whiteKnight2 = std::make_shared<Chess::Knight>(Chess::ePieceColor::WHITE, Chess::Coordinate('A', 2));
-	std::vector<std::shared_ptr<Chess::IPiece>> pieces2 = { blackKing2, whiteKing2, whiteKnight2 };
+	std::vector<std::shared_ptr<Chess::Piece>> pieces2 = { blackKing2, whiteKing2, whiteKnight2 };
 	auto chessboard2 = std::make_shared<Chess::Chessboard>(pieces2, signalDirector);
 
 	auto blackKing3 = std::make_shared<Chess::King>(Chess::ePieceColor::BLACK, Chess::Coordinate('A', 5));
 	auto whiteKing3 = std::make_shared<Chess::King>(Chess::ePieceColor::WHITE, Chess::Coordinate('A', 3));
 	auto whiteBishop3 = std::make_shared<Chess::Bishop>(Chess::ePieceColor::WHITE, Chess::Coordinate('A', 2));
-	std::vector<std::shared_ptr<Chess::IPiece>> pieces3 = { blackKing3, whiteBishop3, whiteKing3 };
+	std::vector<std::shared_ptr<Chess::Piece>> pieces3 = { blackKing3, whiteBishop3, whiteKing3 };
 	auto chessboard3 = std::make_shared<Chess::Chessboard>(pieces3, signalDirector);
 
 	auto blackKing4 = std::make_shared<Chess::King>(Chess::ePieceColor::BLACK, Chess::Coordinate('A', 5));
 	auto whiteKing4 = std::make_shared<Chess::King>(Chess::ePieceColor::WHITE, Chess::Coordinate('A', 3));
 	auto whiteBishop4 = std::make_shared<Chess::Bishop>(Chess::ePieceColor::WHITE, Chess::Coordinate('A', 2));
 	auto whiteBishop4_1 = std::make_shared<Chess::Bishop>(Chess::ePieceColor::WHITE, Chess::Coordinate('B', 1));
-	std::vector<std::shared_ptr<Chess::IPiece>> pieces4 = { blackKing4, whiteBishop4, whiteBishop4_1, whiteKing4 };
+	std::vector<std::shared_ptr<Chess::Piece>> pieces4 = { blackKing4, whiteBishop4, whiteBishop4_1, whiteKing4 };
 	auto chessboard4 = std::make_shared<Chess::Chessboard>(pieces4, signalDirector);
 
 	auto blackKing5 = std::make_shared<Chess::King>(Chess::ePieceColor::BLACK, Chess::Coordinate('A', 5));
 	auto whiteKing5 = std::make_shared<Chess::King>(Chess::ePieceColor::WHITE, Chess::Coordinate('A', 3));
 	auto whiteBishop5 = std::make_shared<Chess::Bishop>(Chess::ePieceColor::WHITE, Chess::Coordinate('A', 2));
 	auto whiteBishop5_1 = std::make_shared<Chess::Bishop>(Chess::ePieceColor::WHITE, Chess::Coordinate('B', 2));
-	std::vector<std::shared_ptr<Chess::IPiece>> pieces5 = { blackKing5, whiteBishop5, whiteBishop5_1, whiteKing5 };
+	std::vector<std::shared_ptr<Chess::Piece>> pieces5 = { blackKing5, whiteBishop5, whiteBishop5_1, whiteKing5 };
 	auto chessboard5 = std::make_shared<Chess::Chessboard>(pieces5, signalDirector);
 
 	BOOST_CHECK(!drawChecker->IsDraw(chessboard1));
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE(IsDontHaveMoves_Test)
 	auto blackRook3 = std::make_shared<Chess::Rook>(Chess::ePieceColor::BLACK, Chess::Coordinate('E', 4));
 	auto blackRook4 = std::make_shared<Chess::Rook>(Chess::ePieceColor::BLACK, Chess::Coordinate('E', 6));
 	auto whiteKing = std::make_shared<Chess::King>(Chess::ePieceColor::WHITE, Chess::Coordinate('D', 5));
-	std::vector<std::shared_ptr<Chess::IPiece>> pieces =
+	std::vector<std::shared_ptr<Chess::Piece>> pieces =
 	{
 		blackKing,
 		blackRook1,
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(SeventyFiveMovesLogic_Test)
 	auto whitePawn = std::make_shared<Chess::Pawn>(Chess::ePieceColor::WHITE, Chess::Coordinate('A', 2));
 	auto whiteRook = std::make_shared<Chess::Rook>(Chess::ePieceColor::WHITE, Chess::Coordinate('C', 4));
 
-	std::vector<std::shared_ptr<Chess::IPiece>> pieces = { blackKing, blackRook, whiteKing, whitePawn, whiteRook };
+	std::vector<std::shared_ptr<Chess::Piece>> pieces = { blackKing, blackRook, whiteKing, whitePawn, whiteRook };
 	auto chessboard = std::make_shared<Chess::Chessboard>(pieces, signalDirector);
 
 	BOOST_CHECK(!drawChecker->IsDraw(chessboard));

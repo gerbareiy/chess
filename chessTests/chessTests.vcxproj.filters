@@ -183,5 +183,8 @@
     <ClCompile Include="test\chess\logic\DrawCheckerTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\chess\src\chess\pieces\Piece.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

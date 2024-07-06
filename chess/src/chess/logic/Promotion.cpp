@@ -11,7 +11,7 @@
 #include "../pieces/logic/ePieceType.h"
 #include "../pieces/logic/PieceFinder.h"
 
-void Chess::Promotion::PromoteConditionally(std::shared_ptr<Pawn> pawn, std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+void Chess::Promotion::PromoteConditionally(std::shared_ptr<Pawn> pawn, std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
 {
 	if (!pawn)
 	{
@@ -24,7 +24,7 @@ void Chess::Promotion::PromoteConditionally(std::shared_ptr<Pawn> pawn, std::vec
 		auto inputer = std::make_shared<PromotePieceInputer>();
 		auto inputDisplayer = std::make_unique<LableDisplayer>(inputer);
 		auto promoteType = inputer->Input();
-		std::shared_ptr<IPiece> piece;
+		std::shared_ptr<Piece> piece;
 		auto color = pawn->get_ColorAndType().get_Color();
 		auto position = pawn->get_Position();
 
@@ -55,7 +55,7 @@ void Chess::Promotion::PromoteConditionally(std::shared_ptr<Pawn> pawn, std::vec
 	}
 }
 
-void Chess::Promotion::PromoteConditionally(Coordinate pawnPosition, std::vector<std::shared_ptr<IPiece>>& piecesOnBoard)
+void Chess::Promotion::PromoteConditionally(Coordinate pawnPosition, std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
 {
 	auto finder = std::make_unique<PieceFinder>(piecesOnBoard);
 	PromoteConditionally(std::dynamic_pointer_cast<Pawn>(finder->Find(pawnPosition)), piecesOnBoard);

@@ -32,15 +32,15 @@ Chess::Rook::Rook(ePieceColor color, int orderNumber) : m_canMakeCastling(true)
 	}
 }
 
-Chess::Rook::Rook(ePieceColor pieceColor, int orderNumber, const std::shared_ptr<IKing>& king) : Rook(pieceColor, orderNumber)
+Chess::Rook::Rook(ePieceColor pieceColor, int orderNumber, const std::shared_ptr<King>& king) : Rook(pieceColor, orderNumber)
 {
 	MakeTracking(king);
 }
 
 Chess::Rook::Rook(ePieceColor color, Coordinate coordinate)
-	: m_colorAndType(PieceColorAndType(color, ePieceType::ROOK)), m_position(coordinate) { }
+	: Piece(PieceColorAndType(color, ePieceType::ROOK), coordinate) { }
 
-Chess::Rook::Rook(ePieceColor color, Coordinate coordinate, const std::shared_ptr<IKing>& king)
+Chess::Rook::Rook(ePieceColor color, Coordinate coordinate, const std::shared_ptr<King>& king)
 {
 	MakeTracking(king);
 }
@@ -50,22 +50,12 @@ bool Chess::Rook::get_CanMakeCastling() const
 	return m_canMakeCastling;
 }
 
-Chess::PieceColorAndType Chess::Rook::get_ColorAndType() const
-{
-	return m_colorAndType;
-}
-
-Chess::Coordinate Chess::Rook::get_Position() const
-{
-	return m_position;
-}
-
 void Chess::Rook::DisableCastling()
 {
 	m_canMakeCastling = false;
 }
 
-void Chess::Rook::MakeTracking(const std::shared_ptr<Chess::IKing>& king)
+void Chess::Rook::MakeTracking(const std::shared_ptr<Chess::King>& king)
 {
 	if (!king)
 	{
@@ -99,5 +89,5 @@ void Chess::Rook::Move(Coordinate to, bool isRealMove)
 		DisableCastling();
 	}
 
-	m_position = to;
+	Piece::Move(to);
 }

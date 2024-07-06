@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../IPiece.h"
+#include "../Piece.h"
 #include "../../logic/Coordinate.h"
 
 #include <map>
@@ -12,12 +12,12 @@ namespace Chess
 	class PieceFinder
 	{
 	private:
-		std::map<Coordinate, std::shared_ptr<IPiece>> m_pieceMap;
+		std::map<Coordinate, std::shared_ptr<Piece>> m_pieceMap;
 
 	public:
-		PieceFinder(const std::vector<std::shared_ptr<IPiece>>& pieces);
+		PieceFinder(const std::vector<std::shared_ptr<Piece>>& pieces);
 
 	public:
-		std::shared_ptr<IPiece> Find(Coordinate coordinate) const;
+		std::shared_ptr<Piece> Find(Coordinate coordinate) const;
 	};
 }

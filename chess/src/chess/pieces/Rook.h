@@ -1,11 +1,10 @@
 #pragma once
 
 #include "logic/ePieceColor.h"
-#include "IPiece.h"
+#include "Piece.h"
 #include "King.h"
 #include "logic/eCastleSide.h"
 #include "logic/ICastlable.h"
-#include "logic/IKing.h"
 #include "logic/PieceColorAndType.h"
 #include "../logic/Coordinate.h"
 
@@ -13,28 +12,24 @@
 
 namespace Chess
 {
-	class Rook : public IPiece, public ICastable
+	class Rook : public Piece, public ICastable
 	{
 	private:
 		bool m_canMakeCastling = false;
 		boost::signals2::connection m_castlingConnection;
-		PieceColorAndType m_colorAndType;
-		Coordinate m_position;
 
 	public:
 		Rook(ePieceColor pieceColor, int orderNumber);
-		Rook(ePieceColor pieceColor, int orderNumber, const std::shared_ptr<IKing>& king);
+		Rook(ePieceColor pieceColor, int orderNumber, const std::shared_ptr<King>& king);
 		Rook(ePieceColor color, Coordinate coordinate);
-		Rook(ePieceColor color, Coordinate coordinate, const std::shared_ptr<IKing>& king);
+		Rook(ePieceColor color, Coordinate coordinate, const std::shared_ptr<King>& king);
 
 	public:
 		bool get_CanMakeCastling() const override;
-		PieceColorAndType get_ColorAndType() const override;
-		Coordinate get_Position() const override;
 
 	private:
 		void DisableCastling();
-		void MakeTracking(const std::shared_ptr<Chess::IKing>& king);
+		void MakeTracking(const std::shared_ptr<Chess::King>& king);
 		void OnCastling(Coordinate to, eCastleSide side);
 
 	public:

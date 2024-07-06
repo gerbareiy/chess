@@ -8,7 +8,7 @@
 
 #include <memory>
 
-std::vector<Chess::Coordinate> Chess::BishopChecker::FindPossibleMoves(const std::shared_ptr<Bishop>& bishop, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const
+std::vector<Chess::Coordinate> Chess::BishopChecker::FindPossibleMoves(const std::shared_ptr<Bishop>& bishop, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
 {
 	std::vector<Coordinate> moves;
 	moves.reserve(COUNT_OF_BISHOP_WAYS);
@@ -29,7 +29,7 @@ std::vector<Chess::Coordinate> Chess::BishopChecker::FindPossibleMoves(const std
 	return moves;
 }
 
-std::vector<Chess::Coordinate> Chess::BishopChecker::GetMoves(const std::shared_ptr<IPiece>& piece, const std::vector<std::shared_ptr<IPiece>>& piecesOnBoard) const
+std::vector<Chess::Coordinate> Chess::BishopChecker::GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
 {
 	if (!piece || typeid(*piece) != typeid(Bishop) || piece->get_ColorAndType().get_Type() != ePieceType::BISHOP)
 	{

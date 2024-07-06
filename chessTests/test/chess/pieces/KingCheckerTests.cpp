@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE(FindPosibleKingMoves_Test)
 	auto whiteRook1 = std::make_shared<Chess::Rook>(Chess::ePieceColor::WHITE, 1);
 	auto whiteRook2 = std::make_shared<Chess::Rook>(Chess::ePieceColor::WHITE, 2);
 
-	std::vector<std::shared_ptr<Chess::IPiece>> pieces = { blackRook, whiteRook1, whiteRook2, whiteKing };
+	std::vector<std::shared_ptr<Chess::Piece>> pieces = { blackRook, whiteRook1, whiteRook2, whiteKing };
 	auto kingChecker = std::make_shared<Chess::KingChecker>();
 
 	BOOST_CHECK_EQUAL(kingChecker->GetMoves(whiteRook1, pieces).size(), 0);

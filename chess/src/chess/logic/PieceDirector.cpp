@@ -14,19 +14,19 @@
 #include "../pieces/Queen.h"
 #include "../pieces/Rook.h"
 
-Chess::PieceDirector::PieceDirector(std::vector<std::shared_ptr<IPiece>>& piecesOnBoard, const std::shared_ptr<PieceSignalDirector>& signalDirector)
+Chess::PieceDirector::PieceDirector(std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<PieceSignalDirector>& signalDirector)
 	: m_piecesOnBoard(piecesOnBoard), m_signalDirector(signalDirector)
 {
 	m_eatenPieces.reserve(MAX_COUNT_ELEMENTS);
 	m_promotion = std::make_shared<Promotion>();
 }
 
-const std::shared_ptr<Chess::IPiece>& Chess::PieceDirector::get_CurrentPiece() const
+const std::shared_ptr<Chess::Piece>& Chess::PieceDirector::get_CurrentPiece() const
 {
 	return m_currentPiece;
 }
 
-const std::vector<std::shared_ptr<Chess::IPiece>>& Chess::PieceDirector::get_EatenPieces() const
+const std::vector<std::shared_ptr<Chess::Piece>>& Chess::PieceDirector::get_EatenPieces() const
 {
 	return m_eatenPieces;
 }
@@ -36,7 +36,7 @@ bool Chess::PieceDirector::get_IsCheck() const
 	return m_isCheck;
 }
 
-const std::vector<std::shared_ptr<Chess::IPiece>>& Chess::PieceDirector::get_PiecesOnBoard() const
+const std::vector<std::shared_ptr<Chess::Piece>>& Chess::PieceDirector::get_PiecesOnBoard() const
 {
 	return m_piecesOnBoard;
 }
@@ -59,9 +59,9 @@ Chess::PieceColorAndType Chess::PieceDirector::GetPieceColorAndType(const Coordi
 	return piece->get_ColorAndType();
 }
 
-std::shared_ptr<Chess::IPiece> Chess::PieceDirector::GetPiece(const Coordinate& from) const
+std::shared_ptr<Chess::Piece> Chess::PieceDirector::GetPiece(const Coordinate& from) const
 {
-	for (std::shared_ptr<Chess::IPiece> pieceOnBoard : m_piecesOnBoard)
+	for (std::shared_ptr<Chess::Piece> pieceOnBoard : m_piecesOnBoard)
 	{
 		if (pieceOnBoard->get_Position() == from)
 		{
@@ -81,7 +81,7 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2
 {
 	auto fromTake = std::make_unique<PieceTakeLocator>()->Find(m_currentPiece, m_piecesOnBoard, to);
 
-	auto it = std::find_if(m_piecesOnBoard.begin(), m_piecesOnBoard.end(), [fromTake](std::shared_ptr<IPiece> current)
+	auto it = std::find_if(m_piecesOnBoard.begin(), m_piecesOnBoard.end(), [fromTake](std::shared_ptr<Piece> current)
 		{
 			return current->get_Position() == fromTake;
 		});

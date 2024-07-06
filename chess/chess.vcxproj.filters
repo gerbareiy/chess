@@ -159,6 +159,9 @@
     <ClCompile Include="src\chess\pieces\logic\PieceColorConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\chess\pieces\Piece.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chess\Chessboard.h">
@@ -176,7 +179,7 @@
     <ClInclude Include="src\chess\pieces\Bishop.h">
       <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
-    <ClInclude Include="src\chess\pieces\IPiece.h">
+    <ClInclude Include="src\chess\pieces\Piece.h">
       <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\pieces\Knight.h">
@@ -256,9 +259,6 @@
     </ClInclude>
     <ClInclude Include="src\chess\logic\PieceSignalDirector.h">
       <Filter>Header Files\Chess\Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chess\pieces\logic\IKing.h">
-      <Filter>Header Files\Chess\Pieces</Filter>
     </ClInclude>
     <ClInclude Include="src\chess\pieces\King.h">
       <Filter>Header Files\Chess\Pieces\Logic</Filter>

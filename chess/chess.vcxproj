@@ -131,6 +131,7 @@
     <ClCompile Include="src\chess\logic\PromotePieceInputer.cpp" />
     <ClCompile Include="src\chess\logic\Promotion.cpp" />
     <ClCompile Include="src\chess\pieces\logic\PieceColorConverter.cpp" />
+    <ClCompile Include="src\chess\pieces\Piece.cpp" />
     <ClCompile Include="src\chess\Player.cpp" />
     <ClCompile Include="src\chess\pieces\logic\MoveCheckerFactory.cpp" />
     <ClCompile Include="src\chess\LableDisplayer.cpp" />
@@ -186,7 +187,6 @@
     <ClInclude Include="src\chess\pieces\logic\BishopQueenRookDirectionChecker.h" />
     <ClInclude Include="src\chess\pieces\logic\eCastleSide.h" />
     <ClInclude Include="src\chess\pieces\logic\ICastlable.h" />
-    <ClInclude Include="src\chess\pieces\logic\IKing.h" />
     <ClInclude Include="src\chess\pieces\logic\MoveChecker.h" />
     <ClInclude Include="src\chess\pieces\QueenChecker.h" />
     <ClInclude Include="src\chess\pieces\BishopChecker.h" />
@@ -207,7 +207,7 @@
     <ClInclude Include="src\chess\pieces\logic\ePieceType.h" />
     <ClInclude Include="src\chess\pieces\logic\PieceTypeConverter.h" />
     <ClInclude Include="src\chess\pieces\logic\IMoveChecker.h" />
-    <ClInclude Include="src\chess\pieces\IPiece.h" />
+    <ClInclude Include="src\chess\pieces\Piece.h" />
     <ClInclude Include="src\chess\pieces\King.h" />
     <ClInclude Include="src\chess\pieces\KingChecker.h" />
     <ClInclude Include="src\chess\pieces\Knight.h" />

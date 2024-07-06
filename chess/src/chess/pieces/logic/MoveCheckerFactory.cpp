@@ -16,7 +16,7 @@
 #include "../../logic/ErrorConverter.h"
 
 
-std::shared_ptr<Chess::IMoveChecker> Chess::MoveCheckerFactory::Create(const std::shared_ptr<IPiece>& piece) const
+std::shared_ptr<Chess::IMoveChecker> Chess::MoveCheckerFactory::Create(const std::shared_ptr<Piece>& piece) const
 {
     if (typeid(*piece) == typeid(Bishop))
     {
