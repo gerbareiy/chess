@@ -1,7 +1,12 @@
 #include "KingChecker.h"
 
+#include "King.h"
 #include "logic/ePieceType.h"
 #include "logic/ICastlable.h"
+#include "logic/PieceColorAndType.h"
+#include "logic/PieceFinder.h"
+#include "Piece.h"
+#include "../logic/Coordinate.h"
 #include "../logic/Counts.h"
 #include "../logic/eError.h"
 #include "../logic/ErrorConverter.h"

@@ -1,16 +1,17 @@
 #pragma once
 
 #include "ChessboardDisplayer.h"
-#include "Chessboard.h"
-#include "Controller.h"
-#include "LableDisplayer.h"
 #include "HandlerInputer.h"
+#include "LableDisplayer.h"
 
 #include <memory>
 #include <variant>
 
 namespace Chess
 {
+	class Chessboard;
+	class Controller;
+
 	class Game
 	{
 	private:

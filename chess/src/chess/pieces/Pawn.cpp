@@ -1,8 +1,12 @@
 #include "Pawn.h"
 
+#include "logic/PieceColorAndType.h"
+#include "../logic/Coordinate.h"
 #include "../logic/eError.h"
 #include "../logic/ErrorConverter.h"
+#include "../logic/PieceSignalDirector.h"
 #include "../logic/Sizes.h"
+
 
 #include <stdexcept>
 

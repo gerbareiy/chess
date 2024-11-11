@@ -1,5 +1,6 @@
 #include "PositionChecker.h"
 
+#include "../../logic/Coordinate.h"
 #include "../../logic/Sizes.h"
 
 bool Chess::PositionChecker::IsPositionValid(const Coordinate& position)

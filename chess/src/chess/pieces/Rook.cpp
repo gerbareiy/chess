@@ -1,7 +1,10 @@
 #include "Rook.h"
 
+#include "King.h"
 #include "logic/ePieceColor.h"
 #include "logic/ePieceType.h"
+#include "logic/PieceColorAndType.h"
+#include "../logic/Coordinate.h"
 #include "../logic/Sizes.h"
 #include "../logic/eError.h"
 #include "../logic/ErrorConverter.h"

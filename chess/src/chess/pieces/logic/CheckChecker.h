@@ -1,19 +1,21 @@
 #pragma once
 
-#include "MoveChecker.h"
-#include "PieceFinder.h"
-#include "../Piece.h"
-#include "../King.h"
+#include "ePieceColor.h"
 
 #include <memory>
 #include <vector>
 
 namespace Chess
 {
+	class MoveChecker;
+	class Piece;
+	class PieceFinder;
+	class King;
+
 	class CheckChecker
 	{
 	public:
-		bool IsCheck(std::shared_ptr<King> king, const std::vector<std::shared_ptr<Piece>>& piece) const;
-		bool IsCheck(const Chess::ePieceColor& kingColor, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const;
+		static bool IsCheck(std::shared_ptr<King> king, const std::vector<std::shared_ptr<Piece>>& piece);
+		static bool IsCheck(const Chess::ePieceColor& kingColor, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard);
 	};
 }

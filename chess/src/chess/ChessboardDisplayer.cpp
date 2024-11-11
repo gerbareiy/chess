@@ -1,14 +1,23 @@
 #include "ChessboardDisplayer.h"
 
+#include "Chessboard.h"
+#include "logic/Coordinate.h"
+#include "logic/MoveValidator.h"
 #include "logic/Sizes.h"
+#include "logic/PieceDirector.h"
+#include "pieces/logic/PieceColorAndType.h"
 #include "pieces/logic/PieceTypeConverter.h"
+#include "pieces/Piece.h"
 
 #include <conio.h>
 #include <iostream>
 
 Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard) : m_chessboard(chessboard)
 {
-	m_chessboard->ConnectChessboardUpdated(std::bind(&ChessboardDisplayer::Show, this));
+	if (m_chessboard)
+	{
+		m_chessboard->ConnectChessboardUpdated(std::bind(&ChessboardDisplayer::Show, this));
+	}
 }
 
 Console::eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate coordinate) const

@@ -1,16 +1,16 @@
 #pragma once
 
-#include "Coordinate.h"
-#include "../pieces/Piece.h"
-#include "../pieces/logic/CheckChecker.h"
-#include "../pieces/logic/MoveChecker.h"
-#include "../Player.h"
-
 #include <memory>
 #include <vector>
 
 namespace Chess
 {
+	class Piece;
+	class CheckChecker;
+	class MoveChecker;
+	class Player;
+	struct Coordinate;
+
 	class MoveValidator
 	{
 	private:

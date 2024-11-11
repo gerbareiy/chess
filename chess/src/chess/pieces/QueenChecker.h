@@ -2,12 +2,13 @@
 
 #include "Queen.h"
 #include "logic/IMoveChecker.h"
-#include "../logic/Coordinate.h"
 
 #include <vector>
 
 namespace Chess
 {
+	struct Coordinate;
+
 	class QueenChecker : public IMoveChecker
 	{
 	private:

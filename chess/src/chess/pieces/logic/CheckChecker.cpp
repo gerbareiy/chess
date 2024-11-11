@@ -1,8 +1,14 @@
 #include "CheckChecker.h"
 
+#include "MoveChecker.h"
 #include "MoveCheckerFactory.h"
+#include "PieceColorAndType.h"
+#include "PieceFinder.h"
+#include "../Piece.h"
+#include "../King.h"
+#include "../../logic/Coordinate.h"
 
-bool Chess::CheckChecker::IsCheck(std::shared_ptr<King> king, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+bool Chess::CheckChecker::IsCheck(std::shared_ptr<King> king, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
 {
 	for (const auto& piece : piecesOnBoard)
 	{
@@ -26,7 +32,7 @@ bool Chess::CheckChecker::IsCheck(std::shared_ptr<King> king, const std::vector<
 	return false;
 }
 
-bool Chess::CheckChecker::IsCheck(const Chess::ePieceColor& kingColor, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+bool Chess::CheckChecker::IsCheck(const Chess::ePieceColor& kingColor, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
 {
 	for (const auto& piece : piecesOnBoard)
 	{

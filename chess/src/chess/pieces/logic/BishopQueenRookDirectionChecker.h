@@ -1,14 +1,14 @@
 #pragma once
 
-#include "PieceFinder.h"
-#include "../Piece.h"
-#include "../../logic/Coordinate.h"
-
 #include <memory>
 #include <vector>
 
 namespace Chess
 {
+	class Piece;
+	class PieceFinder;
+	struct Coordinate;
+
 	class BishopQueenRookDirectionChecker
 	{
 	public:

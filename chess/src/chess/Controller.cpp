@@ -1,5 +1,8 @@
 #include "Controller.h"
 
+#include "Chessboard.h"
+#include "logic/Coordinate.h"
+
 #include <iostream>
 
 Chess::Controller::Controller(std::shared_ptr<Chessboard>& chessboard)

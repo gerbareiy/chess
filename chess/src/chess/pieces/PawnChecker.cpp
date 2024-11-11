@@ -1,10 +1,16 @@
 #include "PawnChecker.h"
 
 #include "logic/ePieceColor.h"
+#include "logic/ePieceType.h"
+#include "logic/PieceColorAndType.h"
+#include "logic/PieceFinder.h"
+#include "logic/PositionChecker.h"
+#include "Pawn.h"
+#include "Piece.h"
+#include "../logic/Coordinate.h"
 #include "../logic/Counts.h"
 #include "../logic/eError.h"
 #include "../logic/ErrorConverter.h"
-#include "logic/PositionChecker.h"
 #include "../logic/Sizes.h"
 
 #include <stdexcept>

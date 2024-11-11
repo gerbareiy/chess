@@ -1,5 +1,6 @@
 #include "Promotion.h"
 
+#include "Coordinate.h"
 #include "PromotePieceInputer.h"
 #include "Sizes.h"
 #include "../LableDisplayer.h"
@@ -9,7 +10,10 @@
 #include "../pieces/Rook.h"
 #include "../pieces/logic/ePieceColor.h"
 #include "../pieces/logic/ePieceType.h"
+#include "../pieces/logic/PieceColorAndType.h"
 #include "../pieces/logic/PieceFinder.h"
+#include "../pieces/Pawn.h"
+#include "../pieces/Piece.h"
 
 void Chess::Promotion::PromoteConditionally(std::shared_ptr<Pawn> pawn, std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
 {

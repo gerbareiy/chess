@@ -1,9 +1,6 @@
 #pragma once
 
 #include "logic/IMoveChecker.h"
-#include "Piece.h"
-#include "Pawn.h"
-#include "logic/PieceFinder.h"
 
 #include <map>
 #include <memory>
@@ -11,6 +8,10 @@
 
 namespace Chess
 {
+	class Pawn;
+	class Piece;
+	class PieceFinder;
+
 	class PawnChecker :	public IMoveChecker
 	{
 	private:

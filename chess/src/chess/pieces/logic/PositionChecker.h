@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../logic/Coordinate.h"
-
 namespace Chess
 {
+	struct Coordinate;
+
 	class PositionChecker
 	{
 	public:

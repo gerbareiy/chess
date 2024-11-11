@@ -2,6 +2,8 @@
 
 #include "logic/ePieceColor.h"
 #include "logic/ePieceType.h"
+#include "logic/PieceColorAndType.h"
+#include "../logic/Coordinate.h"
 #include "../logic/eError.h"
 #include "../logic/ErrorConverter.h"
 #include "../logic/Sizes.h"

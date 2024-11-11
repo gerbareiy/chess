@@ -1,8 +1,6 @@
 #pragma once
 
-#include "Chessboard.h"
 #include "pieces/logic/ePieceColor.h"
-#include "logic/Coordinate.h"
 
 #include <boost/signals2.hpp>
 
@@ -10,6 +8,9 @@
 
 namespace Chess
 {
+	class Chessboard;
+	struct Coordinate;
+
 	class Controller
 	{
 	private:

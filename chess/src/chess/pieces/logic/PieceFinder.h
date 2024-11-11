@@ -1,14 +1,14 @@
 #pragma once
 
-#include "../Piece.h"
-#include "../../logic/Coordinate.h"
-
 #include <map>
 #include <memory>
 #include <vector>
 
 namespace Chess
 {
+	class Piece;
+	struct Coordinate;
+
 	class PieceFinder
 	{
 	private:

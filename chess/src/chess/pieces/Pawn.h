@@ -2,14 +2,15 @@
 
 #include "Piece.h"
 #include "logic/ePieceColor.h"
-#include "logic/PieceColorAndType.h"
-#include "../logic/Coordinate.h"
-#include "../logic/PieceSignalDirector.h"
 
 #include "memory"
 
 namespace Chess
 {
+	class PieceSignalDirector;
+	struct Coordinate;
+	struct PieceColorAndType;
+
 	class Pawn : public Piece
 	{
 	private:

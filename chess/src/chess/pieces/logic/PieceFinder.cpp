@@ -1,5 +1,8 @@
 #include "PieceFinder.h"
 
+#include "../Piece.h"
+#include "../../logic/Coordinate.h"
+
 Chess::PieceFinder::PieceFinder(const std::vector<std::shared_ptr<Piece>>& pieces)
 {
 	for (const auto& piece : pieces)

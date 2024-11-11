@@ -2,7 +2,10 @@
 
 #include "CheckChecker.h"
 #include "MoveCheckerFactory.h"
+#include "PieceColorAndType.h"
 #include "PieceFinder.h"
+#include "../Piece.h"
+#include "../../logic/Coordinate.h"
 
 #include "stdexcept"
 #include <vector>

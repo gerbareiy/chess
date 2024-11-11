@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../Chessboard.h"
-
 #include <map>
 #include <memory>
 #include <string>
 
 namespace Chess
 {
+	class Chessboard;
+
 	class DrawChecker
 	{
 	private:

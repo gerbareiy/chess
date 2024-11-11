@@ -1,11 +1,16 @@
 #include "RookChecker.h"
 
 #include "logic/BishopQueenRookDirectionChecker.h"
+#include "logic/ePieceType.h"
+#include "logic/PieceColorAndType.h"
 #include "logic/PieceFinder.h"
+#include "logic/PositionChecker.h"
+#include "Rook.h"
+#include "../logic/Coordinate.h"
+#include "../logic/Counts.h"
 #include "../logic/eError.h"
 #include "../logic/ErrorConverter.h"
-#include "../logic/Counts.h"
-#include "logic/PositionChecker.h"
+
 
 #include <memory>
 

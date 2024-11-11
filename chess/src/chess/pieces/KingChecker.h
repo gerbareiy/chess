@@ -1,15 +1,16 @@
 #pragma once
 
-#include "Piece.h"
-#include "King.h"
 #include "logic/IMoveChecker.h"
-#include "logic/PieceFinder.h"
 
 #include <memory>
 #include <vector>
 
 namespace Chess
 {
+	class Piece;
+	class PieceFinder;
+	class King;
+
 	class KingChecker : public IMoveChecker
 	{
 	private:

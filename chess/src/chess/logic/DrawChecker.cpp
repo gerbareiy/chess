@@ -3,10 +3,15 @@
 #include "Counts.h"
 #include "eError.h"
 #include "ErrorConverter.h"
+#include "MoveValidator.h"
+#include "PieceDirector.h"
 #include "Sizes.h"
+#include "../Chessboard.h"
+#include "../pieces/logic/PieceColorAndType.h"
 #include "../pieces/logic/PieceColorConverter.h"
 #include "../pieces/logic/PieceFinder.h"
 #include "../pieces/logic/PieceTypeConverter.h"
+#include "../pieces/Pawn.h"
 
 #include <stdexcept>
 

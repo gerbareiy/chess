@@ -2,11 +2,12 @@
 
 #include "Piece.h"
 #include "logic/ePieceColor.h"
-#include "logic/PieceColorAndType.h"
-#include "../logic/Coordinate.h"
 
 namespace Chess
 {
+	struct Coordinate;
+	struct PieceColorAndType;
+
 	class Bishop : public Piece
 	{
 	public:

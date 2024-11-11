@@ -1,5 +1,7 @@
 #include "Queen.h"
 
+#include "logic/PieceColorAndType.h"
+#include "../logic/Coordinate.h"
 #include "../logic/eError.h"
 #include "../logic/ErrorConverter.h"
 #include "../logic/Sizes.h"

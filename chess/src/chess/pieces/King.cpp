@@ -1,8 +1,11 @@
 #include "King.h"
 
+#include "logic/PieceColorAndType.h"
+#include "../logic/Coordinate.h"
 #include "../logic/eError.h"
 #include "../logic/ErrorConverter.h"
 #include "../logic/Sizes.h"
+#include "../logic/PieceSignalDirector.h"
 
 #include <math.h>
 #include <stdexcept>

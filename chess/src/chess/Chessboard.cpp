@@ -1,5 +1,6 @@
 #include "Chessboard.h"
 
+#include "logic/Coordinate.h"
 #include "logic/Counts.h"
 #include "pieces/Bishop.h"
 #include "pieces/logic/ePieceColor.h"
@@ -9,9 +10,13 @@
 #include "pieces/Pawn.h"
 #include "pieces/Queen.h"
 #include "pieces/Rook.h"
+#include "logic/MoveValidator.h"
 #include "logic/Sizes.h"
+#include "logic/PieceDirector.h"
 #include "logic/PieceSignalDirector.h"
+#include "pieces/logic/PieceColorAndType.h"
 #include "pieces/logic/PositionChecker.h"
+#include "Player.h"
 
 Chess::Chessboard::Chessboard(std::vector<std::shared_ptr<Piece>> piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector)
 {

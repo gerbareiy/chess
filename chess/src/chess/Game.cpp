@@ -1,10 +1,15 @@
 #include "Game.h"
 
-#include "pieces/logic/PositionChecker.h"
+#include "Chessboard.h"
+#include "Controller.h"
 #include "logic/DrawChecker.h"
+#include "logic/MoveValidator.h"
+#include "logic/PieceDirector.h"
 #include "logic/PieceInitializer.h"
+#include "logic/PieceSignalDirector.h"
 #include "logic/Sizes.h"
 #include "pieces/logic/ePieceColor.h"
+#include "pieces/logic/PositionChecker.h"
 
 #include <stdlib.h>
 

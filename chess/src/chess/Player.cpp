@@ -1,5 +1,7 @@
 #include "Player.h"
 
+#include "logic/PieceSignalDirector.h"
+
 #include <iostream>
 
 Chess::ePieceColor Chess::Player::get_PlayerColor()

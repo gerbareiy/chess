@@ -1,5 +1,8 @@
 #include "Piece.h"
 
+#include "logic/ePieceColor.h"
+#include "logic/ePieceType.h"
+
 Chess::Piece::Piece() : m_colorAndType(ePieceColor::NONE, ePieceType::NONE) { }
 
 Chess::Piece::Piece(PieceColorAndType colorAndType, Coordinate coordinate)

@@ -1,8 +1,11 @@
 #include "PieceDirector.h"
 
+#include "Coordinate.h"
 #include "Counts.h"
 #include "Sizes.h"
+#include "PieceSignalDirector.h"
 #include "PieceTakeLocator.h"
+#include "Promotion.h"
 #include "../pieces/Bishop.h"
 #include "../pieces/King.h"
 #include "../pieces/Knight.h"
@@ -11,8 +14,10 @@
 #include "../pieces/logic/PieceColorAndType.h"
 #include "../pieces/logic/PieceFinder.h"
 #include "../pieces/Pawn.h"
+#include "../pieces/Piece.h"
 #include "../pieces/Queen.h"
 #include "../pieces/Rook.h"
+#include "../LableDisplayer.h"
 
 Chess::PieceDirector::PieceDirector(std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<PieceSignalDirector>& signalDirector)
 	: m_piecesOnBoard(piecesOnBoard), m_signalDirector(signalDirector)
@@ -96,7 +101,7 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2
 
 	if (typeid(*m_currentPiece) == typeid(Pawn)
 		&& (m_currentPiece->get_Position().get_Rank() == 1 && m_currentPiece->get_ColorAndType().get_Color() == ePieceColor::BLACK
-		|| m_currentPiece->get_Position().get_Rank() == CHESSBOARD_SIZE && m_currentPiece->get_ColorAndType().get_Color() == ePieceColor::WHITE))
+			|| m_currentPiece->get_Position().get_Rank() == CHESSBOARD_SIZE && m_currentPiece->get_ColorAndType().get_Color() == ePieceColor::WHITE))
 	{
 		signalChessboardUndated();
 		m_promotion->PromoteConditionally(std::static_pointer_cast<Pawn>(m_currentPiece), m_piecesOnBoard);

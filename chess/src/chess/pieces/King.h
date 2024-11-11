@@ -3,10 +3,7 @@
 #include "logic/eCastleSide.h"
 #include "logic/ePieceColor.h"
 #include "logic/ICastlable.h"
-#include "logic/PieceColorAndType.h"
 #include "Piece.h"
-#include "../logic/PieceSignalDirector.h"
-#include "../logic/Coordinate.h"
 
 #include <boost/signals2.hpp>
 
@@ -14,6 +11,10 @@
 
 namespace Chess
 {
+	class PieceSignalDirector;
+	struct Coordinate;
+	struct PieceColorAndType;
+
 	class King : public ICastable, public Piece
 	{
 	private:

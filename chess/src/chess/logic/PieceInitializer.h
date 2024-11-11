@@ -1,13 +1,13 @@
 #pragma once
 
-#include "PieceSignalDirector.h"
-#include "../pieces/Piece.h"
-
 #include <memory>
 #include <vector>
 
 namespace Chess
 {
+	class Piece;
+	class PieceSignalDirector;
+
 	class PieceInitializer
 	{
 	public:

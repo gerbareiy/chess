@@ -1,10 +1,7 @@
 #pragma once
 
-#include "Chessboard.h"
-#include "logic/Coordinate.h"
 #include "logic/eConsoleColor.h"
 #include "pieces/logic/ePieceColor.h"
-#include "pieces/logic/PieceColorAndType.h"
 
 #include <memory>
 #include <string>
@@ -12,6 +9,10 @@
 
 namespace Chess
 {
+	class Chessboard;
+	struct Coordinate;
+	struct PieceColorAndType;
+
 	class ChessboardDisplayer
 	{
 	private:
@@ -36,7 +37,6 @@ namespace Chess
 		// Or create own Display by combining some methiods below
 		void ShowChessboardRowWithRank(int y, int originalTextColor) const;
 		void ShowEmpty() const;
-		void ShowInvalidMovePrompt(bool isValidMove) const;
 		void ShowTakenPieces(ePieceColor color) const;
 	};
 }

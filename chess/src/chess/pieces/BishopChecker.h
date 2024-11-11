@@ -1,14 +1,15 @@
 #pragma once
 
-#include "Bishop.h"
 #include "logic/IMoveChecker.h"
-#include "../logic/Coordinate.h"
 
 #include <memory>
 #include <vector>
 
 namespace Chess
 {
+	class Bishop;
+	struct Coordinate;
+
 	class BishopChecker : public IMoveChecker
 	{
 	private:

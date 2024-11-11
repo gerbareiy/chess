@@ -1,15 +1,16 @@
 #pragma once
 
 #include "logic/IMoveChecker.h"
-#include "Piece.h"
-#include "Knight.h"
-#include "../logic/Coordinate.h"
 
 #include <memory>
 #include <vector>
 
 namespace Chess
 {
+	class Piece;
+	class Knight;
+	struct Coordinate;
+
 	class KnightChecker : public IMoveChecker
 	{
 	private:

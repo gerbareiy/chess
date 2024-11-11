@@ -1,12 +1,13 @@
 #pragma once
 
-#include "logic/PieceSignalDirector.h"
 #include "pieces/logic/ePieceColor.h"
 
 #include <memory>
 
 namespace Chess
 {
+	class PieceSignalDirector;
+
 	class Player
 	{
 	private:

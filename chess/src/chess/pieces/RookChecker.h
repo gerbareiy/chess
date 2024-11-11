@@ -1,10 +1,11 @@
 #pragma once
-#include "logic/IMoveChecker.h"
 
-#include "Rook.h"
+#include "logic/IMoveChecker.h"
 
 namespace Chess
 {
+	class Rook;
+
 	class RookChecker : public IMoveChecker
 	{
 	private:

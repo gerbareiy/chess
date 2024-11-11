@@ -1,10 +1,6 @@
 #pragma once
 
 #include "logic/Coordinate.h"
-#include "logic/MoveValidator.h"
-#include "logic/PieceDirector.h"
-#include "pieces/logic/PieceColorAndType.h"
-#include "Player.h"
 
 #include <boost/signals2.hpp>
 
@@ -13,6 +9,12 @@
 
 namespace Chess
 {
+	class MoveValidator;
+	class Piece;
+	class PieceDirector;
+	class PieceSignalDirector;
+	struct Coordinate;
+
 	class Chessboard
 	{
 	private:

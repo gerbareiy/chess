@@ -8,13 +8,13 @@
 #include "../KnightChecker.h"
 #include "../Pawn.h"
 #include "../PawnChecker.h"
+#include "../Piece.h"
 #include "../Queen.h"
 #include "../QueenChecker.h"
 #include "../Rook.h"
 #include "../RookChecker.h"
 #include "../../logic/eError.h"
 #include "../../logic/ErrorConverter.h"
-
 
 std::shared_ptr<Chess::IMoveChecker> Chess::MoveCheckerFactory::Create(const std::shared_ptr<Piece>& piece) const
 {

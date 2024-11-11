@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../Piece.h"
-#include "../../logic/Coordinate.h"
-
 #include <memory>
 #include <vector>
 
 namespace Chess
 {
+	class Piece;
+	struct Coordinate;
+
 	class IMoveChecker
 	{
 	public:

@@ -1,9 +1,5 @@
 #pragma once
 
-#include "Coordinate.h"
-#include "PieceSignalDirector.h"
-#include "Promotion.h"
-#include "../pieces/Piece.h"
 #include "../LableDisplayer.h"
 
 #include <boost/signals2.hpp>
@@ -13,6 +9,12 @@
 
 namespace Chess
 {
+	class PieceSignalDirector;
+	class Promotion;
+	class Piece;
+	struct Coordinate;
+	struct PieceColorAndType;
+
 	class PieceDirector
 	{
 	private:
@@ -37,7 +39,7 @@ namespace Chess
 		void Take(int indexOnBoard);
 
 	public:
-		PieceColorAndType GetPieceColorAndType(const Coordinate& from) const;
+		PieceColorAndType GetPieceColorAndType(const Coordinate& frFom) const;
 		std::shared_ptr<Chess::Piece> GetPiece(const Coordinate& from) const;
 		void InitCurrentPiece(const Coordinate& from);
 		void MovePiece(const Coordinate& to, const boost::signals2::signal<void()>& signalChessboardUndated);

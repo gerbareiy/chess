@@ -1,17 +1,17 @@
 #pragma once
 
 #include "logic/ePieceColor.h"
-#include "Piece.h"
-#include "King.h"
 #include "logic/eCastleSide.h"
 #include "logic/ICastlable.h"
-#include "logic/PieceColorAndType.h"
-#include "../logic/Coordinate.h"
+#include "Piece.h"
 
 #include <boost/signals2.hpp>
 
 namespace Chess
 {
+	class King;
+	struct Coordinate;
+
 	class Rook : public Piece, public ICastable
 	{
 	private:

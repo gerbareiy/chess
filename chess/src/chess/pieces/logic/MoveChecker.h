@@ -1,12 +1,13 @@
 #pragma once
 
 #include "IMoveChecker.h"
-#include "../Piece.h"
 
 #include <memory>
 
 namespace Chess
 {
+	class Piece;
+
 	class MoveChecker
 	{
 	private:
