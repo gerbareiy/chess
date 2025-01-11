@@ -93,7 +93,7 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2
 
 	if (it != m_piecesOnBoard.end())
 	{
-		Take(std::distance(m_piecesOnBoard.begin(), it));
+		Take(static_cast<int>(std::distance(m_piecesOnBoard.begin(), it)));
 	}
 
 	m_currentPiece->Move(to);
