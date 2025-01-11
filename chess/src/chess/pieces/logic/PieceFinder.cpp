@@ -7,7 +7,7 @@ Chess::PieceFinder::PieceFinder(const std::vector<std::shared_ptr<Piece>>& piece
 {
 	for (const auto& piece : pieces)
 	{
-		m_pieceMap[piece->get_Position()] = piece;
+		m_pieceMap[piece->GetPosition()] = piece;
 	}
 }
 

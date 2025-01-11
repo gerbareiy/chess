@@ -17,15 +17,15 @@
 
 void Chess::DrawChecker::CalculateMovesCountWithoutPawnAndTaking(const std::shared_ptr<Chessboard>& chessboard)
 {
-	auto finder = std::make_shared<PieceFinder>(chessboard->get_PieceDirector()->get_PiecesOnBoard());
-	auto piece = finder->Find(chessboard->get_To());
+	auto finder = std::make_shared<PieceFinder>(chessboard->GetPieceDirector()->GetPiecesOnBoard());
+	auto piece = finder->Find(chessboard->GetTo());
 
 	if (!piece)
 	{
 		return;
 	}
 
-	auto eatenPiecesCount = chessboard->get_PieceDirector()->get_EatenPieces().size();
+	auto eatenPiecesCount = chessboard->GetPieceDirector()->GetEatenPieces().size();
 
 	if (typeid(*piece) == typeid(Pawn) || m_lastCountEatenPeaces != eatenPiecesCount)
 	{
@@ -53,19 +53,19 @@ bool Chess::DrawChecker::IsInsufficientMaterial(const std::shared_ptr<Chessboard
 	{
 		for (auto x = 'A'; x < 'A' + CHESSBOARD_SIZE; ++x)
 		{
-			auto piece = chessboard->get_PieceDirector()->GetPiece(Coordinate(x, y));
+			auto piece = chessboard->GetPieceDirector()->GetPiece(Coordinate(x, y));
 
 			if (!piece)
 			{
 				continue;
 			}
 
-			auto colorAndType = piece->get_ColorAndType();
+			auto colorAndType = piece->GetColorAndType();
 
-			switch (colorAndType.get_Type())
+			switch (colorAndType.GetType())
 			{
 			case ePieceType::BISHOP:
-				if (colorAndType.get_Color() == ePieceColor::BLACK)
+				if (colorAndType.GetColor() == ePieceColor::BLACK)
 				{
 					((x + y) % 2 == 0) ? ++blackBishopLightCount : ++blackBishopDarkCount;
 				}
@@ -75,10 +75,10 @@ bool Chess::DrawChecker::IsInsufficientMaterial(const std::shared_ptr<Chessboard
 				}
 				break;
 			case ePieceType::KNIGHT:
-				(colorAndType.get_Color() == ePieceColor::BLACK) ? ++blackKnightCount : ++whiteKnightCount;
+				(colorAndType.GetColor() == ePieceColor::BLACK) ? ++blackKnightCount : ++whiteKnightCount;
 				break;
 			case ePieceType::KING:
-				(colorAndType.get_Color() == ePieceColor::BLACK) ? blackKing = true : whiteKing = true;
+				(colorAndType.GetColor() == ePieceColor::BLACK) ? blackKing = true : whiteKing = true;
 				break;
 			default:
 				return false;
@@ -104,7 +104,7 @@ bool Chess::DrawChecker::IsDraw(const std::shared_ptr<Chessboard>& chessboard)
 {
 	CalculateMovesCountWithoutPawnAndTaking(chessboard);
 
-	return !chessboard->get_MoveValidator()->GetPiecesCanMoveCount()
+	return !chessboard->GetMoveValidator()->GetPiecesCanMoveCount()
 		|| m_movesCountWithoutPawnAndTaking >= MAX_MOVES_COUNT_WITHOUT_PAWN_MOVE_AND_TAKING
 		|| IsInsufficientMaterial(chessboard);
 }

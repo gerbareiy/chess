@@ -18,7 +18,7 @@ std::vector<Chess::Coordinate> Chess::QueenChecker::FindPossibleMoves(const std:
 	moves.reserve(COUNT_OF_QUEEN_WAYS);
 
 	const auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
-	auto coordinate = queen->get_Position();
+	auto coordinate = queen->GetPosition();
 
 	auto first = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, queen, { -1, -1 });
 	auto second = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, queen, { -1, 1 });
@@ -43,7 +43,7 @@ std::vector<Chess::Coordinate> Chess::QueenChecker::FindPossibleMoves(const std:
 
 std::vector<Chess::Coordinate> Chess::QueenChecker::GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
 {
-	if (!piece || typeid(*piece) != typeid(Queen) || piece->get_ColorAndType().get_Type() != ePieceType::QUEEN)
+	if (!piece || typeid(*piece) != typeid(Queen) || piece->GetColorAndType().GetType() != ePieceType::QUEEN)
 	{
 		return std::vector<Coordinate>();
 	}

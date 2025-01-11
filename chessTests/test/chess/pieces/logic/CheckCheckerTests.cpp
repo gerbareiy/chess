@@ -19,12 +19,12 @@ BOOST_AUTO_TEST_CASE(Check_Test)
 	std::vector<std::shared_ptr<Chess::Piece>> pieces = { blackRook, whiteRook, whiteKing };
 
 	BOOST_CHECK(!checker->IsCheck(whiteKing, pieces));
-	BOOST_CHECK(!checker->IsCheck(whiteRook->get_ColorAndType().get_Color(), pieces));
+	BOOST_CHECK(!checker->IsCheck(whiteRook->GetColorAndType().GetColor(), pieces));
 
-	blackRook->Move(Chess::Coordinate(whiteKing->get_Position().get_File(), whiteKing->get_Position().get_Rank() - 1));
+	blackRook->Move(Chess::Coordinate(whiteKing->GetPosition().GetFile(), whiteKing->GetPosition().GetRank() - 1));
 
 	BOOST_CHECK(checker->IsCheck(whiteKing, pieces));
-	BOOST_CHECK(checker->IsCheck(whiteRook->get_ColorAndType().get_Color(), pieces));
+	BOOST_CHECK(checker->IsCheck(whiteRook->GetColorAndType().GetColor(), pieces));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

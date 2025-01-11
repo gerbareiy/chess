@@ -15,7 +15,7 @@ Chess::MoveValidator::MoveValidator(const std::vector<std::shared_ptr<Piece>>& p
 	CalculatePiecesCanMove();
 }
 
-std::vector<Chess::Coordinate> Chess::MoveValidator::get_PossibleMoves()
+std::vector<Chess::Coordinate> Chess::MoveValidator::GetPossibleMoves()
 {
 	return m_possibleMoves;
 }
@@ -30,7 +30,7 @@ void Chess::MoveValidator::CalculatePiecesCanMove()
 
 	for (const auto& piece : m_piecesOnBoard)
 	{
-		if (piece->get_ColorAndType().get_Color() == m_player->get_PlayerColor())
+		if (piece->GetColorAndType().GetColor() == m_player->GetPlayerColor())
 		{
 			const auto moveChecker = std::make_unique<MoveChecker>(piece);
 

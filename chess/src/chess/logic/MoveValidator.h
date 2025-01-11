@@ -23,9 +23,8 @@ namespace Chess
 		MoveValidator(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<Player>& player);
 
 	public:
-		std::vector<Coordinate> get_PossibleMoves();
+		std::vector<Coordinate> GetPossibleMoves();
 
-	public:
 		void CalculatePiecesCanMove();
 		void CalculatePossibleMoves(const std::shared_ptr<Piece>& piece);
 		void ClearPossibleMoves();

@@ -29,7 +29,7 @@ bool Chess::Game::ContinueGame() const
 {
 	auto drawChecker = std::make_unique<DrawChecker>();
 
-	if (!m_chessboard->get_MoveValidator()->GetPiecesCanMoveCount() && m_chessboard->get_PieceDirector()->get_IsCheck())
+	if (!m_chessboard->GetMoveValidator()->GetPiecesCanMoveCount() && m_chessboard->GetPieceDirector()->GetIsCheck())
 	{
 		m_inputDisplayer->Show("Checkmate!\n");
 		return false;
@@ -39,7 +39,7 @@ bool Chess::Game::ContinueGame() const
 		m_inputDisplayer->Show("Draw!\n");
 		return false;
 	}
-	if (m_chessboard->get_PieceDirector()->get_IsCheck())
+	if (m_chessboard->GetPieceDirector()->GetIsCheck())
 	{
 		m_inputDisplayer->Show("Check!\n");
 	}

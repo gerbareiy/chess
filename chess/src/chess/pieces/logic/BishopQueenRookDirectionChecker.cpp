@@ -9,12 +9,12 @@
 std::vector<Chess::Coordinate> Chess::BishopQueenRookDirectionChecker::FindPossibleMoves(const std::shared_ptr<PieceFinder>& finder, const std::shared_ptr<Piece>& current, std::pair <int, int> coordinateIncrement)
 {
 	std::vector<Coordinate> moves;
-	auto currentCoordinate = current->get_Position();
+	auto currentCoordinate = current->GetPosition();
 
 	while (true)
 	{
-		currentCoordinate.set_File(currentCoordinate.get_File() + coordinateIncrement.first);
-		currentCoordinate.set_Rank(currentCoordinate.get_Rank() + coordinateIncrement.second);
+		currentCoordinate.SetFile(currentCoordinate.GetFile() + coordinateIncrement.first);
+		currentCoordinate.SetRank(currentCoordinate.GetRank() + coordinateIncrement.second);
 
 		if (!PositionChecker::IsPositionValid(currentCoordinate))
 		{
@@ -25,7 +25,7 @@ std::vector<Chess::Coordinate> Chess::BishopQueenRookDirectionChecker::FindPossi
 
 		if (found)
 		{
-			if (found->get_ColorAndType().get_Color() != current->get_ColorAndType().get_Color())
+			if (found->GetColorAndType().GetColor() != current->GetColorAndType().GetColor())
 			{
 				moves.emplace_back(currentCoordinate);
 			}

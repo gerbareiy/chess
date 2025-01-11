@@ -25,7 +25,7 @@ namespace Chess
 		Rook(ePieceColor color, Coordinate coordinate, const std::shared_ptr<King>& king);
 
 	public:
-		bool get_CanMakeCastling() const override;
+		bool GetCanMakeCastling() const override;
 
 	private:
 		void DisableCastling();

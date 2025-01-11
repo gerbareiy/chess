@@ -31,12 +31,11 @@ namespace Chess
 		Chessboard(std::vector<std::shared_ptr<Piece>> piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector);
 
 	public:
-		Coordinate get_From() const;
-		const std::shared_ptr<MoveValidator>& get_MoveValidator() const;
-		const std::shared_ptr<PieceDirector>& get_PieceDirector() const;
-		Coordinate get_To() const;
+		Coordinate GetFrom() const;
+		const std::shared_ptr<MoveValidator>& GetMoveValidator() const;
+		const std::shared_ptr<PieceDirector>& GetPieceDirector() const;
+		Coordinate GetTo() const;
 
-	public:
 		bool TryInitPiece(const Coordinate& from);
 
 		//Before use this method, you need to InitPiece

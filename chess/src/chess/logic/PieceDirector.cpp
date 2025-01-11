@@ -26,30 +26,30 @@ Chess::PieceDirector::PieceDirector(std::vector<std::shared_ptr<Piece>>& piecesO
 	m_promotion = std::make_shared<Promotion>();
 }
 
-const std::shared_ptr<Chess::Piece>& Chess::PieceDirector::get_CurrentPiece() const
-{
-	return m_currentPiece;
-}
-
-const std::vector<std::shared_ptr<Chess::Piece>>& Chess::PieceDirector::get_EatenPieces() const
-{
-	return m_eatenPieces;
-}
-
-bool Chess::PieceDirector::get_IsCheck() const
-{
-	return m_isCheck;
-}
-
-const std::vector<std::shared_ptr<Chess::Piece>>& Chess::PieceDirector::get_PiecesOnBoard() const
-{
-	return m_piecesOnBoard;
-}
-
 void Chess::PieceDirector::Take(int indexOnBoard)
 {
 	m_eatenPieces.emplace_back(std::move(m_piecesOnBoard[indexOnBoard]));
 	m_piecesOnBoard.erase(m_piecesOnBoard.begin() + indexOnBoard);
+}
+
+const std::shared_ptr<Chess::Piece>& Chess::PieceDirector::GetCurrentPiece() const
+{
+	return m_currentPiece;
+}
+
+const std::vector<std::shared_ptr<Chess::Piece>>& Chess::PieceDirector::GetEatenPieces() const
+{
+	return m_eatenPieces;
+}
+
+bool Chess::PieceDirector::GetIsCheck() const
+{
+	return m_isCheck;
+}
+
+const std::vector<std::shared_ptr<Chess::Piece>>& Chess::PieceDirector::GetPiecesOnBoard() const
+{
+	return m_piecesOnBoard;
 }
 
 Chess::PieceColorAndType Chess::PieceDirector::GetPieceColorAndType(const Coordinate& from) const
@@ -61,14 +61,14 @@ Chess::PieceColorAndType Chess::PieceDirector::GetPieceColorAndType(const Coordi
 		return PieceColorAndType();
 	}
 
-	return piece->get_ColorAndType();
+	return piece->GetColorAndType();
 }
 
 std::shared_ptr<Chess::Piece> Chess::PieceDirector::GetPiece(const Coordinate& from) const
 {
 	for (std::shared_ptr<Chess::Piece> pieceOnBoard : m_piecesOnBoard)
 	{
-		if (pieceOnBoard->get_Position() == from)
+		if (pieceOnBoard->GetPosition() == from)
 		{
 			return pieceOnBoard;
 		}
@@ -88,7 +88,7 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2
 
 	auto it = std::find_if(m_piecesOnBoard.begin(), m_piecesOnBoard.end(), [fromTake](std::shared_ptr<Piece> current)
 		{
-			return current->get_Position() == fromTake;
+			return current->GetPosition() == fromTake;
 		});
 
 	if (it != m_piecesOnBoard.end())
@@ -100,8 +100,8 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2
 	m_signalDirector->Invite();
 
 	if (typeid(*m_currentPiece) == typeid(Pawn)
-		&& (m_currentPiece->get_Position().get_Rank() == 1 && m_currentPiece->get_ColorAndType().get_Color() == ePieceColor::BLACK
-			|| m_currentPiece->get_Position().get_Rank() == CHESSBOARD_SIZE && m_currentPiece->get_ColorAndType().get_Color() == ePieceColor::WHITE))
+		&& (m_currentPiece->GetPosition().GetRank() == 1 && m_currentPiece->GetColorAndType().GetColor() == ePieceColor::BLACK
+			|| m_currentPiece->GetPosition().GetRank() == CHESSBOARD_SIZE && m_currentPiece->GetColorAndType().GetColor() == ePieceColor::WHITE))
 	{
 		signalChessboardUndated();
 		m_promotion->PromoteConditionally(std::static_pointer_cast<Pawn>(m_currentPiece), m_piecesOnBoard);
@@ -111,11 +111,11 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2
 
 	ePieceColor color;
 
-	if (m_currentPiece->get_ColorAndType().get_Color() == ePieceColor::BLACK)
+	if (m_currentPiece->GetColorAndType().GetColor() == ePieceColor::BLACK)
 	{
 		color = ePieceColor::WHITE;
 	}
-	else if (m_currentPiece->get_ColorAndType().get_Color() == ePieceColor::WHITE)
+	else if (m_currentPiece->GetColorAndType().GetColor() == ePieceColor::WHITE)
 	{
 		color = ePieceColor::BLACK;
 	}

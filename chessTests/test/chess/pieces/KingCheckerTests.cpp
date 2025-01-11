@@ -23,14 +23,14 @@ BOOST_AUTO_TEST_CASE(FindPosibleKingMoves_Test)
 	BOOST_CHECK_EQUAL(kingChecker->GetMoves(whiteRook1, pieces).size(), 0);
 	BOOST_CHECK_EQUAL(kingChecker->GetMoves(whiteKing, pieces).size(), 7);
 
-	auto whiteRook1Coordiante = whiteRook1->get_Position();
+	auto whiteRook1Coordiante = whiteRook1->GetPosition();
 	whiteRook1->Move(Chess::Coordinate('G', 2));
 	BOOST_CHECK_EQUAL(kingChecker->GetMoves(whiteKing, pieces).size(), 6);
 
 	whiteRook1->Move(whiteRook1Coordiante);
 	BOOST_CHECK_EQUAL(kingChecker->GetMoves(whiteKing, pieces).size(), 6);
 
-	auto whiteKingCoordiante = whiteKing->get_Position();
+	auto whiteKingCoordiante = whiteKing->GetPosition();
 	whiteKing->Move(Chess::Coordinate('F', 2));
 	BOOST_CHECK_EQUAL(kingChecker->GetMoves(whiteKing, pieces).size(), 8);
 

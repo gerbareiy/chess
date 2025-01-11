@@ -31,8 +31,8 @@ namespace Chess
 		King(ePieceColor color, Coordinate coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector);
 
 	public:
-		bool get_CanMakeCastling() const;
-		bool get_IsCheck() const;
+		bool GetCanMakeCastling() const;
+		bool GetIsCheck() const;
 
 	private:
 		void DisableCastling();

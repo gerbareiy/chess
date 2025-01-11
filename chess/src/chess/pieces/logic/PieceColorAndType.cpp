@@ -12,12 +12,12 @@ Chess::PieceColorAndType::PieceColorAndType(ePieceColor color, ePieceType type)
 	m_type = type;
 }
 
-Chess::ePieceColor Chess::PieceColorAndType::get_Color() const
+Chess::ePieceColor Chess::PieceColorAndType::GetColor() const
 {
 	return m_color;
 }
 
-Chess::ePieceType Chess::PieceColorAndType::get_Type() const
+Chess::ePieceType Chess::PieceColorAndType::GetType() const
 {
 	return m_type;
 }
@@ -29,8 +29,8 @@ Chess::PieceColorAndType& Chess::PieceColorAndType::operator=(const PieceColorAn
 		return *this;
 	}
 
-	m_color = other.get_Color();
-	m_type = other.get_Type();
+	m_color = other.GetColor();
+	m_type = other.GetType();
 
 	return *this;
 }

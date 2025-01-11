@@ -29,16 +29,15 @@ namespace Chess
 	public:
 		PieceDirector(std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<PieceSignalDirector>& signalDirector);
 
-	public:
-		const std::shared_ptr<Piece>& get_CurrentPiece() const;
-		const std::vector<std::shared_ptr<Piece>>& get_EatenPieces() const;
-		bool get_IsCheck() const;
-		const std::vector<std::shared_ptr<Piece>>& get_PiecesOnBoard() const;
-
 	private:
 		void Take(int indexOnBoard);
 
 	public:
+		const std::shared_ptr<Piece>& GetCurrentPiece() const;
+		const std::vector<std::shared_ptr<Piece>>& GetEatenPieces() const;
+		bool GetIsCheck() const;
+		const std::vector<std::shared_ptr<Piece>>& GetPiecesOnBoard() const;
+
 		PieceColorAndType GetPieceColorAndType(const Coordinate& frFom) const;
 		std::shared_ptr<Chess::Piece> GetPiece(const Coordinate& from) const;
 		void InitCurrentPiece(const Coordinate& from);

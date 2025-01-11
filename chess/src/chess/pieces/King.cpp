@@ -40,12 +40,12 @@ Chess::King::King(ePieceColor color, Coordinate coordinate, const std::shared_pt
 	MakeTracking(signalDirector);
 }
 
-bool Chess::King::get_CanMakeCastling() const
+bool Chess::King::GetCanMakeCastling() const
 {
 	return m_canMakeCastling;
 }
 
-bool Chess::King::get_IsCheck() const
+bool Chess::King::GetIsCheck() const
 {
 	return m_isCheck;
 }
@@ -74,15 +74,15 @@ void Chess::King::Move(Coordinate to, bool isRealMove)
 	{
 		DisableCastling();
 
-		if (abs(get_Position().get_File() - to.get_File()) > 1)
+		if (abs(GetPosition().GetFile() - to.GetFile()) > 1)
 		{
 			eCastleSide side;
 
-			if (to.get_File() > get_Position().get_File())
+			if (to.GetFile() > GetPosition().GetFile())
 			{
 				side = eCastleSide::RIGHT;
 			}
-			else if (to.get_File() < get_Position().get_File())
+			else if (to.GetFile() < GetPosition().GetFile())
 			{
 				side = eCastleSide::LEFT;
 			}

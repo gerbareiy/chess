@@ -45,16 +45,6 @@ Chess::Pawn::Pawn(ePieceColor color, Coordinate coordinate, const std::shared_pt
 	MakeTracking(signalDirector);
 }
 
-bool Chess::Pawn::get_CanEnPassant() const
-{
-	return m_canEnPassant;
-}
-
-bool Chess::Pawn::get_IsNotMoved() const
-{
-	return m_isNotMoved;
-}
-
 void Chess::Pawn::LostEnPassant()
 {
 	m_canEnPassant = false;
@@ -78,11 +68,21 @@ void Chess::Pawn::MakeTracking(const std::shared_ptr<Chess::PieceSignalDirector>
 		});
 }
 
+bool Chess::Pawn::GetCanEnPassant() const
+{
+	return m_canEnPassant;
+}
+
+bool Chess::Pawn::GetIsNotMoved() const
+{
+	return m_isNotMoved;
+}
+
 void Chess::Pawn::Move(Coordinate to, bool isRealMove)
 {
 	if(isRealMove)
 	{
-		if (abs(to.get_Rank() - get_Position().get_Rank()) == 2)
+		if (abs(to.GetRank() - GetPosition().GetRank()) == 2)
 		{
 			m_canEnPassant = m_isNotMoved;
 		}

@@ -20,20 +20,20 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetForwardMoves(const std::sh
 {
 	ValidatePawn(pawn);
 
-	auto moveVector = (pawn->get_ColorAndType().get_Color() == ePieceColor::WHITE) ? 1 : -1;
+	auto moveVector = (pawn->GetColorAndType().GetColor() == ePieceColor::WHITE) ? 1 : -1;
 
 	std::vector<Coordinate> moves;
 	moves.reserve(COUNT_OF_PAWN_WAYS);
 
-	Coordinate oneStepForward(pawn->get_Position().get_File(), pawn->get_Position().get_Rank() + moveVector);
+	Coordinate oneStepForward(pawn->GetPosition().GetFile(), pawn->GetPosition().GetRank() + moveVector);
 
 	if (PositionChecker::IsPositionValid(oneStepForward) && !finder->Find(oneStepForward))
 	{
 		moves.emplace_back(oneStepForward);
 
-		if (pawn->get_IsNotMoved())
+		if (pawn->GetIsNotMoved())
 		{
-			Coordinate twoStepsForward(pawn->get_Position().get_File(), pawn->get_Position().get_Rank() + (moveVector << 1));
+			Coordinate twoStepsForward(pawn->GetPosition().GetFile(), pawn->GetPosition().GetRank() + (moveVector << 1));
 
 			if (PositionChecker::IsPositionValid(twoStepsForward) && !finder->Find(twoStepsForward))
 			{
@@ -49,28 +49,28 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(const std::s
 {
 	ValidatePawn(pawn);
 
-	int moveVector = (pawn->get_ColorAndType().get_Color() == ePieceColor::WHITE) ? 1 : -1;
+	int moveVector = (pawn->GetColorAndType().GetColor() == ePieceColor::WHITE) ? 1 : -1;
 
 	std::vector<Coordinate> moves;
 	moves.reserve(COUNT_OF_PAWN_WAYS);
 
-	Coordinate rightDiagonal(pawn->get_Position().get_File() + 1, pawn->get_Position().get_Rank() + moveVector);
-	Coordinate leftDiagonal(pawn->get_Position().get_File() - 1, pawn->get_Position().get_Rank() + moveVector);
-	Coordinate left(pawn->get_Position().get_File() - 1, pawn->get_Position().get_Rank());
-	Coordinate right(pawn->get_Position().get_File() + 1, pawn->get_Position().get_Rank());
+	Coordinate rightDiagonal(pawn->GetPosition().GetFile() + 1, pawn->GetPosition().GetRank() + moveVector);
+	Coordinate leftDiagonal(pawn->GetPosition().GetFile() - 1, pawn->GetPosition().GetRank() + moveVector);
+	Coordinate left(pawn->GetPosition().GetFile() - 1, pawn->GetPosition().GetRank());
+	Coordinate right(pawn->GetPosition().GetFile() + 1, pawn->GetPosition().GetRank());
 
 	if (PositionChecker::IsPositionValid(rightDiagonal))
 	{
 		auto rightDiagonalPiece = finder->Find(rightDiagonal);
 		auto rightPiece = finder->Find(right);
 
-		if (rightDiagonalPiece && rightDiagonalPiece->get_ColorAndType().get_Color() != pawn->get_ColorAndType().get_Color())
+		if (rightDiagonalPiece && rightDiagonalPiece->GetColorAndType().GetColor() != pawn->GetColorAndType().GetColor())
 		{
 			moves.emplace_back(rightDiagonal);
 		}
 		else if (rightPiece && typeid(*rightPiece) == typeid(Pawn)
-			&& std::static_pointer_cast<Pawn>(rightPiece)->get_CanEnPassant()
-			&& rightPiece->get_ColorAndType().get_Color() != pawn->get_ColorAndType().get_Color())
+			&& std::static_pointer_cast<Pawn>(rightPiece)->GetCanEnPassant()
+			&& rightPiece->GetColorAndType().GetColor() != pawn->GetColorAndType().GetColor())
 		{
 			moves.emplace_back(rightDiagonal);
 		}
@@ -81,13 +81,13 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(const std::s
 		auto leftDiagonalPiece = finder->Find(leftDiagonal);
 		auto leftPiece = finder->Find(left);
 
-		if (leftDiagonalPiece && leftDiagonalPiece->get_ColorAndType().get_Color() != pawn->get_ColorAndType().get_Color())
+		if (leftDiagonalPiece && leftDiagonalPiece->GetColorAndType().GetColor() != pawn->GetColorAndType().GetColor())
 		{
 			moves.emplace_back(leftDiagonal);
 		}
 		else if (leftPiece && typeid(*leftPiece) == typeid(Pawn)
-			&& std::static_pointer_cast<Pawn>(leftPiece)->get_CanEnPassant()
-			&& leftPiece->get_ColorAndType().get_Color() != pawn->get_ColorAndType().get_Color())
+			&& std::static_pointer_cast<Pawn>(leftPiece)->GetCanEnPassant()
+			&& leftPiece->GetColorAndType().GetColor() != pawn->GetColorAndType().GetColor())
 		{
 			moves.emplace_back(leftDiagonal);
 		}
@@ -98,11 +98,11 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(const std::s
 
 void Chess::PawnChecker::ValidatePawn(const std::shared_ptr<Pawn>& pawn) const
 {
-	if (!PositionChecker::IsPositionValid(pawn->get_Position()))
+	if (!PositionChecker::IsPositionValid(pawn->GetPosition()))
 	{
 		throw std::out_of_range(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
 	}
-	if (pawn->get_ColorAndType().get_Color() == ePieceColor::NONE)
+	if (pawn->GetColorAndType().GetColor() == ePieceColor::NONE)
 	{
 		throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
 	}
@@ -110,7 +110,7 @@ void Chess::PawnChecker::ValidatePawn(const std::shared_ptr<Pawn>& pawn) const
 
 std::vector<Chess::Coordinate> Chess::PawnChecker::GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
 {
-	if (!piece || typeid(*piece) != typeid(Pawn) || piece->get_ColorAndType().get_Type() != ePieceType::PAWN)
+	if (!piece || typeid(*piece) != typeid(Pawn) || piece->GetColorAndType().GetType() != ePieceType::PAWN)
 	{
 		return std::vector<Coordinate>();
 	}

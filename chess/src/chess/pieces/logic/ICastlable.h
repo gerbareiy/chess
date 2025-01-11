@@ -8,6 +8,6 @@ namespace Chess
 		virtual ~ICastable() = default;
 
 	public:
-		virtual bool get_CanMakeCastling() const = 0;
+		virtual bool GetCanMakeCastling() const = 0;
 	};
 }

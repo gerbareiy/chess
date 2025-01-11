@@ -16,10 +16,10 @@
 
 std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std::shared_ptr<Knight>& knight, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
 {
-	if (knight->get_Position().get_File() < 'A'
-		|| knight->get_Position().get_File() >= 'A' + CHESSBOARD_SIZE
-		|| knight->get_Position().get_Rank() < 1
-		|| knight->get_Position().get_Rank() > CHESSBOARD_SIZE)
+	if (knight->GetPosition().GetFile() < 'A'
+		|| knight->GetPosition().GetFile() >= 'A' + CHESSBOARD_SIZE
+		|| knight->GetPosition().GetRank() < 1
+		|| knight->GetPosition().GetRank() > CHESSBOARD_SIZE)
 	{
 		throw std::out_of_range(ErrorConverter::ToString(Chess::eError::OUT_OF_CHESSBOARD));
 	}
@@ -27,13 +27,13 @@ std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std
 	std::vector<Coordinate> moves;
 	moves.reserve(COUNT_OF_KNIGHT_WAYS);
 
-	auto currentPos = knight->get_Position();
+	auto currentPos = knight->GetPosition();
 	auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
 
 	for (const auto& move : m_knightMoveDirections)
 	{
-		auto newFile = currentPos.get_File() + move.first;
-		auto newRank = currentPos.get_Rank() + move.second;
+		auto newFile = currentPos.GetFile() + move.first;
+		auto newRank = currentPos.GetRank() + move.second;
 
 		if (newFile < 'A' || newFile >= 'A' + CHESSBOARD_SIZE || newRank < 1 || newRank > CHESSBOARD_SIZE)
 		{
@@ -42,7 +42,7 @@ std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std
 
 		auto piece = finder->Find(Coordinate(newFile, newRank));
 
-		if (!piece || piece->get_ColorAndType().get_Color() != knight->get_ColorAndType().get_Color())
+		if (!piece || piece->GetColorAndType().GetColor() != knight->GetColorAndType().GetColor())
 		{
 			moves.emplace_back(newFile, newRank);
 		}
@@ -53,7 +53,7 @@ std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std
 
 std::vector<Chess::Coordinate> Chess::KnightChecker::GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
 {
-	if (!piece || typeid(*piece) != typeid(Knight) || piece->get_ColorAndType().get_Type() != ePieceType::KNIGHT)
+	if (!piece || typeid(*piece) != typeid(Knight) || piece->GetColorAndType().GetType() != ePieceType::KNIGHT)
 	{
 		return std::vector<Coordinate>();
 	}

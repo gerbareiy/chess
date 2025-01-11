@@ -23,21 +23,21 @@ Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard
 Console::eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate coordinate) const
 {
 	Console::eConsoleColor color;
-	auto isSquareBlack = (static_cast<int>(coordinate.get_File() + 1) + coordinate.get_Rank()) % 2;
+	auto isSquareBlack = (static_cast<int>(coordinate.GetFile() + 1) + coordinate.GetRank()) % 2;
 
-	if (coordinate == m_chessboard->get_From())
+	if (coordinate == m_chessboard->GetFrom())
 	{
 		color = Console::eConsoleColor::BROWN;
 	}
-	else if (coordinate == m_chessboard->get_To())
+	else if (coordinate == m_chessboard->GetTo())
 	{
 		color = Console::eConsoleColor::YELLOW;
 	}
-	else if (m_chessboard->get_MoveValidator()->IsCoordinateInPieceCanMove(coordinate))
+	else if (m_chessboard->GetMoveValidator()->IsCoordinateInPieceCanMove(coordinate))
 	{
 		color = isSquareBlack ? Console::eConsoleColor::BLUE : Console::eConsoleColor::CERULEAN;
 	}
-	else if (m_chessboard->get_MoveValidator()->IsCoordinateInPossibleMoves(coordinate))
+	else if (m_chessboard->GetMoveValidator()->IsCoordinateInPossibleMoves(coordinate))
 	{
 		color = isSquareBlack ? Console::eConsoleColor::DARK_RED : Console::eConsoleColor::RED;
 	}
@@ -71,8 +71,8 @@ void Chess::ChessboardDisplayer::GetOriginalConsoleColor(WORD& originalColors) c
 
 Console::eConsoleColor Chess::ChessboardDisplayer::GetTextConsoleColor(PieceColorAndType& colorAndType, int originalTextColor) const
 {
-	return colorAndType.get_Color() == ePieceColor::BLACK ? Console::eConsoleColor::BLACK
-		: (colorAndType.get_Color() == ePieceColor::WHITE ? Console::eConsoleColor::WHITE
+	return colorAndType.GetColor() == ePieceColor::BLACK ? Console::eConsoleColor::BLACK
+		: (colorAndType.GetColor() == ePieceColor::WHITE ? Console::eConsoleColor::WHITE
 			: static_cast<Console::eConsoleColor>(originalTextColor));
 }
 
@@ -103,13 +103,13 @@ void Chess::ChessboardDisplayer::ShowChessboardRowWithRank(int y, int originalTe
 {
 	for (auto x = 'A'; x < 'A' + CHESSBOARD_SIZE; ++x)
 	{
-		auto colorAndType = m_chessboard->get_PieceDirector()->GetPieceColorAndType(Coordinate(x, y));
+		auto colorAndType = m_chessboard->GetPieceDirector()->GetPieceColorAndType(Coordinate(x, y));
 		auto textColor = GetTextConsoleColor(colorAndType, originalTextColor);
 		auto background = GetBackgroundConsoleColor(Coordinate(x, y));
 
 		SetConsoleColor(textColor, background);
 
-		std::cout << PieceTypeConverter::ConvertToString(colorAndType.get_Type())[0];
+		std::cout << PieceTypeConverter::ConvertToString(colorAndType.GetType())[0];
 	}
 }
 
@@ -150,15 +150,15 @@ void Chess::ChessboardDisplayer::ShowEmpty() const
 
 void Chess::ChessboardDisplayer::ShowTakenPieces(ePieceColor color) const
 {
-	const auto eatenPieces = m_chessboard->get_PieceDirector()->get_EatenPieces();
+	const auto eatenPieces = m_chessboard->GetPieceDirector()->GetEatenPieces();
 
 	ShowEmpty();
 
 	for (const auto& piece : eatenPieces)
 	{
-		if (piece->get_ColorAndType().get_Color() == color)
+		if (piece->GetColorAndType().GetColor() == color)
 		{
-			std::cout << PieceTypeConverter::ConvertToString(piece->get_ColorAndType().get_Type());
+			std::cout << PieceTypeConverter::ConvertToString(piece->GetColorAndType().GetType());
 		}
 	}
 

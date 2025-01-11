@@ -48,7 +48,7 @@ Chess::Rook::Rook(ePieceColor color, Coordinate coordinate, const std::shared_pt
 	MakeTracking(king);
 }
 
-bool Chess::Rook::get_CanMakeCastling() const
+bool Chess::Rook::GetCanMakeCastling() const
 {
 	return m_canMakeCastling;
 }
@@ -70,15 +70,15 @@ void Chess::Rook::MakeTracking(const std::shared_ptr<Chess::King>& king)
 
 void Chess::Rook::OnCastling(Coordinate to, eCastleSide side)
 {
-	if (get_CanMakeCastling())
+	if (GetCanMakeCastling())
 	{
-		if (get_Position().get_File() == 'A' && side == eCastleSide::LEFT)
+		if (GetPosition().GetFile() == 'A' && side == eCastleSide::LEFT)
 		{
-			Move(Coordinate(to.get_File() + 1, to.get_Rank()));
+			Move(Coordinate(to.GetFile() + 1, to.GetRank()));
 		}
-		else if (get_Position().get_File() == 'A' + CHESSBOARD_SIZE - 1 && side == eCastleSide::RIGHT)
+		else if (GetPosition().GetFile() == 'A' + CHESSBOARD_SIZE - 1 && side == eCastleSide::RIGHT)
 		{
-			Move(Coordinate(to.get_File() - 1, to.get_Rank()));
+			Move(Coordinate(to.GetFile() - 1, to.GetRank()));
 		}
 	}
 

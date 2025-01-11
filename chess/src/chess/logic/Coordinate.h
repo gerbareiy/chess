@@ -13,12 +13,11 @@ namespace Chess
 		Coordinate(char file, int rank);
 
 	public:
-		char get_File() const;
-		void set_File(char file);
-		int get_Rank() const;
-		void set_Rank(int rank);
+		char GetFile() const;
+		void SetFile(char file);
+		int GetRank() const;
+		void SetRank(int rank);
 
-	public:
 		Coordinate& operator=(const Coordinate& other);
 		bool operator==(const Coordinate& other) const;
 		bool operator<(const Coordinate& other) const;

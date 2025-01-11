@@ -18,7 +18,7 @@ std::vector<Chess::Coordinate> Chess::BishopChecker::FindPossibleMoves(const std
 	moves.reserve(COUNT_OF_BISHOP_WAYS);
 
 	const auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
-	auto coordinate = bishop->get_Position();
+	auto coordinate = bishop->GetPosition();
 
 	auto first = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, bishop, { -1, -1 });
 	auto second = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, bishop, { -1, 1 });
@@ -35,7 +35,7 @@ std::vector<Chess::Coordinate> Chess::BishopChecker::FindPossibleMoves(const std
 
 std::vector<Chess::Coordinate> Chess::BishopChecker::GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
 {
-	if (!piece || typeid(*piece) != typeid(Bishop) || piece->get_ColorAndType().get_Type() != ePieceType::BISHOP)
+	if (!piece || typeid(*piece) != typeid(Bishop) || piece->GetColorAndType().GetType() != ePieceType::BISHOP)
 	{
 		return std::vector<Coordinate>();
 	}

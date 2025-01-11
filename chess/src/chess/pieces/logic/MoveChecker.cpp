@@ -29,7 +29,7 @@ std::vector<Chess::Coordinate> Chess::MoveChecker::FindUncheckedMove(const Chess
 
     m_piece->Move(move, false);
 
-    if (!checker->IsCheck(m_piece->get_ColorAndType().get_Color(), tempPiecesOnBoard))
+    if (!checker->IsCheck(m_piece->GetColorAndType().GetColor(), tempPiecesOnBoard))
     {
         filteredMoves.emplace_back(move);
     }
@@ -41,7 +41,7 @@ std::vector<Chess::Coordinate> Chess::MoveChecker::GetFilteredMoves(const std::v
 {
     std::vector<Chess::Coordinate> filteredMoves;
     auto notFilteredMoves = m_moveCheckerOfPiece->GetMoves(m_piece, piecesOnBoard);
-    auto pieceCoordinate = m_piece->get_Position();
+    auto pieceCoordinate = m_piece->GetPosition();
 
     for (const auto& move : notFilteredMoves)
     {

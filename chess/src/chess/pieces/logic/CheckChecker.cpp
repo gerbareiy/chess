@@ -12,7 +12,7 @@ bool Chess::CheckChecker::IsCheck(std::shared_ptr<King> king, const std::vector<
 {
 	for (const auto& piece : piecesOnBoard)
 	{
-		if (piece->get_ColorAndType().get_Color() == king->get_ColorAndType().get_Color())
+		if (piece->GetColorAndType().GetColor() == king->GetColorAndType().GetColor())
 		{
 			continue;
 		}
@@ -22,7 +22,7 @@ bool Chess::CheckChecker::IsCheck(std::shared_ptr<King> king, const std::vector<
 
 		for (const auto& move : moves)
 		{
-			if (move == king->get_Position())
+			if (move == king->GetPosition())
 			{
 				return true;
 			}
@@ -38,7 +38,7 @@ bool Chess::CheckChecker::IsCheck(const Chess::ePieceColor& kingColor, const std
 	{
 		auto king = std::dynamic_pointer_cast<King>(piece);
 
-		if (king && king->get_ColorAndType().get_Color() == kingColor)
+		if (king && king->GetColorAndType().GetColor() == kingColor)
 		{
 			return IsCheck(king, piecesOnBoard);
 		}
