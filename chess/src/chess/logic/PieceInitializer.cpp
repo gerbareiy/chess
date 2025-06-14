@@ -11,7 +11,7 @@
 #include "../pieces/Queen.h"
 #include "../pieces/Rook.h"
 
-std::vector<std::shared_ptr<Chess::Piece>> Chess::PieceInitializer::InitStandartBoard(std::shared_ptr<PieceSignalDirector> signalDirector) const
+std::vector<std::shared_ptr<Chess::Piece>> Chess::PieceInitializer::InitNormalBoard(std::shared_ptr<PieceSignalDirector> signalDirector) const
 {
 	std::vector<std::shared_ptr<Chess::Piece>> piecesOnBoard;
 	piecesOnBoard.reserve(MAX_COUNT_ELEMENTS);

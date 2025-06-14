@@ -32,15 +32,15 @@ Chess::Pawn::Pawn(ePieceColor color, char file)
 	}
 }
 
-Chess::Pawn::Pawn(ePieceColor color, char file, const std::shared_ptr<PieceSignalDirector>& signalDirector) : Pawn(color, file)
+Chess::Pawn::Pawn(ePieceColor color, char file, std::shared_ptr<PieceSignalDirector> const& signalDirector) : Pawn(color, file)
 {
 	MakeTracking(signalDirector);
 }
 
-Chess::Pawn::Pawn(ePieceColor color, Coordinate coordinate)
+Chess::Pawn::Pawn(ePieceColor color, Coordinate const& coordinate)
 	: Piece(PieceColorAndType(color, ePieceType::PAWN), coordinate) { }
 
-Chess::Pawn::Pawn(ePieceColor color, Coordinate coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector) : Pawn(color, coordinate)
+Chess::Pawn::Pawn(ePieceColor color, Coordinate const& coordinate, std::shared_ptr<PieceSignalDirector> const& signalDirector) : Pawn(color, coordinate)
 {
 	MakeTracking(signalDirector);
 }
@@ -50,7 +50,7 @@ void Chess::Pawn::LostEnPassant()
 	m_canEnPassant = false;
 }
 
-void Chess::Pawn::MakeTracking(const std::shared_ptr<Chess::PieceSignalDirector>& signalDirector)
+void Chess::Pawn::MakeTracking(std::shared_ptr<Chess::PieceSignalDirector> const& signalDirector)
 {
 	if (!signalDirector)
 	{

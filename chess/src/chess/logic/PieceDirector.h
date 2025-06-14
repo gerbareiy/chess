@@ -27,20 +27,20 @@ namespace Chess
 		std::shared_ptr<PieceSignalDirector> m_signalDirector;
 
 	public:
-		PieceDirector(std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<PieceSignalDirector>& signalDirector);
+		PieceDirector(std::vector<std::shared_ptr<Piece>>& piecesOnBoard, std::shared_ptr<PieceSignalDirector> const& signalDirector);
 
 	private:
 		void Take(int indexOnBoard);
 
 	public:
-		const std::shared_ptr<Piece>& GetCurrentPiece() const;
-		const std::vector<std::shared_ptr<Piece>>& GetEatenPieces() const;
+		std::shared_ptr<Piece> const& GetCurrentPiece() const;
+		std::vector<std::shared_ptr<Piece>> const& GetEatenPieces() const;
 		bool GetIsCheck() const;
-		const std::vector<std::shared_ptr<Piece>>& GetPiecesOnBoard() const;
+		std::vector<std::shared_ptr<Piece>> const& GetPiecesOnBoard() const;
 
-		PieceColorAndType GetPieceColorAndType(const Coordinate& frFom) const;
-		std::shared_ptr<Chess::Piece> GetPiece(const Coordinate& from) const;
-		void InitCurrentPiece(const Coordinate& from);
-		void MovePiece(const Coordinate& to, const boost::signals2::signal<void()>& signalChessboardUndated);
+		PieceColorAndType GetPieceColorAndType(Coordinate const& frFom) const;
+		std::shared_ptr<Chess::Piece> GetPiece(Coordinate const& from) const;
+		void InitCurrentPiece(Coordinate const& from);
+		void MovePiece(Coordinate const& to, boost::signals2::signal<void()> const& signalChessboardUndated);
 	};
 }

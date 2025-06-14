@@ -7,17 +7,15 @@
 #include "logic/PieceFinder.h"
 #include "../logic/Coordinate.h"
 #include "../logic/Counts.h"
-#include "../logic/eError.h"
-#include "../logic/ErrorConverter.h"
 
 #include <memory>
 
-std::vector<Chess::Coordinate> Chess::BishopChecker::FindPossibleMoves(const std::shared_ptr<Bishop>& bishop, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+std::vector<Chess::Coordinate> Chess::BishopChecker::FindPossibleMoves(std::shared_ptr<Bishop> const& bishop, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const
 {
 	std::vector<Coordinate> moves;
 	moves.reserve(COUNT_OF_BISHOP_WAYS);
 
-	const auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
+	auto const finder = std::make_shared<PieceFinder>(piecesOnBoard);
 	auto coordinate = bishop->GetPosition();
 
 	auto first = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, bishop, { -1, -1 });
@@ -33,7 +31,7 @@ std::vector<Chess::Coordinate> Chess::BishopChecker::FindPossibleMoves(const std
 	return moves;
 }
 
-std::vector<Chess::Coordinate> Chess::BishopChecker::GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+std::vector<Chess::Coordinate> Chess::BishopChecker::GetMoves(std::shared_ptr<Piece> const& piece, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const
 {
 	if (!piece || typeid(*piece) != typeid(Bishop) || piece->GetColorAndType().GetType() != ePieceType::BISHOP)
 	{

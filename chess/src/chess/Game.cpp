@@ -7,16 +7,11 @@
 #include "logic/PieceDirector.h"
 #include "logic/PieceInitializer.h"
 #include "logic/PieceSignalDirector.h"
-#include "logic/Sizes.h"
-#include "pieces/logic/ePieceColor.h"
-#include "pieces/logic/PositionChecker.h"
-
-#include <stdlib.h>
 
 Chess::Game::Game()
 {
 	auto signalDirector = std::make_shared<PieceSignalDirector>();
-	m_chessboard = std::make_shared<Chessboard>(std::make_shared<PieceInitializer>()->InitStandartBoard(signalDirector), signalDirector);
+	m_chessboard = std::make_shared<Chessboard>(std::make_shared<PieceInitializer>()->InitNormalBoard(signalDirector), signalDirector);
 	m_controller = std::make_shared<Controller>(m_chessboard);
 	m_chessboardDisplayer = std::make_unique<ChessboardDisplayer>(m_chessboard);
 	m_handlerInputer = std::make_shared<HandlerInputer>();
@@ -47,7 +42,7 @@ bool Chess::Game::ContinueGame() const
 	return true;
 }
 
-void Chess::Game::HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction) const
+void Chess::Game::HandleInput(std::function<Coordinate()> const& inputFunction, std::function<bool(Coordinate const&)> const& initFunction) const
 {
 	while (true)
 	{

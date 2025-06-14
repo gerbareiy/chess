@@ -12,6 +12,6 @@ namespace Chess
 	class BishopQueenRookDirectionChecker
 	{
 	public:
-		static std::vector<Coordinate> FindPossibleMoves(const std::shared_ptr<PieceFinder>& finder, const std::shared_ptr<Piece>& current, std::pair <int, int> coordinateIncrement);
+		static std::vector<Coordinate> FindPossibleMoves(std::shared_ptr<PieceFinder> const& finder, std::shared_ptr<Piece> const& current, std::pair <int, int> coordinateIncrement);
 	};
 }

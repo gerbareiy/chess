@@ -1,8 +1,6 @@
 #pragma once
 
-#include <map>
 #include <memory>
-#include <string>
 
 namespace Chess
 {
@@ -15,10 +13,10 @@ namespace Chess
 		size_t m_lastCountEatenPeaces = 0;
 
 	private:
-		void CalculateMovesCountWithoutPawnAndTaking(const std::shared_ptr<Chessboard>& chessboard);
-		bool IsInsufficientMaterial(const std::shared_ptr<Chessboard>& chessboard);
+		void CalculateMovesCountWithoutPawnAndTaking(std::shared_ptr<Chessboard> const& chessboard);
+		bool IsInsufficientMaterial(std::shared_ptr<Chessboard> const& chessboard);
 
 	public:
-		bool IsDraw(const std::shared_ptr<Chessboard>& chessboard);
+		bool IsDraw(std::shared_ptr<Chessboard> const& chessboard);
 	};
 }

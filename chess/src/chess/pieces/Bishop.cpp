@@ -35,5 +35,5 @@ Chess::Bishop::Bishop(ePieceColor color, int orderNumber)
 	}
 }
 
-Chess::Bishop::Bishop(ePieceColor color, Coordinate coordinate)
+Chess::Bishop::Bishop(ePieceColor color, Coordinate const& coordinate)
 	: Piece(PieceColorAndType(color, ePieceType::BISHOP), coordinate) { }

@@ -15,9 +15,9 @@ namespace Chess
 		std::map<Coordinate, std::shared_ptr<Piece>> m_pieceMap;
 
 	public:
-		PieceFinder(const std::vector<std::shared_ptr<Piece>>& pieces);
+		PieceFinder(std::vector<std::shared_ptr<Piece>> const& pieces);
 
 	public:
-		std::shared_ptr<Piece> Find(Coordinate coordinate) const;
+		std::shared_ptr<Piece> Find(Coordinate const& coordinate) const;
 	};
 }

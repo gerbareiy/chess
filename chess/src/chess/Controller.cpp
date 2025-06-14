@@ -3,17 +3,15 @@
 #include "Chessboard.h"
 #include "logic/Coordinate.h"
 
-#include <iostream>
-
 Chess::Controller::Controller(std::shared_ptr<Chessboard>& chessboard)
 	: m_chessboard(chessboard) { }
 
-bool Chess::Controller::TryInitPiece(Coordinate from) const
+bool Chess::Controller::TryInitPiece(Coordinate const& from) const
 {
 	return m_chessboard->TryInitPiece(from);
 }
 
-bool Chess::Controller::TryMovePiece(Coordinate to) const
+bool Chess::Controller::TryMovePiece(Coordinate const& to) const
 {
 	auto isMoved = m_chessboard->TryMovePiece(to);
 
@@ -22,7 +20,7 @@ bool Chess::Controller::TryMovePiece(Coordinate to) const
 	return isMoved;
 }
 
-boost::signals2::connection Chess::Controller::ConnectMove(const boost::signals2::signal<void()>::slot_type& subscriber)
+boost::signals2::connection Chess::Controller::ConnectMove(boost::signals2::signal<void()>::slot_type const& subscriber)
 {
 	return m_signalMove.connect(subscriber);
 }

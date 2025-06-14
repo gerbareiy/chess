@@ -12,7 +12,7 @@
 #include <conio.h>
 #include <iostream>
 
-Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard) : m_chessboard(chessboard)
+Chess::ChessboardDisplayer::ChessboardDisplayer(std::shared_ptr<Chessboard> const& chessboard) : m_chessboard(chessboard)
 {
 	if (m_chessboard)
 	{
@@ -20,7 +20,7 @@ Chess::ChessboardDisplayer::ChessboardDisplayer(const std::shared_ptr<Chessboard
 	}
 }
 
-Console::eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate coordinate) const
+Console::eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(Coordinate const& coordinate) const
 {
 	Console::eConsoleColor color;
 	auto isSquareBlack = (static_cast<int>(coordinate.GetFile() + 1) + coordinate.GetRank()) % 2;
@@ -150,11 +150,11 @@ void Chess::ChessboardDisplayer::ShowEmpty() const
 
 void Chess::ChessboardDisplayer::ShowTakenPieces(ePieceColor color) const
 {
-	const auto eatenPieces = m_chessboard->GetPieceDirector()->GetEatenPieces();
+	auto const eatenPieces = m_chessboard->GetPieceDirector()->GetEatenPieces();
 
 	ShowEmpty();
 
-	for (const auto& piece : eatenPieces)
+	for (auto const& piece : eatenPieces)
 	{
 		if (piece->GetColorAndType().GetColor() == color)
 		{

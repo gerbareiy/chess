@@ -20,17 +20,17 @@ namespace Chess
 
 	public:
 		Rook(ePieceColor pieceColor, int orderNumber);
-		Rook(ePieceColor pieceColor, int orderNumber, const std::shared_ptr<King>& king);
-		Rook(ePieceColor color, Coordinate coordinate);
-		Rook(ePieceColor color, Coordinate coordinate, const std::shared_ptr<King>& king);
+		Rook(ePieceColor pieceColor, int orderNumber, std::shared_ptr<King> const& king);
+		Rook(ePieceColor color, Coordinate const& coordinate);
+		Rook(ePieceColor color, Coordinate coordinate, std::shared_ptr<King> const& king);
 
 	public:
 		bool GetCanMakeCastling() const override;
 
 	private:
 		void DisableCastling();
-		void MakeTracking(const std::shared_ptr<Chess::King>& king);
-		void OnCastling(Coordinate to, eCastleSide side);
+		void MakeTracking(std::shared_ptr<Chess::King> const& king);
+		void OnCastling(Coordinate const& to, eCastleSide side);
 
 	public:
 		void Move(Coordinate to, bool isRealMove = true) override;

@@ -7,6 +7,6 @@ namespace Chess
 	class PositionChecker
 	{
 	public:
-		static bool IsPositionValid(const Coordinate& position);
+		static bool IsPositionValid(Coordinate const& position);
 	};
 }

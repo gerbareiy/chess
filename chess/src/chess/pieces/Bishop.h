@@ -12,6 +12,6 @@ namespace Chess
 	{
 	public:
 		Bishop(ePieceColor color, int orderNumber);
-		Bishop(ePieceColor color, Coordinate coordinate);
+		Bishop(ePieceColor color, Coordinate const& coordinate);
 	};
 }

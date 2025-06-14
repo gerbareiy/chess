@@ -11,6 +11,6 @@ namespace Chess
 	class PieceTakeLocator
 	{
 	public:
-		static Chess::Coordinate Find(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, Coordinate to);
+		static Chess::Coordinate Find(std::shared_ptr<Piece> const& piece, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard, Coordinate to);
 	};
 }

@@ -4,7 +4,7 @@
 
 int main()
 {
-	auto chess = std::make_unique<Chess::Game>();
+	auto const chess = std::make_unique<Chess::Game>();
 	chess->Play();
 
 	return 0;

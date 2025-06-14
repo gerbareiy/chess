@@ -1,8 +1,6 @@
 #include "DrawChecker.h"
 
 #include "Counts.h"
-#include "eError.h"
-#include "ErrorConverter.h"
 #include "MoveValidator.h"
 #include "PieceDirector.h"
 #include "Sizes.h"
@@ -13,19 +11,17 @@
 #include "../pieces/logic/PieceTypeConverter.h"
 #include "../pieces/Pawn.h"
 
-#include <stdexcept>
-
-void Chess::DrawChecker::CalculateMovesCountWithoutPawnAndTaking(const std::shared_ptr<Chessboard>& chessboard)
+void Chess::DrawChecker::CalculateMovesCountWithoutPawnAndTaking(std::shared_ptr<Chessboard> const& chessboard)
 {
-	auto finder = std::make_shared<PieceFinder>(chessboard->GetPieceDirector()->GetPiecesOnBoard());
-	auto piece = finder->Find(chessboard->GetTo());
+	auto const finder = PieceFinder(chessboard->GetPieceDirector()->GetPiecesOnBoard());
+	auto const& piece = finder.Find(chessboard->GetTo());
 
 	if (!piece)
 	{
 		return;
 	}
 
-	auto eatenPiecesCount = chessboard->GetPieceDirector()->GetEatenPieces().size();
+	auto const eatenPiecesCount = chessboard->GetPieceDirector()->GetEatenPieces().size();
 
 	if (typeid(*piece) == typeid(Pawn) || m_lastCountEatenPeaces != eatenPiecesCount)
 	{
@@ -38,7 +34,7 @@ void Chess::DrawChecker::CalculateMovesCountWithoutPawnAndTaking(const std::shar
 	}
 }
 
-bool Chess::DrawChecker::IsInsufficientMaterial(const std::shared_ptr<Chessboard>& chessboard)
+bool Chess::DrawChecker::IsInsufficientMaterial(std::shared_ptr<Chessboard> const& chessboard)
 {
 	auto blackBishopDarkCount = 0;
 	auto blackBishopLightCount = 0;
@@ -100,7 +96,7 @@ bool Chess::DrawChecker::IsInsufficientMaterial(const std::shared_ptr<Chessboard
 	return false;
 }
 
-bool Chess::DrawChecker::IsDraw(const std::shared_ptr<Chessboard>& chessboard)
+bool Chess::DrawChecker::IsDraw(std::shared_ptr<Chessboard> const& chessboard)
 {
 	CalculateMovesCountWithoutPawnAndTaking(chessboard);
 

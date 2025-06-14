@@ -27,15 +27,15 @@ Chess::King::King(ePieceColor color)
 	}
 }
 
-Chess::King::King(ePieceColor color, const std::shared_ptr<PieceSignalDirector>& signalDirector) : King(color)
+Chess::King::King(ePieceColor color, std::shared_ptr<PieceSignalDirector> const& signalDirector) : King(color)
 {
 	MakeTracking(signalDirector);
 }
 
-Chess::King::King(ePieceColor color, Coordinate coordinate)
+Chess::King::King(ePieceColor color, Coordinate const& coordinate)
 	: Piece(PieceColorAndType(color, ePieceType::KING), coordinate) { }
 
-Chess::King::King(ePieceColor color, Coordinate coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector) : King(color, coordinate)
+Chess::King::King(ePieceColor color, Coordinate const& coordinate, std::shared_ptr<PieceSignalDirector> const& signalDirector) : King(color, coordinate)
 {
 	MakeTracking(signalDirector);
 }
@@ -55,7 +55,7 @@ void Chess::King::DisableCastling()
 	m_canMakeCastling = false;
 }
 
-void Chess::King::MakeTracking(const std::shared_ptr<Chess::PieceSignalDirector>& signalDirector)
+void Chess::King::MakeTracking(std::shared_ptr<Chess::PieceSignalDirector> const& signalDirector)
 {
 	if (!signalDirector)
 	{
@@ -98,7 +98,7 @@ void Chess::King::Move(Coordinate to, bool isRealMove)
 	Piece::Move(to);
 }
 
-boost::signals2::connection Chess::King::ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber)
+boost::signals2::connection Chess::King::ConnectCastling(boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type const& subscriber)
 {
 	return m_signalCastling.connect(subscriber);
 }

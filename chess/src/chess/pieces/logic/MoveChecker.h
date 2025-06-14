@@ -15,12 +15,12 @@ namespace Chess
 		std::shared_ptr<Piece> m_piece;
 
 	public:
-		MoveChecker(const std::shared_ptr<Piece>& piece);
+		MoveChecker(std::shared_ptr<Piece> const& piece);
 
 	private:
-		std::vector<Coordinate> FindUncheckedMove(const Chess::Coordinate& move, const std::vector<std::shared_ptr<Chess::Piece>>& piecesOnBoard) const;
+		std::vector<Coordinate> FindUncheckedMove(Chess::Coordinate const& move, std::vector<std::shared_ptr<Chess::Piece>> const& piecesOnBoard) const;
 
 	public:
-		std::vector<Coordinate> GetFilteredMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const;
+		std::vector<Coordinate> GetFilteredMoves(std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const;
 	};
 }

@@ -23,13 +23,13 @@ namespace Chess
 
 	public:
 		Pawn(ePieceColor color, char file);
-		Pawn(ePieceColor color, char file, const std::shared_ptr<PieceSignalDirector>& signalDirector);
-		Pawn(ePieceColor color, Coordinate coordinate);
-		Pawn(ePieceColor color, Coordinate coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector);
+		Pawn(ePieceColor color, char file, std::shared_ptr<PieceSignalDirector> const& signalDirector);
+		Pawn(ePieceColor color, Coordinate const& coordinate);
+		Pawn(ePieceColor color, Coordinate const& coordinate, std::shared_ptr<PieceSignalDirector> const& signalDirector);
 
 	private:
 		void LostEnPassant();
-		void MakeTracking(const std::shared_ptr<Chess::PieceSignalDirector>& signalDirector);
+		void MakeTracking(std::shared_ptr<Chess::PieceSignalDirector> const& signalDirector);
 
 	public:
 		bool GetCanEnPassant() const;

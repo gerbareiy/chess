@@ -5,7 +5,6 @@
 #include "LableDisplayer.h"
 
 #include <memory>
-#include <variant>
 
 namespace Chess
 {
@@ -26,7 +25,7 @@ namespace Chess
 	
 	private:
 		bool ContinueGame() const;
-		void HandleInput(std::function<Coordinate()> inputFunction, std::function<bool(const Coordinate&)> initFunction) const;
+		void HandleInput(std::function<Coordinate()> const& inputFunction, std::function<bool(Coordinate const&)> const& initFunction) const;
 
 	public:
 		void Play() const;

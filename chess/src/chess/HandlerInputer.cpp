@@ -1,7 +1,6 @@
 #include "HandlerInputer.h"
 
 #include "logic/Coordinate.h"
-#include "logic/Sizes.h"
 
 #include <iostream>
 #include <string>

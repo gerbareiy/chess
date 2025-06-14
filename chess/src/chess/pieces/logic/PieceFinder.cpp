@@ -3,15 +3,15 @@
 #include "../Piece.h"
 #include "../../logic/Coordinate.h"
 
-Chess::PieceFinder::PieceFinder(const std::vector<std::shared_ptr<Piece>>& pieces)
+Chess::PieceFinder::PieceFinder(std::vector<std::shared_ptr<Piece>> const& pieces)
 {
-	for (const auto& piece : pieces)
+	for (auto const& piece : pieces)
 	{
 		m_pieceMap[piece->GetPosition()] = piece;
 	}
 }
 
-std::shared_ptr<Chess::Piece> Chess::PieceFinder::Find(Coordinate coordinate) const
+std::shared_ptr<Chess::Piece> Chess::PieceFinder::Find(Coordinate const& coordinate) const
 {
 	auto it = m_pieceMap.find(coordinate);
 

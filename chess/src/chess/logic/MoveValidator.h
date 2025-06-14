@@ -16,22 +16,22 @@ namespace Chess
 	private:
 		std::vector<std::shared_ptr<Piece>> m_piecesCanMove;
 		std::vector<Coordinate> m_possibleMoves;
-		const std::vector<std::shared_ptr<Piece>>& m_piecesOnBoard;
-		const std::shared_ptr<Player> m_player;
+		std::vector<std::shared_ptr<Piece>> const& m_piecesOnBoard;
+		std::shared_ptr<Player> const m_player;
 
 	public:
-		MoveValidator(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<Player>& player);
+		MoveValidator(std::vector<std::shared_ptr<Piece>> const& piecesOnBoard, std::shared_ptr<Player> const& player);
 
 	public:
 		std::vector<Coordinate> GetPossibleMoves();
 
 		void CalculatePiecesCanMove();
-		void CalculatePossibleMoves(const std::shared_ptr<Piece>& piece);
+		void CalculatePossibleMoves(std::shared_ptr<Piece> const& piece);
 		void ClearPossibleMoves();
 		void ClearPiecesCanMove();
 		int GetPiecesCanMoveCount();
-		bool IsCoordinateInPieceCanMove(Coordinate coordinate) const;
-		bool IsCoordinateInPossibleMoves(Coordinate coordinate) const;
-		bool IsValidMove(const std::shared_ptr<Piece> piece, Coordinate to) const;
+		bool IsCoordinateInPieceCanMove(Coordinate const& coordinate) const;
+		bool IsCoordinateInPossibleMoves(Coordinate const& coordinate) const;
+		bool IsValidMove(std::shared_ptr<Piece> const& piece, Coordinate const& to) const;
 	};
 }

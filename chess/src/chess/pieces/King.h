@@ -26,9 +26,9 @@ namespace Chess
 
 	public:
 		King(ePieceColor color);
-		King(ePieceColor color, const std::shared_ptr<PieceSignalDirector>& signalDirector);
-		King(ePieceColor color, Coordinate coordinate);
-		King(ePieceColor color, Coordinate coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector);
+		King(ePieceColor color, std::shared_ptr<PieceSignalDirector> const& signalDirector);
+		King(ePieceColor color, Coordinate const& coordinate);
+		King(ePieceColor color, Coordinate const& coordinate, std::shared_ptr<PieceSignalDirector> const& signalDirector);
 
 	public:
 		bool GetCanMakeCastling() const;
@@ -36,12 +36,12 @@ namespace Chess
 
 	private:
 		void DisableCastling();
-		void MakeTracking(const std::shared_ptr<Chess::PieceSignalDirector>& signalDirector);
+		void MakeTracking(std::shared_ptr<Chess::PieceSignalDirector> const& signalDirector);
 
 	public:
 		void Move(Coordinate to, bool isRealMove = true) override;
 
 	public:
-		boost::signals2::connection ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber);
+		boost::signals2::connection ConnectCastling(boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type const& subscriber);
 	};
 }

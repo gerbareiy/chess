@@ -10,12 +10,12 @@
 #include "stdexcept"
 #include <vector>
 
-Chess::MoveChecker::MoveChecker(const std::shared_ptr<Piece>& piece)
+Chess::MoveChecker::MoveChecker(std::shared_ptr<Piece> const& piece)
     : m_piece(piece), m_moveCheckerOfPiece(std::unique_ptr<MoveCheckerFactory>()->Create(piece)) { }
 
-std::vector<Chess::Coordinate> Chess::MoveChecker::FindUncheckedMove(const Chess::Coordinate& move, const std::vector<std::shared_ptr<Chess::Piece>>& piecesOnBoard) const
+std::vector<Chess::Coordinate> Chess::MoveChecker::FindUncheckedMove(Chess::Coordinate const& move, std::vector<std::shared_ptr<Chess::Piece>> const& piecesOnBoard) const
 {
-    const auto checker = std::unique_ptr<CheckChecker>();
+	auto const checker = std::unique_ptr<CheckChecker>();
     std::vector<Chess::Coordinate> filteredMoves;
     auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
     auto capturedPiece = finder->Find(move);
@@ -37,13 +37,13 @@ std::vector<Chess::Coordinate> Chess::MoveChecker::FindUncheckedMove(const Chess
     return filteredMoves;
 }
 
-std::vector<Chess::Coordinate> Chess::MoveChecker::GetFilteredMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+std::vector<Chess::Coordinate> Chess::MoveChecker::GetFilteredMoves(std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const
 {
     std::vector<Chess::Coordinate> filteredMoves;
     auto notFilteredMoves = m_moveCheckerOfPiece->GetMoves(m_piece, piecesOnBoard);
     auto pieceCoordinate = m_piece->GetPosition();
 
-    for (const auto& move : notFilteredMoves)
+    for (auto const& move : notFilteredMoves)
     {
         auto partOfFilteredMoves = FindUncheckedMove(move, piecesOnBoard);
         filteredMoves.insert(filteredMoves.end(), partOfFilteredMoves.begin(), partOfFilteredMoves.end());

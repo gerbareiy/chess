@@ -1,7 +1,5 @@
 #pragma once
 
-#include "pieces/logic/ePieceColor.h"
-
 #include <boost/signals2.hpp>
 
 #include <memory>
@@ -23,10 +21,10 @@ namespace Chess
 		Controller(std::shared_ptr<Chessboard>& chessboard);
 
 	public:
-		bool TryInitPiece(Coordinate from) const;
-		bool TryMovePiece(Coordinate to) const;
+		bool TryInitPiece(Coordinate const& from) const;
+		bool TryMovePiece(Coordinate const& to) const;
 
 	public:
-		boost::signals2::connection ConnectMove(const boost::signals2::signal<void()>::slot_type& subscriber);
+		boost::signals2::connection ConnectMove(boost::signals2::signal<void()>::slot_type const& subscriber);
 	};
 }

@@ -16,13 +16,13 @@ namespace Chess
 	class ChessboardDisplayer
 	{
 	private:
-		const std::shared_ptr<Chessboard> m_chessboard;
+		std::shared_ptr<Chessboard> const m_chessboard;
 
 	public:
-		ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard);
+		ChessboardDisplayer(std::shared_ptr<Chessboard> const& chessboard);
 
 	private:
-		Console::eConsoleColor GetBackgroundConsoleColor(Coordinate coordinate) const;
+		Console::eConsoleColor GetBackgroundConsoleColor(Coordinate const& coordinate) const;
 		std::string GetChessboardFiles() const;
 		void GetOriginalConsoleColor(WORD& originalColors) const;
 		Console::eConsoleColor GetTextConsoleColor(PieceColorAndType& colorAndType, int originalTextColor) const;

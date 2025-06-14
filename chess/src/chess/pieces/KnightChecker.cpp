@@ -14,7 +14,7 @@
 #include <memory>
 #include <stdexcept>
 
-std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std::shared_ptr<Knight>& knight, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(std::shared_ptr<Knight> const& knight, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const
 {
 	if (knight->GetPosition().GetFile() < 'A'
 		|| knight->GetPosition().GetFile() >= 'A' + CHESSBOARD_SIZE
@@ -30,7 +30,7 @@ std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std
 	auto currentPos = knight->GetPosition();
 	auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
 
-	for (const auto& move : m_knightMoveDirections)
+	for (auto const& move : m_knightMoveDirections)
 	{
 		auto newFile = currentPos.GetFile() + move.first;
 		auto newRank = currentPos.GetRank() + move.second;
@@ -51,7 +51,7 @@ std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std
 	return moves;
 }
 
-std::vector<Chess::Coordinate> Chess::KnightChecker::GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+std::vector<Chess::Coordinate> Chess::KnightChecker::GetMoves(std::shared_ptr<Piece> const& piece, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const
 {
 	if (!piece || typeid(*piece) != typeid(Knight) || piece->GetColorAndType().GetType() != ePieceType::KNIGHT)
 	{

@@ -36,5 +36,5 @@ Chess::Knight::Knight(ePieceColor color, int orderNumber)
 	}
 }
 
-Chess::Knight::Knight(ePieceColor color, Coordinate coordinate)
+Chess::Knight::Knight(ePieceColor color, Coordinate const& coordinate)
 	: Piece(PieceColorAndType(color, ePieceType::KNIGHT), coordinate) { }

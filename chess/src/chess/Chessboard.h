@@ -28,20 +28,20 @@ namespace Chess
 		boost::signals2::signal<void()> m_signalChessboardUndated;
 
 	public:
-		Chessboard(std::vector<std::shared_ptr<Piece>> piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector);
+		Chessboard(std::vector<std::shared_ptr<Piece>> const& piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector);
 
 	public:
 		Coordinate GetFrom() const;
-		const std::shared_ptr<MoveValidator>& GetMoveValidator() const;
-		const std::shared_ptr<PieceDirector>& GetPieceDirector() const;
+		std::shared_ptr<MoveValidator> const& GetMoveValidator() const;
+		std::shared_ptr<PieceDirector> const& GetPieceDirector() const;
 		Coordinate GetTo() const;
 
-		bool TryInitPiece(const Coordinate& from);
+		bool TryInitPiece(Coordinate const& from);
 
 		//Before use this method, you need to InitPiece
-		bool TryMovePiece(const Coordinate& to);
+		bool TryMovePiece(Coordinate const& to);
 
 	public:
-		boost::signals2::connection ConnectChessboardUpdated(const boost::signals2::signal<void()>::slot_type& subscriber);
+		boost::signals2::connection ConnectChessboardUpdated(boost::signals2::signal<void()>::slot_type const& subscriber);
 	};
 }

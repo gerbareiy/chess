@@ -14,10 +14,10 @@ namespace Chess
 	class KingChecker : public IMoveChecker
 	{
 	private:
-		std::vector<Coordinate> FindCastlingMoves(const std::shared_ptr<King>& king, const std::shared_ptr<PieceFinder>& finder) const;
-		std::vector<Coordinate> FindPossibleMoves(const std::shared_ptr<King>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const;
+		std::vector<Coordinate> FindCastlingMoves(std::shared_ptr<King> const& king, std::shared_ptr<PieceFinder> const& finder) const;
+		std::vector<Coordinate> FindPossibleMoves(std::shared_ptr<King> const& piece, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const;
 
 	public:
-		std::vector<Coordinate> GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override;
+		std::vector<Coordinate> GetMoves(std::shared_ptr<Piece> const& piece, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const override;
 	};
 }

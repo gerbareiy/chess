@@ -1,24 +1,15 @@
 #include "Chessboard.h"
 
 #include "logic/Coordinate.h"
-#include "logic/Counts.h"
-#include "pieces/Bishop.h"
 #include "pieces/logic/ePieceColor.h"
 #include "pieces/Piece.h"
 #include "pieces/King.h"
-#include "pieces/Knight.h"
-#include "pieces/Pawn.h"
-#include "pieces/Queen.h"
-#include "pieces/Rook.h"
 #include "logic/MoveValidator.h"
-#include "logic/Sizes.h"
 #include "logic/PieceDirector.h"
 #include "logic/PieceSignalDirector.h"
-#include "pieces/logic/PieceColorAndType.h"
-#include "pieces/logic/PositionChecker.h"
 #include "Player.h"
 
-Chess::Chessboard::Chessboard(std::vector<std::shared_ptr<Piece>> piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector)
+Chess::Chessboard::Chessboard(std::vector<std::shared_ptr<Piece>> const& piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector)
 {
 	m_piecesOnBoard = piecesOnBoard;
 	m_director = std::make_shared<PieceDirector>(m_piecesOnBoard, signalDirector);
@@ -30,12 +21,12 @@ Chess::Coordinate Chess::Chessboard::GetFrom() const
 	return m_from;
 }
 
-const std::shared_ptr<Chess::MoveValidator>& Chess::Chessboard::GetMoveValidator() const
+std::shared_ptr<Chess::MoveValidator> const& Chess::Chessboard::GetMoveValidator() const
 {
 	return m_validator;
 }
 
-const std::shared_ptr<Chess::PieceDirector>& Chess::Chessboard::GetPieceDirector() const
+std::shared_ptr<Chess::PieceDirector> const& Chess::Chessboard::GetPieceDirector() const
 {
 	return m_director;
 }
@@ -45,7 +36,7 @@ Chess::Coordinate Chess::Chessboard::GetTo() const
 	return m_to;
 }
 
-bool Chess::Chessboard::TryInitPiece(const Coordinate& from)
+bool Chess::Chessboard::TryInitPiece(Coordinate const& from)
 {
 	m_from = from;
 	m_to = Coordinate(0, 0);
@@ -68,7 +59,7 @@ bool Chess::Chessboard::TryInitPiece(const Coordinate& from)
 	return true;
 }
 
-bool Chess::Chessboard::TryMovePiece(const Coordinate& to)
+bool Chess::Chessboard::TryMovePiece(Coordinate const& to)
 {
 	m_to = to;
 
@@ -87,7 +78,7 @@ bool Chess::Chessboard::TryMovePiece(const Coordinate& to)
 	return true;
 }
 
-boost::signals2::connection Chess::Chessboard::ConnectChessboardUpdated(const boost::signals2::signal<void()>::slot_type& subscriber)
+boost::signals2::connection Chess::Chessboard::ConnectChessboardUpdated(boost::signals2::signal<void()>::slot_type const& subscriber)
 {
 	return m_signalChessboardUndated.connect(subscriber);
 }

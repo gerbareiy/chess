@@ -11,12 +11,10 @@
 #include "../logic/Counts.h"
 #include "../logic/eError.h"
 #include "../logic/ErrorConverter.h"
-#include "../logic/Sizes.h"
 
 #include <stdexcept>
-#include <algorithm>
 
-std::vector<Chess::Coordinate> Chess::PawnChecker::GetForwardMoves(const std::shared_ptr<Pawn>& pawn, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<PieceFinder>& finder) const
+std::vector<Chess::Coordinate> Chess::PawnChecker::GetForwardMoves(std::shared_ptr<Pawn> const& pawn, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard, std::shared_ptr<PieceFinder> const& finder) const
 {
 	ValidatePawn(pawn);
 
@@ -45,7 +43,7 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetForwardMoves(const std::sh
 	return moves;
 }
 
-std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(const std::shared_ptr<Pawn>& pawn, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<PieceFinder>& finder) const
+std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(std::shared_ptr<Pawn> const& pawn, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard, std::shared_ptr<PieceFinder> const& finder) const
 {
 	ValidatePawn(pawn);
 
@@ -96,7 +94,7 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(const std::s
 	return moves;
 }
 
-void Chess::PawnChecker::ValidatePawn(const std::shared_ptr<Pawn>& pawn) const
+void Chess::PawnChecker::ValidatePawn(std::shared_ptr<Pawn> const& pawn) const
 {
 	if (!PositionChecker::IsPositionValid(pawn->GetPosition()))
 	{
@@ -108,7 +106,7 @@ void Chess::PawnChecker::ValidatePawn(const std::shared_ptr<Pawn>& pawn) const
 	}
 }
 
-std::vector<Chess::Coordinate> Chess::PawnChecker::GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+std::vector<Chess::Coordinate> Chess::PawnChecker::GetMoves(std::shared_ptr<Piece> const& piece, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const
 {
 	if (!piece || typeid(*piece) != typeid(Pawn) || piece->GetColorAndType().GetType() != ePieceType::PAWN)
 	{
@@ -117,7 +115,7 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetMoves(const std::shared_pt
 
 	std::vector<Coordinate> allMoves;
 
-	const auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
+	auto const finder = std::make_shared<PieceFinder>(piecesOnBoard);
 	auto forwardMoves = GetForwardMoves(std::static_pointer_cast<Pawn>(piece), piecesOnBoard, finder);
 	auto diagonalMoves = GetDiagonalMoves(std::static_pointer_cast<Pawn>(piece), piecesOnBoard, finder);
 

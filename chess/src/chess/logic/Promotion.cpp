@@ -15,7 +15,7 @@
 #include "../pieces/Pawn.h"
 #include "../pieces/Piece.h"
 
-void Chess::Promotion::PromoteConditionally(std::shared_ptr<Pawn> pawn, std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
+void Chess::Promotion::PromoteConditionally(std::shared_ptr<Pawn> const& pawn, std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
 {
 	if (!pawn)
 	{
@@ -59,7 +59,7 @@ void Chess::Promotion::PromoteConditionally(std::shared_ptr<Pawn> pawn, std::vec
 	}
 }
 
-void Chess::Promotion::PromoteConditionally(Coordinate pawnPosition, std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
+void Chess::Promotion::PromoteConditionally(Coordinate const& pawnPosition, std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
 {
 	auto finder = std::make_unique<PieceFinder>(piecesOnBoard);
 	PromoteConditionally(std::dynamic_pointer_cast<Pawn>(finder->Find(pawnPosition)), piecesOnBoard);

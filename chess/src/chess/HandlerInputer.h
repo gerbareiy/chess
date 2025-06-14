@@ -1,14 +1,6 @@
 #pragma once
 
-#include "logic/eConsoleColor.h"
 #include "logic/Inputer.h"
-#include "pieces/logic/ePieceColor.h"
-
-#include <boost/signals2.hpp>
-
-#include <memory>
-#include <string>
-#include <windows.h>
 
 namespace Chess
 {

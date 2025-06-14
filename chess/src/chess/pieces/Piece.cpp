@@ -5,7 +5,7 @@
 
 Chess::Piece::Piece() : m_colorAndType(ePieceColor::NONE, ePieceType::NONE) { }
 
-Chess::Piece::Piece(PieceColorAndType colorAndType, Coordinate coordinate)
+Chess::Piece::Piece(PieceColorAndType const& colorAndType, Coordinate const& coordinate)
     : m_colorAndType(colorAndType), m_position(coordinate) { }
 
 Chess::PieceColorAndType Chess::Piece::GetColorAndType() const

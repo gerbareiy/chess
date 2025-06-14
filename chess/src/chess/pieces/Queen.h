@@ -11,6 +11,6 @@ namespace Chess
 	{
 	public:
 		Queen(ePieceColor color);
-		Queen(ePieceColor color, Coordinate coordinate);
+		Queen(ePieceColor color, Coordinate const& coordinate);
 	};
 }

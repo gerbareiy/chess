@@ -13,7 +13,7 @@ namespace Chess
 
 	public:
 		Piece();
-		Piece(PieceColorAndType colorAndType, Coordinate coordinate);
+		Piece(PieceColorAndType const& colorAndType, Coordinate const& coordinate);
 		virtual ~Piece() = default;
 
 	public:

@@ -6,20 +6,13 @@
 #include "PieceSignalDirector.h"
 #include "PieceTakeLocator.h"
 #include "Promotion.h"
-#include "../pieces/Bishop.h"
-#include "../pieces/King.h"
-#include "../pieces/Knight.h"
 #include "../pieces/logic/CheckChecker.h"
 #include "../pieces/logic/ePieceColor.h"
 #include "../pieces/logic/PieceColorAndType.h"
-#include "../pieces/logic/PieceFinder.h"
 #include "../pieces/Pawn.h"
 #include "../pieces/Piece.h"
-#include "../pieces/Queen.h"
-#include "../pieces/Rook.h"
-#include "../LableDisplayer.h"
 
-Chess::PieceDirector::PieceDirector(std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<PieceSignalDirector>& signalDirector)
+Chess::PieceDirector::PieceDirector(std::vector<std::shared_ptr<Piece>>& piecesOnBoard, std::shared_ptr<PieceSignalDirector> const& signalDirector)
 	: m_piecesOnBoard(piecesOnBoard), m_signalDirector(signalDirector)
 {
 	m_eatenPieces.reserve(MAX_COUNT_ELEMENTS);
@@ -32,12 +25,12 @@ void Chess::PieceDirector::Take(int indexOnBoard)
 	m_piecesOnBoard.erase(m_piecesOnBoard.begin() + indexOnBoard);
 }
 
-const std::shared_ptr<Chess::Piece>& Chess::PieceDirector::GetCurrentPiece() const
+std::shared_ptr<Chess::Piece> const& Chess::PieceDirector::GetCurrentPiece() const
 {
 	return m_currentPiece;
 }
 
-const std::vector<std::shared_ptr<Chess::Piece>>& Chess::PieceDirector::GetEatenPieces() const
+std::vector<std::shared_ptr<Chess::Piece>> const& Chess::PieceDirector::GetEatenPieces() const
 {
 	return m_eatenPieces;
 }
@@ -47,12 +40,12 @@ bool Chess::PieceDirector::GetIsCheck() const
 	return m_isCheck;
 }
 
-const std::vector<std::shared_ptr<Chess::Piece>>& Chess::PieceDirector::GetPiecesOnBoard() const
+std::vector<std::shared_ptr<Chess::Piece>> const& Chess::PieceDirector::GetPiecesOnBoard() const
 {
 	return m_piecesOnBoard;
 }
 
-Chess::PieceColorAndType Chess::PieceDirector::GetPieceColorAndType(const Coordinate& from) const
+Chess::PieceColorAndType Chess::PieceDirector::GetPieceColorAndType(Coordinate const& from) const
 {
 	auto piece = GetPiece(from);
 
@@ -64,7 +57,7 @@ Chess::PieceColorAndType Chess::PieceDirector::GetPieceColorAndType(const Coordi
 	return piece->GetColorAndType();
 }
 
-std::shared_ptr<Chess::Piece> Chess::PieceDirector::GetPiece(const Coordinate& from) const
+std::shared_ptr<Chess::Piece> Chess::PieceDirector::GetPiece(Coordinate const& from) const
 {
 	for (std::shared_ptr<Chess::Piece> pieceOnBoard : m_piecesOnBoard)
 	{
@@ -77,16 +70,16 @@ std::shared_ptr<Chess::Piece> Chess::PieceDirector::GetPiece(const Coordinate& f
 	return nullptr;
 }
 
-void Chess::PieceDirector::InitCurrentPiece(const Coordinate& from)
+void Chess::PieceDirector::InitCurrentPiece(Coordinate const& from)
 {
 	m_currentPiece = GetPiece(from);
 }
 
-void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2::signal<void()>& signalChessboardUndated)
+void Chess::PieceDirector::MovePiece(Coordinate const& to, boost::signals2::signal<void()> const& signalChessboardUndated)
 {
 	auto fromTake = std::make_unique<PieceTakeLocator>()->Find(m_currentPiece, m_piecesOnBoard, to);
 
-	auto it = std::find_if(m_piecesOnBoard.begin(), m_piecesOnBoard.end(), [fromTake](std::shared_ptr<Piece> current)
+	auto it = std::find_if(m_piecesOnBoard.begin(), m_piecesOnBoard.end(), [fromTake](std::shared_ptr<Piece> const& current)
 		{
 			return current->GetPosition() == fromTake;
 		});

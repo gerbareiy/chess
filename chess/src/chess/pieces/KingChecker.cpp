@@ -12,10 +12,9 @@
 #include "../logic/ErrorConverter.h"
 #include "../logic/Sizes.h"
 
-#include <algorithm>
 #include <stdexcept>
 
-std::vector<Chess::Coordinate> Chess::KingChecker::FindCastlingMoves(const std::shared_ptr<King>& king, const std::shared_ptr<PieceFinder>& finder) const
+std::vector<Chess::Coordinate> Chess::KingChecker::FindCastlingMoves(std::shared_ptr<King> const& king, std::shared_ptr<PieceFinder> const& finder) const
 {
 	std::vector<Coordinate> castlingMoves;
 
@@ -72,7 +71,7 @@ std::vector<Chess::Coordinate> Chess::KingChecker::FindCastlingMoves(const std::
 	return castlingMoves;
 }
 
-std::vector<Chess::Coordinate> Chess::KingChecker::FindPossibleMoves(const std::shared_ptr<King>& king, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+std::vector<Chess::Coordinate> Chess::KingChecker::FindPossibleMoves(std::shared_ptr<King> const& king, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const
 {
 	if (king->GetPosition().GetFile() < 'A'
 		|| king->GetPosition().GetFile() > 'A' + CHESSBOARD_SIZE - 1
@@ -85,7 +84,7 @@ std::vector<Chess::Coordinate> Chess::KingChecker::FindPossibleMoves(const std::
 	std::vector<Coordinate> moves;
 	moves.reserve(COUNT_OF_KING_WAYS);
 
-	const auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
+	auto const finder = std::make_shared<PieceFinder>(piecesOnBoard);
 
 	for (auto deltaFile = -1; deltaFile <= 1; ++deltaFile)
 	{
@@ -115,7 +114,7 @@ std::vector<Chess::Coordinate> Chess::KingChecker::FindPossibleMoves(const std::
 	return moves;
 }
 
-std::vector<Chess::Coordinate> Chess::KingChecker::GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+std::vector<Chess::Coordinate> Chess::KingChecker::GetMoves(std::shared_ptr<Piece> const& piece, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const
 {
 	if (!piece || typeid(*piece) != typeid(King) || piece->GetColorAndType().GetType() != ePieceType::KING)
 	{

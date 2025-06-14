@@ -9,7 +9,7 @@
 #include "../pieces/logic/PieceFinder.h"
 #include "../Player.h"
 
-Chess::MoveValidator::MoveValidator(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<Player>& player)
+Chess::MoveValidator::MoveValidator(std::vector<std::shared_ptr<Piece>> const& piecesOnBoard, std::shared_ptr<Player> const& player)
 	: m_piecesOnBoard(piecesOnBoard), m_player(player)
 {
 	CalculatePiecesCanMove();
@@ -28,11 +28,11 @@ void Chess::MoveValidator::CalculatePiecesCanMove()
 	std::vector<std::shared_ptr<Chess::Piece>> pieces;
 	pieces.reserve(MAX_COUNT_ELEMENTS);
 
-	for (const auto& piece : m_piecesOnBoard)
+	for (auto const& piece : m_piecesOnBoard)
 	{
 		if (piece->GetColorAndType().GetColor() == m_player->GetPlayerColor())
 		{
-			const auto moveChecker = std::make_unique<MoveChecker>(piece);
+			auto const moveChecker = std::make_unique<MoveChecker>(piece);
 
 			if (moveChecker->GetFilteredMoves(m_piecesOnBoard).size())
 			{
@@ -44,7 +44,7 @@ void Chess::MoveValidator::CalculatePiecesCanMove()
 	m_piecesCanMove = pieces;
 }
 
-void Chess::MoveValidator::CalculatePossibleMoves(const std::shared_ptr<Piece>& piece)
+void Chess::MoveValidator::CalculatePossibleMoves(std::shared_ptr<Piece> const& piece)
 {
 	auto it = std::find(m_piecesCanMove.begin(), m_piecesCanMove.end(), piece);
 
@@ -70,21 +70,21 @@ int Chess::MoveValidator::GetPiecesCanMoveCount()
 	return m_piecesCanMove.size();
 }
 
-bool Chess::MoveValidator::IsCoordinateInPieceCanMove(Coordinate coordinate) const
+bool Chess::MoveValidator::IsCoordinateInPieceCanMove(Coordinate const& coordinate) const
 {
 	auto finder = std::make_unique<PieceFinder>(m_piecesCanMove);
 
 	return !!finder->Find(coordinate);
 }
 
-bool Chess::MoveValidator::IsCoordinateInPossibleMoves(Coordinate coordinate) const
+bool Chess::MoveValidator::IsCoordinateInPossibleMoves(Coordinate const& coordinate) const
 {
 	auto it = std::find(m_possibleMoves.begin(), m_possibleMoves.end(), coordinate);
 
 	return it != m_possibleMoves.end();
 }
  
-bool Chess::MoveValidator::IsValidMove(const std::shared_ptr<Piece> piece, Coordinate to) const
+bool Chess::MoveValidator::IsValidMove(std::shared_ptr<Piece> const& piece, Coordinate const& to) const
 {
 	if (!piece)
 	{

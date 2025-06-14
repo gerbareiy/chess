@@ -22,7 +22,7 @@ Chess::ePieceType Chess::PieceColorAndType::GetType() const
 	return m_type;
 }
 
-Chess::PieceColorAndType& Chess::PieceColorAndType::operator=(const PieceColorAndType& other)
+Chess::PieceColorAndType& Chess::PieceColorAndType::operator=(PieceColorAndType const& other)
 {
 	if (this == &other)
 	{
@@ -35,7 +35,7 @@ Chess::PieceColorAndType& Chess::PieceColorAndType::operator=(const PieceColorAn
 	return *this;
 }
 
-bool Chess::PieceColorAndType::operator==(const PieceColorAndType& other) const
+bool Chess::PieceColorAndType::operator==(PieceColorAndType const& other) const
 {
 	return false;
 }

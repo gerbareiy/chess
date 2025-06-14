@@ -11,7 +11,7 @@ std::string Chess::ErrorConverter::ToString(eError error)
 	case eError::NOT_CORRECT_PIECE:
 		return "Piece is not correct";
 	case eError::NOT_CORRECT_MOVE:
-		return "Move is imposible";
+		return "Move is impossible";
 	default:
 		return "Unknown error";
 	}

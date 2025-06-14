@@ -6,7 +6,7 @@
 #include "../Piece.h"
 #include "../../logic/Coordinate.h"
 
-std::vector<Chess::Coordinate> Chess::BishopQueenRookDirectionChecker::FindPossibleMoves(const std::shared_ptr<PieceFinder>& finder, const std::shared_ptr<Piece>& current, std::pair <int, int> coordinateIncrement)
+std::vector<Chess::Coordinate> Chess::BishopQueenRookDirectionChecker::FindPossibleMoves(std::shared_ptr<PieceFinder> const& finder, std::shared_ptr<Piece> const& current, std::pair <int, int> coordinateIncrement)
 {
 	std::vector<Coordinate> moves;
 	auto currentCoordinate = current->GetPosition();
@@ -21,7 +21,7 @@ std::vector<Chess::Coordinate> Chess::BishopQueenRookDirectionChecker::FindPossi
 			break;
 		}
 
-		const auto found = finder->Find(currentCoordinate);
+		auto const found = finder->Find(currentCoordinate);
 
 		if (found)
 		{

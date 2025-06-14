@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-Chess::Player::Player(ePieceColor firstMoveColor, const std::shared_ptr<PieceSignalDirector>& signalDirector)
+Chess::Player::Player(ePieceColor firstMoveColor, std::shared_ptr<PieceSignalDirector> const& signalDirector)
 	: m_playerColor(firstMoveColor == ePieceColor::NONE ? ePieceColor::WHITE : firstMoveColor)
 {
 	signalDirector->ConnectMove(std::bind(&Player::ChangeColor, this));

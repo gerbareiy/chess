@@ -9,9 +9,9 @@ namespace Chess
 	class LableDisplayer
 	{
 	public:
-		LableDisplayer(const std::shared_ptr<Inputer>& Inputer);
+		LableDisplayer(std::shared_ptr<Inputer> const& Inputer);
 
 	public:
-		void Show(std::string toPrint) const;
+		void Show(std::string const& toPrint) const;
 	};
 }

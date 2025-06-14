@@ -8,9 +8,9 @@
 #include "../King.h"
 #include "../../logic/Coordinate.h"
 
-bool Chess::CheckChecker::IsCheck(std::shared_ptr<King> king, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
+bool Chess::CheckChecker::IsCheck(std::shared_ptr<King> const& king, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard)
 {
-	for (const auto& piece : piecesOnBoard)
+	for (auto const& piece : piecesOnBoard)
 	{
 		if (piece->GetColorAndType().GetColor() == king->GetColorAndType().GetColor())
 		{
@@ -20,7 +20,7 @@ bool Chess::CheckChecker::IsCheck(std::shared_ptr<King> king, const std::vector<
 		auto moveChecker = std::make_unique<MoveCheckerFactory>()->Create(piece);
 		auto moves = moveChecker->GetMoves(piece, piecesOnBoard);
 
-		for (const auto& move : moves)
+		for (auto const& move : moves)
 		{
 			if (move == king->GetPosition())
 			{
@@ -32,9 +32,9 @@ bool Chess::CheckChecker::IsCheck(std::shared_ptr<King> king, const std::vector<
 	return false;
 }
 
-bool Chess::CheckChecker::IsCheck(const Chess::ePieceColor& kingColor, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
+bool Chess::CheckChecker::IsCheck(Chess::ePieceColor const& kingColor, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard)
 {
-	for (const auto& piece : piecesOnBoard)
+	for (auto const& piece : piecesOnBoard)
 	{
 		auto king = std::dynamic_pointer_cast<King>(piece);
 

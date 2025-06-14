@@ -25,5 +25,5 @@ Chess::Queen::Queen(ePieceColor color)
 	}
 }
 
-Chess::Queen::Queen(ePieceColor color, Coordinate coordinate)
+Chess::Queen::Queen(ePieceColor color, Coordinate const& coordinate)
 	: Piece(PieceColorAndType(color, ePieceType::QUEEN), coordinate) { }

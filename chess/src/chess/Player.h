@@ -14,7 +14,7 @@ namespace Chess
 		ePieceColor m_playerColor;
 
 	public:
-		Player(ePieceColor firstMoveColor, const std::shared_ptr<PieceSignalDirector>& signalDirector);
+		Player(ePieceColor firstMoveColor, std::shared_ptr<PieceSignalDirector> const& signalDirector);
 
 	private:
 		void ChangeColor();

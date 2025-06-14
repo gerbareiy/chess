@@ -11,6 +11,6 @@ namespace Chess
 	class MoveCheckerFactory
 	{
 	public:
-		 std::shared_ptr<IMoveChecker> Create(const std::shared_ptr<Piece>& piece) const;
+		 std::shared_ptr<IMoveChecker> Create(std::shared_ptr<Piece> const& piece) const;
 	};
 }

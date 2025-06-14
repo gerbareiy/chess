@@ -18,8 +18,8 @@ namespace Chess
 		int GetRank() const;
 		void SetRank(int rank);
 
-		Coordinate& operator=(const Coordinate& other);
-		bool operator==(const Coordinate& other) const;
-		bool operator<(const Coordinate& other) const;
+		Coordinate& operator=(Coordinate const& other);
+		bool operator==(Coordinate const& other) const;
+		bool operator<(Coordinate const& other) const;
 	};
 }

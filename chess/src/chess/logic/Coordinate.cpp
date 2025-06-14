@@ -32,7 +32,7 @@ void Chess::Coordinate::SetRank(int rank)
 	m_rank = rank;
 }
 
-Chess::Coordinate& Chess::Coordinate::operator=(const Coordinate& other)
+Chess::Coordinate& Chess::Coordinate::operator=(Coordinate const& other)
 {
 	if (this == &other)
 	{
@@ -45,12 +45,12 @@ Chess::Coordinate& Chess::Coordinate::operator=(const Coordinate& other)
 	return *this;
 }
 
-bool Chess::Coordinate::operator==(const Coordinate& other) const
+bool Chess::Coordinate::operator==(Coordinate const& other) const
 {
 	return GetFile() == other.GetFile() && GetRank() == other.GetRank();
 }
 
-bool Chess::Coordinate::operator<(const Coordinate& other) const
+bool Chess::Coordinate::operator<(Coordinate const& other) const
 {
 	if (GetFile() == other.GetFile())
 	{
