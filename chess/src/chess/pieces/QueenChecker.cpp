@@ -15,8 +15,7 @@ std::vector<Chess::Coordinate> Chess::QueenChecker::FindPossibleMoves(const std:
     std::vector<Coordinate> moves;
     moves.reserve(COUNT_OF_QUEEN_WAYS);
 
-    const auto finder     = std::make_shared<PieceFinder>(piecesOnBoard);
-    auto       coordinate = queen->GetPosition();
+    const auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
 
     auto first   = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, queen, { -1, -1 });
     auto second  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, queen, { -1, 1 });

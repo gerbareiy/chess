@@ -60,14 +60,16 @@ void Chess::Pawn::MakeTracking(const std::shared_ptr<PieceSignalDirector>& signa
         return;
     }
 
-    signalDirector->ConnectMove([this]() {
-        if (!m_isOnPawnFirstMove)
+    signalDirector->ConnectMove(
+        [this]()
         {
-            LostEnPassant();
-        }
+            if (!m_isOnPawnFirstMove)
+            {
+                LostEnPassant();
+            }
 
-        m_isOnPawnFirstMove = false;
-    });
+            m_isOnPawnFirstMove = false;
+        });
 }
 
 bool Chess::Pawn::GetCanEnPassant() const

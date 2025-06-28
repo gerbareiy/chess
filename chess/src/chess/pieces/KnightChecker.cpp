@@ -17,8 +17,8 @@
 std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std::shared_ptr<Knight>&             knight,
                                                                        const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
 {
-    if (knight->GetPosition().GetFile() < 'A' || knight->GetPosition().GetFile() >= 'A' + CHESSBOARD_SIZE || knight->GetPosition().GetRank() < 1 ||
-        knight->GetPosition().GetRank() > CHESSBOARD_SIZE)
+    if (knight->GetPosition().GetFile() < 'A' || knight->GetPosition().GetFile() >= 'A' + CHESSBOARD_SIZE || knight->GetPosition().GetRank() < 1
+        || knight->GetPosition().GetRank() > CHESSBOARD_SIZE)
     {
         throw std::out_of_range(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
     }

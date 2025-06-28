@@ -27,3 +27,4 @@ BreakConstructorInitializers: BeforeComma
 AllowShortLambdasOnASingleLine: false
 AllowShortFunctionsOnASingleLine: None
 BreakBeforeBraces: Allman
+BreakBeforeBinaryOperators: NonAssignment

@@ -78,10 +78,13 @@ void Chess::PieceDirector::InitCurrentPiece(const Coordinate& from)
 
 void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2::signal<void()>& signalChessboardUndated)
 {
-    auto fromTake = std::make_unique<PieceTakeLocator>()->Find(m_currentPiece, m_piecesOnBoard, to);
+    auto fromTake = PieceTakeLocator::Find(m_currentPiece, m_piecesOnBoard, to);
 
-    const auto it = std::find_if(
-        m_piecesOnBoard.begin(), m_piecesOnBoard.end(), [fromTake](const std::shared_ptr<Piece>& current) { return current->GetPosition() == fromTake; });
+    const auto it = std::ranges::find_if(m_piecesOnBoard,
+                                         [fromTake](const std::shared_ptr<Piece>& current)
+                                         {
+                                             return current->GetPosition() == fromTake;
+                                         });
 
     if (it != m_piecesOnBoard.end())
     {
@@ -91,18 +94,15 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2
     m_currentPiece->Move(to);
     m_signalDirector->Invite();
 
-    if (typeid(*m_currentPiece) == typeid(Pawn) &&
-        (m_currentPiece->GetPosition().GetRank() == 1 && m_currentPiece->GetColorAndType().GetColor() == ePieceColor::BLACK ||
-         m_currentPiece->GetPosition().GetRank() == CHESSBOARD_SIZE && m_currentPiece->GetColorAndType().GetColor() == ePieceColor::WHITE))
+    if (typeid(*m_currentPiece) == typeid(Pawn)
+        && (m_currentPiece->GetPosition().GetRank() == 1 && m_currentPiece->GetColorAndType().GetColor() == ePieceColor::BLACK
+            || m_currentPiece->GetPosition().GetRank() == CHESSBOARD_SIZE && m_currentPiece->GetColorAndType().GetColor() == ePieceColor::WHITE))
     {
         signalChessboardUndated();
-        m_promotion->PromoteConditionally(std::static_pointer_cast<Pawn>(m_currentPiece), m_piecesOnBoard);
+        Promotion::PromoteConditionally(std::static_pointer_cast<Pawn>(m_currentPiece), m_piecesOnBoard);
     }
 
-    const auto checkChecker = std::make_unique<CheckChecker>();
-
-    ePieceColor color;
-
+    auto color = ePieceColor::NONE;
     if (m_currentPiece->GetColorAndType().GetColor() == ePieceColor::BLACK)
     {
         color = ePieceColor::WHITE;
@@ -112,6 +112,6 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2
         color = ePieceColor::BLACK;
     }
 
-    m_isCheck = checkChecker->IsCheck(color, m_piecesOnBoard);
+    m_isCheck = CheckChecker::IsCheck(color, m_piecesOnBoard);
     m_signalDirector->Invite(m_isCheck);
 }

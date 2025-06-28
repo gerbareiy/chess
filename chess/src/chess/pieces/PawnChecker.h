@@ -15,10 +15,8 @@ namespace Chess
     {
     private:
         static std::vector<Coordinate> GetForwardMoves(const std::shared_ptr<Pawn>&               pawn,
-                                                       const std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
                                                        const std::shared_ptr<PieceFinder>&        finder);
         static std::vector<Coordinate> GetDiagonalMoves(const std::shared_ptr<Pawn>&               pawn,
-                                                        const std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
                                                         const std::shared_ptr<PieceFinder>&        finder);
         static void                    ValidatePawn(const std::shared_ptr<Pawn>& pawn);
 

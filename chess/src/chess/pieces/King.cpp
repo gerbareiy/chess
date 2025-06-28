@@ -22,7 +22,11 @@ void Chess::King::MakeTracking(const std::shared_ptr<PieceSignalDirector>& signa
         return;
     }
 
-    signalDirector->ConnectMoveWithCheck([this](bool isCheck) { m_isCheck = isCheck; });
+    signalDirector->ConnectMoveWithCheck(
+        [this](bool isCheck)
+        {
+            m_isCheck = isCheck;
+        });
 }
 
 Chess::King::King(ePieceColor color)

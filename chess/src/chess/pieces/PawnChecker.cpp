@@ -14,9 +14,7 @@
 
 #include <stdexcept>
 
-std::vector<Chess::Coordinate> Chess::PawnChecker::GetForwardMoves(const std::shared_ptr<Pawn>&               pawn,
-                                                                   const std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
-                                                                   const std::shared_ptr<PieceFinder>&        finder)
+std::vector<Chess::Coordinate> Chess::PawnChecker::GetForwardMoves(const std::shared_ptr<Pawn>& pawn, const std::shared_ptr<PieceFinder>& finder)
 {
     ValidatePawn(pawn);
 
@@ -45,9 +43,7 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetForwardMoves(const std::sh
     return moves;
 }
 
-std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(const std::shared_ptr<Pawn>&               pawn,
-                                                                    const std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
-                                                                    const std::shared_ptr<PieceFinder>&        finder)
+std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(const std::shared_ptr<Pawn>& pawn, const std::shared_ptr<PieceFinder>& finder)
 {
     ValidatePawn(pawn);
 
@@ -70,8 +66,8 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(const std::s
         {
             moves.emplace_back(rightDiagonal);
         }
-        else if (rightPiece && typeid(*rightPiece) == typeid(Pawn) && std::static_pointer_cast<Pawn>(rightPiece)->GetCanEnPassant() &&
-                 rightPiece->GetColorAndType().GetColor() != pawn->GetColorAndType().GetColor())
+        else if (rightPiece && typeid(*rightPiece) == typeid(Pawn) && std::static_pointer_cast<Pawn>(rightPiece)->GetCanEnPassant()
+                 && rightPiece->GetColorAndType().GetColor() != pawn->GetColorAndType().GetColor())
         {
             moves.emplace_back(rightDiagonal);
         }
@@ -86,8 +82,8 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(const std::s
         {
             moves.emplace_back(leftDiagonal);
         }
-        else if (leftPiece && typeid(*leftPiece) == typeid(Pawn) && std::static_pointer_cast<Pawn>(leftPiece)->GetCanEnPassant() &&
-                 leftPiece->GetColorAndType().GetColor() != pawn->GetColorAndType().GetColor())
+        else if (leftPiece && typeid(*leftPiece) == typeid(Pawn) && std::static_pointer_cast<Pawn>(leftPiece)->GetCanEnPassant()
+                 && leftPiece->GetColorAndType().GetColor() != pawn->GetColorAndType().GetColor())
         {
             moves.emplace_back(leftDiagonal);
         }
@@ -118,8 +114,8 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetMoves(const std::shared_pt
     std::vector<Coordinate> allMoves;
 
     const auto finder        = std::make_shared<PieceFinder>(piecesOnBoard);
-    auto       forwardMoves  = GetForwardMoves(std::static_pointer_cast<Pawn>(piece), piecesOnBoard, finder);
-    auto       diagonalMoves = GetDiagonalMoves(std::static_pointer_cast<Pawn>(piece), piecesOnBoard, finder);
+    auto       forwardMoves  = GetForwardMoves(std::static_pointer_cast<Pawn>(piece), finder);
+    auto       diagonalMoves = GetDiagonalMoves(std::static_pointer_cast<Pawn>(piece), finder);
 
     allMoves.insert(allMoves.end(), forwardMoves.begin(), forwardMoves.end());
     allMoves.insert(allMoves.end(), diagonalMoves.begin(), diagonalMoves.end());

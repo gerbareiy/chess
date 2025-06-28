@@ -15,8 +15,8 @@ Chess::Coordinate Chess::PieceTakeLocator::Find(const std::shared_ptr<Piece>& pi
     const auto currentPawn          = std::dynamic_pointer_cast<Pawn>(piece);
     const auto opponentPawn         = std::dynamic_pointer_cast<Pawn>(finder->Find(pawnOnPassCoordinate));
 
-    if (currentPawn && opponentPawn && opponentPawn->GetCanEnPassant() &&
-        opponentPawn->GetColorAndType().GetColor() != currentPawn->GetColorAndType().GetColor())
+    if (currentPawn && opponentPawn && opponentPawn->GetCanEnPassant()
+        && opponentPawn->GetColorAndType().GetColor() != currentPawn->GetColorAndType().GetColor())
     {
         return pawnOnPassCoordinate;
     }
