@@ -28,3 +28,4 @@ AllowShortLambdasOnASingleLine: false
 AllowShortFunctionsOnASingleLine: None
 BreakBeforeBraces: Allman
 BreakBeforeBinaryOperators: NonAssignment
+InsertNewlineAtEOF: true
