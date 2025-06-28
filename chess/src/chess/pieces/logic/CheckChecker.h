@@ -7,15 +7,15 @@
 
 namespace Chess
 {
-	class MoveChecker;
-	class Piece;
-	class PieceFinder;
-	class King;
+    class MoveChecker;
+    class Piece;
+    class PieceFinder;
+    class King;
 
-	class CheckChecker
-	{
-	public:
-		static bool IsCheck(std::shared_ptr<King> const& king, std::vector<std::shared_ptr<Piece>> const& piece);
-		static bool IsCheck(Chess::ePieceColor const& kingColor, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard);
-	};
-}
+    class CheckChecker
+    {
+    public:
+        static bool IsCheck(const std::shared_ptr<King>& king, const std::vector<std::shared_ptr<Piece>>& piece);
+        static bool IsCheck(const ePieceColor& kingColor, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard);
+    };
+} // namespace Chess

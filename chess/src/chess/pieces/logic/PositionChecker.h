@@ -2,11 +2,11 @@
 
 namespace Chess
 {
-	struct Coordinate;
+    struct Coordinate;
 
-	class PositionChecker
-	{
-	public:
-		static bool IsPositionValid(Coordinate const& position);
-	};
-}
+    class PositionChecker
+    {
+    public:
+        static bool IsPositionValid(const Coordinate& position);
+    };
+} // namespace Chess

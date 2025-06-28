@@ -5,14 +5,14 @@
 
 namespace Chess
 {
-	class Pawn;
-	class Piece;
-	struct Coordinate;
+    class Pawn;
+    class Piece;
+    struct Coordinate;
 
-	class Promotion
-	{
-	public:
-		static void PromoteConditionally(std::shared_ptr<Pawn> const& pawn, std::vector<std::shared_ptr<Piece>>& piecesOnBoard);
-		static void PromoteConditionally(Coordinate const& pawnPosition, std::vector<std::shared_ptr<Piece>>& piecesOnBoard);
-	};
-}
+    class Promotion
+    {
+    public:
+        static void PromoteConditionally(const std::shared_ptr<Pawn>& pawn, std::vector<std::shared_ptr<Piece>>& piecesOnBoard);
+        static void PromoteConditionally(const Coordinate& pawnPosition, std::vector<std::shared_ptr<Piece>>& piecesOnBoard);
+    };
+} // namespace Chess

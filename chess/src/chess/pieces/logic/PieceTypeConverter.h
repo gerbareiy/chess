@@ -6,9 +6,9 @@
 
 namespace Chess
 {
-	class PieceTypeConverter
-	{
-	public:
-		static std::string ConvertToString(ePieceType type);
-	};
-}
+    class PieceTypeConverter
+    {
+    public:
+        static std::string ConvertToString(ePieceType type);
+    };
+} // namespace Chess

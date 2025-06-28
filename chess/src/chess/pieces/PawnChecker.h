@@ -7,18 +7,22 @@
 
 namespace Chess
 {
-	class Pawn;
-	class Piece;
-	class PieceFinder;
+    class Pawn;
+    class Piece;
+    class PieceFinder;
 
-	class PawnChecker :	public IMoveChecker
-	{
-	private:
-		std::vector<Coordinate> GetForwardMoves(std::shared_ptr<Pawn> const& pawn, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard, std::shared_ptr<PieceFinder> const& finder) const;
-		std::vector<Coordinate> GetDiagonalMoves(std::shared_ptr<Pawn> const& pawn, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard, std::shared_ptr<PieceFinder> const& finder) const;
-		void ValidatePawn(std::shared_ptr<Pawn> const& pawn) const;
+    class PawnChecker final : public IMoveChecker
+    {
+    private:
+        static std::vector<Coordinate> GetForwardMoves(const std::shared_ptr<Pawn>&               pawn,
+                                                       const std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
+                                                       const std::shared_ptr<PieceFinder>&        finder);
+        static std::vector<Coordinate> GetDiagonalMoves(const std::shared_ptr<Pawn>&               pawn,
+                                                        const std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
+                                                        const std::shared_ptr<PieceFinder>&        finder);
+        static void                    ValidatePawn(const std::shared_ptr<Pawn>& pawn);
 
-	public:
-		std::vector<Coordinate> GetMoves(std::shared_ptr<Piece> const& piece, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const override;
-	};
-}
+    public:
+        virtual std::vector<Coordinate> GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override;
+    };
+} // namespace Chess

@@ -2,60 +2,60 @@
 
 Chess::Coordinate::Coordinate()
 {
-	m_file = 'A';
-	m_rank = 1;
+    m_file = 'A';
+    m_rank = 1;
 }
 
 Chess::Coordinate::Coordinate(char file, int rank)
 {
-	m_file = file;
-	m_rank = rank;
+    m_file = file;
+    m_rank = rank;
 }
 
 char Chess::Coordinate::GetFile() const
 {
-	return m_file;
+    return m_file;
 }
 
 void Chess::Coordinate::SetFile(char file)
 {
-	m_file = file;
+    m_file = file;
 }
 
 int Chess::Coordinate::GetRank() const
 {
-	return m_rank;
+    return m_rank;
 }
 
 void Chess::Coordinate::SetRank(int rank)
 {
-	m_rank = rank;
+    m_rank = rank;
 }
 
-Chess::Coordinate& Chess::Coordinate::operator=(Coordinate const& other)
+Chess::Coordinate& Chess::Coordinate::operator=(const Coordinate& other)
 {
-	if (this == &other)
-	{
-		return *this;
-	}
+    if (this == &other)
+    {
+        return *this;
+    }
 
-	m_file = other.GetFile();
-	m_rank = other.GetRank();
+    m_file = other.GetFile();
+    m_rank = other.GetRank();
 
-	return *this;
+    return *this;
 }
 
-bool Chess::Coordinate::operator==(Coordinate const& other) const
+bool Chess::Coordinate::operator==(const Coordinate& other) const
 {
-	return GetFile() == other.GetFile() && GetRank() == other.GetRank();
+    return GetFile() == other.GetFile() && GetRank() == other.GetRank();
 }
 
-bool Chess::Coordinate::operator<(Coordinate const& other) const
+bool Chess::Coordinate::operator<(const Coordinate& other) const
 {
-	if (GetFile() == other.GetFile())
-	{
-		return GetRank() < other.GetRank();
-	}
+    if (GetFile() == other.GetFile())
+    {
+        return GetRank() < other.GetRank();
+    }
 
-	return GetFile() < other.GetFile();
+    return GetFile() < other.GetFile();
 }

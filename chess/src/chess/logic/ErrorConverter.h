@@ -6,9 +6,9 @@
 
 namespace Chess
 {
-	class ErrorConverter
-	{
-	public:
-		static std::string ToString(eError error);
-	};
-}
+    class ErrorConverter
+    {
+    public:
+        static std::string ToString(eError error);
+    };
+} // namespace Chess

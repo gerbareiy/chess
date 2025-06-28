@@ -1,8 +1,11 @@
 #pragma once
 
+#include <cstdint>
+
 namespace Chess
 {
-    enum class ePieceType {
+    enum class ePieceType : uint8_t
+    {
         NONE,
         BISHOP,
         KING,
@@ -11,4 +14,4 @@ namespace Chess
         QUEEN,
         ROOK
     };
-}
+} // namespace Chess

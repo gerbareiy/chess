@@ -6,11 +6,11 @@
 
 namespace Chess
 {
-	class Piece;
+    class Piece;
 
-	class MoveCheckerFactory
-	{
-	public:
-		 std::shared_ptr<IMoveChecker> Create(std::shared_ptr<Piece> const& piece) const;
-	};
-}
+    class MoveCheckerFactory
+    {
+    public:
+        static std::shared_ptr<IMoveChecker> Create(const std::shared_ptr<Piece>& piece);
+    };
+} // namespace Chess

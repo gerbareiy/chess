@@ -2,9 +2,9 @@
 
 namespace Chess
 {
-	enum class eCastleSide
-	{
-		LEFT,
-		RIGHT
-	};
-}
+    enum class eCastleSide
+    {
+        LEFT,
+        RIGHT
+    };
+} // namespace Chess

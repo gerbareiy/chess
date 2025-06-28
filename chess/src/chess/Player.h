@@ -6,20 +6,20 @@
 
 namespace Chess
 {
-	class PieceSignalDirector;
+    class PieceSignalDirector;
 
-	class Player
-	{
-	private:
-		ePieceColor m_playerColor;
+    class Player
+    {
+    private:
+        ePieceColor m_playerColor;
 
-	public:
-		Player(ePieceColor firstMoveColor, std::shared_ptr<PieceSignalDirector> const& signalDirector);
+    public:
+        Player(ePieceColor firstMoveColor, const std::shared_ptr<PieceSignalDirector>& signalDirector);
 
-	private:
-		void ChangeColor();
+    private:
+        void ChangeColor();
 
-	public:
-		ePieceColor GetPlayerColor();
-	};
-}
+    public:
+        ePieceColor GetPlayerColor();
+    };
+} // namespace Chess

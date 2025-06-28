@@ -1,104 +1,105 @@
 #include "King.h"
 
-#include "logic/PieceColorAndType.h"
 #include "../logic/Coordinate.h"
-#include "../logic/eError.h"
 #include "../logic/ErrorConverter.h"
-#include "../logic/Sizes.h"
 #include "../logic/PieceSignalDirector.h"
-
+#include "../logic/Sizes.h"
+#include "../logic/eError.h"
+#include "logic/PieceColorAndType.h"
 #include <math.h>
+
 #include <stdexcept>
+
+void Chess::King::DisableCastling()
+{
+    m_canMakeCastling = false;
+}
+
+void Chess::King::MakeTracking(const std::shared_ptr<PieceSignalDirector>& signalDirector)
+{
+    if (!signalDirector)
+    {
+        return;
+    }
+
+    signalDirector->ConnectMoveWithCheck([this](bool isCheck) { m_isCheck = isCheck; });
+}
 
 Chess::King::King(ePieceColor color)
 {
-	m_colorAndType = PieceColorAndType(color, ePieceType::KING);
+    m_colorAndType = PieceColorAndType(color, ePieceType::KING);
 
-	switch (color)
-	{
-	case Chess::ePieceColor::BLACK:
-		m_position = Coordinate('E', CHESSBOARD_SIZE);
-		break;
-	case Chess::ePieceColor::WHITE:
-		m_position = Coordinate('E', 1);
-		break;
-	default:
-		throw std::out_of_range(ErrorConverter::ToString(Chess::eError::OUT_OF_CHESSBOARD));
-	}
+    switch (color)
+    {
+    case ePieceColor::BLACK:
+        m_position = Coordinate('E', CHESSBOARD_SIZE);
+        break;
+    case ePieceColor::WHITE:
+        m_position = Coordinate('E', 1);
+        break;
+    default:
+        throw std::out_of_range(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
+    }
 }
 
-Chess::King::King(ePieceColor color, std::shared_ptr<PieceSignalDirector> const& signalDirector) : King(color)
+Chess::King::King(ePieceColor color, const std::shared_ptr<PieceSignalDirector>& signalDirector)
+    : King(color)
 {
-	MakeTracking(signalDirector);
+    MakeTracking(signalDirector);
 }
 
-Chess::King::King(ePieceColor color, Coordinate const& coordinate)
-	: Piece(PieceColorAndType(color, ePieceType::KING), coordinate) { }
-
-Chess::King::King(ePieceColor color, Coordinate const& coordinate, std::shared_ptr<PieceSignalDirector> const& signalDirector) : King(color, coordinate)
+Chess::King::King(ePieceColor color, const Coordinate& coordinate)
+    : Piece(PieceColorAndType(color, ePieceType::KING), coordinate)
 {
-	MakeTracking(signalDirector);
+}
+
+Chess::King::King(ePieceColor color, const Coordinate& coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector)
+    : King(color, coordinate)
+{
+    MakeTracking(signalDirector);
 }
 
 bool Chess::King::GetCanMakeCastling() const
 {
-	return m_canMakeCastling;
+    return m_canMakeCastling;
 }
 
 bool Chess::King::GetIsCheck() const
 {
-	return m_isCheck;
-}
-
-void Chess::King::DisableCastling()
-{
-	m_canMakeCastling = false;
-}
-
-void Chess::King::MakeTracking(std::shared_ptr<Chess::PieceSignalDirector> const& signalDirector)
-{
-	if (!signalDirector)
-	{
-		return;
-	}
-
-	signalDirector->ConnectMoveWithCheck([this](bool isCheck)
-		{
-			m_isCheck = isCheck;
-		});
+    return m_isCheck;
 }
 
 void Chess::King::Move(Coordinate to, bool isRealMove)
 {
-	if(isRealMove)
-	{
-		DisableCastling();
+    if (isRealMove)
+    {
+        DisableCastling();
 
-		if (abs(GetPosition().GetFile() - to.GetFile()) > 1)
-		{
-			eCastleSide side;
+        if (abs(GetPosition().GetFile() - to.GetFile()) > 1)
+        {
+            eCastleSide side;
 
-			if (to.GetFile() > GetPosition().GetFile())
-			{
-				side = eCastleSide::RIGHT;
-			}
-			else if (to.GetFile() < GetPosition().GetFile())
-			{
-				side = eCastleSide::LEFT;
-			}
-			else
-			{
-				throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_MOVE));
-			}
+            if (to.GetFile() > GetPosition().GetFile())
+            {
+                side = eCastleSide::RIGHT;
+            }
+            else if (to.GetFile() < GetPosition().GetFile())
+            {
+                side = eCastleSide::LEFT;
+            }
+            else
+            {
+                throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_MOVE));
+            }
 
-			m_signalCastling(to, side);
-		}
-	}
+            m_signalCastling(to, side);
+        }
+    }
 
-	Piece::Move(to);
+    Piece::Move(to);
 }
 
-boost::signals2::connection Chess::King::ConnectCastling(boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type const& subscriber)
+boost::signals2::connection Chess::King::ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber)
 {
-	return m_signalCastling.connect(subscriber);
+    return m_signalCastling.connect(subscriber);
 }

@@ -6,18 +6,16 @@
 
 namespace Chess
 {
-	class Piece;
-	struct Coordinate;
+    class Piece;
+    struct Coordinate;
 
-	class PieceFinder
-	{
-	private:
-		std::map<Coordinate, std::shared_ptr<Piece>> m_pieceMap;
+    class PieceFinder
+    {
+        std::map<Coordinate, std::shared_ptr<Piece>> m_pieceMap;
 
-	public:
-		PieceFinder(std::vector<std::shared_ptr<Piece>> const& pieces);
+    public:
+        explicit PieceFinder(const std::vector<std::shared_ptr<Piece>>& pieces);
 
-	public:
-		std::shared_ptr<Piece> Find(Coordinate const& coordinate) const;
-	};
-}
+        std::shared_ptr<Piece> Find(const Coordinate& coordinate) const;
+    };
+} // namespace Chess

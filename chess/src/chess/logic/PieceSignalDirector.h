@@ -4,17 +4,17 @@
 
 namespace Chess
 {
-	class PieceSignalDirector
-	{
+    class PieceSignalDirector
+    {
 
-	private:
-		boost::signals2::signal<void()> m_moveSignal;
-		boost::signals2::signal<void(bool)> m_moveWithCheckSignal;
+    private:
+        boost::signals2::signal<void()>     m_moveSignal;
+        boost::signals2::signal<void(bool)> m_moveWithCheckSignal;
 
-	public:
-		boost::signals2::connection ConnectMove(boost::signals2::signal<void()>::slot_type const& subscriber);
-		boost::signals2::connection ConnectMoveWithCheck(boost::signals2::signal<void(bool)>::slot_type const& subscriber);
-		void Invite() const;
-		void Invite(bool isCheck) const;
-	};
-}
+    public:
+        boost::signals2::connection ConnectMove(const boost::signals2::signal<void()>::slot_type& subscriber);
+        boost::signals2::connection ConnectMoveWithCheck(const boost::signals2::signal<void(bool)>::slot_type& subscriber);
+        void                        Invite() const;
+        void                        Invite(bool isCheck) const;
+    };
+} // namespace Chess

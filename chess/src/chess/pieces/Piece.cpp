@@ -3,10 +3,16 @@
 #include "logic/ePieceColor.h"
 #include "logic/ePieceType.h"
 
-Chess::Piece::Piece() : m_colorAndType(ePieceColor::NONE, ePieceType::NONE) { }
+Chess::Piece::Piece()
+    : m_colorAndType(ePieceColor::NONE, ePieceType::NONE)
+{
+}
 
-Chess::Piece::Piece(PieceColorAndType const& colorAndType, Coordinate const& coordinate)
-    : m_colorAndType(colorAndType), m_position(coordinate) { }
+Chess::Piece::Piece(const PieceColorAndType& colorAndType, const Coordinate& coordinate)
+    : m_colorAndType(colorAndType)
+    , m_position(coordinate)
+{
+}
 
 Chess::PieceColorAndType Chess::Piece::GetColorAndType() const
 {

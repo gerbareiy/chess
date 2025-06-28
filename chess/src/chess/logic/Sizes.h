@@ -2,5 +2,5 @@
 
 namespace Chess
 {
-	constexpr int CHESSBOARD_SIZE = 8;
+    constexpr int CHESSBOARD_SIZE = 8;
 }

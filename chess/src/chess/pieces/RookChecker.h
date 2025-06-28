@@ -4,14 +4,14 @@
 
 namespace Chess
 {
-	class Rook;
+    class Rook;
 
-	class RookChecker : public IMoveChecker
-	{
-	private:
-		std::vector<Coordinate> FindPossibleMoves(std::shared_ptr<Rook> const& rook, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const;
+    class RookChecker final : public IMoveChecker
+    {
+    private:
+        static std::vector<Coordinate> FindPossibleMoves(const std::shared_ptr<Rook>& rook, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard);
 
-	public:
-		std::vector<Coordinate> GetMoves(std::shared_ptr<Piece> const& piece, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const override;
-	};
-}
+    public:
+        virtual std::vector<Coordinate> GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override;
+    };
+} // namespace Chess

@@ -5,15 +5,15 @@
 
 namespace Chess
 {
-	class Piece;
-	struct Coordinate;
+    class Piece;
+    struct Coordinate;
 
-	class IMoveChecker
-	{
-	public:
-		virtual ~IMoveChecker() = default;
+    class IMoveChecker
+    {
+    public:
+        virtual ~IMoveChecker() = default;
 
-	public:
-		virtual std::vector<Coordinate> GetMoves(std::shared_ptr<Piece> const& piece, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard) const = 0;
-	};
-}
+    public:
+        virtual std::vector<Coordinate> GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const = 0;
+    };
+} // namespace Chess

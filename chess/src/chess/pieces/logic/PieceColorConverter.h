@@ -6,9 +6,9 @@
 
 namespace Chess
 {
-	class PieceColorConverter
-	{
-	public:
-		static std::string ConvertToString(ePieceColor color);
-	};
-}
+    class PieceColorConverter
+    {
+    public:
+        static std::string ConvertToString(ePieceColor color);
+    };
+} // namespace Chess

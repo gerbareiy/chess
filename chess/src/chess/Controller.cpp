@@ -1,26 +1,27 @@
 #include "Controller.h"
 
 #include "Chessboard.h"
-#include "logic/Coordinate.h"
 
-Chess::Controller::Controller(std::shared_ptr<Chessboard>& chessboard)
-	: m_chessboard(chessboard) { }
-
-bool Chess::Controller::TryInitPiece(Coordinate const& from) const
+Chess::Controller::Controller(const std::shared_ptr<Chessboard>& chessboard)
+    : m_chessboard(chessboard)
 {
-	return m_chessboard->TryInitPiece(from);
 }
 
-bool Chess::Controller::TryMovePiece(Coordinate const& to) const
+bool Chess::Controller::TryInitPiece(const Coordinate& from) const
 {
-	auto isMoved = m_chessboard->TryMovePiece(to);
-
-	m_signalMove();
-
-	return isMoved;
+    return m_chessboard->TryInitPiece(from);
 }
 
-boost::signals2::connection Chess::Controller::ConnectMove(boost::signals2::signal<void()>::slot_type const& subscriber)
+bool Chess::Controller::TryMovePiece(const Coordinate& to) const
 {
-	return m_signalMove.connect(subscriber);
+    const auto isMoved = m_chessboard->TryMovePiece(to);
+
+    m_signalMove();
+
+    return isMoved;
+}
+
+boost::signals2::connection Chess::Controller::ConnectMove(const boost::signals2::signal<void()>::slot_type& subscriber)
+{
+    return m_signalMove.connect(subscriber);
 }

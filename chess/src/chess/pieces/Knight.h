@@ -5,13 +5,13 @@
 
 namespace Chess
 {
-	struct Coordinate;
-	struct PieceColorAndType;
+    struct Coordinate;
+    struct PieceColorAndType;
 
-	class Knight : public Piece
-	{
-	public:
-		Knight(ePieceColor pieceColor, int orderNumber);
-		Knight(ePieceColor color, Coordinate const& coordinate);
-	};
-}
+    class Knight final : public Piece
+    {
+    public:
+        Knight(ePieceColor pieceColor, int orderNumber);
+        Knight(ePieceColor color, const Coordinate& coordinate);
+    };
+} // namespace Chess

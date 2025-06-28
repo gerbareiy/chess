@@ -5,12 +5,12 @@
 
 namespace Chess
 {
-	class Piece;
-	struct Coordinate;
+    class Piece;
+    struct Coordinate;
 
-	class PieceTakeLocator
-	{
-	public:
-		static Chess::Coordinate Find(std::shared_ptr<Piece> const& piece, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard, Coordinate to);
-	};
-}
+    class PieceTakeLocator
+    {
+    public:
+        static Coordinate Find(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, Coordinate to);
+    };
+} // namespace Chess

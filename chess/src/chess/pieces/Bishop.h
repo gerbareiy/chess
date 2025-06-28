@@ -5,13 +5,13 @@
 
 namespace Chess
 {
-	struct Coordinate;
-	struct PieceColorAndType;
+    struct Coordinate;
+    struct PieceColorAndType;
 
-	class Bishop : public Piece
-	{
-	public:
-		Bishop(ePieceColor color, int orderNumber);
-		Bishop(ePieceColor color, Coordinate const& coordinate);
-	};
-}
+    class Bishop final : public Piece
+    {
+    public:
+        Bishop(ePieceColor color, int orderNumber);
+        Bishop(ePieceColor color, const Coordinate& coordinate);
+    };
+} // namespace Chess

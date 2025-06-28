@@ -2,10 +2,10 @@
 
 namespace Chess
 {
-	enum class ePieceColor
-	{
-		NONE,
-		BLACK,
-		WHITE
-	};
-}
+    enum class ePieceColor
+    {
+        NONE,
+        BLACK,
+        WHITE
+    };
+} // namespace Chess

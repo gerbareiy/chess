@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Inputer.h"
 #include "../pieces/logic/ePieceType.h"
+#include "Inputer.h"
 
 namespace Chess
 {
-	class PromotePieceInputer : public Inputer
-	{
-	public:
-		ePieceType Input() const;
-	};
-}
+    class PromotePieceInputer final : public Inputer
+    {
+    public:
+        ePieceType Input() const;
+    };
+} // namespace Chess

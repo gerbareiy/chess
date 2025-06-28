@@ -5,20 +5,19 @@
 
 namespace Chess
 {
-	struct PieceColorAndType
-	{
-		ePieceColor m_color;
-		ePieceType m_type;
+    struct PieceColorAndType
+    {
+        ePieceColor m_color;
+        ePieceType  m_type;
 
-	public:
-		PieceColorAndType();
-		PieceColorAndType(ePieceColor color, ePieceType type);
+    public:
+        PieceColorAndType();
+        PieceColorAndType(ePieceColor color, ePieceType type);
 
-	public:
-		ePieceColor GetColor() const;
-		ePieceType GetType() const;
+        ePieceColor GetColor() const;
+        ePieceType  GetType() const;
 
-		PieceColorAndType& operator=(PieceColorAndType const& other);
-		bool operator==(PieceColorAndType const& other) const;
-	};
-}
+        PieceColorAndType& operator=(const PieceColorAndType& other);
+        bool               operator==(const PieceColorAndType& other) const;
+    };
+} // namespace Chess

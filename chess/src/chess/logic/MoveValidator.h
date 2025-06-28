@@ -5,33 +5,31 @@
 
 namespace Chess
 {
-	class Piece;
-	class CheckChecker;
-	class MoveChecker;
-	class Player;
-	struct Coordinate;
+    class Piece;
+    class CheckChecker;
+    class MoveChecker;
+    class Player;
+    struct Coordinate;
 
-	class MoveValidator
-	{
-	private:
-		std::vector<std::shared_ptr<Piece>> m_piecesCanMove;
-		std::vector<Coordinate> m_possibleMoves;
-		std::vector<std::shared_ptr<Piece>> const& m_piecesOnBoard;
-		std::shared_ptr<Player> const m_player;
+    class MoveValidator
+    {
+        std::vector<std::shared_ptr<Piece>>        m_piecesCanMove;
+        std::vector<Coordinate>                    m_possibleMoves;
+        const std::vector<std::shared_ptr<Piece>>& m_piecesOnBoard;
+        const std::shared_ptr<Player>              m_player;
 
-	public:
-		MoveValidator(std::vector<std::shared_ptr<Piece>> const& piecesOnBoard, std::shared_ptr<Player> const& player);
+    public:
+        MoveValidator(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<Player>& player);
 
-	public:
-		std::vector<Coordinate> GetPossibleMoves();
+        std::vector<Coordinate> GetPossibleMoves();
 
-		void CalculatePiecesCanMove();
-		void CalculatePossibleMoves(std::shared_ptr<Piece> const& piece);
-		void ClearPossibleMoves();
-		void ClearPiecesCanMove();
-		int GetPiecesCanMoveCount();
-		bool IsCoordinateInPieceCanMove(Coordinate const& coordinate) const;
-		bool IsCoordinateInPossibleMoves(Coordinate const& coordinate) const;
-		bool IsValidMove(std::shared_ptr<Piece> const& piece, Coordinate const& to) const;
-	};
-}
+        void CalculatePiecesCanMove();
+        void CalculatePossibleMoves(const std::shared_ptr<Piece>& piece);
+        void ClearPossibleMoves();
+        void ClearPiecesCanMove();
+        int  GetPiecesCanMoveCount();
+        bool IsCoordinateInPieceCanMove(const Coordinate& coordinate) const;
+        bool IsCoordinateInPossibleMoves(const Coordinate& coordinate) const;
+        bool IsValidMove(const std::shared_ptr<Piece>& piece, const Coordinate& to) const;
+    };
+} // namespace Chess

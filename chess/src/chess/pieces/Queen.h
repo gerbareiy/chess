@@ -5,12 +5,12 @@
 
 namespace Chess
 {
-	struct Coordinate;
+    struct Coordinate;
 
-	class Queen : public Piece
-	{
-	public:
-		Queen(ePieceColor color);
-		Queen(ePieceColor color, Coordinate const& coordinate);
-	};
-}
+    class Queen final : public Piece
+    {
+    public:
+        Queen(ePieceColor color);
+        Queen(ePieceColor color, const Coordinate& coordinate);
+    };
+} // namespace Chess

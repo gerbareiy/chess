@@ -1,84 +1,83 @@
 #include "Chessboard.h"
 
+#include "Player.h"
 #include "logic/Coordinate.h"
-#include "pieces/logic/ePieceColor.h"
-#include "pieces/Piece.h"
-#include "pieces/King.h"
 #include "logic/MoveValidator.h"
 #include "logic/PieceDirector.h"
 #include "logic/PieceSignalDirector.h"
-#include "Player.h"
+#include "pieces/Piece.h"
+#include "pieces/logic/ePieceColor.h"
 
-Chess::Chessboard::Chessboard(std::vector<std::shared_ptr<Piece>> const& piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector)
+Chess::Chessboard::Chessboard(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector)
 {
-	m_piecesOnBoard = piecesOnBoard;
-	m_director = std::make_shared<PieceDirector>(m_piecesOnBoard, signalDirector);
-	m_validator = std::make_shared<MoveValidator>(m_piecesOnBoard, std::make_shared<Player>(ePieceColor::WHITE, signalDirector));
+    m_piecesOnBoard = piecesOnBoard;
+    m_director      = std::make_shared<PieceDirector>(m_piecesOnBoard, signalDirector);
+    m_validator     = std::make_shared<MoveValidator>(m_piecesOnBoard, std::make_shared<Player>(ePieceColor::WHITE, signalDirector));
 }
 
 Chess::Coordinate Chess::Chessboard::GetFrom() const
 {
-	return m_from;
+    return m_from;
 }
 
-std::shared_ptr<Chess::MoveValidator> const& Chess::Chessboard::GetMoveValidator() const
+const std::shared_ptr<Chess::MoveValidator>& Chess::Chessboard::GetMoveValidator() const
 {
-	return m_validator;
+    return m_validator;
 }
 
-std::shared_ptr<Chess::PieceDirector> const& Chess::Chessboard::GetPieceDirector() const
+const std::shared_ptr<Chess::PieceDirector>& Chess::Chessboard::GetPieceDirector() const
 {
-	return m_director;
+    return m_director;
 }
 
 Chess::Coordinate Chess::Chessboard::GetTo() const
 {
-	return m_to;
+    return m_to;
 }
 
-bool Chess::Chessboard::TryInitPiece(Coordinate const& from)
+bool Chess::Chessboard::TryInitPiece(const Coordinate& from)
 {
-	m_from = from;
-	m_to = Coordinate(0, 0);
-	m_director->InitCurrentPiece(from);
+    m_from = from;
+    m_to   = Coordinate(0, 0);
+    m_director->InitCurrentPiece(from);
 
-	if (!m_director->GetCurrentPiece())
-	{
-		return false;
-	}
+    if (!m_director->GetCurrentPiece())
+    {
+        return false;
+    }
 
-	m_validator->CalculatePossibleMoves(m_director->GetCurrentPiece());
+    m_validator->CalculatePossibleMoves(m_director->GetCurrentPiece());
 
-	if (m_validator->GetPossibleMoves().size() < 1)
-	{
-		return false;
-	}
+    if (m_validator->GetPossibleMoves().size() < 1)
+    {
+        return false;
+    }
 
-	m_signalChessboardUndated();
+    m_signalChessboardUndated();
 
-	return true;
+    return true;
 }
 
-bool Chess::Chessboard::TryMovePiece(Coordinate const& to)
+bool Chess::Chessboard::TryMovePiece(const Coordinate& to)
 {
-	m_to = to;
+    m_to = to;
 
-	if (!m_validator->IsValidMove(m_director->GetCurrentPiece(), to))
-	{
-		return false;
-	}
+    if (!m_validator->IsValidMove(m_director->GetCurrentPiece(), to))
+    {
+        return false;
+    }
 
-	m_validator->ClearPossibleMoves();
-	m_validator->ClearPiecesCanMove();
-	m_director->MovePiece(to, m_signalChessboardUndated);
-	m_validator->CalculatePiecesCanMove();
+    m_validator->ClearPossibleMoves();
+    m_validator->ClearPiecesCanMove();
+    m_director->MovePiece(to, m_signalChessboardUndated);
+    m_validator->CalculatePiecesCanMove();
 
-	m_signalChessboardUndated();
+    m_signalChessboardUndated();
 
-	return true;
+    return true;
 }
 
-boost::signals2::connection Chess::Chessboard::ConnectChessboardUpdated(boost::signals2::signal<void()>::slot_type const& subscriber)
+boost::signals2::connection Chess::Chessboard::ConnectChessboardUpdated(const boost::signals2::signal<void()>::slot_type& subscriber)
 {
-	return m_signalChessboardUndated.connect(subscriber);
+    return m_signalChessboardUndated.connect(subscriber);
 }

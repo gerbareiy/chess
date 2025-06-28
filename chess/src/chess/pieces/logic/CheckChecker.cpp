@@ -1,48 +1,47 @@
 #include "CheckChecker.h"
 
-#include "MoveChecker.h"
+#include "../../logic/Coordinate.h"
+#include "../King.h"
+#include "../Piece.h"
 #include "MoveCheckerFactory.h"
 #include "PieceColorAndType.h"
 #include "PieceFinder.h"
-#include "../Piece.h"
-#include "../King.h"
-#include "../../logic/Coordinate.h"
 
-bool Chess::CheckChecker::IsCheck(std::shared_ptr<King> const& king, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard)
+bool Chess::CheckChecker::IsCheck(const std::shared_ptr<King>& king, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
 {
-	for (auto const& piece : piecesOnBoard)
-	{
-		if (piece->GetColorAndType().GetColor() == king->GetColorAndType().GetColor())
-		{
-			continue;
-		}
-		
-		auto moveChecker = std::make_unique<MoveCheckerFactory>()->Create(piece);
-		auto moves = moveChecker->GetMoves(piece, piecesOnBoard);
+    for (const auto& piece : piecesOnBoard)
+    {
+        if (piece->GetColorAndType().GetColor() == king->GetColorAndType().GetColor())
+        {
+            continue;
+        }
 
-		for (auto const& move : moves)
-		{
-			if (move == king->GetPosition())
-			{
-				return true;
-			}
-		}
-	}
+        const auto moveChecker = std::make_unique<MoveCheckerFactory>()->Create(piece);
+        auto       moves       = moveChecker->GetMoves(piece, piecesOnBoard);
 
-	return false;
+        for (const auto& move : moves)
+        {
+            if (move == king->GetPosition())
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
-bool Chess::CheckChecker::IsCheck(Chess::ePieceColor const& kingColor, std::vector<std::shared_ptr<Piece>> const& piecesOnBoard)
+bool Chess::CheckChecker::IsCheck(const ePieceColor& kingColor, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
 {
-	for (auto const& piece : piecesOnBoard)
-	{
-		auto king = std::dynamic_pointer_cast<King>(piece);
+    for (const auto& piece : piecesOnBoard)
+    {
+        const auto king = std::dynamic_pointer_cast<King>(piece);
 
-		if (king && king->GetColorAndType().GetColor() == kingColor)
-		{
-			return IsCheck(king, piecesOnBoard);
-		}
-	}
+        if (king && king->GetColorAndType().GetColor() == kingColor)
+        {
+            return IsCheck(king, piecesOnBoard);
+        }
+    }
 
-	return false;
+    return false;
 }

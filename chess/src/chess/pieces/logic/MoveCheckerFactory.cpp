@@ -1,5 +1,7 @@
 #include "MoveCheckerFactory.h"
 
+#include "../../logic/ErrorConverter.h"
+#include "../../logic/eError.h"
 #include "../Bishop.h"
 #include "../BishopChecker.h"
 #include "../King.h"
@@ -13,10 +15,8 @@
 #include "../QueenChecker.h"
 #include "../Rook.h"
 #include "../RookChecker.h"
-#include "../../logic/eError.h"
-#include "../../logic/ErrorConverter.h"
 
-std::shared_ptr<Chess::IMoveChecker> Chess::MoveCheckerFactory::Create(std::shared_ptr<Piece> const& piece) const
+std::shared_ptr<Chess::IMoveChecker> Chess::MoveCheckerFactory::Create(const std::shared_ptr<Piece>& piece)
 {
     if (typeid(*piece) == typeid(Bishop))
     {
@@ -42,6 +42,6 @@ std::shared_ptr<Chess::IMoveChecker> Chess::MoveCheckerFactory::Create(std::shar
     {
         return std::make_shared<RookChecker>();
     }
-    
+
     throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
 }

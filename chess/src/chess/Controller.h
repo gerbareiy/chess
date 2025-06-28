@@ -6,25 +6,25 @@
 
 namespace Chess
 {
-	class Chessboard;
-	struct Coordinate;
+    class Chessboard;
+    struct Coordinate;
 
-	class Controller
-	{
-	private:
-		std::shared_ptr<Chessboard> m_chessboard;
+    class Controller
+    {
+    private:
+        std::shared_ptr<Chessboard> m_chessboard;
 
-	private:
-		boost::signals2::signal<void()> m_signalMove;
+    private:
+        boost::signals2::signal<void()> m_signalMove;
 
-	public:
-		Controller(std::shared_ptr<Chessboard>& chessboard);
+    public:
+        Controller(const std::shared_ptr<Chessboard>& chessboard);
 
-	public:
-		bool TryInitPiece(Coordinate const& from) const;
-		bool TryMovePiece(Coordinate const& to) const;
+    public:
+        bool TryInitPiece(const Coordinate& from) const;
+        bool TryMovePiece(const Coordinate& to) const;
 
-	public:
-		boost::signals2::connection ConnectMove(boost::signals2::signal<void()>::slot_type const& subscriber);
-	};
-}
+    public:
+        boost::signals2::connection ConnectMove(const boost::signals2::signal<void()>::slot_type& subscriber);
+    };
+} // namespace Chess

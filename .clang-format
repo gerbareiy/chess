@@ -1,0 +1,29 @@
+Language: Cpp
+BasedOnStyle: Microsoft
+UseTab: Never
+IndentWidth: 4
+TabWidth: 4
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: 'true'
+AlignConsecutiveDeclarations: 'true'
+Cpp11BracedListStyle: 'false'
+AlignOperands: 'true'
+AlignTrailingComments: 'true'
+ColumnLimit: 160
+AccessModifierOffset: '-4'
+IncludeBlocks: 'Regroup'
+IncludeCategories:
+  - Regex: 'CoreMinimal.h'
+    Priority: 1
+  - Regex: '.*.generated.h'
+    Priority: 10000000
+  - Regex: '.*.h'
+    Priority: 2
+PointerAlignment: Left
+BinPackArguments: false
+BinPackParameters: false
+NamespaceIndentation: All
+BreakConstructorInitializers: BeforeComma
+AllowShortLambdasOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+BreakBeforeBraces: Allman

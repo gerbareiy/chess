@@ -4,17 +4,17 @@
 
 namespace Chess
 {
-	struct Coordinate;
+    struct Coordinate;
 
-	class HandlerInputer : public Inputer
-	{
-	private:
-		Coordinate EnterCoordinate() const;
-		char EnterFile() const;
-		int EnterRank() const;
+    class HandlerInputer final : public Inputer
+    {
+    private:
+        Coordinate EnterCoordinate() const;
+        char       EnterFile() const;
+        int        EnterRank() const;
 
-	public:
-		Coordinate EnterFrom() const;
-		Coordinate EnterTo() const;
-	};
-}
+    public:
+        Coordinate EnterFrom() const;
+        Coordinate EnterTo() const;
+    };
+} // namespace Chess
