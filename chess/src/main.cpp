@@ -1,10 +1,8 @@
-#include "chess/Game.h"
-
-#include <memory>
+import Chess.Game;
 
 int main()
 {
-    const auto chess = std::make_unique<Chess::Game>();
-    chess->Play();
+    const auto chess = Chess::Game();
+    chess.Play();
     return 0;
 }

@@ -153,7 +153,7 @@
     <ClCompile Include="src\chess\Chessboard.cpp" />
     <ClCompile Include="src\chess\Controller.cpp" />
     <ClCompile Include="src\chess\logic\ErrorConverter.cpp" />
-    <ClCompile Include="src\chess\Game.cpp" />
+    <ClCompile Include="src\chess\Game.ixx" />
     <ClCompile Include="src\chess\pieces\Bishop.cpp" />
     <ClCompile Include="src\chess\pieces\logic\PieceTypeConverter.cpp" />
     <ClCompile Include="src\chess\pieces\King.cpp" />
@@ -201,7 +201,6 @@
     <ClInclude Include="src\chess\logic\eConsoleColor.h" />
     <ClInclude Include="src\chess\logic\eError.h" />
     <ClInclude Include="src\chess\logic\ErrorConverter.h" />
-    <ClInclude Include="src\chess\Game.h" />
     <ClInclude Include="src\chess\pieces\Bishop.h" />
     <ClInclude Include="src\chess\pieces\logic\ePieceColor.h" />
     <ClInclude Include="src\chess\pieces\logic\ePieceType.h" />
