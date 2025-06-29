@@ -48,9 +48,6 @@
     <ClCompile Include="..\chess\src\chess\Controller.cpp">
       <Filter>Resource Files\Chess</Filter>
     </ClCompile>
-    <ClCompile Include="..\chess\src\chess\Game.cpp">
-      <Filter>Resource Files\Chess</Filter>
-    </ClCompile>
     <ClCompile Include="..\chess\src\chess\pieces\King.cpp">
       <Filter>Resource Files\Chess\Pieces</Filter>
     </ClCompile>
