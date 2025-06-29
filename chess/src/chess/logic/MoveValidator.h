@@ -27,7 +27,7 @@ namespace Chess
         void CalculatePossibleMoves(const std::shared_ptr<Piece>& piece);
         void ClearPossibleMoves();
         void ClearPiecesCanMove();
-        int  GetPiecesCanMoveCount();
+        size_t  GetPiecesCanMoveCount();
         bool IsCoordinateInPieceCanMove(const Coordinate& coordinate) const;
         bool IsCoordinateInPossibleMoves(const Coordinate& coordinate) const;
         bool IsValidMove(const std::shared_ptr<Piece>& piece, const Coordinate& to) const;

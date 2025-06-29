@@ -66,7 +66,7 @@ void Chess::MoveValidator::ClearPiecesCanMove()
     m_piecesCanMove.clear();
 }
 
-int Chess::MoveValidator::GetPiecesCanMoveCount()
+size_t Chess::MoveValidator::GetPiecesCanMoveCount()
 {
     return m_piecesCanMove.size();
 }
