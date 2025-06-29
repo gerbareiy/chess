@@ -13,11 +13,8 @@ namespace Chess
 
     class PawnChecker final : public IMoveChecker
     {
-    private:
-        static std::vector<Coordinate> GetForwardMoves(const std::shared_ptr<Pawn>&               pawn,
-                                                       const std::shared_ptr<PieceFinder>&        finder);
-        static std::vector<Coordinate> GetDiagonalMoves(const std::shared_ptr<Pawn>&               pawn,
-                                                        const std::shared_ptr<PieceFinder>&        finder);
+        static std::vector<Coordinate> GetForwardMoves(const std::shared_ptr<Pawn>& pawn, const std::shared_ptr<PieceFinder>& finder);
+        static std::vector<Coordinate> GetDiagonalMoves(const std::shared_ptr<Pawn>& pawn, const std::shared_ptr<PieceFinder>& finder);
         static void                    ValidatePawn(const std::shared_ptr<Pawn>& pawn);
 
     public:

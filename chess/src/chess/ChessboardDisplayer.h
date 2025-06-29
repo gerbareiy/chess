@@ -15,23 +15,21 @@ namespace Chess
 
     class ChessboardDisplayer
     {
-    private:
         const std::shared_ptr<Chessboard> m_chessboard;
 
-    public:
-        ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard);
-
-    private:
-        Console::eConsoleColor        GetBackgroundConsoleColor(const Coordinate& coordinate) const;
         static std::string            GetChessboardFiles();
         static void                   GetOriginalConsoleColor(WORD& originalColors);
         static Console::eConsoleColor GetTextConsoleColor(const PieceColorAndType& colorAndType, int originalTextColor);
         static void                   SetConsoleColor(Console::eConsoleColor textColor, Console::eConsoleColor backgroundColor);
         static void                   ShowChessboardFiles(bool isChessboardSizeOneDigit);
         static void                   ShowChessboardRank(int y, bool isChessboardSizeOneDigit);
-        void                          ShowChessboardWithCoordinates() const;
+
+        Console::eConsoleColor GetBackgroundConsoleColor(const Coordinate& coordinate) const;
+        void                   ShowChessboardWithCoordinates() const;
 
     public:
+        ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard);
+
         // You can choose this default Display
         void Show();
         // Or create own Display by combining some methiods below

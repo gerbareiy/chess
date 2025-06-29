@@ -13,7 +13,6 @@ namespace Chess
 
     class KnightChecker final : public IMoveChecker
     {
-    private:
         const std::vector<std::pair<int, int>> m_knightMoveDirections = {
             { 2, 1 }, { 2, -1 }, { -2, 1 }, { -2, -1 }, { 1, 2 }, { 1, -2 }, { -1, 2 }, { -1, -2 }
         };

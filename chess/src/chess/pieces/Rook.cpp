@@ -11,6 +11,38 @@
 
 #include <stdexcept>
 
+void Chess::Rook::DisableCastling()
+{
+    m_canMakeCastling = false;
+}
+
+void Chess::Rook::MakeTracking(const std::shared_ptr<King>& king)
+{
+    if (!king)
+    {
+        return;
+    }
+
+    m_castlingConnection = king->ConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
+}
+
+void Chess::Rook::OnCastling(const Coordinate& to, eCastleSide side)
+{
+    if (GetCanMakeCastling())
+    {
+        if (GetPosition().GetFile() == 'A' && side == eCastleSide::LEFT)
+        {
+            Move(Coordinate(to.GetFile() + 1, to.GetRank()));
+        }
+        else if (GetPosition().GetFile() == 'A' + CHESSBOARD_SIZE - 1 && side == eCastleSide::RIGHT)
+        {
+            Move(Coordinate(to.GetFile() - 1, to.GetRank()));
+        }
+    }
+
+    m_castlingConnection.disconnect();
+}
+
 Chess::Rook::Rook(ePieceColor color, int orderNumber)
     : m_canMakeCastling(true)
 {
@@ -55,38 +87,6 @@ Chess::Rook::Rook(ePieceColor color, Coordinate coordinate, const std::shared_pt
 bool Chess::Rook::GetCanMakeCastling() const
 {
     return m_canMakeCastling;
-}
-
-void Chess::Rook::DisableCastling()
-{
-    m_canMakeCastling = false;
-}
-
-void Chess::Rook::MakeTracking(const std::shared_ptr<King>& king)
-{
-    if (!king)
-    {
-        return;
-    }
-
-    m_castlingConnection = king->ConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
-}
-
-void Chess::Rook::OnCastling(const Coordinate& to, eCastleSide side)
-{
-    if (GetCanMakeCastling())
-    {
-        if (GetPosition().GetFile() == 'A' && side == eCastleSide::LEFT)
-        {
-            Move(Coordinate(to.GetFile() + 1, to.GetRank()));
-        }
-        else if (GetPosition().GetFile() == 'A' + CHESSBOARD_SIZE - 1 && side == eCastleSide::RIGHT)
-        {
-            Move(Coordinate(to.GetFile() - 1, to.GetRank()));
-        }
-    }
-
-    m_castlingConnection.disconnect();
 }
 
 void Chess::Rook::Move(Coordinate to, bool isRealMove)

@@ -13,9 +13,12 @@ namespace Chess
 
     class Rook final : public Piece, public ICastable
     {
-    private:
         bool                        m_canMakeCastling = false;
         boost::signals2::connection m_castlingConnection;
+
+        void DisableCastling();
+        void MakeTracking(const std::shared_ptr<King>& king);
+        void OnCastling(const Coordinate& to, eCastleSide side);
 
     public:
         Rook(ePieceColor color, int orderNumber);
@@ -23,15 +26,8 @@ namespace Chess
         Rook(ePieceColor color, const Coordinate& coordinate);
         Rook(ePieceColor color, Coordinate coordinate, const std::shared_ptr<King>& king);
 
-    public:
         virtual bool GetCanMakeCastling() const override;
 
-    private:
-        void DisableCastling();
-        void MakeTracking(const std::shared_ptr<King>& king);
-        void OnCastling(const Coordinate& to, eCastleSide side);
-
-    public:
         virtual void Move(Coordinate to, bool isRealMove = true) override;
     };
 } // namespace Chess

@@ -11,7 +11,6 @@ namespace Chess
 
     class QueenChecker final : public IMoveChecker
     {
-    private:
         static std::vector<Coordinate> FindPossibleMoves(const std::shared_ptr<Queen>& queen, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard);
 
     public:

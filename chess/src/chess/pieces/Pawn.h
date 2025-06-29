@@ -13,12 +13,14 @@ namespace Chess
 
     class Pawn final : public Piece
     {
-    private:
         static constexpr int m_MAX_POSSIBLE_COUNT_MOVES = 2;
 
         bool m_canEnPassant      = false;
         bool m_isOnPawnFirstMove = false;
         bool m_isNotMoved        = true;
+
+        void LostEnPassant();
+        void MakeTracking(const std::shared_ptr<PieceSignalDirector>& signalDirector);
 
     public:
         Pawn(ePieceColor color, char file);
@@ -26,11 +28,6 @@ namespace Chess
         Pawn(ePieceColor color, const Coordinate& coordinate);
         Pawn(ePieceColor color, const Coordinate& coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector);
 
-    private:
-        void LostEnPassant();
-        void MakeTracking(const std::shared_ptr<PieceSignalDirector>& signalDirector);
-
-    public:
         bool GetCanEnPassant() const;
         bool GetIsNotMoved() const;
 

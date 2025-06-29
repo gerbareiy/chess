@@ -14,17 +14,14 @@ namespace Chess
     private:
         std::shared_ptr<Chessboard> m_chessboard;
 
-    private:
         boost::signals2::signal<void()> m_signalMove;
 
     public:
         Controller(const std::shared_ptr<Chessboard>& chessboard);
 
-    public:
         bool TryInitPiece(const Coordinate& from) const;
         bool TryMovePiece(const Coordinate& to) const;
 
-    public:
         boost::signals2::connection ConnectMove(const boost::signals2::signal<void()>::slot_type& subscriber);
     };
 } // namespace Chess

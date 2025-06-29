@@ -9,6 +9,30 @@
 
 #include <stdexcept>
 
+void Chess::Pawn::LostEnPassant()
+{
+    m_canEnPassant = false;
+}
+
+void Chess::Pawn::MakeTracking(const std::shared_ptr<PieceSignalDirector>& signalDirector)
+{
+    if (!signalDirector)
+    {
+        return;
+    }
+
+    signalDirector->ConnectMove(
+        [this]()
+        {
+            if (!m_isOnPawnFirstMove)
+            {
+                LostEnPassant();
+            }
+
+            m_isOnPawnFirstMove = false;
+        });
+}
+
 Chess::Pawn::Pawn(ePieceColor color, char file)
 {
     if (file < 'A' || file > 'A' + CHESSBOARD_SIZE - 1)
@@ -46,30 +70,6 @@ Chess::Pawn::Pawn(ePieceColor color, const Coordinate& coordinate, const std::sh
     : Pawn(color, coordinate)
 {
     MakeTracking(signalDirector);
-}
-
-void Chess::Pawn::LostEnPassant()
-{
-    m_canEnPassant = false;
-}
-
-void Chess::Pawn::MakeTracking(const std::shared_ptr<PieceSignalDirector>& signalDirector)
-{
-    if (!signalDirector)
-    {
-        return;
-    }
-
-    signalDirector->ConnectMove(
-        [this]()
-        {
-            if (!m_isOnPawnFirstMove)
-            {
-                LostEnPassant();
-            }
-
-            m_isOnPawnFirstMove = false;
-        });
 }
 
 bool Chess::Pawn::GetCanEnPassant() const

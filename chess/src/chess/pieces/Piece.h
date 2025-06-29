@@ -16,11 +16,9 @@ namespace Chess
         Piece(const PieceColorAndType& colorAndType, const Coordinate& coordinate);
         virtual ~Piece() = default;
 
-    public:
         PieceColorAndType GetColorAndType() const;
         Coordinate        GetPosition() const;
 
-    public:
         virtual void Move(Coordinate to, bool isRealMove = true);
     };
 } // namespace Chess

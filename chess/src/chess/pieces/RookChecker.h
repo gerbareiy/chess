@@ -8,7 +8,6 @@ namespace Chess
 
     class RookChecker final : public IMoveChecker
     {
-    private:
         static std::vector<Coordinate> FindPossibleMoves(const std::shared_ptr<Rook>& rook, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard);
 
     public:

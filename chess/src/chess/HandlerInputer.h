@@ -8,7 +8,6 @@ namespace Chess
 
     class HandlerInputer final : public Inputer
     {
-    private:
         Coordinate EnterCoordinate() const;
         char       EnterFile() const;
         int        EnterRank() const;

@@ -12,7 +12,6 @@ namespace Chess
     public:
         virtual ~Inputer() = default;
 
-    public:
         virtual boost::signals2::connection ConnectEnter(const boost::signals2::signal<void(std::string)>::slot_type& subscriber);
     };
 } // namespace Chess
