@@ -15,7 +15,8 @@ export module Chess.Game;
 
 namespace Chess
 {
-    export class Game
+    export class Game;
+    class Game
     {
         std::unique_ptr<ChessboardDisplayer> m_chessboardDisplayer;
         std::shared_ptr<Chessboard>          m_chessboard;
