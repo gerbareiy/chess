@@ -1,10 +1,9 @@
 #include "PromotePieceInputer.h"
 
-#include "../pieces/logic/PieceTypeConverter.h"
+#include "pieces/logic/PieceTypeConverter.h"
 #include <conio.h>
 
 #include <iostream>
-#include <stdexcept>
 
 Chess::ePieceType Chess::PromotePieceInputer::Input() const
 {

@@ -21,8 +21,7 @@ void Chess::Promotion::PromoteConditionally(const std::shared_ptr<Pawn>& pawn, s
     if (pawn->GetPosition().GetRank() == 1 && pawn->GetColorAndType().GetColor() == ePieceColor::BLACK
         || pawn->GetPosition().GetRank() == CHESSBOARD_SIZE && pawn->GetColorAndType().GetColor() == ePieceColor::WHITE)
     {
-        auto                   inputer        = std::make_shared<PromotePieceInputer>();
-        const auto             promoteType    = inputer->Input();
+        const auto             promoteType = PromotePieceInputer().Input();
         std::shared_ptr<Piece> piece;
         auto                   color    = pawn->GetColorAndType().GetColor();
         auto                   position = pawn->GetPosition();
