@@ -10,6 +10,7 @@ module;
 #include "logic/PieceInitializer.h"
 #include "logic/PieceSignalDirector.h"
 
+#include <functional>
 #include <memory>
 export module Chess.Game;
 

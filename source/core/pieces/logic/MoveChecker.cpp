@@ -11,12 +11,11 @@
 
 std::vector<Chess::Coordinate> Chess::MoveChecker::FindUncheckedMove(const Coordinate& move, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
 {
-    constexpr auto          checker = CheckChecker();
     std::vector<Coordinate> filteredMoves;
     const auto              finder        = std::make_shared<PieceFinder>(piecesOnBoard);
     const auto              capturedPiece = finder->Find(move);
 
-    std::vector<std::shared_ptr<Chess::Piece>> tempPiecesOnBoard = piecesOnBoard;
+    std::vector<std::shared_ptr<Piece>> tempPiecesOnBoard = piecesOnBoard;
 
     if (capturedPiece)
     {
@@ -25,7 +24,7 @@ std::vector<Chess::Coordinate> Chess::MoveChecker::FindUncheckedMove(const Coord
 
     m_piece->Move(move, false);
 
-    if (!checker.IsCheck(m_piece->GetColorAndType().GetColor(), tempPiecesOnBoard))
+    if (!CheckChecker::IsCheck(m_piece->GetColorAndType().GetColor(), tempPiecesOnBoard))
     {
         filteredMoves.emplace_back(move);
     }

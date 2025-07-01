@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../LabelShower.h"
 #include <boost/signals2.hpp>
 
 #include <memory>
@@ -8,9 +7,10 @@
 
 namespace Chess
 {
+    class LabelShower;
     class PieceSignalDirector;
-    class Promotion;
     class Piece;
+    class Promotion;
     struct Coordinate;
     struct PieceColorAndType;
 
@@ -20,7 +20,7 @@ namespace Chess
         std::vector<std::shared_ptr<Piece>>  m_eatenPieces;
         std::unique_ptr<LabelShower>         m_inputDisplayer;
         bool                                 m_isCheck = false;
-        std::vector<std::shared_ptr<Piece>>& m_piecesOnBoard;
+        std::vector<std::shared_ptr<Piece>>  m_piecesOnBoard;
         std::shared_ptr<Promotion>           m_promotion;
         std::shared_ptr<PieceSignalDirector> m_signalDirector;
 

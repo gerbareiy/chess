@@ -2,6 +2,7 @@
 
 #include "logic/Inputer.h"
 
+#include <memory>
 #include <string>
 
 namespace Chess

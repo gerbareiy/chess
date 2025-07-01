@@ -7,6 +7,7 @@
 #include "../pieces/logic/PieceFinder.h"
 #include "Coordinate.h"
 #include "Counts.h"
+#include "Player.h"
 
 Chess::MoveValidator::MoveValidator(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<Player>& player)
     : m_piecesOnBoard(piecesOnBoard)

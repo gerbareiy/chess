@@ -1,19 +1,15 @@
 #include "Promotion.h"
 
-#include "../LabelShower.h"
-#include "../pieces/Bishop.h"
-#include "../pieces/Knight.h"
-#include "../pieces/Pawn.h"
-#include "../pieces/Piece.h"
-#include "../pieces/Queen.h"
-#include "../pieces/Rook.h"
-#include "../pieces/logic/PieceColorAndType.h"
-#include "../pieces/logic/PieceFinder.h"
-#include "../pieces/logic/ePieceColor.h"
-#include "../pieces/logic/ePieceType.h"
 #include "Coordinate.h"
 #include "PromotePieceInputer.h"
 #include "Sizes.h"
+#include "pieces/Bishop.h"
+#include "pieces/Knight.h"
+#include "pieces/Pawn.h"
+#include "pieces/Queen.h"
+#include "pieces/Rook.h"
+#include "pieces/logic/PieceFinder.h"
+#include "pieces/logic/ePieceColor.h"
 
 void Chess::Promotion::PromoteConditionally(const std::shared_ptr<Pawn>& pawn, std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
 {
@@ -26,7 +22,6 @@ void Chess::Promotion::PromoteConditionally(const std::shared_ptr<Pawn>& pawn, s
         || pawn->GetPosition().GetRank() == CHESSBOARD_SIZE && pawn->GetColorAndType().GetColor() == ePieceColor::WHITE)
     {
         auto                   inputer        = std::make_shared<PromotePieceInputer>();
-        auto                   inputDisplayer = std::make_unique<LabelShower>(inputer);
         const auto             promoteType    = inputer->Input();
         std::shared_ptr<Piece> piece;
         auto                   color    = pawn->GetColorAndType().GetColor();
