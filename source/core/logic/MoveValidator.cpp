@@ -1,6 +1,5 @@
 #include "MoveValidator.h"
 
-#include "../Player.h"
 #include "../pieces/Piece.h"
 #include "../pieces/logic/CheckChecker.h"
 #include "../pieces/logic/MoveChecker.h"
