@@ -2,6 +2,8 @@
 
 #include <boost/signals2.hpp>
 
+#include <string>
+
 namespace Chess
 {
     class Inputer
