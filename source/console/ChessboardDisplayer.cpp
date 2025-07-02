@@ -1,14 +1,15 @@
 #include "ChessboardDisplayer.h"
 
-#include "Chessboard.h"
-#include "logic/Coordinate.h"
-#include "logic/MoveValidator.h"
-#include "logic/PieceDirector.h"
-#include "logic/Sizes.h"
-#include "pieces/Piece.h"
-#include "pieces/logic/PieceColorAndType.h"
-#include "pieces/logic/PieceTypeConverter.h"
+#include "core/Chessboard.h"
+#include "core/logic/Coordinate.h"
+#include "core/logic/MoveValidator.h"
+#include "core/logic/PieceDirector.h"
+#include "core/logic/Sizes.h"
+#include "core/pieces/Piece.h"
+#include "core/pieces/logic/PieceColorAndType.h"
+#include "core/pieces/logic/PieceTypeConverter.h"
 
+#include <functional>
 #include <iostream>
 
 std::string Chess::ChessboardDisplayer::GetChessboardFiles()

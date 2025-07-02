@@ -1,13 +1,13 @@
 #include "MoveValidator.h"
 
-#include "../pieces/Piece.h"
-#include "../pieces/logic/CheckChecker.h"
-#include "../pieces/logic/MoveChecker.h"
-#include "../pieces/logic/PieceColorAndType.h"
-#include "../pieces/logic/PieceFinder.h"
 #include "Coordinate.h"
 #include "Counts.h"
-#include "Player.h"
+#include "core/Player.h"
+#include "core/pieces/Piece.h"
+#include "core/pieces/logic/CheckChecker.h"
+#include "core/pieces/logic/MoveChecker.h"
+#include "core/pieces/logic/PieceColorAndType.h"
+#include "core/pieces/logic/PieceFinder.h"
 
 Chess::MoveValidator::MoveValidator(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<Player>& player)
     : m_piecesOnBoard(piecesOnBoard)

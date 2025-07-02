@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../pieces/logic/ePieceType.h"
 #include "Inputer.h"
+#include "core/pieces/logic/ePieceType.h"
 
 namespace Chess
 {

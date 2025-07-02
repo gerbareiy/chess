@@ -1,6 +1,6 @@
 #pragma once
 
-#include "logic/Inputer.h"
+#include "core/logic/Inputer.h"
 
 namespace Chess
 {

@@ -3,13 +3,13 @@
 #include "Coordinate.h"
 #include "PromotePieceInputer.h"
 #include "Sizes.h"
-#include "pieces/Bishop.h"
-#include "pieces/Knight.h"
-#include "pieces/Pawn.h"
-#include "pieces/Queen.h"
-#include "pieces/Rook.h"
-#include "pieces/logic/PieceFinder.h"
-#include "pieces/logic/ePieceColor.h"
+#include "core/pieces/Bishop.h"
+#include "core/pieces/Knight.h"
+#include "core/pieces/Pawn.h"
+#include "core/pieces/Queen.h"
+#include "core/pieces/Rook.h"
+#include "core/pieces/logic/PieceFinder.h"
+#include "core/pieces/logic/ePieceColor.h"
 
 void Chess::Promotion::PromoteConditionally(const std::shared_ptr<Pawn>& pawn, std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
 {

@@ -1,6 +1,6 @@
 #include "PromotePieceInputer.h"
 
-#include "pieces/logic/PieceTypeConverter.h"
+#include "core/pieces/logic/PieceTypeConverter.h"
 #include <conio.h>
 
 #include <iostream>

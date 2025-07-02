@@ -1,6 +1,6 @@
 #include "Controller.h"
 
-#include "Chessboard.h"
+#include "core/Chessboard.h"
 
 Chess::Controller::Controller(const std::shared_ptr<Chessboard>& chessboard)
     : m_chessboard(chessboard)

@@ -1,14 +1,14 @@
 module;
-#include "Chessboard.h"
 #include "ChessboardDisplayer.h"
 #include "Controller.h"
 #include "HandlerInputer.h"
 #include "LabelShower.h"
-#include "logic/DrawChecker.h"
-#include "logic/MoveValidator.h"
-#include "logic/PieceDirector.h"
-#include "logic/PieceInitializer.h"
-#include "logic/PieceSignalDirector.h"
+#include "core/Chessboard.h"
+#include "core/logic/DrawChecker.h"
+#include "core/logic/MoveValidator.h"
+#include "core/logic/PieceDirector.h"
+#include "core/logic/PieceInitializer.h"
+#include "core/logic/PieceSignalDirector.h"
 
 #include <functional>
 #include <memory>
