@@ -37,8 +37,6 @@ set(build_cmd
     stage
 )
 
-set(version 1.88.0)
-
 ExternalProject_Add(
     ${project}
     URL https://archives.boost.io/release/1.88.0/source/boost_1_88_0.zip
@@ -53,6 +51,3 @@ ExternalProject_Add(
     USES_TERMINAL_BUILD 1
     USES_TERMINAL_INSTALL 1
 )
-
-# This variable is used by find_package(Boost)
-set(BOOST_DIR "${prefix}/src/${project}/stage/lib/cmake/Boost-${version}" PARENT_SCOPE)
