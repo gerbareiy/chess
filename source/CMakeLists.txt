@@ -11,10 +11,15 @@ add_subdirectory(../external/boost ${CMAKE_BINARY_DIR}/external/boost EXCLUDE_FR
 
 target_link_libraries(console PRIVATE core)
 
+
 # core options
 target_include_directories(core PUBLIC ${CMAKE_SOURCE_DIR}/source)
+
 target_include_directories(core PRIVATE ${Boost_INCLUDE_DIRS})
+target_link_libraries(core PRIVATE Boost::filesystem)
 
 # console options
 target_include_directories(console PUBLIC ${CMAKE_SOURCE_DIR}/source)
+
 target_include_directories(console PRIVATE ${Boost_INCLUDE_DIRS})
+target_link_libraries(console PRIVATE Boost::filesystem)

@@ -1,0 +1,1 @@
+set(BOOST_DIR "@BOOST_DIR@")
