@@ -1,12 +1,11 @@
 module;
-#include "core/logic/Coordinate.h"
-
 #include <functional>
 #include <memory>
 export module Chess.Game;
 import Chess.Chessboard;
 import Chess.ChessboardDisplayer;
 import Chess.Controller;
+import Chess.Coordinate;
 import Chess.DrawChecker;
 import Chess.HandlerInputer;
 import Chess.LabelShower;

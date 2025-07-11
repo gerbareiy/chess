@@ -1,9 +1,9 @@
 module;
-#include "core/logic/Coordinate.h"
 #include <boost/signals2.hpp>
 
 #include <iostream>
 export module Chess.HandlerInputer;
+import Chess.Coordinate;
 import Chess.Inputer;
 
 namespace Chess

@@ -1,10 +1,9 @@
 module;
-#include "Coordinate.h"
-
 #include <memory>
 #include <vector>
 export module Chess.Promotion;
 import Chess.Bishop;
+import Chess.Coordinate;
 import Chess.ePieceColor;
 import Chess.ePieceType;
 import Chess.Knight;

@@ -1,9 +1,8 @@
 module;
-#include "core/logic/Coordinate.h"
-
 #include <memory>
 #include <vector>
 export module Chess.PieceTakeLocator;
+import Chess.Coordinate;
 import Chess.Pawn;
 import Chess.Piece;
 import Chess.PieceFinder;

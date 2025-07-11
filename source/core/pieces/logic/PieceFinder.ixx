@@ -1,10 +1,9 @@
 module;
-#include "core/logic/Coordinate.h"
-
 #include <memory>
 #include <unordered_map>
 #include <vector>
 export module Chess.PieceFinder;
+import Chess.Coordinate;
 import Chess.Piece;
 
 namespace Chess

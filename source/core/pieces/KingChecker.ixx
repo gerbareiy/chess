@@ -1,10 +1,9 @@
 module;
-#include "core/logic/Coordinate.h"
-
 #include <memory>
 #include <stdexcept>
 #include <vector>
 export module Chess.KingChecker;
+import Chess.Coordinate;
 import Chess.Counts;
 import Chess.eError;
 import Chess.ErrorConverter;

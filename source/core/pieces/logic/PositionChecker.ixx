@@ -1,6 +1,5 @@
-module;
-#include "Core/logic/Coordinate.h"
 export module Chess.PositionChecker;
+import Chess.Coordinate;
 import Chess.Sizes;
 
 namespace Chess

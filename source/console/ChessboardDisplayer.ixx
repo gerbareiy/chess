@@ -1,5 +1,4 @@
 module;
-#include "core/logic/Coordinate.h"
 #include <windows.h>
 
 #include <functional>
@@ -7,6 +6,7 @@ module;
 #include <memory>
 export module Chess.ChessboardDisplayer;
 import Chess.Chessboard;
+import Chess.Coordinate;
 import Chess.eConsoleColor;
 import Chess.ePieceColor;
 import Chess.MoveValidator;

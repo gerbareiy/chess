@@ -1,6 +1,5 @@
-module;
-#include "core/logic/Coordinate.h"
 export module Chess.Piece;
+import Chess.Coordinate;
 import Chess.PieceColorAndType;
 
 namespace Chess

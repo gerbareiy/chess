@@ -1,10 +1,10 @@
 module;
-#include "core/logic/Coordinate.h"
 #include <boost/signals2.hpp>
 
 #include <memory>
 export module Chess.Controller;
 import Chess.Chessboard;
+import Chess.Coordinate;
 
 namespace Chess
 {

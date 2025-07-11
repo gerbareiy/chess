@@ -1,9 +1,8 @@
 module;
-#include "core/logic/Coordinate.h"
-
 #include <memory>
 #include <vector>
 export module Chess.MoveValidator;
+import Chess.Coordinate;
 import Chess.Counts;
 import Chess.MoveChecker;
 import Chess.Piece;

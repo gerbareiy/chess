@@ -1,11 +1,11 @@
 module;
-#include "core/logic/Coordinate.h"
 #include <boost/signals2.hpp>
 
 #include <memory>
 #include <vector>
 export module Chess.PieceDirector;
 import Chess.CheckChecker;
+import Chess.Coordinate;
 import Chess.Counts;
 import Chess.ePieceColor;
 import Chess.Pawn;

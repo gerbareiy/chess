@@ -1,6 +1,6 @@
-#pragma once
-
+module;
 #include <functional>
+export module Chess.Coordinate;
 
 namespace Chess
 {

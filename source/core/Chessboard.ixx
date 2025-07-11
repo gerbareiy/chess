@@ -1,10 +1,10 @@
 module;
-#include "core/logic/Coordinate.h"
 #include <boost/signals2.hpp>
 
 #include <memory>
 #include <vector>
 export module Chess.Chessboard;
+import Chess.Coordinate;
 import Chess.ePieceColor;
 import Chess.MoveValidator;
 import Chess.Piece;

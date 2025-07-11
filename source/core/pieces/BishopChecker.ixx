@@ -1,11 +1,10 @@
 module;
-#include "core/logic/Coordinate.h"
-
 #include <memory>
 #include <vector>
 export module Chess.BishopChecker;
 import Chess.Bishop;
 import Chess.BishopQueenRookDirectionChecker;
+import Chess.Coordinate;
 import Chess.Counts;
 import Chess.ePieceType;
 import Chess.IMoveChecker;

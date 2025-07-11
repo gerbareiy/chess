@@ -1,8 +1,8 @@
 module;
-#include "core/logic/Coordinate.h"
 #include <memory>
 export module Chess.DrawChecker;
 import Chess.Chessboard;
+import Chess.Coordinate;
 import Chess.Counts;
 import Chess.ePieceColor;
 import Chess.ePieceType;
