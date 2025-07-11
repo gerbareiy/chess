@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+
 Chess::LabelShower::LabelShower(const std::shared_ptr<Inputer>& inputer)
 {
     const auto show = [this](const std::string& str)
@@ -10,6 +11,7 @@ Chess::LabelShower::LabelShower(const std::shared_ptr<Inputer>& inputer)
     };
     inputer->ConnectEnter(show);
 }
+Chess::LabelShower::~LabelShower() = default;
 
 void Chess::LabelShower::Show(const std::string& toPrint)
 {

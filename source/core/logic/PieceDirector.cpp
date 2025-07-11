@@ -1,16 +1,16 @@
 #include "PieceDirector.h"
 
-#include "../pieces/Pawn.h"
-#include "../pieces/Piece.h"
-#include "../pieces/logic/CheckChecker.h"
-#include "../pieces/logic/PieceColorAndType.h"
-#include "../pieces/logic/ePieceColor.h"
 #include "Coordinate.h"
 #include "Counts.h"
 #include "PieceSignalDirector.h"
 #include "PieceTakeLocator.h"
 #include "Promotion.h"
 #include "Sizes.h"
+#include "core/pieces/Pawn.h"
+#include "core/pieces/Piece.h"
+#include "core/pieces/logic/CheckChecker.h"
+#include "core/pieces/logic/PieceColorAndType.h"
+#include "core/pieces/logic/ePieceColor.h"
 
 void Chess::PieceDirector::Take(int indexOnBoard)
 {
@@ -18,7 +18,7 @@ void Chess::PieceDirector::Take(int indexOnBoard)
     m_piecesOnBoard.erase(m_piecesOnBoard.begin() + indexOnBoard);
 }
 
-Chess::PieceDirector::PieceDirector(std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<PieceSignalDirector>& signalDirector)
+Chess::PieceDirector::PieceDirector(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<PieceSignalDirector>& signalDirector)
     : m_piecesOnBoard(piecesOnBoard)
     , m_signalDirector(signalDirector)
 {

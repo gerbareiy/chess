@@ -1,11 +1,11 @@
 #include "CheckChecker.h"
 
-#include "../../logic/Coordinate.h"
-#include "../King.h"
-#include "../Piece.h"
 #include "MoveCheckerFactory.h"
 #include "PieceColorAndType.h"
 #include "PieceFinder.h"
+#include "core//pieces/Piece.h"
+#include "core/logic/Coordinate.h"
+#include "core/pieces/King.h"
 
 bool Chess::CheckChecker::IsCheck(const std::shared_ptr<King>& king, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
 {

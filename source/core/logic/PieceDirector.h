@@ -7,7 +7,6 @@
 
 namespace Chess
 {
-    class LabelShower;
     class PieceSignalDirector;
     class Piece;
     class Promotion;
@@ -18,7 +17,6 @@ namespace Chess
     {
         std::shared_ptr<Piece>               m_currentPiece;
         std::vector<std::shared_ptr<Piece>>  m_eatenPieces;
-        std::unique_ptr<LabelShower>         m_inputDisplayer;
         bool                                 m_isCheck = false;
         std::vector<std::shared_ptr<Piece>>  m_piecesOnBoard;
         std::shared_ptr<Promotion>           m_promotion;
@@ -27,7 +25,7 @@ namespace Chess
         void Take(int indexOnBoard);
 
     public:
-        PieceDirector(std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<PieceSignalDirector>& signalDirector);
+        PieceDirector(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<PieceSignalDirector>& signalDirector);
 
         const std::shared_ptr<Piece>&              GetCurrentPiece() const;
         const std::vector<std::shared_ptr<Piece>>& GetEatenPieces() const;

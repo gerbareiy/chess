@@ -1,8 +1,8 @@
 #include "RookChecker.h"
 
-#include "../logic/Coordinate.h"
-#include "../logic/Counts.h"
 #include "Rook.h"
+#include "core/logic/Coordinate.h"
+#include "core/logic/Counts.h"
 #include "logic/BishopQueenRookDirectionChecker.h"
 #include "logic/PieceColorAndType.h"
 #include "logic/PieceFinder.h"

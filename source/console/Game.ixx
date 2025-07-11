@@ -42,17 +42,17 @@ namespace Chess
 
             if (!m_chessboard->GetMoveValidator()->GetPiecesCanMoveCount() && m_chessboard->GetPieceDirector()->GetIsCheck())
             {
-                m_inputDisplayer->Show("Checkmate!\n");
+                LabelShower::Show("Checkmate!\n");
                 return false;
             }
             if (drawChecker->IsDraw(m_chessboard))
             {
-                m_inputDisplayer->Show("Draw!\n");
+                LabelShower::Show("Draw!\n");
                 return false;
             }
             if (m_chessboard->GetPieceDirector()->GetIsCheck())
             {
-                m_inputDisplayer->Show("Check!\n");
+                LabelShower::Show("Check!\n");
             }
 
             return true;

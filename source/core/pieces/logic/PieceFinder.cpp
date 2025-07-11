@@ -1,6 +1,6 @@
 #include "PieceFinder.h"
 
-#include "../Piece.h"
+#include "core/pieces/Piece.h"
 
 Chess::PieceFinder::PieceFinder(const std::vector<std::shared_ptr<Piece>>& pieces)
 {

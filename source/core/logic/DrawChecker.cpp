@@ -1,14 +1,14 @@
 #include "DrawChecker.h"
 
-#include "../Chessboard.h"
-#include "../pieces/Pawn.h"
-#include "../pieces/logic/PieceColorAndType.h"
-#include "../pieces/logic/PieceFinder.h"
-#include "../pieces/logic/PieceTypeConverter.h"
 #include "Counts.h"
 #include "MoveValidator.h"
 #include "PieceDirector.h"
 #include "Sizes.h"
+#include "core/Chessboard.h"
+#include "core/pieces/Pawn.h"
+#include "core/pieces/logic/PieceColorAndType.h"
+#include "core/pieces/logic/PieceFinder.h"
+#include "core/pieces/logic/PieceTypeConverter.h"
 
 void Chess::DrawChecker::CalculateMovesCountWithoutPawnAndTaking(const std::shared_ptr<Chessboard>& chessboard)
 {

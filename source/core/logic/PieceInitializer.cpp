@@ -1,15 +1,15 @@
 #include "PieceInitializer.h"
 
-#include "../pieces/Bishop.h"
-#include "../pieces/King.h"
-#include "../pieces/Knight.h"
-#include "../pieces/Pawn.h"
-#include "../pieces/Piece.h"
-#include "../pieces/Queen.h"
-#include "../pieces/Rook.h"
 #include "Counts.h"
 #include "PieceSignalDirector.h"
 #include "Sizes.h"
+#include "core/pieces/Bishop.h"
+#include "core/pieces/King.h"
+#include "core/pieces/Knight.h"
+#include "core/pieces/Pawn.h"
+#include "core/pieces/Piece.h"
+#include "core/pieces/Queen.h"
+#include "core/pieces/Rook.h"
 
 std::vector<std::shared_ptr<Chess::Piece>> Chess::PieceInitializer::InitNormalBoard(std::shared_ptr<PieceSignalDirector> signalDirector)
 {
