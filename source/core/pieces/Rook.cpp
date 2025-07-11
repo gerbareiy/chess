@@ -30,13 +30,13 @@ void Chess::Rook::OnCastling(const Coordinate& to, eCastleSide side)
 {
     if (GetCanMakeCastling())
     {
-        if (GetPosition().GetFile() == 'A' && side == eCastleSide::LEFT)
+        if (GetPosition().file == 'A' && side == eCastleSide::LEFT)
         {
-            Move(Coordinate(to.GetFile() + 1, to.GetRank()));
+            Move(Coordinate(to.file + 1, to.rank));
         }
-        else if (GetPosition().GetFile() == 'A' + CHESSBOARD_SIZE - 1 && side == eCastleSide::RIGHT)
+        else if (GetPosition().file == 'A' + CHESSBOARD_SIZE - 1 && side == eCastleSide::RIGHT)
         {
-            Move(Coordinate(to.GetFile() - 1, to.GetRank()));
+            Move(Coordinate(to.file - 1, to.rank));
         }
     }
 

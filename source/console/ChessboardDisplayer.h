@@ -15,7 +15,7 @@ namespace Chess
 
     class ChessboardDisplayer
     {
-        const std::shared_ptr<Chessboard> m_chessboard;
+        std::shared_ptr<Chessboard> m_chessboard;
 
         static std::string            GetChessboardFiles();
         static void                   GetOriginalConsoleColor(WORD& originalColors);
@@ -28,7 +28,7 @@ namespace Chess
         void                   ShowChessboardWithCoordinates() const;
 
     public:
-        ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard);
+        explicit ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard);
 
         // You can choose this default Display
         void Show();

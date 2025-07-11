@@ -95,8 +95,8 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2
     m_signalDirector->Invite();
 
     if (typeid(*m_currentPiece) == typeid(Pawn)
-        && (m_currentPiece->GetPosition().GetRank() == 1 && m_currentPiece->GetColorAndType().GetColor() == ePieceColor::BLACK
-            || m_currentPiece->GetPosition().GetRank() == CHESSBOARD_SIZE && m_currentPiece->GetColorAndType().GetColor() == ePieceColor::WHITE))
+        && (m_currentPiece->GetPosition().rank == 1 && m_currentPiece->GetColorAndType().GetColor() == ePieceColor::BLACK
+            || m_currentPiece->GetPosition().rank == CHESSBOARD_SIZE && m_currentPiece->GetColorAndType().GetColor() == ePieceColor::WHITE))
     {
         signalChessboardUndated();
         Promotion::PromoteConditionally(std::static_pointer_cast<Pawn>(m_currentPiece), m_piecesOnBoard);

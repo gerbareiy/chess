@@ -15,8 +15,8 @@ std::vector<Chess::Coordinate> Chess::BishopQueenRookDirectionChecker::FindPossi
 
     while (true)
     {
-        currentCoordinate.SetFile(currentCoordinate.GetFile() + coordinateIncrement.first);
-        currentCoordinate.SetRank(currentCoordinate.GetRank() + coordinateIncrement.second);
+        currentCoordinate.file = currentCoordinate.file + coordinateIncrement.first;
+        currentCoordinate.rank = currentCoordinate.rank + coordinateIncrement.second;
 
         if (!PositionChecker::IsPositionValid(currentCoordinate))
         {

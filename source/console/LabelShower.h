@@ -10,7 +10,7 @@ namespace Chess
     class LabelShower
     {
     public:
-        LabelShower(const std::shared_ptr<Inputer>& inputer);
+        explicit LabelShower(const std::shared_ptr<Inputer>& inputer);
         ~LabelShower();
 
         static void Show(const std::string& toPrint);

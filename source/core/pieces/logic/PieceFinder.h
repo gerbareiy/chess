@@ -1,7 +1,9 @@
 #pragma once
 
-#include <map>
+#include "core/logic/Coordinate.h"
+
 #include <memory>
+#include <unordered_map>
 #include <vector>
 
 namespace Chess
@@ -11,7 +13,7 @@ namespace Chess
 
     class PieceFinder
     {
-        std::map<Coordinate, std::shared_ptr<Piece>> m_pieceMap;
+        std::unordered_map<Coordinate, std::shared_ptr<Piece>> m_pieceMap;
 
     public:
         explicit PieceFinder(const std::vector<std::shared_ptr<Piece>>& pieces);

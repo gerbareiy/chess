@@ -1,24 +1,32 @@
 #pragma once
 
+#include <functional>
+
 namespace Chess
 {
     struct Coordinate
     {
-    private:
-        char m_file;
-        int  m_rank;
+        char file = 'A';
+        int  rank = 1;
 
-    public:
-        Coordinate();
-        Coordinate(char file, int rank);
+        bool operator==(const Coordinate& other) const
+        {
+            return file == other.file && rank == other.rank;
+        }
 
-        char GetFile() const;
-        void SetFile(char file);
-        int  GetRank() const;
-        void SetRank(int rank);
-
-        Coordinate& operator=(const Coordinate& other);
-        bool        operator==(const Coordinate& other) const;
-        bool        operator<(const Coordinate& other) const;
+        bool operator!=(const Coordinate& other) const
+        {
+            return !(*this == other);
+        }
     };
 } // namespace Chess
+
+template <> struct std::hash<Chess::Coordinate>
+{
+    size_t operator()(const Chess::Coordinate& coordinate) const noexcept
+    {
+        const size_t hashOne = std::hash<char>{}(coordinate.file);
+        const size_t hashTwo = std::hash<int>{}(coordinate.rank);
+        return hashOne ^ (hashTwo << 1);
+    }
+};

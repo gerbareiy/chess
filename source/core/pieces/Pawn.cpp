@@ -86,7 +86,7 @@ void Chess::Pawn::Move(Coordinate to, bool isRealMove)
 {
     if (isRealMove)
     {
-        if (abs(to.GetRank() - GetPosition().GetRank()) == 2)
+        if (abs(to.rank - GetPosition().rank) == 2)
         {
             m_canEnPassant = m_isNotMoved;
         }

@@ -79,15 +79,15 @@ void Chess::King::Move(Coordinate to, bool isRealMove)
     {
         DisableCastling();
 
-        if (abs(GetPosition().GetFile() - to.GetFile()) > 1)
+        if (abs(GetPosition().file- to.file) > 1)
         {
             eCastleSide side;
 
-            if (to.GetFile() > GetPosition().GetFile())
+            if (to.file > GetPosition().file)
             {
                 side = eCastleSide::RIGHT;
             }
-            else if (to.GetFile() < GetPosition().GetFile())
+            else if (to.file < GetPosition().file)
             {
                 side = eCastleSide::LEFT;
             }

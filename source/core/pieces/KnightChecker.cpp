@@ -14,11 +14,11 @@
 #include <memory>
 #include <stdexcept>
 
-std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std::shared_ptr<Knight>&             knight,
+std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std::shared_ptr<Piece>&             knight,
                                                                        const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
 {
-    if (knight->GetPosition().GetFile() < 'A' || knight->GetPosition().GetFile() >= 'A' + CHESSBOARD_SIZE || knight->GetPosition().GetRank() < 1
-        || knight->GetPosition().GetRank() > CHESSBOARD_SIZE)
+    if (knight->GetPosition().file < 'A' || knight->GetPosition().file >= 'A' + CHESSBOARD_SIZE || knight->GetPosition().rank < 1
+        || knight->GetPosition().rank > CHESSBOARD_SIZE)
     {
         throw std::out_of_range(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
     }
@@ -29,17 +29,17 @@ std::vector<Chess::Coordinate> Chess::KnightChecker::FindPossibleMoves(const std
     const auto currentPos = knight->GetPosition();
     const auto finder     = std::make_shared<PieceFinder>(piecesOnBoard);
 
-    for (const auto& move : m_knightMoveDirections)
+    for (const auto& [first, second] : m_knightMoveDirections)
     {
-        auto newFile = currentPos.GetFile() + move.first;
-        auto newRank = currentPos.GetRank() + move.second;
+        char newFile = currentPos.file + first;
+        int  newRank = currentPos.rank + second;
 
         if (newFile < 'A' || newFile >= 'A' + CHESSBOARD_SIZE || newRank < 1 || newRank > CHESSBOARD_SIZE)
         {
             continue;
         }
 
-        const auto piece = finder->Find(Coordinate(newFile, newRank));
+        const auto piece = finder->Find({ .file = newFile, .rank = newRank });
 
         if (!piece || piece->GetColorAndType().GetColor() != knight->GetColorAndType().GetColor())
         {

@@ -18,8 +18,8 @@ void Chess::Promotion::PromoteConditionally(const std::shared_ptr<Pawn>& pawn, s
         return;
     }
 
-    if (pawn->GetPosition().GetRank() == 1 && pawn->GetColorAndType().GetColor() == ePieceColor::BLACK
-        || pawn->GetPosition().GetRank() == CHESSBOARD_SIZE && pawn->GetColorAndType().GetColor() == ePieceColor::WHITE)
+    if (pawn->GetPosition().rank == 1 && pawn->GetColorAndType().GetColor() == ePieceColor::BLACK
+        || pawn->GetPosition().rank == CHESSBOARD_SIZE && pawn->GetColorAndType().GetColor() == ePieceColor::WHITE)
     {
         const auto             promoteType = PromotePieceInputer().Input();
         std::shared_ptr<Piece> piece;

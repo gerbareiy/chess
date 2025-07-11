@@ -65,7 +65,7 @@ void Chess::ChessboardDisplayer::ShowChessboardRank(int y, bool isChessboardSize
 Console::eConsoleColor Chess::ChessboardDisplayer::GetBackgroundConsoleColor(const Coordinate& coordinate) const
 {
     Console::eConsoleColor color;
-    const auto             isSquareBlack = ((coordinate.GetFile() + 1) + coordinate.GetRank()) % 2;
+    const auto             isSquareBlack = (coordinate.file + 1 + coordinate.rank) % 2;
 
     if (coordinate == m_chessboard->GetFrom())
     {

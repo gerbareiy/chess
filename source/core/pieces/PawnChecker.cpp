@@ -23,7 +23,7 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetForwardMoves(const std::sh
     std::vector<Coordinate> moves;
     moves.reserve(COUNT_OF_PAWN_WAYS);
 
-    Coordinate oneStepForward(pawn->GetPosition().GetFile(), pawn->GetPosition().GetRank() + moveVector);
+    Coordinate oneStepForward(pawn->GetPosition().file, pawn->GetPosition().rank + moveVector);
 
     if (PositionChecker::IsPositionValid(oneStepForward) && !finder->Find(oneStepForward))
     {
@@ -31,7 +31,7 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetForwardMoves(const std::sh
 
         if (pawn->GetIsNotMoved())
         {
-            Coordinate twoStepsForward(pawn->GetPosition().GetFile(), pawn->GetPosition().GetRank() + (moveVector << 1));
+            Coordinate twoStepsForward(pawn->GetPosition().file, pawn->GetPosition().rank + (moveVector << 1));
 
             if (PositionChecker::IsPositionValid(twoStepsForward) && !finder->Find(twoStepsForward))
             {
@@ -52,10 +52,10 @@ std::vector<Chess::Coordinate> Chess::PawnChecker::GetDiagonalMoves(const std::s
     std::vector<Coordinate> moves;
     moves.reserve(COUNT_OF_PAWN_WAYS);
 
-    Coordinate       rightDiagonal(pawn->GetPosition().GetFile() + 1, pawn->GetPosition().GetRank() + moveVector);
-    Coordinate       leftDiagonal(pawn->GetPosition().GetFile() - 1, pawn->GetPosition().GetRank() + moveVector);
-    const Coordinate left(pawn->GetPosition().GetFile() - 1, pawn->GetPosition().GetRank());
-    const Coordinate right(pawn->GetPosition().GetFile() + 1, pawn->GetPosition().GetRank());
+    Coordinate       rightDiagonal(pawn->GetPosition().file + 1, pawn->GetPosition().rank + moveVector);
+    Coordinate       leftDiagonal(pawn->GetPosition().file - 1, pawn->GetPosition().rank + moveVector);
+    const Coordinate left(pawn->GetPosition().file - 1, pawn->GetPosition().rank);
+    const Coordinate right(pawn->GetPosition().file + 1, pawn->GetPosition().rank);
 
     if (PositionChecker::IsPositionValid(rightDiagonal))
     {
