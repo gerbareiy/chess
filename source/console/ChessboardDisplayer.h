@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/logic/eConsoleColor.h"
+#include "console/eConsoleColor.h"
 #include "core/pieces/logic/ePieceColor.h"
 #include <windows.h>
 
