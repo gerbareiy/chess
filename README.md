@@ -33,4 +33,6 @@
 ![image](https://github.com/Jamy-Konstantinopol/chess/assets/119047289/f3f10540-acc3-4c6b-a5a7-5cb4bebc6fb7)
 
 
-Использовалась библиотека boost и логики событий
+Чтобы проект заработал:
+- создать папку build в корне проекта
+- и воспользоваться командой `cmake ..` в дериктории build
