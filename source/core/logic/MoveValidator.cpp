@@ -1,53 +1,14 @@
-#include "MoveValidator.h"
-
-#include "Coordinate.h"
-#include "Counts.h"
-#include "core/Player.h"
-#include "core/pieces/Piece.h"
-#include "core/pieces/logic/CheckChecker.h"
-#include "core/pieces/logic/MoveChecker.h"
-#include "core/pieces/logic/PieceColorAndType.h"
-#include "core/pieces/logic/PieceFinder.h"
-
-Chess::MoveValidator::MoveValidator(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<Player>& player)
-    : m_piecesOnBoard(piecesOnBoard)
-    , m_player(player)
-{
-    CalculatePiecesCanMove();
-}
-
-std::vector<Chess::Coordinate> Chess::MoveValidator::GetPossibleMoves()
-{
-    return m_possibleMoves;
-}
-
-void Chess::MoveValidator::CalculatePiecesCanMove()
-{
-    ClearPiecesCanMove();
-    ClearPossibleMoves();
-
-    std::vector<std::shared_ptr<Piece>> pieces;
-    pieces.reserve(MAX_COUNT_ELEMENTS);
-
-    for (const auto& piece : m_piecesOnBoard)
-    {
-        if (piece->GetColorAndType().GetColor() == m_player->GetPlayerColor())
-        {
-            const auto moveChecker = MoveChecker(piece);
-
-            if (moveChecker.GetFilteredMoves(m_piecesOnBoard).size())
-            {
-                pieces.emplace_back(piece);
-            }
-        }
-    }
-
-    m_piecesCanMove = pieces;
-}
+module;
+#include <memory>
+#include <vector>
+module Chess.MoveValidator;
+import Chess.Piece;
+import Chess.PieceFinder;
+import Chess.Player;
 
 void Chess::MoveValidator::CalculatePossibleMoves(const std::shared_ptr<Piece>& piece)
 {
-    const auto it = std::find(m_piecesCanMove.begin(), m_piecesCanMove.end(), piece);
+    const auto it = std::ranges::find(m_piecesCanMove, piece);
 
     if (it != m_piecesCanMove.end())
     {
@@ -80,7 +41,7 @@ bool Chess::MoveValidator::IsCoordinateInPieceCanMove(const Coordinate& coordina
 
 bool Chess::MoveValidator::IsCoordinateInPossibleMoves(const Coordinate& coordinate) const
 {
-    const auto it = std::find(m_possibleMoves.begin(), m_possibleMoves.end(), coordinate);
+    const auto it = std::ranges::find(m_possibleMoves, coordinate);
 
     return it != m_possibleMoves.end();
 }
@@ -92,5 +53,5 @@ bool Chess::MoveValidator::IsValidMove(const std::shared_ptr<Piece>& piece, cons
         return false;
     }
 
-    return std::find(m_possibleMoves.begin(), m_possibleMoves.end(), to) != m_possibleMoves.end();
+    return std::ranges::find(m_possibleMoves, to) != m_possibleMoves.end();
 }

@@ -1,16 +1,18 @@
-#include "PieceDirector.h"
+module;
+#include <algorithm>
+#include <boost/signals2.hpp>
 
-#include "Coordinate.h"
-#include "Counts.h"
-#include "PieceSignalDirector.h"
-#include "PieceTakeLocator.h"
-#include "Promotion.h"
-#include "Sizes.h"
-#include "core/pieces/Pawn.h"
-#include "core/pieces/Piece.h"
-#include "core/pieces/logic/CheckChecker.h"
-#include "core/pieces/logic/PieceColorAndType.h"
-#include "core/pieces/logic/ePieceColor.h"
+#include <memory>
+#include <typeinfo>
+module Chess.PieceDirector;
+import Chess.CheckChecker;
+import Chess.Counts;
+import Chess.ePieceColor;
+import Chess.Pawn;
+import Chess.PieceSignalDirector;
+import Chess.PieceTakeLocator;
+import Chess.Promotion;
+import Chess.Sizes;
 
 void Chess::PieceDirector::Take(int indexOnBoard)
 {
@@ -39,23 +41,6 @@ const std::vector<std::shared_ptr<Chess::Piece>>& Chess::PieceDirector::GetEaten
 bool Chess::PieceDirector::GetIsCheck() const
 {
     return m_isCheck;
-}
-
-const std::vector<std::shared_ptr<Chess::Piece>>& Chess::PieceDirector::GetPiecesOnBoard() const
-{
-    return m_piecesOnBoard;
-}
-
-Chess::PieceColorAndType Chess::PieceDirector::GetPieceColorAndType(const Coordinate& from) const
-{
-    const auto piece = GetPiece(from);
-
-    if (!piece)
-    {
-        return {};
-    }
-
-    return piece->GetColorAndType();
 }
 
 std::shared_ptr<Chess::Piece> Chess::PieceDirector::GetPiece(const Coordinate& from) const
@@ -95,19 +80,19 @@ void Chess::PieceDirector::MovePiece(const Coordinate& to, const boost::signals2
     m_signalDirector->Invite();
 
     if (typeid(*m_currentPiece) == typeid(Pawn)
-        && (m_currentPiece->GetPosition().rank == 1 && m_currentPiece->GetColorAndType().GetColor() == ePieceColor::BLACK
-            || m_currentPiece->GetPosition().rank == CHESSBOARD_SIZE && m_currentPiece->GetColorAndType().GetColor() == ePieceColor::WHITE))
+        && (m_currentPiece->GetPosition().rank == 1 && m_currentPiece->GetColorAndType().color == ePieceColor::BLACK
+            || m_currentPiece->GetPosition().rank == CHESSBOARD_SIZE && m_currentPiece->GetColorAndType().color == ePieceColor::WHITE))
     {
         signalChessboardUndated();
         Promotion::PromoteConditionally(std::static_pointer_cast<Pawn>(m_currentPiece), m_piecesOnBoard);
     }
 
     auto color = ePieceColor::NONE;
-    if (m_currentPiece->GetColorAndType().GetColor() == ePieceColor::BLACK)
+    if (m_currentPiece->GetColorAndType().color == ePieceColor::BLACK)
     {
         color = ePieceColor::WHITE;
     }
-    else if (m_currentPiece->GetColorAndType().GetColor() == ePieceColor::WHITE)
+    else if (m_currentPiece->GetColorAndType().color == ePieceColor::WHITE)
     {
         color = ePieceColor::BLACK;
     }
