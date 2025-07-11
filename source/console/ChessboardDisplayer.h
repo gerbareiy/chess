@@ -32,7 +32,7 @@ namespace Chess
 
         // You can choose this default Display
         void Show();
-        // Or create own Display by combining some methiods below
+        // Or create own Display by combining some methods below
         void        ShowChessboardRowWithRank(int y, int originalTextColor) const;
         static void ShowEmpty();
         void        ShowTakenPieces(ePieceColor color) const;
