@@ -1,23 +1,22 @@
 module;
-#include "ChessboardDisplayer.h"
-#include "Controller.h"
-#include "HandlerInputer.h"
-#include "LabelShower.h"
-#include "core/Chessboard.h"
-#include "core/logic/DrawChecker.h"
-#include "core/logic/MoveValidator.h"
-#include "core/logic/PieceDirector.h"
-#include "core/logic/PieceInitializer.h"
-#include "core/logic/PieceSignalDirector.h"
+#include "core/logic/Coordinate.h"
 
 #include <functional>
 #include <memory>
 export module Chess.Game;
+import Chess.Chessboard;
+import Chess.ChessboardDisplayer;
+import Chess.Controller;
+import Chess.DrawChecker;
+import Chess.HandlerInputer;
+import Chess.LabelShower;
+import Chess.PieceDirector;
+import Chess.PieceInitializer;
+import Chess.PieceSignalDirector;
 
 namespace Chess
 {
-    export class Game;
-    class Game
+    export class Game
     {
         std::unique_ptr<ChessboardDisplayer> m_chessboardDisplayer;
         std::shared_ptr<Chessboard>          m_chessboard;

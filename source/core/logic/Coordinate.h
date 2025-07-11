@@ -4,7 +4,7 @@
 
 namespace Chess
 {
-    struct Coordinate
+    export struct Coordinate
     {
         char file = 'A';
         int  rank = 1;
