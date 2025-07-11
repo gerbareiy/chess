@@ -1,10 +1,10 @@
 #include "MoveChecker.h"
 
-#include "../../logic/Coordinate.h"
-#include "../Piece.h"
 #include "CheckChecker.h"
 #include "MoveCheckerFactory.h"
 #include "PieceFinder.h"
+#include "core/logic/Coordinate.h"
+#include "core/pieces/Piece.h"
 
 #include "stdexcept"
 #include <vector>

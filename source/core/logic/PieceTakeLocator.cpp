@@ -1,10 +1,10 @@
 #include "PieceTakeLocator.h"
 
-#include "../pieces/Pawn.h"
-#include "../pieces/Piece.h"
-#include "../pieces/logic/PieceColorAndType.h"
-#include "../pieces/logic/PieceFinder.h"
 #include "Coordinate.h"
+#include "core/pieces/Pawn.h"
+#include "core/pieces/Piece.h"
+#include "core/pieces/logic/PieceColorAndType.h"
+#include "core/pieces/logic/PieceFinder.h"
 
 #include <memory>
 

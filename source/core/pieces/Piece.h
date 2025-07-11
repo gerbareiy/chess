@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../logic/Coordinate.h"
+#include "core/logic/Coordinate.h"
 #include "logic/PieceColorAndType.h"
 
 namespace Chess

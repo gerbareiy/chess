@@ -1,9 +1,9 @@
 #include "Knight.h"
 
-#include "../logic/Coordinate.h"
-#include "../logic/ErrorConverter.h"
-#include "../logic/Sizes.h"
-#include "../logic/eError.h"
+#include "core/logic/Coordinate.h"
+#include "core/logic/ErrorConverter.h"
+#include "core/logic/Sizes.h"
+#include "core/logic/eError.h"
 #include "logic/PieceColorAndType.h"
 #include "logic/ePieceColor.h"
 #include "logic/ePieceType.h"
