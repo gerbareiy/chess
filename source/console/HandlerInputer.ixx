@@ -2,7 +2,7 @@ module;
 #include "core/logic/Coordinate.h"
 #include <boost/signals2.hpp>
 
-#include <iostream>;
+#include <iostream>
 export module Chess.HandlerInputer;
 import Chess.Inputer;
 

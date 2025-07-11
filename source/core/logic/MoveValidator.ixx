@@ -7,6 +7,7 @@ export module Chess.MoveValidator;
 import Chess.Counts;
 import Chess.MoveChecker;
 import Chess.Piece;
+import Chess.PieceFinder;
 import Chess.Player;
 
 namespace Chess
@@ -55,12 +56,54 @@ namespace Chess
             m_piecesCanMove = pieces;
         }
 
-        void   CalculatePossibleMoves(const std::shared_ptr<Piece>& piece);
-        void   ClearPossibleMoves();
-        void   ClearPiecesCanMove();
-        size_t GetPiecesCanMoveCount();
-        bool   IsCoordinateInPieceCanMove(const Coordinate& coordinate) const;
-        bool   IsCoordinateInPossibleMoves(const Coordinate& coordinate) const;
-        bool   IsValidMove(const std::shared_ptr<Piece>& piece, const Coordinate& to) const;
+        void CalculatePossibleMoves(const std::shared_ptr<Piece>& piece)
+        {
+            const auto it = std::ranges::find(m_piecesCanMove, piece);
+
+            if (it != m_piecesCanMove.end())
+            {
+                const auto moveChecker = std::make_shared<MoveChecker>(piece);
+                m_possibleMoves        = moveChecker->GetFilteredMoves(m_piecesOnBoard);
+            }
+        }
+
+        void ClearPossibleMoves()
+        {
+            m_possibleMoves.clear();
+        }
+
+        void ClearPiecesCanMove()
+        {
+            m_piecesCanMove.clear();
+        }
+
+        size_t GetPiecesCanMoveCount()
+        {
+            return m_piecesCanMove.size();
+        }
+
+        bool IsCoordinateInPieceCanMove(const Coordinate& coordinate) const
+        {
+            const auto finder = std::make_unique<PieceFinder>(m_piecesCanMove);
+
+            return !!finder->Find(coordinate);
+        }
+
+        bool IsCoordinateInPossibleMoves(const Coordinate& coordinate) const
+        {
+            const auto it = std::ranges::find(m_possibleMoves, coordinate);
+
+            return it != m_possibleMoves.end();
+        }
+
+        bool IsValidMove(const std::shared_ptr<Piece>& piece, const Coordinate& to) const
+        {
+            if (!piece)
+            {
+                return false;
+            }
+
+            return std::ranges::find(m_possibleMoves, to) != m_possibleMoves.end();
+        }
     };
 } // namespace Chess
