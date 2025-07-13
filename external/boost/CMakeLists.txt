@@ -14,7 +14,6 @@ function(add_boost_part part_name)
     )
 
     FetchContent_MakeAvailable(${part_name})
-
 endfunction()
 
 add_boost_part("type_index")

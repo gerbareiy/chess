@@ -2,13 +2,13 @@ module;
 #include <boost/signals2.hpp>
 
 #include <iostream>
-export module Chess.HandlerInputer;
+export module Chess.InputHandler;
 import Chess.Coordinate;
 import Chess.Inputer;
 
 namespace Chess
 {
-    export class HandlerInputer final : public Inputer
+    export class InputHandler final : public Inputer
     {
         char EnterFile() const
         {
