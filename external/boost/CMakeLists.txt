@@ -5,22 +5,16 @@ include(FetchContent)
 set(FETCHCONTENT_QUIET OFF)
 
 function(add_boost_part part_name)
-        FetchContent_Declare(
+    FetchContent_Declare(
         ${part_name}
         GIT_REPOSITORY https://github.com/boostorg/${part_name}.git
         GIT_PROGRESS ON
         GIT_SHALLOW ON
-        OVERRIDE_FIND_PACKAGE TRUE
-        EXCLUDE_FROM_ALL
+        EXCLUDE_FROM_ALL ON
     )
 
     FetchContent_MakeAvailable(${part_name})
 
-    find_package(
-        ${part_name}
-        REQUIRED
-        COMPONENTS ${part_name}
-    )
 endfunction()
 
 add_boost_part("type_index")
