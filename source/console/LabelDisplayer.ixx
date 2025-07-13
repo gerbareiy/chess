@@ -2,15 +2,15 @@ module;
 #include <iostream>
 #include <memory>
 #include <string>
-export module Chess.LabelShower;
+export module Chess.LabelDisplayer;
 import Chess.Inputer;
 
 namespace Chess
 {
-    export class LabelShower
+    export class LabelDisplayer
     {
     public:
-        explicit LabelShower(const std::shared_ptr<Inputer>& inputer)
+        explicit LabelDisplayer(const std::shared_ptr<Inputer>& inputer)
         {
             const auto show = [this](const std::string& str)
             {
@@ -19,7 +19,7 @@ namespace Chess
             inputer->ConnectEnter(show);
         }
 
-        ~LabelShower() = default;
+        ~LabelDisplayer() = default;
 
         static void Show(const std::string& toPrint)
         {
