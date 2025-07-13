@@ -1,5 +1,6 @@
 module;
 #include <boost/signals2.hpp>
+
 #include <string>
 export module Chess.Inputer;
 

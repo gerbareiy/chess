@@ -87,12 +87,12 @@ namespace Chess
             return nullptr;
         }
 
-        void                   InitCurrentPiece(const Coordinate& from)
+        void InitCurrentPiece(const Coordinate& from)
         {
             m_currentPiece = GetPiece(from);
         }
 
-        void                   MovePiece(const Coordinate& to, const boost::signals2::signal<void()>& signalChessboardUndated)
+        void MovePiece(const Coordinate& to, const boost::signals2::signal<void()>& signalChessboardUndated)
         {
             auto fromTake = PieceTakeLocator::Find(m_currentPiece, m_piecesOnBoard, to);
 

@@ -15,8 +15,7 @@ namespace Chess
 {
     export class BishopChecker final : public IMoveChecker
     {
-        static std::vector<Coordinate> FindPossibleMoves(const std::shared_ptr<Bishop>&             bishop,
-                                                                        const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
+        static std::vector<Coordinate> FindPossibleMoves(const std::shared_ptr<Bishop>& bishop, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
         {
             std::vector<Coordinate> moves;
             moves.reserve(COUNT_OF_BISHOP_WAYS);
