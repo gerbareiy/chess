@@ -61,12 +61,13 @@ namespace Chess
     public:
         Game()
             : m_inputHandler(std::make_shared<InputHandler>())
+            , m_labelDisplayer(std::make_unique<LabelDisplayer>(m_inputHandler))
+
         {
             auto signalDirector   = std::make_shared<PieceSignalDirector>();
             m_chessboard          = std::make_shared<Chessboard>(std::make_shared<PieceInitializer>()->InitNormalBoard(signalDirector), signalDirector);
             m_controller          = std::make_shared<Controller>(m_chessboard);
             m_chessboardDisplayer = std::make_unique<ChessboardDisplayer>(m_chessboard);
-            m_labelDisplayer      = std::make_unique<LabelDisplayer>(m_inputHandler);
 
             m_chessboardDisplayer->Show();
         }
