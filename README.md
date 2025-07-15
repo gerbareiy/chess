@@ -33,4 +33,4 @@
 ![image](https://github.com/Jamy-Konstantinopol/chess/assets/119047289/f3f10540-acc3-4c6b-a5a7-5cb4bebc6fb7)
 
 
-to make project works you need to execute `build.by` script.
+to make project works you need to execute `build.by` script by `python3 build.py` command.
