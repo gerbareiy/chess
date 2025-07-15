@@ -10,7 +10,7 @@ import Chess.Knight;
 import Chess.Pawn;
 import Chess.Piece;
 import Chess.PieceFinder;
-import Chess.PromotePieceInputer;
+import Chess.Promoter;
 import Chess.Queen;
 import Chess.Rook;
 import Chess.Sizes;
@@ -20,7 +20,9 @@ namespace Chess
     export class Promotion
     {
     public:
-        static void PromoteConditionally(const std::shared_ptr<Pawn>& pawn, std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
+        static void PromoteConditionally(const std::shared_ptr<Pawn>&         pawn,
+                                         std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
+                                         const std::shared_ptr<Promoter>&     promoter)
         {
             if (!pawn)
             {
@@ -30,7 +32,7 @@ namespace Chess
             if (pawn->GetPosition().rank == 1 && pawn->GetColorAndType().color == ePieceColor::BLACK
                 || pawn->GetPosition().rank == CHESSBOARD_SIZE && pawn->GetColorAndType().color == ePieceColor::WHITE)
             {
-                const auto             promoteType = PromotePieceInputer().Input();
+                const auto             promoteType = promoter->GetPromoteType();
                 std::shared_ptr<Piece> piece;
                 auto                   color    = pawn->GetColorAndType().color;
                 auto                   position = pawn->GetPosition();
@@ -60,11 +62,6 @@ namespace Chess
                 piecesOnBoard.emplace_back(piece);
                 piecesOnBoard.erase(std::ranges::find(piecesOnBoard, pawn));
             }
-        }
-        static void PromoteConditionally(const Coordinate& pawnPosition, std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
-        {
-            const auto finder = std::make_unique<PieceFinder>(piecesOnBoard);
-            PromoteConditionally(std::dynamic_pointer_cast<Pawn>(finder->Find(pawnPosition)), piecesOnBoard);
         }
     };
 } // namespace Chess

@@ -4,24 +4,30 @@ module;
 
 #include <iostream>
 #include <string>
-export module Chess.PromotePieceInputer;
+export module Chess.ConsolePromoter;
+import Chess.eInputType;
 import Chess.ePieceType;
-import Chess.Inputer;
+import Chess.Promoter;
 import Chess.PieceTypeConverter;
 
 namespace Chess
 {
-    export class PromotePieceInputer final : public Inputer
+    export class ConsolePromoter final : public Promoter
     {
+        static void EnterPromotionType(std::string& input)
+        {
+            std::getline(std::cin, input);
+        }
+
     public:
-        ePieceType Input() const
+        virtual ePieceType GetPromoteType() const override
         {
             while (true)
             {
-                m_signalOnEnter("PROMOTE\nYou can Choose: B K Q R\nEnter: ");
+                m_signalOnEnter(eInputType::PROMOTION);
 
                 std::string input;
-                std::getline(std::cin, input);
+                EnterPromotionType(input);
 
                 input[0] = std::toupper(input[0]);
 
@@ -46,9 +52,6 @@ namespace Chess
                 {
                     return ePieceType::ROOK;
                 }
-
-                m_signalOnEnter("Piece is invalid\nPress any key to continue...\n");
-                auto _ = _getch();
             }
         }
     };

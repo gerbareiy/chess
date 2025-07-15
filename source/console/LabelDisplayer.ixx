@@ -1,29 +1,58 @@
 module;
 #include <iostream>
 #include <memory>
-#include <string>
 export module Chess.LabelDisplayer;
+import Chess.eInputType;
 import Chess.Inputer;
 
 namespace Chess
 {
     export class LabelDisplayer
     {
+        std::shared_ptr<Inputer> m_inputer;
+
     public:
-        explicit LabelDisplayer(const std::shared_ptr<Inputer>& inputer)
+        static void Show(const std::string& message)
         {
-            const auto show = [this](const std::string& str)
+            std::cout << message;
+        }
+
+        static void Show(eInputType type)
+        {
+            switch (type)
             {
-                Show(str);
+            case eInputType::FROM:
+                Show("FROM:\n");
+                break;
+            case eInputType::TO:
+                Show("TO:\n");
+                break;
+            case eInputType::FILE:
+                Show("File: ");
+                break;
+            case eInputType::RANK:
+                Show("Rank: ");
+                break;
+            case eInputType::PROMOTION:
+                Show("PROMOTE\nYou can Choose: B K Q R\nEnter: ");
+                break;
+            }
+        }
+
+        void Init()
+        {
+            const auto show = [this](eInputType type)
+            {
+                Show(type);
             };
-            inputer->ConnectOnEnter(show);
+            m_inputer->ConnectOnEnter(show);
+        }
+
+        explicit LabelDisplayer(const std::shared_ptr<Inputer>& inputer)
+            : m_inputer(inputer)
+        {
         }
 
         ~LabelDisplayer() = default;
-
-        static void Show(const std::string& toPrint)
-        {
-            std::cout << toPrint;
-        }
     };
 } // namespace Chess

@@ -13,6 +13,7 @@ import Chess.Piece;
 import Chess.PieceColorAndType;
 import Chess.PieceSignalDirector;
 import Chess.PieceTakeLocator;
+import Chess.Promoter;
 import Chess.Promotion;
 import Chess.Sizes;
 
@@ -92,7 +93,7 @@ namespace Chess
             m_currentPiece = GetPiece(from);
         }
 
-        void MovePiece(const Coordinate& to, const boost::signals2::signal<void()>& signalChessboardUndated)
+        void MovePiece(const Coordinate& to, const boost::signals2::signal<void()>& signalChessboardUndated, const std::shared_ptr<Promoter>& promoter)
         {
             auto fromTake = PieceTakeLocator::Find(m_currentPiece, m_piecesOnBoard, to);
 
@@ -115,7 +116,7 @@ namespace Chess
                     || m_currentPiece->GetPosition().rank == CHESSBOARD_SIZE && m_currentPiece->GetColorAndType().color == ePieceColor::WHITE))
             {
                 signalChessboardUndated();
-                Promotion::PromoteConditionally(std::static_pointer_cast<Pawn>(m_currentPiece), m_piecesOnBoard);
+                Promotion::PromoteConditionally(std::static_pointer_cast<Pawn>(m_currentPiece), m_piecesOnBoard, promoter);
             }
 
             auto color = ePieceColor::NONE;
