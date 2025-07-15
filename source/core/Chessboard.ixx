@@ -11,6 +11,7 @@ import Chess.Piece;
 import Chess.PieceDirector;
 import Chess.PieceSignalDirector;
 import Chess.Player;
+import Chess.Promoter;
 
 namespace Chess
 {
@@ -76,7 +77,7 @@ namespace Chess
         }
 
         // Before use this method, you need to InitPiece
-        bool TryMovePiece(const Coordinate& to)
+        bool TryMovePiece(const Coordinate& to, const std::shared_ptr<Promoter>& promoter)
         {
             m_to = to;
 
@@ -87,7 +88,7 @@ namespace Chess
 
             m_validator->ClearPossibleMoves();
             m_validator->ClearPiecesCanMove();
-            m_director->MovePiece(to, m_signalChessboardUndated);
+            m_director->MovePiece(to, m_signalChessboardUndated, promoter);
             m_validator->CalculatePiecesCanMove();
 
             m_signalChessboardUndated();

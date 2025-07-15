@@ -4,6 +4,7 @@ module;
 #include <iostream>
 export module Chess.InputHandler;
 import Chess.Coordinate;
+import Chess.eInputType;
 import Chess.Inputer;
 
 namespace Chess
@@ -12,17 +13,16 @@ namespace Chess
     {
         char EnterFile() const
         {
-            m_signalOnEnter("File: ");
+            m_signalOnEnter(eInputType::FILE);
 
             std::string input;
             std::getline(std::cin, input);
-
             return std::toupper(*input.data());
         }
 
         int EnterRank() const
         {
-            m_signalOnEnter("Rank: ");
+            m_signalOnEnter(eInputType::RANK);
 
             std::string input;
             int         rank;
@@ -50,13 +50,13 @@ namespace Chess
     public:
         Coordinate EnterFrom() const
         {
-            m_signalOnEnter("FROM\n");
+            m_signalOnEnter(eInputType::FROM);
             return EnterCoordinate();
         }
 
         Coordinate EnterTo() const
         {
-            m_signalOnEnter("TO\n");
+            m_signalOnEnter(eInputType::TO);
             return EnterCoordinate();
         }
     };

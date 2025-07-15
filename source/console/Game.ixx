@@ -4,6 +4,7 @@ module;
 export module Chess.Game;
 import Chess.Chessboard;
 import Chess.ChessboardDisplayer;
+import Chess.ConsolePromoter;
 import Chess.Controller;
 import Chess.Coordinate;
 import Chess.DrawChecker;
@@ -22,6 +23,7 @@ namespace Chess
         std::shared_ptr<Controller>          m_controller;
         std::shared_ptr<InputHandler>        m_inputHandler;
         std::unique_ptr<LabelDisplayer>      m_labelDisplayer;
+        std::shared_ptr<ConsolePromoter>     m_promoter = std::make_shared<ConsolePromoter>();
 
         static void HandleInput(const std::function<Coordinate()>& inputFunction, const std::function<bool(const Coordinate&)>& initFunction)
         {
@@ -58,12 +60,12 @@ namespace Chess
 
     public:
         Game()
+            : m_inputHandler(std::make_shared<InputHandler>())
         {
             auto signalDirector   = std::make_shared<PieceSignalDirector>();
             m_chessboard          = std::make_shared<Chessboard>(std::make_shared<PieceInitializer>()->InitNormalBoard(signalDirector), signalDirector);
             m_controller          = std::make_shared<Controller>(m_chessboard);
             m_chessboardDisplayer = std::make_unique<ChessboardDisplayer>(m_chessboard);
-            m_inputHandler        = std::make_shared<InputHandler>();
             m_labelDisplayer      = std::make_unique<LabelDisplayer>(m_inputHandler);
 
             m_chessboardDisplayer->Show();
@@ -71,6 +73,12 @@ namespace Chess
 
         void Play() const
         {
+            m_labelDisplayer->Init();
+            const auto tryMovePiece = [this](const Coordinate& to) -> bool
+            {
+                return m_controller->TryMovePiece(to, m_promoter);
+            };
+
             while (true)
             {
                 if (!ContinueGame())
@@ -81,7 +89,7 @@ namespace Chess
                 HandleInput(std::bind(&InputHandler::EnterFrom, m_inputHandler),
                             std::bind(&Controller::TryInitPiece, m_controller.get(), std::placeholders::_1));
 
-                HandleInput(std::bind(&InputHandler::EnterTo, m_inputHandler), std::bind(&Controller::TryMovePiece, m_controller.get(), std::placeholders::_1));
+                HandleInput(std::bind(&InputHandler::EnterTo, m_inputHandler), tryMovePiece);
             }
         }
     };

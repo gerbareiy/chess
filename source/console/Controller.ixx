@@ -5,6 +5,7 @@ module;
 export module Chess.Controller;
 import Chess.Chessboard;
 import Chess.Coordinate;
+import Chess.Promoter;
 
 namespace Chess
 {
@@ -26,13 +27,13 @@ namespace Chess
             return m_chessboard->TryInitPiece(from);
         }
 
-        bool TryMovePiece(const Coordinate& to) const
+        bool TryMovePiece(const Coordinate& to, const std::shared_ptr<Promoter> promoter) const
         {
-            const auto isMoved = m_chessboard->TryMovePiece(to);
+            const auto moved = m_chessboard->TryMovePiece(to, promoter);
 
             m_signalMove();
 
-            return isMoved;
+            return moved;
         }
 
         boost::signals2::connection ConnectMove(const boost::signals2::signal<void()>::slot_type& subscriber)
