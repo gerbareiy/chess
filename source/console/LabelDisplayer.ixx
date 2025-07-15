@@ -16,7 +16,7 @@ namespace Chess
             {
                 Show(str);
             };
-            inputer->ConnectEnter(show);
+            inputer->ConnectOnEnter(show);
         }
 
         ~LabelDisplayer() = default;

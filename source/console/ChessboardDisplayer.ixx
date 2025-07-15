@@ -23,7 +23,6 @@ std::string GetChessboardFiles()
     {
         files += static_cast<char>('A' + i);
     }
-
     return files;
 }
 

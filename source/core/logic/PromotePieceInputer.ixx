@@ -18,7 +18,7 @@ namespace Chess
         {
             while (true)
             {
-                m_signalEnter("PROMOTE\nYou can Choose: B K Q R\nEnter: ");
+                m_signalOnEnter("PROMOTE\nYou can Choose: B K Q R\nEnter: ");
 
                 std::string input;
                 std::getline(std::cin, input);
@@ -47,7 +47,7 @@ namespace Chess
                     return ePieceType::ROOK;
                 }
 
-                m_signalEnter("Piece is invalid\nPress any key to continue...\n");
+                m_signalOnEnter("Piece is invalid\nPress any key to continue...\n");
                 auto _ = _getch();
             }
         }

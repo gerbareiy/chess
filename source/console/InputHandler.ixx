@@ -12,7 +12,7 @@ namespace Chess
     {
         char EnterFile() const
         {
-            m_signalEnter("File: ");
+            m_signalOnEnter("File: ");
 
             std::string input;
             std::getline(std::cin, input);
@@ -22,7 +22,7 @@ namespace Chess
 
         int EnterRank() const
         {
-            m_signalEnter("Rank: ");
+            m_signalOnEnter("Rank: ");
 
             std::string input;
             int         rank;
@@ -44,22 +44,19 @@ namespace Chess
         {
             const auto file = EnterFile();
             const auto rank = EnterRank();
-
             return { .file = file, .rank = rank };
         }
 
     public:
         Coordinate EnterFrom() const
         {
-            m_signalEnter("FROM\n");
-
+            m_signalOnEnter("FROM\n");
             return EnterCoordinate();
         }
 
         Coordinate EnterTo() const
         {
-            m_signalEnter("TO\n");
-
+            m_signalOnEnter("TO\n");
             return EnterCoordinate();
         }
     };
