@@ -1,6 +1,7 @@
 module;
 #include <boost/signals2.hpp>
 export module Chess.Rook;
+import Chess.Coordinate;
 import Chess.eCastleSide;
 import Chess.eError;
 import Chess.ePieceColor;
@@ -55,11 +56,6 @@ namespace Chess
         Rook(ePieceColor color, int orderNumber)
             : m_canMakeCastling(true)
         {
-            if (orderNumber < 1 || orderNumber > 2)
-            {
-                throw std::out_of_range(ErrorConverter::ToString(eError::OUT_OF_COUNT_OF_BISHOP_KNIGHT_ROOK_WITH_ONE_COLOR));
-            }
-
             m_colorAndType = PieceColorAndType(color, ePieceType::ROOK);
 
             const auto file = orderNumber == 1 ? 'A' : 'A' + CHESSBOARD_SIZE - 1;

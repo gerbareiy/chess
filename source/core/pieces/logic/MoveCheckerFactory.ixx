@@ -22,32 +22,23 @@ namespace Chess
     public:
         static std::shared_ptr<IMoveChecker> Create(const std::shared_ptr<Piece>& piece)
         {
-            if (piece->GetColorAndType().type == ePieceType::BISHOP)
+            switch (piece->GetColorAndType().type)
             {
+            case ePieceType::BISHOP:
                 return std::make_shared<BishopChecker>();
-            }
-            if (piece->GetColorAndType().type == ePieceType::KING)
-            {
+            case ePieceType::KING:
                 return std::make_shared<KingChecker>();
-            }
-            if (piece->GetColorAndType().type == ePieceType::KNIGHT)
-            {
+            case ePieceType::KNIGHT:
                 return std::make_shared<KnightChecker>();
-            }
-            if (piece->GetColorAndType().type == ePieceType::PAWN)
-            {
+            case ePieceType::PAWN:
                 return std::make_shared<PawnChecker>();
-            }
-            if (piece->GetColorAndType().type == ePieceType::QUEEN)
-            {
+            case ePieceType::QUEEN:
                 return std::make_shared<QueenChecker>();
-            }
-            if (piece->GetColorAndType().type == ePieceType::ROOK)
-            {
+            case ePieceType::ROOK:
                 return std::make_shared<RookChecker>();
+            default:
+                throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
             }
-
-            throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
         }
     };
 } // namespace Chess

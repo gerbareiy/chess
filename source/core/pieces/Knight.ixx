@@ -16,11 +16,6 @@ namespace Chess
     public:
         Knight(ePieceColor color, int orderNumber)
         {
-            if (orderNumber < 1 || orderNumber > 2)
-            {
-                throw std::out_of_range(ErrorConverter::ToString(eError::OUT_OF_COUNT_OF_BISHOP_KNIGHT_ROOK_WITH_ONE_COLOR));
-            }
-
             m_colorAndType  = { .color = color, .type = ePieceType::KNIGHT };
             const auto file = orderNumber == 1 ? 'B' : 'G';
 

@@ -1,11 +1,12 @@
 module;
 #include <stdexcept>
 export module Chess.Bishop;
-import Chess.Piece;
+import Chess.Coordinate;
 import Chess.eError;
 import Chess.ePieceColor;
 import Chess.ePieceType;
 import Chess.ErrorConverter;
+import Chess.Piece;
 import Chess.PieceColorAndType;
 import Chess.Sizes;
 
@@ -16,12 +17,6 @@ namespace Chess
     public:
         Bishop(ePieceColor color, int orderNumber)
         {
-
-            if (orderNumber < 1 || orderNumber > 2)
-            {
-                throw std::out_of_range(ErrorConverter::ToString(eError::OUT_OF_COUNT_OF_BISHOP_KNIGHT_ROOK_WITH_ONE_COLOR));
-            }
-
             m_colorAndType = PieceColorAndType(color, ePieceType::BISHOP);
 
             const auto file = orderNumber == 1 ? 'C' : 'F';

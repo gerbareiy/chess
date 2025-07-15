@@ -3,6 +3,7 @@ module;
 
 #include <memory>
 export module Chess.King;
+import Chess.Coordinate;
 import Chess.eCastleSide;
 import Chess.eError;
 import Chess.ePieceColor;

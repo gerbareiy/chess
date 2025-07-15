@@ -3,6 +3,7 @@ module;
 #include <stdexcept>
 #include <vector>
 export module Chess.PawnChecker;
+import Chess.Coordinate;
 import Chess.Counts;
 import Chess.eError;
 import Chess.ePieceColor;
