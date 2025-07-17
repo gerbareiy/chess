@@ -10,6 +10,7 @@ export module MyNamespace.MyClass; // имя модуля - это имя namesp
 import OtherNamespace.OtherClass; // импорты идут по алфавиту
 
 namespace MyNamespace
+{
     export class MyClass
     {
         friend class OtherNamespace::OtherClass; // лучше friend-ов избегать
@@ -66,7 +67,9 @@ namespace MyNamespace
         // все поля находятся только в private части, если так нужно, то допускается делать GetMyField и SetMyField - методы,
         // но тогда и внутри класса все взаимодействия с полем стоит заменить на взаимодействие через методы
         // исключение: структуры, но в них, желательно избегать методы вообще, но не обязательно
+    public:
     };
+}
 ```
 
 Взаимодействие с игрой через консоль
