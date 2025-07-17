@@ -24,6 +24,10 @@ namespace MyNamespace
         {
         };
 
+        enum class eMyEnumClass
+        {
+        };
+
         static constexpr int m_constexprFieldName = 5;
         static const int m_staticConstFieldNameOne = 5; // константы с inline инициализацией идут раньше
         static const int m_staticConstFieldNameTwo;
