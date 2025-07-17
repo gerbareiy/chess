@@ -27,16 +27,16 @@ namespace MyNamespace
         static constexpr int m_constexprFieldName = 5;
         static const int m_staticConstFieldNameOne = 5; // константы с inline инициализацией идут раньше
         static const int m_staticConstFieldNameTwo;
-        static int m_staticFieldName = 5; // не константные поля нужно инициализировать, если это не делается по умолчанию
+        // статических неконстантных полей быть не должно
 
         constexpr int m_constexprFieldName = 5;
         int m_constFieldNameOne = 5; // константы с inline инициализацией идут раньше
         int m_constFieldNameTwo;
-        int m_fieldName = 5;
+        int m_fieldName = 5; // не константные поля нужно инициализировать, если это не делается по умолчанию
 
-        static int GetMyStaticFieldName() // в таком же порядке, что и объявления самих полей
+        static int GetMyConstStaticFieldNameOne() // в таком же порядке, что и объявления самих полей
         {
-            return m_staticFieldName;
+            return m_staticConstFieldNameOne;
         }
 
         // лучше избегать создание .cpp файлов и реализацию делать прямо в модуле
