@@ -1,3 +1,74 @@
+To make project works you need to execute `build.by` script by executing `python3 build.py` command.
+
+Code convention:
+
+Порядок членов класса и файла и общий стиль наименования. Короче говоря, тут то, что .clang-format отформатировать не может
+```cpp
+module; // если в файле #include-ы отсутствуют, то это ключевое слово использовать не надо
+#include "AnyOtherIncludeFile.h" // пусть тут решает .clang-format в какой последовательности они будут
+export module MyNamespace.MyClass; // имя модуля - это имя namespace-а и класса
+import OtherNamespace.OtherClass; // импорты идут по алфавиту
+
+namespace MyNamespace
+    export class MyClass
+    {
+        friend class OtherNamespace::OtherClass; // лучше friend-ов избегать
+
+        class MySubclass
+        {
+        };
+
+        struct MySubstruct
+        {
+        };
+
+        static constexpr int m_constexprFieldName = 5;
+        static const int m_staticConstFieldNameOne = 5; // константы с inline инициализацией идут раньше
+        static const int m_staticConstFieldNameTwo;
+        static int m_staticFieldName = 5; // не константные поля нужно инициализировать, если это не делается по умолчанию
+
+        constexpr int m_constexprFieldName = 5;
+        int m_constFieldNameOne = 5; // константы с inline инициализацией идут раньше
+        int m_constFieldNameTwo;
+        int m_fieldName = 5;
+
+        static int GetMyStaticFieldName() // в таком же порядке, что и объявления самих полей
+        {
+            return m_staticFieldName;
+        }
+
+        // лучше избегать создание .cpp файлов и реализацию делать прямо в модуле
+        static int MyStaticMethod(int parameterOne, int paremeterTwo)
+        {
+            // ...
+        }
+
+        int GetMyFieldName() const // в таком же порядке, что и объявления самих полей
+        {
+            return m_fieldName;
+        }
+    
+        // лучше избегать создание .cpp файлов и реализацию делать прямо в модуле
+        // если метод, что-то возвращает, то он не должен менять состояние класса
+        // исключения: может возвращать bool, если он означает, получилось ли изменить состояние класса или нет и название метода должно начинатся на Try
+        int MyConstMethod(int parameterOne, int paremeterTwo) const
+        {
+            // ...
+        }
+    
+        // лучше избегать создание .cpp файлов и реализацию делать прямо в модуле
+        void MyMethod(int parameterOne, int paremeterTwo)
+        {
+            // ...
+        }
+
+    protected:
+        // все поля находятся только в private части, если так нужно, то допускается делать GetMyField и SetMyField - методы,
+        // но тогда и внутри класса все взаимодействия с полем стоит заменить на взаимодействие через методы
+        // исключение: структуры, но в них, желательно избегать методы вообще, но не обязательно
+    };
+```
+
 Взаимодействие с игрой через консоль
 
 Те фигуры, которые доступны для хода, подсвечиваются синим
@@ -31,6 +102,3 @@
 Завершение игры при "шахе и мате" или "ничье"
 
 ![image](https://github.com/Jamy-Konstantinopol/chess/assets/119047289/f3f10540-acc3-4c6b-a5a7-5cb4bebc6fb7)
-
-
-to make project works you need to execute `build.by` script by `python3 build.py` command.
