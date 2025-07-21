@@ -1,6 +1,7 @@
 module;
 #include <stdexcept>
 export module Chess.Knight;
+import Chess.Coordinate;
 import Chess.eError;
 import Chess.ePieceColor;
 import Chess.ePieceType;
