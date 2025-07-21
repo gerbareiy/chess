@@ -13,12 +13,26 @@ ColumnLimit: 160
 AccessModifierOffset: '-4'
 IncludeBlocks: 'Regroup'
 IncludeCategories:
-  - Regex: 'CoreMinimal.h'
+  - Regex: ^"[^\\\/]*"$
     Priority: 1
-  - Regex: '.*.generated.h'
-    Priority: 10000000
-  - Regex: '.*.h'
+    SortPriority: 1
+    CaseSensitive: false
+  - Regex: ^".*(\\|\/).*"$
     Priority: 2
+    SortPriority: 2
+    CaseSensitive: false
+  - Regex: windows.h|intrin.h|D3D11RenderDevice.h
+    Priority: 4
+    SortPriority: 4
+    CaseSensitive: false
+  - Regex: <[^\.]*>
+    Priority: 5
+    SortPriority: 5
+    CaseSensitive: false
+  - Regex: ^<
+    Priority: 3
+    SortPriority: 3
+    CaseSensitive: false
 PointerAlignment: Left
 BinPackArguments: false
 BinPackParameters: false
