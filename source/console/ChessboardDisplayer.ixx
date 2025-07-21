@@ -2,8 +2,8 @@ module;
 #include <windows.h>
 
 #include <functional>
-#include <iostream>
 #include <memory>
+#include <print>
 export module Chess.ChessboardDisplayer;
 import Chess.Chessboard;
 import Chess.Coordinate;
@@ -63,8 +63,8 @@ namespace Chess
         {
             ShowEmpty();
 
-            std::cout << (isChessboardSizeOneDigit ? "   " : "\t");
-            std::cout << GetChessboardFiles();
+            std::print("{}", isChessboardSizeOneDigit ? "   " : "\t");
+            std::print("{}", GetChessboardFiles());
 
             ShowEmpty();
             ShowEmpty();
@@ -73,13 +73,11 @@ namespace Chess
         static void ShowChessboardRank(int y, bool isChessboardSizeOneDigit)
         {
             const auto space = (isChessboardSizeOneDigit ? ' ' : '\t');
-            std::cout << space << y << space;
+            std::print("{}{}{}", space, y, space);
         }
 
         Console::eConsoleColor GetBackgroundConsoleColor(const Coordinate& coordinate) const
         {
-            const auto isSquareBlack = (coordinate.file + 1 + coordinate.rank) % 2;
-
             if (coordinate == m_chessboard->GetFrom())
             {
                 return Console::eConsoleColor::BROWN;
@@ -88,6 +86,8 @@ namespace Chess
             {
                 return Console::eConsoleColor::YELLOW;
             }
+
+            const auto isSquareBlack = (coordinate.file + 1 + coordinate.rank) % 2;
             if (m_chessboard->GetMoveValidator()->IsCoordinateInPieceCanMove(coordinate))
             {
                 return isSquareBlack ? Console::eConsoleColor::BLUE : Console::eConsoleColor::CERULEAN;
@@ -124,7 +124,7 @@ namespace Chess
     public:
         static void ShowEmpty()
         {
-            std::cout << '\n';
+            std::print("\n");
         }
 
         explicit ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard)
@@ -155,7 +155,7 @@ namespace Chess
 
                 SetConsoleColor(textColor, background);
 
-                std::cout << PieceTypeConverter::ConvertToString(colorAndType.type)[0];
+                std::print("{}", PieceTypeConverter::ConvertToString(colorAndType.type)[0]);
             }
         }
 
@@ -169,7 +169,7 @@ namespace Chess
             {
                 if (piece->GetColorAndType().color == color)
                 {
-                    std::cout << PieceTypeConverter::ConvertToString(piece->GetColorAndType().type);
+                    std::print("{}", PieceTypeConverter::ConvertToString(piece->GetColorAndType().type));
                 }
             }
 
