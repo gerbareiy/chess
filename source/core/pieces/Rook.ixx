@@ -53,32 +53,6 @@ namespace Chess
         }
 
     public:
-        Rook(ePieceColor color, int orderNumber)
-            : m_canMakeCastling(true)
-        {
-            m_colorAndType = PieceColorAndType(color, ePieceType::ROOK);
-
-            const auto file = orderNumber == 1 ? 'A' : 'A' + CHESSBOARD_SIZE - 1;
-
-            switch (color)
-            {
-            case ePieceColor::BLACK:
-                m_position = Coordinate(file, CHESSBOARD_SIZE);
-                break;
-            case ePieceColor::WHITE:
-                m_position = Coordinate(file, 1);
-                break;
-            default:
-                throw std::out_of_range(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
-            }
-        }
-
-        Rook(ePieceColor pieceColor, int orderNumber, const std::shared_ptr<King>& king)
-            : Rook(pieceColor, orderNumber)
-        {
-            MakeTracking(king);
-        }
-
         Rook(ePieceColor color, const Coordinate& coordinate)
             : Piece(PieceColorAndType(color, ePieceType::ROOK), coordinate)
         {

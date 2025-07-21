@@ -43,29 +43,6 @@ namespace Chess
         }
 
     public:
-        King(ePieceColor color)
-        {
-            m_colorAndType = PieceColorAndType(color, ePieceType::KING);
-
-            switch (color)
-            {
-            case ePieceColor::BLACK:
-                m_position = Coordinate('E', CHESSBOARD_SIZE);
-                break;
-            case ePieceColor::WHITE:
-                m_position = Coordinate('E', 1);
-                break;
-            default:
-                throw std::out_of_range(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
-            }
-        }
-
-        King(ePieceColor color, const std::shared_ptr<PieceSignalDirector>& signalDirector)
-            : King(color)
-        {
-            MakeTracking(signalDirector);
-        }
-
         King(ePieceColor color, const Coordinate& coordinate)
             : Piece(PieceColorAndType(color, ePieceType::KING), coordinate)
         {

@@ -47,34 +47,6 @@ namespace Chess
         }
 
     public:
-        Pawn(ePieceColor color, char file)
-        {
-            if (file < 'A' || file > 'A' + CHESSBOARD_SIZE - 1)
-            {
-                throw std::out_of_range(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
-            }
-
-            m_colorAndType = PieceColorAndType(color, ePieceType::PAWN);
-
-            switch (color)
-            {
-            case ePieceColor::BLACK:
-                m_position = Coordinate(file, CHESSBOARD_SIZE - 1);
-                break;
-            case ePieceColor::WHITE:
-                m_position = Coordinate(file, 2);
-                break;
-            default:
-                throw std::out_of_range(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
-            }
-        }
-
-        Pawn(ePieceColor color, char file, const std::shared_ptr<PieceSignalDirector>& signalDirector)
-            : Pawn(color, file)
-        {
-            MakeTracking(signalDirector);
-        }
-
         Pawn(ePieceColor color, const Coordinate& coordinate)
             : Piece(PieceColorAndType(color, ePieceType::PAWN), coordinate)
         {
