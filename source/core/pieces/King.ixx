@@ -1,6 +1,7 @@
 module;
 #include <boost/signals2.hpp>
 
+#include <expected>
 #include <memory>
 export module Chess.King;
 import Chess.Coordinate;
@@ -64,7 +65,7 @@ namespace Chess
             return m_isCheck;
         }
 
-        virtual void Move(Coordinate to, bool isRealMove = true) override
+        virtual std::expected<void, std::string> Move(Coordinate to, bool isRealMove = true) override
         {
             if (isRealMove)
             {
@@ -84,7 +85,7 @@ namespace Chess
                     }
                     else
                     {
-                        throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_MOVE));
+                        return std::unexpected(ErrorConverter::ToString(eError::NOT_CORRECT_MOVE));
                     }
 
                     m_signalCastling(to, side);

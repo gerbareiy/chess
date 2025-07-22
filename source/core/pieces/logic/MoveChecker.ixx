@@ -41,7 +41,7 @@ namespace Chess
 
     public:
         explicit MoveChecker(const std::shared_ptr<Piece>& piece)
-            : m_moveCheckerOfPiece(MoveCheckerFactory::Create(piece))
+            : m_moveCheckerOfPiece(MoveCheckerFactory::Create(piece).value()) // Potential undefined behavior
             , m_piece(piece)
         {
         }

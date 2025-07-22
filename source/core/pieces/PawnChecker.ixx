@@ -1,4 +1,5 @@
 module;
+#include <expected>
 #include <memory>
 #include <stdexcept>
 #include <vector>
@@ -21,7 +22,11 @@ namespace Chess
     {
         static std::vector<Coordinate> GetForwardMoves(const std::shared_ptr<Pawn>& pawn, const std::shared_ptr<PieceFinder>& finder)
         {
-            ValidatePawn(pawn);
+            auto validatedPawn = ValidatePawn(pawn);
+            if (!validatedPawn)
+            {
+                return {}; // TODO: somehow call checkmate here
+            }
 
             const auto moveVector = (pawn->GetColorAndType().color == ePieceColor::WHITE) ? 1 : -1;
 
@@ -50,7 +55,11 @@ namespace Chess
 
         static std::vector<Coordinate> GetDiagonalMoves(const std::shared_ptr<Pawn>& pawn, const std::shared_ptr<PieceFinder>& finder)
         {
-            ValidatePawn(pawn);
+            auto validatedPawn = ValidatePawn(pawn);
+            if (!validatedPawn)
+            {
+                return {}; // TODO: somehow call checkmate here
+            }
 
             const int moveVector = (pawn->GetColorAndType().color == ePieceColor::WHITE) ? 1 : -1;
 
@@ -97,15 +106,15 @@ namespace Chess
             return moves;
         }
 
-        static void ValidatePawn(const std::shared_ptr<Pawn>& pawn)
+        static std::expected<void, std::string> ValidatePawn(const std::shared_ptr<Pawn>& pawn)
         {
             if (!PositionChecker::IsPositionValid(pawn->GetPosition()))
             {
-                throw std::out_of_range(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
+                return std::unexpected(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
             }
             if (pawn->GetColorAndType().color == ePieceColor::NONE)
             {
-                throw std::invalid_argument(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
+                return std::unexpected(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
             }
         }
 

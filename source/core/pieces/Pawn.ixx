@@ -1,4 +1,5 @@
 module;
+#include <expected>
 #include <memory>
 #include <stdexcept>
 export module Chess.Pawn;
@@ -68,7 +69,7 @@ namespace Chess
             return m_isNotMoved;
         }
 
-        virtual void Move(Coordinate to, bool isRealMove = true) override
+        virtual std::expected<void, std::string> Move(Coordinate to, bool isRealMove = true) override
         {
             if (isRealMove)
             {
@@ -86,6 +87,7 @@ namespace Chess
             }
 
             Piece::Move(to);
+            return {};
         }
     };
 } // namespace Chess

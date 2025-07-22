@@ -22,7 +22,11 @@ namespace Chess
                 }
 
                 const auto moveChecker = std::make_unique<MoveCheckerFactory>()->Create(piece);
-                auto       moves       = moveChecker->GetMoves(piece, piecesOnBoard);
+                if (!moveChecker)
+                {
+                    return true;
+                }
+                auto moves = moveChecker.value()->GetMoves(piece, piecesOnBoard);
 
                 for (const auto& move : moves)
                 {

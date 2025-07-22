@@ -1,5 +1,7 @@
 module;
 #include <boost/signals2.hpp>
+
+#include <expected>
 export module Chess.Rook;
 import Chess.Coordinate;
 import Chess.eCastleSide;
@@ -69,7 +71,7 @@ namespace Chess
             return m_canMakeCastling;
         }
 
-        virtual void Move(Coordinate to, bool isRealMove = true) override
+        virtual std::expected<void, std::string> Move(Coordinate to, bool isRealMove = true) override
         {
             if (isRealMove)
             {
@@ -77,6 +79,7 @@ namespace Chess
             }
 
             Piece::Move(to);
+            return {};
         }
     };
 } // namespace Chess

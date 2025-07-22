@@ -1,3 +1,6 @@
+module;
+#include <expected>
+#include <string>
 export module Chess.Piece;
 import Chess.Coordinate;
 import Chess.PieceColorAndType;
@@ -30,9 +33,10 @@ namespace Chess
             return m_position;
         }
 
-        virtual void Move(Coordinate to, bool isRealMove = true)
+        virtual std::expected<void, std::string> Move(Coordinate to, bool isRealMove = true)
         {
             m_position = to;
+            return {};
         }
     };
 } // namespace Chess
