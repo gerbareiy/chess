@@ -3,6 +3,7 @@ module;
 #include <vector>
 export module Chess.RookChecker;
 import Chess.BishopQueenRookDirectionChecker;
+import Chess.Coordinate;
 import Chess.Counts;
 import Chess.ePieceType;
 import Chess.IMoveChecker;

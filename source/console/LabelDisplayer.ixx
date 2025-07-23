@@ -1,6 +1,6 @@
 module;
-#include <iostream>
 #include <memory>
+#include <print>
 export module Chess.LabelDisplayer;
 import Chess.eInputType;
 import Chess.Inputer;
@@ -14,7 +14,7 @@ namespace Chess
     public:
         static void Show(const std::string& message)
         {
-            std::cout << message;
+            std::print("{}", message);
         }
 
         static void Show(eInputType type)

@@ -2,8 +2,8 @@ module;
 #include <windows.h>
 
 #include <functional>
-#include <iostream>
 #include <memory>
+#include <print>
 export module Chess.ChessboardDisplayer;
 import Chess.Chessboard;
 import Chess.Coordinate;
@@ -15,93 +15,88 @@ import Chess.PieceDirector;
 import Chess.PieceTypeConverter;
 import Chess.Sizes;
 
-std::string GetChessboardFiles()
-{
-    std::string files = "";
-
-    for (auto i = 0; i < Chess::CHESSBOARD_SIZE; ++i)
-    {
-        files += static_cast<char>('A' + i);
-    }
-    return files;
-}
-
-void GetOriginalConsoleColor(WORD& originalColors)
-{
-    const auto                 handleConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
-    GetConsoleScreenBufferInfo(handleConsole, &consoleInfo);
-    originalColors = consoleInfo.wAttributes;
-}
-
-Console::eConsoleColor GetTextConsoleColor(const Chess::PieceColorAndType& colorAndType, int originalTextColor)
-{
-    return colorAndType.color == Chess::ePieceColor::BLACK   ? Console::eConsoleColor::BLACK
-           : colorAndType.color == Chess::ePieceColor::WHITE ? Console::eConsoleColor::WHITE
-                                                             : static_cast<Console::eConsoleColor>(originalTextColor);
-}
-
-void SetConsoleColor(Console::eConsoleColor textColor, Console::eConsoleColor backgroundColor)
-{
-    const auto hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, (static_cast<int>(backgroundColor) << 4) | static_cast<int>(textColor));
-}
-
-void PrintEmpty()
-{
-    std::cout << '\n';
-}
-
-void ShowChessboardFiles(bool isChessboardSizeOneDigit)
-{
-    PrintEmpty();
-
-    std::cout << (isChessboardSizeOneDigit ? "   " : "\t");
-    std::cout << GetChessboardFiles();
-
-    PrintEmpty();
-    PrintEmpty();
-}
-
-void ShowChessboardRank(int y, bool isChessboardSizeOneDigit)
-{
-    const auto space = (isChessboardSizeOneDigit ? ' ' : '\t');
-    std::cout << space << y << space;
-}
-
 namespace Chess
 {
     export class ChessboardDisplayer
     {
         std::shared_ptr<Chessboard> m_chessboard;
 
+        static std::string GetChessboardFiles()
+        {
+            std::string files = "";
+
+            for (auto i = 0; i < Chess::CHESSBOARD_SIZE; ++i)
+            {
+                files += static_cast<char>('A' + i);
+            }
+            return files;
+        }
+
+        static void GetOriginalConsoleColor(WORD& originalColors)
+        {
+            const auto                 handleConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+            CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+            GetConsoleScreenBufferInfo(handleConsole, &consoleInfo);
+            originalColors = consoleInfo.wAttributes;
+        }
+
+        static Console::eConsoleColor GetTextConsoleColor(const Chess::PieceColorAndType& colorAndType, int originalTextColor)
+        {
+            if (colorAndType.color == Chess::ePieceColor::BLACK)
+            {
+                return Console::eConsoleColor::BLACK;
+            }
+            if (colorAndType.color == Chess::ePieceColor::WHITE)
+            {
+                return Console::eConsoleColor::WHITE;
+            }
+            return static_cast<Console::eConsoleColor>(originalTextColor);
+        }
+
+        static void SetConsoleColor(Console::eConsoleColor textColor, Console::eConsoleColor backgroundColor)
+        {
+            const auto hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+            SetConsoleTextAttribute(hConsole, (static_cast<int>(backgroundColor) << 4) | static_cast<int>(textColor));
+        }
+
+        static void ShowChessboardFiles(bool isChessboardSizeOneDigit)
+        {
+            ShowEmpty();
+
+            std::print("{}", isChessboardSizeOneDigit ? "   " : "\t");
+            std::print("{}", GetChessboardFiles());
+
+            ShowEmpty();
+            ShowEmpty();
+        }
+
+        static void ShowChessboardRank(int y, bool isChessboardSizeOneDigit)
+        {
+            const auto space = (isChessboardSizeOneDigit ? ' ' : '\t');
+            std::print("{}{}{}", space, y, space);
+        }
+
         Console::eConsoleColor GetBackgroundConsoleColor(const Coordinate& coordinate) const
         {
-            Console::eConsoleColor color;
-            const auto             isSquareBlack = (coordinate.file + 1 + coordinate.rank) % 2;
-
             if (coordinate == m_chessboard->GetFrom())
             {
-                color = Console::eConsoleColor::BROWN;
+                return Console::eConsoleColor::BROWN;
             }
-            else if (coordinate == m_chessboard->GetTo())
+            if (coordinate == m_chessboard->GetTo())
             {
-                color = Console::eConsoleColor::YELLOW;
-            }
-            else if (m_chessboard->GetMoveValidator()->IsCoordinateInPieceCanMove(coordinate))
-            {
-                color = isSquareBlack ? Console::eConsoleColor::BLUE : Console::eConsoleColor::CERULEAN;
-            }
-            else if (m_chessboard->GetMoveValidator()->IsCoordinateInPossibleMoves(coordinate))
-            {
-                color = isSquareBlack ? Console::eConsoleColor::DARK_RED : Console::eConsoleColor::RED;
-            }
-            else
-            {
-                color = isSquareBlack ? Console::eConsoleColor::GRAY : Console::eConsoleColor::GREEN;
+                return Console::eConsoleColor::YELLOW;
             }
 
-            return color;
+            const auto isSquareBlack = (coordinate.file + 1 + coordinate.rank) % 2;
+            if (m_chessboard->GetMoveValidator()->IsCoordinateInPieceCanMove(coordinate))
+            {
+                return isSquareBlack ? Console::eConsoleColor::BLUE : Console::eConsoleColor::CERULEAN;
+            }
+            if (m_chessboard->GetMoveValidator()->IsCoordinateInPossibleMoves(coordinate))
+            {
+                return isSquareBlack ? Console::eConsoleColor::DARK_RED : Console::eConsoleColor::RED;
+            }
+            return isSquareBlack ? Console::eConsoleColor::GRAY : Console::eConsoleColor::GREEN;
         }
 
         void ShowChessboardWithCoordinates() const
@@ -129,7 +124,7 @@ namespace Chess
     public:
         static void ShowEmpty()
         {
-            PrintEmpty();
+            std::print("\n");
         }
 
         explicit ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard)
@@ -160,7 +155,7 @@ namespace Chess
 
                 SetConsoleColor(textColor, background);
 
-                std::cout << PieceTypeConverter::ConvertToString(colorAndType.type)[0];
+                std::print("{}", PieceTypeConverter::ConvertToString(colorAndType.type)[0]);
             }
         }
 
@@ -174,7 +169,7 @@ namespace Chess
             {
                 if (piece->GetColorAndType().color == color)
                 {
-                    std::cout << PieceTypeConverter::ConvertToString(piece->GetColorAndType().type);
+                    std::print("{}", PieceTypeConverter::ConvertToString(piece->GetColorAndType().type));
                 }
             }
 
