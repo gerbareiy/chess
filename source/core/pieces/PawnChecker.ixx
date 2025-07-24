@@ -22,8 +22,7 @@ namespace Chess
     {
         static std::vector<Coordinate> GetForwardMoves(const std::shared_ptr<Pawn>& pawn, const std::shared_ptr<PieceFinder>& finder)
         {
-            auto validatedPawn = ValidatePawn(pawn);
-            if (!validatedPawn)
+            if (!ValidatePawn(pawn).has_value())
             {
                 return {}; // TODO: somehow call checkmate here
             }
@@ -55,8 +54,7 @@ namespace Chess
 
         static std::vector<Coordinate> GetDiagonalMoves(const std::shared_ptr<Pawn>& pawn, const std::shared_ptr<PieceFinder>& finder)
         {
-            auto validatedPawn = ValidatePawn(pawn);
-            if (!validatedPawn)
+            if (!ValidatePawn(pawn).has_value())
             {
                 return {}; // TODO: somehow call checkmate here
             }

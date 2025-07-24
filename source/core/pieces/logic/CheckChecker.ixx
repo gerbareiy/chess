@@ -21,13 +21,13 @@ namespace Chess
                     continue;
                 }
 
-                const auto moveChecker = std::make_unique<MoveCheckerFactory>()->Create(piece);
+                const auto moveChecker = MoveCheckerFactory::Create(piece);
                 if (!moveChecker)
                 {
-                    return true;
+                    return false;
                 }
-                auto moves = moveChecker.value()->GetMoves(piece, piecesOnBoard);
 
+                const auto moves = moveChecker.value()->GetMoves(piece, piecesOnBoard);
                 for (const auto& move : moves)
                 {
                     if (move == king->GetPosition())

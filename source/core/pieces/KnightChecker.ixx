@@ -66,14 +66,11 @@ namespace Chess
             }
 
             auto possibleMoves = FindPossibleMoves(std::static_pointer_cast<Knight>(piece), piecesOnBoard);
-            if (possibleMoves)
+            if (possibleMoves.has_value())
             {
-                return *possibleMoves;
+                return possibleMoves.value();
             }
-            else
-            {
-                return {}; // TODO: somehow call checkmate here
-            }
+            return {}; // TODO: somehow call checkmate here
         }
     };
 } // namespace Chess
