@@ -124,14 +124,11 @@ namespace Chess
             if (const auto king = std::dynamic_pointer_cast<King>(piece))
             {
                 auto possibleMoves = FindPossibleMoves(king, piecesOnBoard);
-                if (possibleMoves)
+                if (possibleMoves.has_value())
                 {
-                    return *possibleMoves;
+                    return possibleMoves.value();
                 }
-                else
-                {
-                    return {}; // TODO: somehow call checkmate here
-                }
+                return {}; // TODO: somehow call checkmate here
             }
             return {};
         }
