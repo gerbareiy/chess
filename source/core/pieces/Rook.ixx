@@ -1,5 +1,7 @@
 module;
 #include <boost/signals2.hpp>
+
+#include <expected>
 export module Chess.Rook;
 import Chess.Coordinate;
 import Chess.eCastleSide;
@@ -53,32 +55,6 @@ namespace Chess
         }
 
     public:
-        Rook(ePieceColor color, int orderNumber)
-            : m_canMakeCastling(true)
-        {
-            m_colorAndType = PieceColorAndType(color, ePieceType::ROOK);
-
-            const auto file = orderNumber == 1 ? 'A' : 'A' + CHESSBOARD_SIZE - 1;
-
-            switch (color)
-            {
-            case ePieceColor::BLACK:
-                m_position = Coordinate(file, CHESSBOARD_SIZE);
-                break;
-            case ePieceColor::WHITE:
-                m_position = Coordinate(file, 1);
-                break;
-            default:
-                throw std::out_of_range(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
-            }
-        }
-
-        Rook(ePieceColor pieceColor, int orderNumber, const std::shared_ptr<King>& king)
-            : Rook(pieceColor, orderNumber)
-        {
-            MakeTracking(king);
-        }
-
         Rook(ePieceColor color, const Coordinate& coordinate)
             : Piece(PieceColorAndType(color, ePieceType::ROOK), coordinate)
         {
@@ -95,7 +71,7 @@ namespace Chess
             return m_canMakeCastling;
         }
 
-        virtual void Move(Coordinate to, bool isRealMove = true) override
+        virtual std::expected<void, std::string> Move(Coordinate to, bool isRealMove = true) override
         {
             if (isRealMove)
             {
@@ -103,6 +79,7 @@ namespace Chess
             }
 
             Piece::Move(to);
+            return {};
         }
     };
 } // namespace Chess

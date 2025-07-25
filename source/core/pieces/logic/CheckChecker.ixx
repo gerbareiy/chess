@@ -21,9 +21,13 @@ namespace Chess
                     continue;
                 }
 
-                const auto moveChecker = std::make_unique<MoveCheckerFactory>()->Create(piece);
-                auto       moves       = moveChecker->GetMoves(piece, piecesOnBoard);
+                const auto moveChecker = MoveCheckerFactory::Create(piece);
+                if (!moveChecker)
+                {
+                    return false;
+                }
 
+                const auto moves = moveChecker.value()->GetMoves(piece, piecesOnBoard);
                 for (const auto& move : moves)
                 {
                     if (move == king->GetPosition())

@@ -1,4 +1,5 @@
 module;
+#include <expected>
 #include <memory>
 #include <stdexcept>
 #include <vector>
@@ -20,12 +21,13 @@ namespace Chess
     {
         std::vector<std::pair<int, int>> m_knightMoveDirections = { { 2, 1 }, { 2, -1 }, { -2, 1 }, { -2, -1 }, { 1, 2 }, { 1, -2 }, { -1, 2 }, { -1, -2 } };
 
-        std::vector<Coordinate> FindPossibleMoves(const std::shared_ptr<Piece>& knight, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+        std::expected<std::vector<Coordinate>, std::string> FindPossibleMoves(const std::shared_ptr<Piece>&              knight,
+                                                                              const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
         {
-            if (knight->GetPosition().file < 'A' || knight->GetPosition().file >= 'A' + CHESSBOARD_SIZE || knight->GetPosition().rank < 1
-                || knight->GetPosition().rank > CHESSBOARD_SIZE)
+            const auto knightPosition = knight->GetPosition();
+            if (knightPosition.file < 'A' || knightPosition.file >= 'A' + CHESSBOARD_SIZE || knightPosition.rank < 1 || knightPosition.rank > CHESSBOARD_SIZE)
             {
-                throw std::out_of_range(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
+                return std::unexpected(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
             }
 
             std::vector<Coordinate> moves;
@@ -63,7 +65,12 @@ namespace Chess
                 return {};
             }
 
-            return FindPossibleMoves(std::static_pointer_cast<Knight>(piece), piecesOnBoard);
+            auto possibleMoves = FindPossibleMoves(std::static_pointer_cast<Knight>(piece), piecesOnBoard);
+            if (possibleMoves.has_value())
+            {
+                return possibleMoves.value();
+            }
+            return {}; // TODO: somehow call checkmate here
         }
     };
 } // namespace Chess
