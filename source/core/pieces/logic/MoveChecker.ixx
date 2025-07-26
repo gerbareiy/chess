@@ -1,5 +1,6 @@
 module;
 #include <memory>
+#include <optional>
 #include <vector>
 export module Chess.MoveChecker;
 import Chess.CheckChecker;
@@ -16,11 +17,10 @@ namespace Chess
         std::shared_ptr<IMoveChecker> m_moveCheckerOfPiece;
         std::shared_ptr<Piece>        m_piece;
 
-        std::vector<Coordinate> FindUncheckedMove(const Coordinate& move, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+        std::optional<Coordinate> FindUncheckedMove(const Coordinate& move, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
         {
-            std::vector<Coordinate> filteredMoves;
-            const auto              finder        = std::make_shared<PieceFinder>(piecesOnBoard);
-            const auto              capturedPiece = finder->Find(move);
+            const auto finder        = std::make_shared<PieceFinder>(piecesOnBoard);
+            const auto capturedPiece = finder->Find(move);
 
             std::vector<std::shared_ptr<Piece>> tempPiecesOnBoard = piecesOnBoard;
 
@@ -33,10 +33,9 @@ namespace Chess
 
             if (!CheckChecker::IsCheck(m_piece->GetColorAndType().color, tempPiecesOnBoard))
             {
-                filteredMoves.emplace_back(move);
+                return move;
             }
-
-            return filteredMoves;
+            return std::nullopt;
         }
 
     public:
@@ -55,7 +54,10 @@ namespace Chess
             for (const auto& move : notFilteredMoves)
             {
                 auto partOfFilteredMoves = FindUncheckedMove(move, piecesOnBoard);
-                filteredMoves.insert(filteredMoves.end(), partOfFilteredMoves.begin(), partOfFilteredMoves.end());
+                if (partOfFilteredMoves.has_value())
+                {
+                    filteredMoves.push_back(partOfFilteredMoves.value());
+                }
             }
 
             m_piece->Move(pieceCoordinate, false);
