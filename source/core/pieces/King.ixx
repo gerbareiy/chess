@@ -71,7 +71,7 @@ namespace Chess
             {
                 DisableCastling();
 
-                if (abs(GetPosition().file - to.file) > 1)
+                if (std::abs(GetPosition().file - to.file) > 1)
                 {
                     eCastleSide side;
 
@@ -92,7 +92,7 @@ namespace Chess
                 }
             }
 
-            Piece::Move(to);
+            return Piece::Move(to);
         }
 
         boost::signals2::connection ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber)

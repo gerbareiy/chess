@@ -86,8 +86,7 @@ namespace Chess
                 m_isNotMoved        = false;
             }
 
-            Piece::Move(to);
-            return {};
+            return Piece::Move(to);
         }
     };
 } // namespace Chess

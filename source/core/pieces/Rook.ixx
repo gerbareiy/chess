@@ -77,9 +77,7 @@ namespace Chess
             {
                 DisableCastling();
             }
-
-            Piece::Move(to);
-            return {};
+            return Piece::Move(to);
         }
     };
 } // namespace Chess
