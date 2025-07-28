@@ -13,7 +13,6 @@ import Chess.ErrorConverter;
 import Chess.ICastable;
 import Chess.Piece;
 import Chess.PieceColorAndType;
-import Chess.PieceSignalDirector;
 import Chess.Sizes;
 
 namespace Chess
@@ -29,30 +28,11 @@ namespace Chess
         {
             m_canMakeCastling = false;
         }
-        void MakeTracking(const std::shared_ptr<PieceSignalDirector>& signalDirector)
-        {
-            if (!signalDirector)
-            {
-                return;
-            }
-
-            signalDirector->ConnectMoveWithCheck(
-                [this](bool isCheck)
-                {
-                    m_isCheck = isCheck;
-                });
-        }
 
     public:
         King(ePieceColor color, const Coordinate& coordinate)
             : Piece(PieceColorAndType(color, ePieceType::KING), coordinate)
         {
-        }
-
-        King(ePieceColor color, const Coordinate& coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector)
-            : King(color, coordinate)
-        {
-            MakeTracking(signalDirector);
         }
 
         virtual bool GetCanMakeCastling() const override
@@ -63,6 +43,11 @@ namespace Chess
         bool GetIsCheck() const
         {
             return m_isCheck;
+        }
+
+        void SetCheck(bool isCheck)
+        {
+            m_isCheck = isCheck;
         }
 
         virtual std::expected<void, std::string> Move(Coordinate to, bool isRealMove = true) override

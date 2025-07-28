@@ -10,7 +10,6 @@ import Chess.King;
 import Chess.Knight;
 import Chess.Pawn;
 import Chess.Piece;
-import Chess.PieceSignalDirector;
 import Chess.Queen;
 import Chess.Rook;
 import Chess.Sizes;
@@ -20,7 +19,7 @@ namespace Chess
     export class PieceInitializer
     {
     public:
-        static std::vector<std::shared_ptr<Piece>> InitNormalBoard(std::shared_ptr<PieceSignalDirector> signalDirector)
+        static std::vector<std::shared_ptr<Piece>> InitNormalBoard()
         {
             std::vector<std::shared_ptr<Piece>> piecesOnBoard;
             piecesOnBoard.reserve(MAX_COUNT_ELEMENTS);
@@ -51,8 +50,8 @@ namespace Chess
 
             for (auto i = 0; i < CHESSBOARD_SIZE; ++i)
             {
-                piecesOnBoard.push_back(std::make_shared<Pawn>(ePieceColor::BLACK, Coordinate('A' + i, CHESSBOARD_SIZE-1), signalDirector));
-                piecesOnBoard.push_back(std::make_shared<Pawn>(ePieceColor::WHITE, Coordinate('A' + i, 2), signalDirector));
+                piecesOnBoard.push_back(std::make_shared<Pawn>(ePieceColor::BLACK, Coordinate('A' + i, CHESSBOARD_SIZE-1)));
+                piecesOnBoard.push_back(std::make_shared<Pawn>(ePieceColor::WHITE, Coordinate('A' + i, 2)));
             }
 
             piecesOnBoard.push_back(std::make_shared<Queen>(ePieceColor::BLACK, Coordinate('D', CHESSBOARD_SIZE)));

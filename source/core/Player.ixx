@@ -3,7 +3,6 @@ module;
 #include <memory>
 export module Chess.Player;
 import Chess.ePieceColor;
-import Chess.PieceSignalDirector;
 
 namespace Chess
 {
@@ -12,19 +11,19 @@ namespace Chess
     private:
         ePieceColor m_playerColor;
 
+    public:
+        Player(ePieceColor firstMoveColor)
+            : m_playerColor(firstMoveColor == ePieceColor::NONE ? ePieceColor::WHITE : firstMoveColor)
+        {
+
+        }
+
+    public:
         void ChangeColor()
         {
             m_playerColor = m_playerColor == ePieceColor::BLACK ? ePieceColor::WHITE : ePieceColor::BLACK;
         }
 
-    public:
-        Player(ePieceColor firstMoveColor, const std::shared_ptr<PieceSignalDirector>& signalDirector)
-            : m_playerColor(firstMoveColor == ePieceColor::NONE ? ePieceColor::WHITE : firstMoveColor)
-        {
-            signalDirector->ConnectMove(std::bind(&Player::ChangeColor, this));
-        }
-
-    public:
         ePieceColor GetPlayerColor()
         {
             return m_playerColor;

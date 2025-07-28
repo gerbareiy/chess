@@ -35,10 +35,5 @@ namespace Chess
 
             return moved;
         }
-
-        boost::signals2::connection ConnectMove(const boost::signals2::signal<void()>::slot_type& subscriber)
-        {
-            return m_signalMove.connect(subscriber);
-        }
     };
 } // namespace Chess

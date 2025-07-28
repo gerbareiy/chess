@@ -9,7 +9,6 @@ import Chess.ePieceColor;
 import Chess.ePieceType;
 import Chess.ErrorConverter;
 import Chess.Piece;
-import Chess.PieceSignalDirector;
 import Chess.PieceColorAndType;
 import Chess.Sizes;
 
@@ -28,35 +27,18 @@ namespace Chess
             m_canEnPassant = false;
         }
 
-        void MakeTracking(const std::shared_ptr<PieceSignalDirector>& signalDirector)
+        void MakeTracking()
         {
-            if (!signalDirector)
-            {
-                return;
-            }
-
-            signalDirector->ConnectMove(
-                [this]()
-                {
-                    if (!m_isOnPawnFirstMove)
-                    {
-                        LostEnPassant();
-                    }
-
-                    m_isOnPawnFirstMove = false;
-                });
+            if (!m_isOnPawnFirstMove)
+                LostEnPassant();
+            m_isOnPawnFirstMove = false;
         }
 
     public:
         Pawn(ePieceColor color, const Coordinate& coordinate)
             : Piece(PieceColorAndType(color, ePieceType::PAWN), coordinate)
         {
-        }
-
-        Pawn(ePieceColor color, const Coordinate& coordinate, const std::shared_ptr<PieceSignalDirector>& signalDirector)
-            : Pawn(color, coordinate)
-        {
-            MakeTracking(signalDirector);
+            MakeTracking();
         }
 
         bool GetCanEnPassant() const
