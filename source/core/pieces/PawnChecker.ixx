@@ -114,6 +114,7 @@ namespace Chess
             {
                 return std::unexpected(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
             }
+            return {};
         }
 
     public:
