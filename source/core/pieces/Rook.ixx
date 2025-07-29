@@ -19,7 +19,7 @@ namespace Chess
 {
     export class Rook final : public Piece, public ICastable
     {
-        bool                        m_canMakeCastling = false;
+        bool                        m_canMakeCastling = true;
         boost::signals2::connection m_castlingConnection;
 
         void DisableCastling()
