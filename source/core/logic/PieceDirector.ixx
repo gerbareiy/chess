@@ -11,8 +11,8 @@ import Chess.ePieceColor;
 import Chess.Pawn;
 import Chess.Piece;
 import Chess.PieceColorAndType;
-import Chess.PieceSignalDirector;
 import Chess.PieceTakeLocator;
+import Chess.Player;
 import Chess.Promoter;
 import Chess.Promotion;
 import Chess.Sizes;
@@ -21,12 +21,12 @@ namespace Chess
 {
     export class PieceDirector
     {
-        std::shared_ptr<Piece>               m_currentPiece;
-        std::vector<std::shared_ptr<Piece>>  m_eatenPieces;
-        bool                                 m_isCheck = false;
-        std::vector<std::shared_ptr<Piece>>  m_piecesOnBoard;
-        std::shared_ptr<Promotion>           m_promotion;
-        std::shared_ptr<PieceSignalDirector> m_signalDirector;
+        std::shared_ptr<Piece>              m_currentPiece;
+        std::vector<std::shared_ptr<Piece>> m_eatenPieces;
+        bool                                m_isCheck = false;
+        std::vector<std::shared_ptr<Piece>> m_piecesOnBoard;
+        std::shared_ptr<Promotion>          m_promotion;
+        std::shared_ptr<Player>             m_player;
 
         void Take(int indexOnBoard)
         {
@@ -35,9 +35,9 @@ namespace Chess
         }
 
     public:
-        PieceDirector(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<PieceSignalDirector>& signalDirector)
+        PieceDirector(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<Player>& player)
             : m_piecesOnBoard(piecesOnBoard)
-            , m_signalDirector(signalDirector)
+            , m_player(player)
         {
             m_eatenPieces.reserve(MAX_COUNT_ELEMENTS);
             m_promotion = std::make_shared<Promotion>();
@@ -109,7 +109,10 @@ namespace Chess
             }
 
             m_currentPiece->Move(to);
-            m_signalDirector->Invite();
+            if (m_player)
+            {
+                m_player->ChangeColor();
+            }
 
             if (typeid(*m_currentPiece) == typeid(Pawn)
                 && (m_currentPiece->GetPosition().rank == 1 && m_currentPiece->GetColorAndType().color == ePieceColor::BLACK
@@ -130,7 +133,10 @@ namespace Chess
             }
 
             m_isCheck = CheckChecker::IsCheck(color, m_piecesOnBoard);
-            m_signalDirector->Invite(m_isCheck);
+            if (auto king = std::dynamic_pointer_cast<King>(m_currentPiece))
+            {
+                king->SetCheck(m_isCheck);
+            }
         }
     };
 } // namespace Chess

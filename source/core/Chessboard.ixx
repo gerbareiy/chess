@@ -9,7 +9,6 @@ import Chess.ePieceColor;
 import Chess.MoveValidator;
 import Chess.Piece;
 import Chess.PieceDirector;
-import Chess.PieceSignalDirector;
 import Chess.Player;
 import Chess.Promoter;
 
@@ -22,15 +21,17 @@ namespace Chess
         std::shared_ptr<MoveValidator>      m_validator;
         std::vector<std::shared_ptr<Piece>> m_piecesOnBoard;
         Coordinate                          m_to = { .file = 0, .rank = 0 };
+        std::shared_ptr<Player>             m_player;
 
         boost::signals2::signal<void()> m_signalChessboardUndated;
 
     public:
-        Chessboard(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, std::shared_ptr<PieceSignalDirector> signalDirector)
+        Chessboard(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
             : m_piecesOnBoard(piecesOnBoard)
         {
-            m_director  = std::make_shared<PieceDirector>(m_piecesOnBoard, signalDirector);
-            m_validator = std::make_shared<MoveValidator>(m_piecesOnBoard, std::make_shared<Player>(ePieceColor::WHITE, signalDirector));
+            m_player    = std::make_shared<Player>(ePieceColor::WHITE);
+            m_director  = std::make_shared<PieceDirector>(m_piecesOnBoard, m_player);
+            m_validator = std::make_shared<MoveValidator>(m_piecesOnBoard, m_player);
         }
 
         Coordinate GetFrom() const
