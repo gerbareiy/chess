@@ -30,7 +30,9 @@ namespace Chess
         void MakeTracking()
         {
             if (!m_isOnPawnFirstMove)
+            {
                 LostEnPassant();
+            }
             m_isOnPawnFirstMove = false;
         }
 

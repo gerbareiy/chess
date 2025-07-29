@@ -110,7 +110,9 @@ namespace Chess
 
             m_currentPiece->Move(to);
             if (m_player)
+            {
                 m_player->ChangeColor();
+            }
 
             if (typeid(*m_currentPiece) == typeid(Pawn)
                 && (m_currentPiece->GetPosition().rank == 1 && m_currentPiece->GetColorAndType().color == ePieceColor::BLACK
@@ -131,9 +133,9 @@ namespace Chess
             }
 
             m_isCheck = CheckChecker::IsCheck(color, m_piecesOnBoard);
-            if (m_currentPiece->GetColorAndType().type == ePieceType::KING)
+            if (auto king = std::dynamic_pointer_cast<King>(m_currentPiece))
             {
-                static_cast<King*>(m_currentPiece.get())->SetCheck(m_isCheck);
+                king->SetCheck(m_isCheck);
             }
         }
     };

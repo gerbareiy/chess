@@ -13,9 +13,8 @@ namespace Chess
 
     public:
         Player(ePieceColor firstMoveColor)
-            : m_playerColor(firstMoveColor == ePieceColor::NONE ? ePieceColor::WHITE : firstMoveColor)
         {
-
+            m_playerColor = firstMoveColor == ePieceColor::NONE ? ePieceColor::WHITE : firstMoveColor;
         }
 
     public:
