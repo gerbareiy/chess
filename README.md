@@ -1,9 +1,12 @@
 To make project works you need to execute `build.by` script by executing `python3 build.py` command.
 
-Code convention:
+# Code convention:
 
-Порядок членов класса и файла и общий стиль наименования. Короче говоря, тут то, что .clang-format отформатировать не может
-Также никаких свободный функций быть не должно. Если они нужны, то можно их поместить в отдельный класс и сделать статическими 
+## Порядок членов класса и стиль наименования
+
+Короче говоря, тут то, что .clang-format отформатировать не может
+Также никаких свободный функций быть не должно. Если они нужны, то можно их поместить в отдельный класс и сделать статическими.
+
 ```cpp
 module; // если в файле #include-ы отсутствуют, то это ключевое слово использовать не надо
 #include "AnyOtherIncludeFile.h" // пусть тут решает .clang-format в какой последовательности они будут
@@ -49,6 +52,11 @@ namespace MyNamespace
             // ...
         }
 
+        MyClass()
+        {
+            // ...
+        }
+
         int GetMyFieldName() const // в таком же порядке, что и объявления самих полей
         {
             return m_fieldName;
@@ -75,6 +83,35 @@ namespace MyNamespace
     public:
     };
 }
+```
+
+## Скобки
+
+```cpp
+    for (auto const& object : objects) // не так
+        // ...
+
+    for (auto const& object : objects) // так
+    {
+        // ...
+    }
+```
+
+## Кострукторы
+
+```cpp
+class MyClass
+{
+    // ...
+    explicit MyClass(int value); // Конструкторы с одним аргументом лучше писать с ключевым словом explicit
+
+    MyClass(int value1, int value2, int value3)
+        : m_value1(value1)
+        , m_value2(value2)
+    {
+         m_value3 = value3 + 4; // если происходят какие-то вычисления перед инициализацией, то лучше это делать в теле конструктора
+    }
+};
 ```
 
 Взаимодействие с игрой через консоль
