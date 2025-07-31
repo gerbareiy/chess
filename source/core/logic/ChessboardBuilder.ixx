@@ -83,6 +83,14 @@ namespace Chess
             {
                 auto addPiece = [&](ePieceColor color, ePieceType pieceType, Coordinate coord) mutable
                 {
+                    for (const auto& piece : piecesOnBoard)
+                    {
+                        if (piece->GetPosition() == coord)
+                        {
+                            std::cerr << "Cannot upload the piece, the coordinate " << coord.file << ": " << coord.rank << " already excists" << "\n";
+                            return;
+                        }
+                    }
                     switch (pieceType)
                     {
                     case Chess::ePieceType::ROOK:
