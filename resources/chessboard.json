@@ -1,0 +1,64 @@
+{
+    "white":
+    {
+        "pawns": [
+            {"file": "A", "rank": "2"}, 
+            {"file": "B", "rank": "2"},
+            {"file": "C", "rank": "2"},
+            {"file": "D", "rank": "2"},
+            {"file": "E", "rank": "2"},
+            {"file": "F", "rank": "2"},
+            {"file": "G", "rank": "2"},
+            {"file": "H", "rank": "2"}
+        ],
+        "kings": [
+            {"file": "E", "rank": "1"}
+        ],
+        "queens": [
+            {"file": "D", "rank": "1"}
+        ],
+        "bishops": [
+            {"file": "C", "rank": "1"},
+            {"file": "F", "rank": "1"}
+        ],
+        "knights": [
+            {"file": "B", "rank": "1"},
+            {"file": "G", "rank": "1"}
+        ],
+        "rooks": [
+            {"file": "A", "rank": "1"},
+            {"file": "H", "rank": "1"}
+        ]
+    },
+    "black":
+    {
+        "pawns": [
+            {"file": "A", "rank": "7"}, 
+            {"file": "B", "rank": "7"},
+            {"file": "C", "rank": "7"},
+            {"file": "D", "rank": "7"},
+            {"file": "E", "rank": "7"},
+            {"file": "F", "rank": "7"},
+            {"file": "G", "rank": "7"},
+            {"file": "H", "rank": "7"}
+        ],
+        "kings": [
+            {"file": "E", "rank": "8"}
+        ],
+        "queens": [
+            {"file": "D", "rank": "8"}
+        ],
+        "bishops": [
+            {"file": "C", "rank": "8"},
+            {"file": "F", "rank": "8"}
+        ],
+        "knights": [
+            {"file": "B", "rank": "8"},
+            {"file": "G", "rank": "8"}
+        ],
+        "rooks": [
+            {"file": "A", "rank": "8"},
+            {"file": "H", "rank": "8"}
+        ]
+    }
+}

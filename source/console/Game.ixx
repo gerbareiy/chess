@@ -11,7 +11,7 @@ import Chess.DrawChecker;
 import Chess.InputHandler;
 import Chess.LabelDisplayer;
 import Chess.PieceDirector;
-import Chess.PieceInitializer;
+import Chess.ChessboardBuilder;
 
 namespace Chess
 {
@@ -63,7 +63,7 @@ namespace Chess
             , m_labelDisplayer(std::make_unique<LabelDisplayer>(m_inputHandler))
 
         {
-            m_chessboard          = std::make_shared<Chessboard>(std::make_shared<PieceInitializer>()->InitNormalBoard());
+            m_chessboard          = std::make_shared<Chessboard>(ChessboardBuilder::InitNormalBoard());
             m_controller          = std::make_shared<Controller>(m_chessboard);
             m_chessboardDisplayer = std::make_unique<ChessboardDisplayer>(m_chessboard);
 

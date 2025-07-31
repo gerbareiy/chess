@@ -14,6 +14,7 @@ target_include_directories(core PUBLIC ${CMAKE_SOURCE_DIR}/source)
 target_include_directories(core PRIVATE ${Boost_INCLUDE_DIRS})
 
 target_link_libraries(core PRIVATE Boost::signals2)
+target_link_libraries(core PRIVATE Boost::json)
 
 # console options
 target_include_directories(console PUBLIC ${CMAKE_SOURCE_DIR}/source)
