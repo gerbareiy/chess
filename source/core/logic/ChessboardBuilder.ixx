@@ -9,6 +9,7 @@ module;
 #include <string>
 #include <vector>
 export module Chess.ChessboardBuilder;
+import Chess.PieceTypeConverter;
 import Chess.Bishop;
 import Chess.Counts;
 import Chess.Coordinate;
@@ -27,7 +28,7 @@ namespace Chess
     export class ChessboardBuilder
     {
     private:
-        static std::expected<boost::json::object, std::string> GetConfig(std::string path)
+        static std::expected<boost::json::object, std::string> GetConfig(const std::string& path)
         {
             std::ifstream file(path);
 
@@ -50,7 +51,7 @@ namespace Chess
             return json;
         }
 
-        static bool IsPieceOnBoard(const std::vector<std::shared_ptr<Piece>> piecesOnBoard, Coordinate coord)
+        static bool IsPieceOnBoard(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const Coordinate& coord)
         {
             for (const auto& piece : piecesOnBoard)
             {
@@ -62,21 +63,20 @@ namespace Chess
             return false;
         }
 
-        static void AddPiece(std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
-                             ePieceColor                          color,
-                             ePieceType                           pieceType,
-                             Coordinate                           coord,
-                             std::shared_ptr<King>&               king)
+        static void AddPiece(
+            std::vector<std::shared_ptr<Piece>>& piecesOnBoard, ePieceColor color, ePieceType pieceType, const Coordinate& coord, std::shared_ptr<King>& king)
         {
             if (IsPieceOnBoard(piecesOnBoard, coord))
             {
-                std::cerr << "Cannot upload the piece, the coordinate " << coord.file << ": " << coord.rank << " already excists" << "\n";
+                std::cerr << "Cannot upload the piece " << PieceTypeConverter::ConvertToNormalString(pieceType) << ", the coordinate " << coord.file << " : "
+                          << coord.rank << " already excists "
+                          << "\n ";
                 return;
             }
             switch (pieceType)
             {
             case Chess::ePieceType::ROOK:
-                piecesOnBoard.push_back(std::make_shared<Rook>(king.get()->GetColorAndType().color, coord, king));
+                piecesOnBoard.push_back(std::make_shared<Rook>(king->GetColorAndType().color, coord, king));
                 break;
             case Chess::ePieceType::QUEEN:
                 piecesOnBoard.push_back(std::make_shared<Queen>(color, coord));
@@ -100,84 +100,27 @@ namespace Chess
         }
 
         static void AddPieces(std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
-                              boost::json::object                  side,
-                              std::string                          pieceName,
+                              const boost::json::object&           side,
+                              const std::string&                   pieceName,
                               ePieceColor                          color,
                               ePieceType                           pieceType,
                               std::shared_ptr<King>&               king)
         {
             if (side.contains(pieceName))
             {
-                auto Pieces = side[pieceName].as_array();
+                auto Pieces = side.at(pieceName).as_array();
                 for (const auto& piece : Pieces)
                 {
                     auto pieceAsObj = piece.as_object();
+                    if (!pieceAsObj.contains("file") || !pieceAsObj.contains("rank"))
+                    {
+                        std::cerr << "Error: " << PieceTypeConverter::ConvertToNormalString(pieceType) << " is mising 'file' or 'rank' in configuration\n";
+                        continue;
+                    }
                     auto file       = *pieceAsObj["file"].as_string().c_str();
                     auto rank       = atoi(pieceAsObj["rank"].as_string().c_str());
                     AddPiece(piecesOnBoard, color, pieceType, Coordinate(file, rank), king);
                 }
-            }
-        }
-
-        static std::string TypeToString(ePieceType pieceType)
-        {
-            switch (pieceType)
-            {
-            case Chess::ePieceType::ROOK:
-                return "Rook";
-                break;
-            case Chess::ePieceType::QUEEN:
-                return "Queen";
-                break;
-            case Chess::ePieceType::PAWN:
-                return "Pawn";
-                break;
-            case Chess::ePieceType::KNIGHT:
-                return "Knight";
-                break;
-            case Chess::ePieceType::KING:
-                return "King";
-                break;
-            case Chess::ePieceType::BISHOP:
-                return "Bishop";
-                break;
-            case Chess::ePieceType::NONE:
-                return "None";
-                break;
-            default:
-                return "Unknown";
-                break;
-            }
-        }
-
-        static std::string TypeToStringConfig(ePieceType pieceType)
-        {
-            switch (pieceType)
-            {
-            case Chess::ePieceType::ROOK:
-                return "rooks";
-                break;
-            case Chess::ePieceType::QUEEN:
-                return "queens";
-                break;
-            case Chess::ePieceType::PAWN:
-                return "pawns";
-                break;
-            case Chess::ePieceType::KNIGHT:
-                return "knights";
-                break;
-            case Chess::ePieceType::KING:
-                return "kings";
-                break;
-            case Chess::ePieceType::BISHOP:
-                return "bishops";
-                break;
-            case Chess::ePieceType::NONE:
-                return "none";
-                break;
-            default:
-                return "unknown";
-                break;
             }
         }
 
@@ -210,17 +153,16 @@ namespace Chess
                 return {};
             }
 
-            std::array<ePieceType, 6> tPieces   = { ePieceType::KING,  ePieceType::PAWN,   ePieceType::ROOK,
-                                                    ePieceType::QUEEN, ePieceType::KNIGHT, ePieceType::BISHOP };
+            std::array<ePieceType, 6> tPieces = { ePieceType::KING,  ePieceType::PAWN,   ePieceType::ROOK,
+                                                  ePieceType::QUEEN, ePieceType::KNIGHT, ePieceType::BISHOP };
 
             auto whiteSide = config["white"].as_object();
             auto blackSide = config["black"].as_object();
 
-
             for (const auto& pieceType : tPieces)
             {
-                AddPieces(piecesOnBoard, whiteSide, TypeToStringConfig(pieceType), ePieceColor::WHITE, pieceType, whiteKing);
-                AddPieces(piecesOnBoard, blackSide, TypeToStringConfig(pieceType), ePieceColor::BLACK, pieceType, blackKing);
+                AddPieces(piecesOnBoard, whiteSide, PieceTypeConverter::ConvertToConfigString(pieceType), ePieceColor::WHITE, pieceType, whiteKing);
+                AddPieces(piecesOnBoard, blackSide, PieceTypeConverter::ConvertToConfigString(pieceType), ePieceColor::BLACK, pieceType, blackKing);
             }
 
             return piecesOnBoard;
