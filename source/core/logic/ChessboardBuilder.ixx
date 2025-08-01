@@ -36,40 +36,34 @@ namespace Chess
             {
                 return std::unexpected("Failed to open configuration file");
             }
-            const std::string file_contents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+            const std::string fileContents((std::istreambuf_iterator(file)), std::istreambuf_iterator<char>());
 
-            boost::json::object json;
             try
             {
-                auto tempValue = boost::json::parse(file_contents);
-                json           = tempValue.as_object();
+                auto tempValue = boost::json::parse(fileContents);
+                return tempValue.as_object();
             }
             catch (const std::exception&)
             {
                 return std::unexpected("Failed to parse configuration");
             }
-            return json;
         }
 
         static bool IsPieceOnBoard(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const Coordinate& coordinate)
         {
-            for (const auto& piece : piecesOnBoard)
-            {
-                if (piece->GetPosition() == coordinate)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return std::ranges::any_of(piecesOnBoard, [&](const auto& piece) { return piece->GetPosition() == coordinate; });
         }
 
-        static void AddPiece(
-            std::vector<std::shared_ptr<Piece>>& piecesOnBoard, ePieceColor color, ePieceType pieceType, const Coordinate& coordinate, std::shared_ptr<King>& king)
+        static void AddPiece(std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
+                             ePieceColor                          color,
+                             ePieceType                           pieceType,
+                             const Coordinate&                    coordinate,
+                             std::shared_ptr<King>&               king)
         {
             if (IsPieceOnBoard(piecesOnBoard, coordinate))
             {
-                std::cerr << "Cannot upload the piece " << PieceTypeConverter::ConvertToNormalString(pieceType) << ", the coordinate " << coordinate.file << " : "
-                          << coordinate.rank << " already exist"
+                std::cerr << "Cannot upload the piece " << PieceTypeConverter::ConvertToNormalString(pieceType) << ", the coordinate " << coordinate.file
+                          << " : " << coordinate.rank << " already exist"
                           << "\n ";
                 return;
             }
@@ -125,7 +119,7 @@ namespace Chess
         }
 
     public:
-        static std::vector<std::shared_ptr<Piece>> InitBoard(std::string configurationPath)
+        static std::vector<std::shared_ptr<Piece>> InitBoard(const std::string& configurationPath)
         {
             std::vector<std::shared_ptr<Piece>> piecesOnBoard;
             std::shared_ptr<King>               whiteKing;
