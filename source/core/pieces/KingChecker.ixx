@@ -75,7 +75,7 @@ std::vector<Chess::Coordinate> FindCastlingMoves(const std::shared_ptr<Chess::Ki
 std::expected<std::vector<Chess::Coordinate>, std::string> FindPossibleMoves(const std::shared_ptr<Chess::King>&               king,
                                                                              const std::vector<std::shared_ptr<Chess::Piece>>& piecesOnBoard)
 {
-    auto kingPosition = king->GetPosition();
+    const auto kingPosition = king->GetPosition();
     if (kingPosition.file < 'A' || kingPosition.file > 'A' + Chess::CHESSBOARD_SIZE - 1 || kingPosition.rank < 1 || kingPosition.rank > Chess::CHESSBOARD_SIZE)
     {
         return std::unexpected(Chess::ErrorConverter::ToString(Chess::eError::OUT_OF_CHESSBOARD));

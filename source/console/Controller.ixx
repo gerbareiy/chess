@@ -27,12 +27,10 @@ namespace Chess
             return m_chessboard->TryInitPiece(from);
         }
 
-        bool TryMovePiece(const Coordinate& to, const std::shared_ptr<Promoter> promoter) const
+        bool TryMovePiece(const Coordinate& to, const std::shared_ptr<Promoter>& promoter) const
         {
             const auto moved = m_chessboard->TryMovePiece(to, promoter);
-
             m_signalMove();
-
             return moved;
         }
     };

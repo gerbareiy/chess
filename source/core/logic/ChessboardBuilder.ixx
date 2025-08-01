@@ -36,7 +36,7 @@ namespace Chess
             {
                 return std::unexpected("Failed to open configuration file");
             }
-            std::string file_contents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+            const std::string file_contents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
             boost::json::object json;
             try
@@ -75,26 +75,26 @@ namespace Chess
             }
             switch (pieceType)
             {
-            case Chess::ePieceType::ROOK:
+            case ePieceType::ROOK:
                 piecesOnBoard.push_back(std::make_shared<Rook>(king->GetColorAndType().color, coordinate, king));
                 break;
-            case Chess::ePieceType::QUEEN:
+            case ePieceType::QUEEN:
                 piecesOnBoard.push_back(std::make_shared<Queen>(color, coordinate));
                 break;
-            case Chess::ePieceType::PAWN:
+            case ePieceType::PAWN:
                 piecesOnBoard.push_back(std::make_shared<Pawn>(color, coordinate));
                 break;
-            case Chess::ePieceType::KNIGHT:
+            case ePieceType::KNIGHT:
                 piecesOnBoard.push_back(std::make_shared<Knight>(color, coordinate));
                 break;
-            case Chess::ePieceType::KING:
+            case ePieceType::KING:
                 king = std::make_shared<King>(color, coordinate);
                 piecesOnBoard.push_back(king);
                 break;
-            case Chess::ePieceType::BISHOP:
+            case ePieceType::BISHOP:
                 piecesOnBoard.push_back(std::make_shared<Bishop>(color, coordinate));
                 break;
-            case Chess::ePieceType::NONE:
+            case ePieceType::NONE:
                 break;
             }
         }
@@ -108,17 +108,17 @@ namespace Chess
         {
             if (side.contains(pieceName))
             {
-                auto Pieces = side.at(pieceName).as_array();
-                for (const auto& piece : Pieces)
+                auto pieces = side.at(pieceName).as_array();
+                for (const auto& piece : pieces)
                 {
                     auto pieceAsObj = piece.as_object();
                     if (!pieceAsObj.contains("file") || !pieceAsObj.contains("rank"))
                     {
-                        std::cerr << "Error: " << PieceTypeConverter::ConvertToNormalString(pieceType) << " is mising 'file' or 'rank' in configuration\n";
+                        std::cerr << "Error: " << PieceTypeConverter::ConvertToNormalString(pieceType) << " is missing 'file' or 'rank' in configuration\n";
                         continue;
                     }
-                    auto file = *pieceAsObj["file"].as_string().c_str();
-                    auto rank = atoi(pieceAsObj["rank"].as_string().c_str());
+                    const auto file = *pieceAsObj["file"].as_string().c_str();
+                    const auto rank = atoi(pieceAsObj["rank"].as_string().c_str());
                     AddPiece(piecesOnBoard, color, pieceType, Coordinate(file, rank), king);
                 }
             }
@@ -151,8 +151,8 @@ namespace Chess
                 return {};
             }
 
-            auto whiteSide = config["white"].as_object();
-            auto blackSide = config["black"].as_object();
+            const auto whiteSide = config["white"].as_object();
+            const auto blackSide = config["black"].as_object();
 
             for (const auto& pieceType : PieceTypeConverter::pieceTypes)
             {

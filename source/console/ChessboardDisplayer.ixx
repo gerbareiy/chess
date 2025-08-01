@@ -25,7 +25,7 @@ namespace Chess
         {
             std::string files = "";
 
-            for (auto i = 0; i < Chess::CHESSBOARD_SIZE; ++i)
+            for (auto i = 0; i < CHESSBOARD_SIZE; ++i)
             {
                 files += static_cast<char>('A' + i);
             }
@@ -40,13 +40,13 @@ namespace Chess
             originalColors = consoleInfo.wAttributes;
         }
 
-        static Console::eConsoleColor GetTextConsoleColor(const Chess::PieceColorAndType& colorAndType, int originalTextColor)
+        static Console::eConsoleColor GetTextConsoleColor(const PieceColorAndType& colorAndType, int originalTextColor)
         {
-            if (colorAndType.color == Chess::ePieceColor::BLACK)
+            if (colorAndType.color == ePieceColor::BLACK)
             {
                 return Console::eConsoleColor::BLACK;
             }
-            if (colorAndType.color == Chess::ePieceColor::WHITE)
+            if (colorAndType.color == ePieceColor::WHITE)
             {
                 return Console::eConsoleColor::WHITE;
             }

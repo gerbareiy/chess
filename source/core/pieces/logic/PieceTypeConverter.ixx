@@ -9,7 +9,7 @@ namespace Chess
     export class PieceTypeConverter
     {
     public:
-        inline static const std::array pieceTypes = { ePieceType::KING, ePieceType::PAWN, ePieceType::ROOK, ePieceType::QUEEN, ePieceType::KNIGHT, ePieceType::BISHOP };
+        static constexpr std::array pieceTypes = { ePieceType::KING, ePieceType::PAWN, ePieceType::ROOK, ePieceType::QUEEN, ePieceType::KNIGHT, ePieceType::BISHOP };
         /**
          * @param type Chess piece type (e.g., Chess::ePieceType::ROOK)
          * @return short name of the piece (e.g., "R")
@@ -45,19 +45,19 @@ namespace Chess
         {
             switch (pieceType)
             {
-            case Chess::ePieceType::ROOK:
+            case ePieceType::ROOK:
                 return "Rook";
-            case Chess::ePieceType::QUEEN:
+            case ePieceType::QUEEN:
                 return "Queen";
-            case Chess::ePieceType::PAWN:
+            case ePieceType::PAWN:
                 return "Pawn";
-            case Chess::ePieceType::KNIGHT:
+            case ePieceType::KNIGHT:
                 return "Knight";
-            case Chess::ePieceType::KING:
+            case ePieceType::KING:
                 return "King";
-            case Chess::ePieceType::BISHOP:
+            case ePieceType::BISHOP:
                 return "Bishop";
-            case Chess::ePieceType::NONE:
+            case ePieceType::NONE:
                 return "None";
             default:
                 return "Unknown";
@@ -72,19 +72,19 @@ namespace Chess
         {
             switch (pieceType)
             {
-            case Chess::ePieceType::ROOK:
+            case ePieceType::ROOK:
                 return "rooks";
-            case Chess::ePieceType::QUEEN:
+            case ePieceType::QUEEN:
                 return "queens";
-            case Chess::ePieceType::PAWN:
+            case ePieceType::PAWN:
                 return "pawns";
-            case Chess::ePieceType::KNIGHT:
+            case ePieceType::KNIGHT:
                 return "knights";
-            case Chess::ePieceType::KING:
+            case ePieceType::KING:
                 return "kings";
-            case Chess::ePieceType::BISHOP:
+            case ePieceType::BISHOP:
                 return "bishops";
-            case Chess::ePieceType::NONE:
+            case ePieceType::NONE:
                 return "none";
             default:
                 return "unknown";

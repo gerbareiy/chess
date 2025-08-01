@@ -2,7 +2,6 @@ module;
 #include <filesystem>
 #include <functional>
 #include <memory>
-#include <string>
 export module Chess.Game;
 import Chess.Chessboard;
 import Chess.ChessboardDisplayer;
@@ -65,10 +64,10 @@ namespace Chess
             , m_labelDisplayer(std::make_unique<LabelDisplayer>(m_inputHandler))
 
         {
-            std::filesystem::path resourcePath = std::filesystem::current_path().parent_path().parent_path().parent_path() / "resources" / "chessboard.json";
-            m_chessboard                       = std::make_shared<Chessboard>(ChessboardBuilder::InitBoard(resourcePath.string()));
-            m_controller                       = std::make_shared<Controller>(m_chessboard);
-            m_chessboardDisplayer              = std::make_unique<ChessboardDisplayer>(m_chessboard);
+            const auto resourcePath = std::filesystem::current_path().parent_path().parent_path().parent_path() / "resources" / "chessboard.json";
+            m_chessboard            = std::make_shared<Chessboard>(ChessboardBuilder::InitBoard(resourcePath.string()));
+            m_controller            = std::make_shared<Controller>(m_chessboard);
+            m_chessboardDisplayer   = std::make_unique<ChessboardDisplayer>(m_chessboard);
 
             m_chessboardDisplayer->Show();
         }
