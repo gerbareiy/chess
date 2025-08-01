@@ -133,17 +133,13 @@ namespace Chess
                 return {};
             }
 
-            boost::json::object config;
-            auto                expectedConfig = GetConfig(configurationPath);
-            if (expectedConfig.has_value())
-            {
-                config = expectedConfig.value();
-            }
-            else
+            auto expectedConfig = GetConfig(configurationPath);
+            if (!expectedConfig.has_value())
             {
                 std::cerr << expectedConfig.error();
                 return {};
             }
+            boost::json::object config = expectedConfig.value();
 
             const auto whiteSide = config["white"].as_object();
             const auto blackSide = config["black"].as_object();
