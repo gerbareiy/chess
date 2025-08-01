@@ -38,7 +38,7 @@ BinPackArguments: false
 BinPackParameters: false
 NamespaceIndentation: All
 BreakConstructorInitializers: BeforeComma
-AllowShortLambdasOnASingleLine: false
+AllowShortLambdasOnASingleLine: true
 AllowShortFunctionsOnASingleLine: None
 BreakBeforeBraces: Allman
 BreakBeforeBinaryOperators: NonAssignment

@@ -14,7 +14,7 @@ namespace Chess
     public:
         static Coordinate Find(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, Coordinate to)
         {
-            auto       pawnOnPassCoordinate = Coordinate(to.file, piece->GetPosition().rank);
+            const auto       pawnOnPassCoordinate = Coordinate(to.file, piece->GetPosition().rank);
             const auto finder               = std::make_shared<PieceFinder>(piecesOnBoard);
             const auto currentPawn          = std::dynamic_pointer_cast<Pawn>(piece);
             const auto opponentPawn         = std::dynamic_pointer_cast<Pawn>(finder->Find(pawnOnPassCoordinate));

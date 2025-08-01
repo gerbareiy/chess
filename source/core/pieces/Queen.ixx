@@ -1,5 +1,3 @@
-module;
-#include <stdexcept>
 export module Chess.Queen;
 import Chess.Coordinate;
 import Chess.eError;
