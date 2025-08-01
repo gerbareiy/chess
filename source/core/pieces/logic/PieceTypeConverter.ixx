@@ -1,5 +1,6 @@
 module;
 #include <string>
+#include <array>
 export module Chess.PieceTypeConverter;
 import Chess.ePieceType;
 
@@ -8,6 +9,7 @@ namespace Chess
     export class PieceTypeConverter
     {
     public:
+        inline static const std::array pieceTypes = { ePieceType::KING, ePieceType::PAWN, ePieceType::ROOK, ePieceType::QUEEN, ePieceType::KNIGHT, ePieceType::BISHOP };
         /**
          * @param type Chess piece type (e.g., Chess::ePieceType::ROOK)
          * @return short name of the piece (e.g., "R")
@@ -45,28 +47,20 @@ namespace Chess
             {
             case Chess::ePieceType::ROOK:
                 return "Rook";
-                break;
             case Chess::ePieceType::QUEEN:
                 return "Queen";
-                break;
             case Chess::ePieceType::PAWN:
                 return "Pawn";
-                break;
             case Chess::ePieceType::KNIGHT:
                 return "Knight";
-                break;
             case Chess::ePieceType::KING:
                 return "King";
-                break;
             case Chess::ePieceType::BISHOP:
                 return "Bishop";
-                break;
             case Chess::ePieceType::NONE:
                 return "None";
-                break;
             default:
                 return "Unknown";
-                break;
             }
         }
         
@@ -80,28 +74,20 @@ namespace Chess
             {
             case Chess::ePieceType::ROOK:
                 return "rooks";
-                break;
             case Chess::ePieceType::QUEEN:
                 return "queens";
-                break;
             case Chess::ePieceType::PAWN:
                 return "pawns";
-                break;
             case Chess::ePieceType::KNIGHT:
                 return "knights";
-                break;
             case Chess::ePieceType::KING:
                 return "kings";
-                break;
             case Chess::ePieceType::BISHOP:
                 return "bishops";
-                break;
             case Chess::ePieceType::NONE:
                 return "none";
-                break;
             default:
                 return "unknown";
-                break;
             }
         }
     };

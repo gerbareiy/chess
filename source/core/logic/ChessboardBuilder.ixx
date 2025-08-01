@@ -51,11 +51,11 @@ namespace Chess
             return json;
         }
 
-        static bool IsPieceOnBoard(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const Coordinate& coord)
+        static bool IsPieceOnBoard(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const Coordinate& coordinate)
         {
             for (const auto& piece : piecesOnBoard)
             {
-                if (piece->GetPosition() == coord)
+                if (piece->GetPosition() == coordinate)
                 {
                     return true;
                 }
@@ -64,35 +64,35 @@ namespace Chess
         }
 
         static void AddPiece(
-            std::vector<std::shared_ptr<Piece>>& piecesOnBoard, ePieceColor color, ePieceType pieceType, const Coordinate& coord, std::shared_ptr<King>& king)
+            std::vector<std::shared_ptr<Piece>>& piecesOnBoard, ePieceColor color, ePieceType pieceType, const Coordinate& coordinate, std::shared_ptr<King>& king)
         {
-            if (IsPieceOnBoard(piecesOnBoard, coord))
+            if (IsPieceOnBoard(piecesOnBoard, coordinate))
             {
-                std::cerr << "Cannot upload the piece " << PieceTypeConverter::ConvertToNormalString(pieceType) << ", the coordinate " << coord.file << " : "
-                          << coord.rank << " already excists "
+                std::cerr << "Cannot upload the piece " << PieceTypeConverter::ConvertToNormalString(pieceType) << ", the coordinate " << coordinate.file << " : "
+                          << coordinate.rank << " already exist"
                           << "\n ";
                 return;
             }
             switch (pieceType)
             {
             case Chess::ePieceType::ROOK:
-                piecesOnBoard.push_back(std::make_shared<Rook>(king->GetColorAndType().color, coord, king));
+                piecesOnBoard.push_back(std::make_shared<Rook>(king->GetColorAndType().color, coordinate, king));
                 break;
             case Chess::ePieceType::QUEEN:
-                piecesOnBoard.push_back(std::make_shared<Queen>(color, coord));
+                piecesOnBoard.push_back(std::make_shared<Queen>(color, coordinate));
                 break;
             case Chess::ePieceType::PAWN:
-                piecesOnBoard.push_back(std::make_shared<Pawn>(color, coord));
+                piecesOnBoard.push_back(std::make_shared<Pawn>(color, coordinate));
                 break;
             case Chess::ePieceType::KNIGHT:
-                piecesOnBoard.push_back(std::make_shared<Knight>(color, coord));
+                piecesOnBoard.push_back(std::make_shared<Knight>(color, coordinate));
                 break;
             case Chess::ePieceType::KING:
-                king = std::make_shared<King>(color, coord);
+                king = std::make_shared<King>(color, coordinate);
                 piecesOnBoard.push_back(king);
                 break;
             case Chess::ePieceType::BISHOP:
-                piecesOnBoard.push_back(std::make_shared<Bishop>(color, coord));
+                piecesOnBoard.push_back(std::make_shared<Bishop>(color, coordinate));
                 break;
             case Chess::ePieceType::NONE:
                 break;
@@ -117,15 +117,15 @@ namespace Chess
                         std::cerr << "Error: " << PieceTypeConverter::ConvertToNormalString(pieceType) << " is mising 'file' or 'rank' in configuration\n";
                         continue;
                     }
-                    auto file       = *pieceAsObj["file"].as_string().c_str();
-                    auto rank       = atoi(pieceAsObj["rank"].as_string().c_str());
+                    auto file = *pieceAsObj["file"].as_string().c_str();
+                    auto rank = atoi(pieceAsObj["rank"].as_string().c_str());
                     AddPiece(piecesOnBoard, color, pieceType, Coordinate(file, rank), king);
                 }
             }
         }
 
     public:
-        static std::vector<std::shared_ptr<Piece>> InitNormalBoard()
+        static std::vector<std::shared_ptr<Piece>> InitBoard(std::string configurationPath)
         {
             std::vector<std::shared_ptr<Piece>> piecesOnBoard;
             std::shared_ptr<King>               whiteKing;
@@ -133,16 +133,14 @@ namespace Chess
 
             piecesOnBoard.reserve(MAX_COUNT_ELEMENTS);
 
-            std::filesystem::path resourcePath = std::filesystem::current_path().parent_path().parent_path().parent_path() / "resources" / "chessboard.json";
-            std::string           path         = resourcePath.string();
-            if (!std::filesystem::exists(path))
+            if (!std::filesystem::exists(configurationPath))
             {
                 std::cerr << "Configuration was not found\n";
                 return {};
             }
 
             boost::json::object config;
-            auto                expectedConfig = GetConfig(path);
+            auto                expectedConfig = GetConfig(configurationPath);
             if (expectedConfig.has_value())
             {
                 config = expectedConfig.value();
@@ -153,13 +151,10 @@ namespace Chess
                 return {};
             }
 
-            std::array<ePieceType, 6> tPieces = { ePieceType::KING,  ePieceType::PAWN,   ePieceType::ROOK,
-                                                  ePieceType::QUEEN, ePieceType::KNIGHT, ePieceType::BISHOP };
-
             auto whiteSide = config["white"].as_object();
             auto blackSide = config["black"].as_object();
 
-            for (const auto& pieceType : tPieces)
+            for (const auto& pieceType : PieceTypeConverter::pieceTypes)
             {
                 AddPieces(piecesOnBoard, whiteSide, PieceTypeConverter::ConvertToConfigString(pieceType), ePieceColor::WHITE, pieceType, whiteKing);
                 AddPieces(piecesOnBoard, blackSide, PieceTypeConverter::ConvertToConfigString(pieceType), ePieceColor::BLACK, pieceType, blackKing);
