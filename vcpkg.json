@@ -1,0 +1,6 @@
+{
+  "dependencies": [
+    "boost-json",
+    "boost-signals2"
+  ]
+}
