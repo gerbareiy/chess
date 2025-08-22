@@ -8,12 +8,8 @@ import stat
 PROJECT_ROOT  = os.path.abspath(os.path.dirname(__file__))
 BUILD_DIR     = os.path.join(PROJECT_ROOT, "build")
 VCPKG_DIR     = os.path.join(PROJECT_ROOT, "vcpkg")
-VCPKG_EXE     = os.path.join(VCPKG_DIR,
-                    "vcpkg.exe" if os.name == "nt" else "vcpkg")
-TOOLCHAIN_FILE= os.path.join(VCPKG_DIR,
-                    "scripts", "buildsystems",
-                    "vcpkg.cmake")
-
+VCPKG_EXE     = os.path.join(VCPKG_DIR, "vcpkg.exe" if os.name == "nt" else "vcpkg")
+TOOLCHAIN_FILE= os.path.join(VCPKG_DIR, "scripts", "buildsystems", "vcpkg.cmake")
 
 def remove_readonly(func, path, _):
     os.chmod(path, stat.S_IWRITE)
