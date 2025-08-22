@@ -1,27 +1,67 @@
 import os
+import sys
 import shutil
 import subprocess
 import stat
 
-build_dir = "build"
+# Configuration
+PROJECT_ROOT  = os.path.abspath(os.path.dirname(__file__))
+BUILD_DIR     = os.path.join(PROJECT_ROOT, "build")
+VCPKG_DIR     = os.path.join(PROJECT_ROOT, "vcpkg")
+VCPKG_EXE     = os.path.join(VCPKG_DIR, "vcpkg.exe" if os.name == "nt" else "vcpkg")
+TOOLCHAIN_FILE= os.path.join(VCPKG_DIR, "scripts", "buildsystems", "vcpkg.cmake")
 
 def remove_readonly(func, path, _):
     os.chmod(path, stat.S_IWRITE)
     func(path)
 
-if os.path.exists(build_dir):
-    print(f"Deleting folder {build_dir}...")
-    shutil.rmtree(build_dir, onerror=remove_readonly)
+def run(cmd, **kwargs):
+    print(f"> {' '.join(cmd)}")
+    subprocess.run(cmd, check=True, **kwargs)
 
-print(f"Creating folder {build_dir}...")
-os.makedirs(build_dir, exist_ok=True)
+def ensure_vcpkg():
+    if os.path.isfile(VCPKG_EXE):
+        print("Found existing vcpkg at", VCPKG_EXE)
+        return
 
-os.chdir(build_dir)
+    print("vcpkg not found. Cloning into:", VCPKG_DIR)
+    run(["git", "clone", "--depth=1",
+         "https://github.com/microsoft/vcpkg.git", VCPKG_DIR])
 
-print("Using command: cmake ..")
-result = subprocess.run(["cmake", ".."], check=True)
+    print("Bootstrapping vcpkg...")
+    if os.name == "nt":
+        run([os.path.join(VCPKG_DIR, "bootstrap-vcpkg.bat")])
+    else:
+        run([os.path.join(VCPKG_DIR, "bootstrap-vcpkg.sh")])
 
-if result.returncode == 0:
-    print("CMake command successfully completed.")
-else:
-    print("Error while executing CMake.")
+def main():
+    # 1. Prepare build directory
+    if os.path.exists(BUILD_DIR):
+        print(f"Deleting folder {BUILD_DIR}...")
+        shutil.rmtree(BUILD_DIR, onerror=remove_readonly)
+
+    print(f"Creating folder {BUILD_DIR}...")
+    os.makedirs(BUILD_DIR, exist_ok=True)
+
+    # 2. Ensure vcpkg is ready
+    ensure_vcpkg()
+
+    # 3. Configure with CMake + vcpkg toolchain
+    os.chdir(BUILD_DIR)
+    cmake_cmd = [
+        "cmake", "..",
+        f"-DCMAKE_TOOLCHAIN_FILE={TOOLCHAIN_FILE}",
+    ]
+    run(cmake_cmd)
+
+    # 4. Build
+    print("Building the project...")
+    run(["cmake", "--build", ".", "--config", "Release"])
+
+if __name__ == "__main__":
+    try:
+        main()
+    except subprocess.CalledProcessError as e:
+        print("ERROR: ", e, file=sys.stderr)
+        sys.exit(e.returncode)
+      
