@@ -38,12 +38,6 @@ def ensure_vcpkg():
     else:
         run([os.path.join(VCPKG_DIR, "bootstrap-vcpkg.sh")])
 
-    manifest = os.path.join(PROJECT_ROOT, "vcpkg.json")
-    if os.path.isfile(manifest):
-        print("Installing manifest dependencies...")
-        run([VCPKG_EXE, "install", "--manifest"], cwd=VCPKG_DIR)
-
-
 def main():
     # 1. Prepare build directory
     if os.path.exists(BUILD_DIR):
