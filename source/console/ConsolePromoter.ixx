@@ -13,7 +13,10 @@ namespace Chess
 {
     export class ConsolePromoter final : public Promoter
     {
-        static void EnterPromotionType(std::string& input) { std::getline(std::cin, input); }
+        static void EnterPromotionType(std::string& input)
+        {
+            std::getline(std::cin, input);
+        }
 
     public:
         virtual ePieceType GetPromoteType() const override

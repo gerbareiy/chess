@@ -34,13 +34,25 @@ namespace Chess
             m_validator = std::make_shared<MoveValidator>(m_piecesOnBoard, m_player);
         }
 
-        Coordinate GetFrom() const { return m_from; }
+        Coordinate GetFrom() const
+        {
+            return m_from;
+        }
 
-        const std::shared_ptr<MoveValidator>& GetMoveValidator() const { return m_validator; }
+        const std::shared_ptr<MoveValidator>& GetMoveValidator() const
+        {
+            return m_validator;
+        }
 
-        const std::shared_ptr<PieceDirector>& GetPieceDirector() const { return m_director; }
+        const std::shared_ptr<PieceDirector>& GetPieceDirector() const
+        {
+            return m_director;
+        }
 
-        Coordinate GetTo() const { return m_to; }
+        Coordinate GetTo() const
+        {
+            return m_to;
+        }
 
         bool TryInitPiece(const Coordinate& from)
         {

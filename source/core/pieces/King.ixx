@@ -20,7 +20,10 @@ namespace Chess
 
         boost::signals2::signal<void(Coordinate, eCastleSide)> m_signalCastling;
 
-        void DisableCastling() { m_canMakeCastling = false; }
+        void DisableCastling()
+        {
+            m_canMakeCastling = false;
+        }
 
     public:
         King(ePieceColor color, const Coordinate& coordinate)
@@ -28,11 +31,20 @@ namespace Chess
         {
         }
 
-        virtual bool GetCanMakeCastling() const override { return m_canMakeCastling; }
+        virtual bool GetCanMakeCastling() const override
+        {
+            return m_canMakeCastling;
+        }
 
-        bool GetIsCheck() const { return m_isCheck; }
+        bool GetIsCheck() const
+        {
+            return m_isCheck;
+        }
 
-        void SetCheck(bool isCheck) { m_isCheck = isCheck; }
+        void SetCheck(bool isCheck)
+        {
+            m_isCheck = isCheck;
+        }
 
         virtual void Move(Coordinate to, bool isRealMove = true) override
         {

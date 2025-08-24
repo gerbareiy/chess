@@ -12,11 +12,20 @@ namespace Chess
         ePieceColor m_playerColor;
 
     public:
-        Player(ePieceColor firstMoveColor) { m_playerColor = firstMoveColor == ePieceColor::NONE ? ePieceColor::WHITE : firstMoveColor; }
+        Player(ePieceColor firstMoveColor)
+        {
+            m_playerColor = firstMoveColor == ePieceColor::NONE ? ePieceColor::WHITE : firstMoveColor;
+        }
 
     public:
-        void ChangeColor() { m_playerColor = m_playerColor == ePieceColor::BLACK ? ePieceColor::WHITE : ePieceColor::BLACK; }
+        void ChangeColor()
+        {
+            m_playerColor = m_playerColor == ePieceColor::BLACK ? ePieceColor::WHITE : ePieceColor::BLACK;
+        }
 
-        ePieceColor GetPlayerColor() { return m_playerColor; }
+        ePieceColor GetPlayerColor()
+        {
+            return m_playerColor;
+        }
     };
 } // namespace Chess

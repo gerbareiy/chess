@@ -20,7 +20,10 @@ namespace Chess
         bool m_isOnPawnFirstMove = false;
         bool m_isNotMoved        = true;
 
-        void LostEnPassant() { m_canEnPassant = false; }
+        void LostEnPassant()
+        {
+            m_canEnPassant = false;
+        }
 
         void MakeTracking()
         {
@@ -38,9 +41,15 @@ namespace Chess
             MakeTracking();
         }
 
-        bool GetCanEnPassant() const { return m_canEnPassant; }
+        bool GetCanEnPassant() const
+        {
+            return m_canEnPassant;
+        }
 
-        bool GetIsNotMoved() const { return m_isNotMoved; }
+        bool GetIsNotMoved() const
+        {
+            return m_isNotMoved;
+        }
 
         virtual void Move(Coordinate to, bool isRealMove = true) override
         {

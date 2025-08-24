@@ -20,7 +20,10 @@ namespace Chess
         bool                        m_canMakeCastling = true;
         boost::signals2::connection m_castlingConnection;
 
-        void DisableCastling() { m_canMakeCastling = false; }
+        void DisableCastling()
+        {
+            m_canMakeCastling = false;
+        }
 
         void MakeTracking(const std::shared_ptr<King>& king)
         {
@@ -61,7 +64,10 @@ namespace Chess
             MakeTracking(king);
         }
 
-        virtual bool GetCanMakeCastling() const override { return m_canMakeCastling; }
+        virtual bool GetCanMakeCastling() const override
+        {
+            return m_canMakeCastling;
+        }
 
         virtual void Move(Coordinate to, bool isRealMove = true) override
         {

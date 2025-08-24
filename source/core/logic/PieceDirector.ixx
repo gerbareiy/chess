@@ -44,13 +44,25 @@ namespace Chess
             m_promotion = std::make_shared<Promotion>();
         }
 
-        const std::shared_ptr<Piece>& GetCurrentPiece() const { return m_currentPiece; }
+        const std::shared_ptr<Piece>& GetCurrentPiece() const
+        {
+            return m_currentPiece;
+        }
 
-        const std::vector<std::shared_ptr<Piece>>& GetEatenPieces() const { return m_eatenPieces; }
+        const std::vector<std::shared_ptr<Piece>>& GetEatenPieces() const
+        {
+            return m_eatenPieces;
+        }
 
-        bool GetIsCheck() const { return m_isCheck; }
+        bool GetIsCheck() const
+        {
+            return m_isCheck;
+        }
 
-        const std::vector<std::shared_ptr<Piece>>& GetPiecesOnBoard() const { return m_piecesOnBoard; }
+        const std::vector<std::shared_ptr<Piece>>& GetPiecesOnBoard() const
+        {
+            return m_piecesOnBoard;
+        }
 
         PieceColorAndType GetPieceColorAndType(const Coordinate& from) const
         {
@@ -67,7 +79,10 @@ namespace Chess
             return it != m_piecesOnBoard.end() ? *it : nullptr;
         }
 
-        void InitCurrentPiece(const Coordinate& from) { m_currentPiece = GetPiece(from); }
+        void InitCurrentPiece(const Coordinate& from)
+        {
+            m_currentPiece = GetPiece(from);
+        }
 
         void MovePiece(const Coordinate& to, const boost::signals2::signal<void()>& signalChessboardUndated, const std::shared_ptr<Promoter>& promoter)
         {
