@@ -53,7 +53,7 @@ namespace Chess
             return m_isNotMoved;
         }
 
-        virtual std::expected<void, std::string> Move(Coordinate to, bool isRealMove = true) override
+        virtual void Move(Coordinate to, bool isRealMove = true) override
         {
             if (isRealMove)
             {
@@ -70,7 +70,7 @@ namespace Chess
                 m_isNotMoved        = false;
             }
 
-            return Piece::Move(to);
+            Piece::Move(to);
         }
     };
 } // namespace Chess

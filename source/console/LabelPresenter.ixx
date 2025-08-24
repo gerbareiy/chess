@@ -7,34 +7,29 @@ import Chess.Inputer;
 
 namespace Chess
 {
-    export class LabelDisplayer
+    export class LabelPresenter
     {
         std::shared_ptr<Inputer> m_inputer;
 
     public:
-        static void Show(const std::string& message)
-        {
-            std::print("{}", message);
-        }
-
         static void Show(eInputType type)
         {
             switch (type)
             {
             case eInputType::FROM:
-                Show("FROM:\n");
+                std::println("FROM:");
                 break;
             case eInputType::TO:
-                Show("TO:\n");
+                std::println("TO:");
                 break;
             case eInputType::FILE:
-                Show("File: ");
+                std::print("File: ");
                 break;
             case eInputType::RANK:
-                Show("Rank: ");
+                std::print("Rank: ");
                 break;
             case eInputType::PROMOTION:
-                Show("PROMOTE\nYou can Choose: B K Q R\nEnter: ");
+                std::print("PROMOTE\nYou can Choose: B K Q R\nEnter: ");
                 break;
             }
         }
@@ -48,11 +43,11 @@ namespace Chess
             m_inputer->ConnectOnEnter(show);
         }
 
-        explicit LabelDisplayer(const std::shared_ptr<Inputer>& inputer)
+        explicit LabelPresenter(const std::shared_ptr<Inputer>& inputer)
             : m_inputer(inputer)
         {
         }
 
-        ~LabelDisplayer() = default;
+        ~LabelPresenter() = default;
     };
 } // namespace Chess

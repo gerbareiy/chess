@@ -50,7 +50,7 @@ namespace Chess
             m_isCheck = isCheck;
         }
 
-        virtual std::expected<void, std::string> Move(Coordinate to, bool isRealMove = true) override
+        virtual void Move(Coordinate to, bool isRealMove = true) override
         {
             if (isRealMove)
             {
@@ -70,14 +70,14 @@ namespace Chess
                     }
                     else
                     {
-                        return std::unexpected(ErrorConverter::ToString(eError::NOT_CORRECT_MOVE));
+                        throw std::logic_error(ErrorConverter::ToString(eError::NOT_CORRECT_MOVE));
                     }
 
                     m_signalCastling(to, side);
                 }
             }
 
-            return Piece::Move(to);
+            Piece::Move(to);
         }
 
         boost::signals2::connection ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber)

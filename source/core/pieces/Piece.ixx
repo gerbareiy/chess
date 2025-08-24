@@ -33,10 +33,9 @@ namespace Chess
             return m_position;
         }
 
-        virtual std::expected<void, std::string> Move(Coordinate to, bool isRealMove = true)
+        virtual void Move(Coordinate to, bool isRealMove = true)
         {
             m_position = to;
-            return {};
         }
     };
 } // namespace Chess
