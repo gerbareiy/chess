@@ -23,19 +23,10 @@ namespace Chess
 
         virtual ~Piece() = default;
 
-        PieceColorAndType GetColorAndType() const
-        {
-            return m_colorAndType;
-        }
+        PieceColorAndType GetColorAndType() const { return m_colorAndType; }
 
-        Coordinate GetPosition() const
-        {
-            return m_position;
-        }
+        Coordinate GetPosition() const { return m_position; }
 
-        virtual void Move(Coordinate to, bool isRealMove = true)
-        {
-            m_position = to;
-        }
+        virtual void Move(Coordinate to, bool isRealMove = true) { m_position = to; }
     };
 } // namespace Chess

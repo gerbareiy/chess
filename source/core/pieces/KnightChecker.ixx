@@ -21,8 +21,8 @@ namespace Chess
     {
         std::vector<std::pair<int, int>> m_knightMoveDirections = { { 2, 1 }, { 2, -1 }, { -2, 1 }, { -2, -1 }, { 1, 2 }, { 1, -2 }, { -1, 2 }, { -1, -2 } };
 
-        std::expected<std::vector<Coordinate>, std::string> FindPossibleMoves(const std::shared_ptr<Piece>&              knight,
-                                                                              const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+        std::expected<std::vector<Coordinate>, std::string> FindPossibleMoves(
+            const std::shared_ptr<Piece>& knight, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
         {
             const auto knightPosition = knight->GetPosition();
             if (knightPosition.file < 'A' || knightPosition.file >= 'A' + CHESSBOARD_SIZE || knightPosition.rank < 1 || knightPosition.rank > CHESSBOARD_SIZE)

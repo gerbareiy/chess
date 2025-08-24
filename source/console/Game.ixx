@@ -86,8 +86,8 @@ namespace Chess
                     break;
                 }
 
-                HandleInput(std::bind(&InputHandler::EnterFrom, m_inputHandler),
-                            std::bind(&Controller::TryInitPiece, m_controller.get(), std::placeholders::_1));
+                HandleInput(
+                    std::bind(&InputHandler::EnterFrom, m_inputHandler), std::bind(&Controller::TryInitPiece, m_controller.get(), std::placeholders::_1));
 
                 try
                 {

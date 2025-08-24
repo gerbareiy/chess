@@ -122,10 +122,7 @@ namespace Chess
         }
 
     public:
-        static void ShowEmpty()
-        {
-            std::print("\n");
-        }
+        static void ShowEmpty() { std::print("\n"); }
 
         explicit ChessboardPresenter(const std::shared_ptr<Chessboard>& chessboard)
             : m_chessboard(chessboard)

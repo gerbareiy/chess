@@ -36,10 +36,7 @@ namespace Chess
 
         void Init()
         {
-            const auto show = [this](eInputType type)
-            {
-                Show(type);
-            };
+            const auto show = [this](eInputType type) { Show(type); };
             m_inputer->ConnectOnEnter(show);
         }
 

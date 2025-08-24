@@ -78,8 +78,9 @@ namespace Chess
                 {
                     moves.emplace_back(rightDiagonal);
                 }
-                else if (rightPiece && typeid(*rightPiece) == typeid(Pawn) && std::static_pointer_cast<Pawn>(rightPiece)->GetCanEnPassant()
-                         && rightPiece->GetColorAndType().color != pawn->GetColorAndType().color)
+                else if (
+                    rightPiece && typeid(*rightPiece) == typeid(Pawn) && std::static_pointer_cast<Pawn>(rightPiece)->GetCanEnPassant()
+                    && rightPiece->GetColorAndType().color != pawn->GetColorAndType().color)
                 {
                     moves.emplace_back(rightDiagonal);
                 }
@@ -94,8 +95,9 @@ namespace Chess
                 {
                     moves.emplace_back(leftDiagonal);
                 }
-                else if (leftPiece && typeid(*leftPiece) == typeid(Pawn) && std::static_pointer_cast<Pawn>(leftPiece)->GetCanEnPassant()
-                         && leftPiece->GetColorAndType().color != pawn->GetColorAndType().color)
+                else if (
+                    leftPiece && typeid(*leftPiece) == typeid(Pawn) && std::static_pointer_cast<Pawn>(leftPiece)->GetCanEnPassant()
+                    && leftPiece->GetColorAndType().color != pawn->GetColorAndType().color)
                 {
                     moves.emplace_back(leftDiagonal);
                 }

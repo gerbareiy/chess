@@ -54,17 +54,18 @@ namespace Chess
             return std::ranges::any_of(piecesOnBoard, [&](const auto& piece) { return piece->GetPosition() == coordinate; });
         }
 
-        static void AddPiece(std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
-                             ePieceColor                          color,
-                             ePieceType                           pieceType,
-                             const Coordinate&                    coordinate,
-                             std::shared_ptr<King>&               king)
+        static void AddPiece(
+            std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
+            ePieceColor                          color,
+            ePieceType                           pieceType,
+            const Coordinate&                    coordinate,
+            std::shared_ptr<King>&               king)
         {
             if (IsPieceOnBoard(piecesOnBoard, coordinate))
             {
 
-                std::cerr << "Cannot upload the piece " << PieceTypeConverter::ConvertToString(pieceType) << ", the coordinate " << coordinate.file
-                          << " : " << coordinate.rank << " already exist"
+                std::cerr << "Cannot upload the piece " << PieceTypeConverter::ConvertToString(pieceType) << ", the coordinate " << coordinate.file << " : "
+                          << coordinate.rank << " already exist"
                           << "\n ";
                 return;
             }
@@ -94,12 +95,13 @@ namespace Chess
             }
         }
 
-        static void AddPieces(std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
-                              const boost::json::object&           side,
-                              const std::string&                   pieceName,
-                              ePieceColor                          color,
-                              ePieceType                           pieceType,
-                              std::shared_ptr<King>&               king)
+        static void AddPieces(
+            std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
+            const boost::json::object&           side,
+            const std::string&                   pieceName,
+            ePieceColor                          color,
+            ePieceType                           pieceType,
+            std::shared_ptr<King>&               king)
         {
             if (side.contains(pieceName))
             {

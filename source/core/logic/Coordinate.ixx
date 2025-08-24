@@ -9,15 +9,9 @@ namespace Chess
         char file = 'A';
         int  rank = 1;
 
-        bool operator==(const Coordinate& other) const
-        {
-            return file == other.file && rank == other.rank;
-        }
+        bool operator==(const Coordinate& other) const { return file == other.file && rank == other.rank; }
 
-        bool operator!=(const Coordinate& other) const
-        {
-            return !(*this == other);
-        }
+        bool operator!=(const Coordinate& other) const { return !(*this == other); }
     };
 } // namespace Chess
 

@@ -22,10 +22,7 @@ namespace Chess
         {
         }
 
-        bool TryInitPiece(const Coordinate& from) const
-        {
-            return m_chessboard->TryInitPiece(from);
-        }
+        bool TryInitPiece(const Coordinate& from) const { return m_chessboard->TryInitPiece(from); }
 
         bool TryMovePiece(const Coordinate& to, const std::shared_ptr<Promoter>& promoter) const
         {

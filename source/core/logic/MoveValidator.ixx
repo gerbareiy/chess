@@ -26,10 +26,7 @@ namespace Chess
             CalculatePiecesCanMove();
         }
 
-        std::vector<Coordinate> GetPossibleMoves()
-        {
-            return m_possibleMoves;
-        }
+        std::vector<Coordinate> GetPossibleMoves() { return m_possibleMoves; }
 
         void CalculatePiecesCanMove()
         {
@@ -66,20 +63,11 @@ namespace Chess
             }
         }
 
-        void ClearPossibleMoves()
-        {
-            m_possibleMoves.clear();
-        }
+        void ClearPossibleMoves() { m_possibleMoves.clear(); }
 
-        void ClearPiecesCanMove()
-        {
-            m_piecesCanMove.clear();
-        }
+        void ClearPiecesCanMove() { m_piecesCanMove.clear(); }
 
-        size_t GetPiecesCanMoveCount()
-        {
-            return m_piecesCanMove.size();
-        }
+        size_t GetPiecesCanMoveCount() { return m_piecesCanMove.size(); }
 
         bool IsCoordinateInPieceCanMove(const Coordinate& coordinate) const
         {

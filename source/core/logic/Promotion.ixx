@@ -20,9 +20,8 @@ namespace Chess
     export class Promotion
     {
     public:
-        static void PromoteConditionally(const std::shared_ptr<Pawn>&         pawn,
-                                         std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
-                                         const std::shared_ptr<Promoter>&     promoter)
+        static void PromoteConditionally(
+            const std::shared_ptr<Pawn>& pawn, std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<Promoter>& promoter)
         {
             if (!pawn)
             {

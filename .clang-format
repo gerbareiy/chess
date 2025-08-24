@@ -4,11 +4,11 @@ UseTab: Never
 IndentWidth: 4
 TabWidth: 4
 
-AlignAfterOpenBracket: DontAlign
+AlignAfterOpenBracket: AlwaysBreak
 BinPackArguments: false
 BinPackParameters: false
 BreakBeforeBraces: Allman
-AllowShortFunctionsOnASingleLine: None
+AllowShortFunctionsOnASingleLine: All
 AllowShortLambdasOnASingleLine: true
 
 AlignConsecutiveAssignments: true
