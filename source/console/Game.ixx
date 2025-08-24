@@ -4,7 +4,7 @@ module;
 #include <memory>
 export module Chess.Game;
 import Chess.Chessboard;
-import Chess.ChessboardDisplayer;
+import Chess.ChessboardPresenter;
 import Chess.ConsolePromoter;
 import Chess.Controller;
 import Chess.Coordinate;
@@ -18,7 +18,7 @@ namespace Chess
 {
     export class Game
     {
-        std::unique_ptr<ChessboardDisplayer> m_chessboardDisplayer;
+        std::unique_ptr<ChessboardPresenter> m_chessboardDisplayer;
         std::shared_ptr<Chessboard>          m_chessboard;
         std::shared_ptr<Controller>          m_controller;
         std::shared_ptr<InputHandler>        m_inputHandler;
@@ -67,7 +67,7 @@ namespace Chess
             const auto resourcePath = std::filesystem::current_path().parent_path().parent_path().parent_path() / "resources" / "chessboard.json";
             m_chessboard            = std::make_shared<Chessboard>(ChessboardBuilder::InitBoard(resourcePath.string()));
             m_controller            = std::make_shared<Controller>(m_chessboard);
-            m_chessboardDisplayer   = std::make_unique<ChessboardDisplayer>(m_chessboard);
+            m_chessboardDisplayer   = std::make_unique<ChessboardPresenter>(m_chessboard);
 
             m_chessboardDisplayer->Show();
         }

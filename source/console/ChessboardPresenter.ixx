@@ -4,7 +4,7 @@ module;
 #include <functional>
 #include <memory>
 #include <print>
-export module Chess.ChessboardDisplayer;
+export module Chess.ChessboardPresenter;
 import Chess.Chessboard;
 import Chess.Coordinate;
 import Chess.eConsoleColor;
@@ -17,7 +17,7 @@ import Chess.Sizes;
 
 namespace Chess
 {
-    export class ChessboardDisplayer
+    export class ChessboardPresenter
     {
         std::shared_ptr<Chessboard> m_chessboard;
 
@@ -127,12 +127,12 @@ namespace Chess
             std::print("\n");
         }
 
-        explicit ChessboardDisplayer(const std::shared_ptr<Chessboard>& chessboard)
+        explicit ChessboardPresenter(const std::shared_ptr<Chessboard>& chessboard)
             : m_chessboard(chessboard)
         {
             if (m_chessboard)
             {
-                m_chessboard->ConnectChessboardUpdated(std::bind(&ChessboardDisplayer::Show, this));
+                m_chessboard->ConnectChessboardUpdated(std::bind(&ChessboardPresenter::Show, this));
             }
         }
 
