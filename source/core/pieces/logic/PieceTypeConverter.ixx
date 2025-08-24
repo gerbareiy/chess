@@ -1,6 +1,6 @@
 module;
-#include <string>
 #include <array>
+#include <string>
 export module Chess.PieceTypeConverter;
 import Chess.ePieceType;
 
@@ -9,12 +9,13 @@ namespace Chess
     export class PieceTypeConverter
     {
     public:
-        static constexpr std::array pieceTypes = { ePieceType::KING, ePieceType::PAWN, ePieceType::ROOK, ePieceType::QUEEN, ePieceType::KNIGHT, ePieceType::BISHOP };
+        static constexpr std::array pieceTypes = { ePieceType::KING,  ePieceType::PAWN,   ePieceType::ROOK,
+                                                   ePieceType::QUEEN, ePieceType::KNIGHT, ePieceType::BISHOP };
         /**
          * @param type Chess piece type (e.g., Chess::ePieceType::ROOK)
          * @return short name of the piece (e.g., "R")
          */
-        static std::string ConvertToString(ePieceType type)
+        static std::string ConvertToShortString(ePieceType type)
         {
             switch (type)
             {
@@ -41,9 +42,9 @@ namespace Chess
          * @param type Chess piece type (e.g., Chess::ePieceType::ROOK)
          * @return normal name of the piece (e.g., "Rook")
          */
-        static std::string ConvertToNormalString(ePieceType pieceType)
+        static std::string ConvertToString(ePieceType type)
         {
-            switch (pieceType)
+            switch (type)
             {
             case ePieceType::ROOK:
                 return "Rook";
@@ -63,14 +64,14 @@ namespace Chess
                 return "Unknown";
             }
         }
-        
+
         /**
          * @param type Chess piece type (e.g., Chess::ePieceType::ROOK)
          * @return name of the piece that is used in config file (e.g., "rooks")
          */
-        static std::string ConvertToConfigString(ePieceType pieceType)
+        static std::string ConvertToConfigString(ePieceType type)
         {
-            switch (pieceType)
+            switch (type)
             {
             case ePieceType::ROOK:
                 return "rooks";

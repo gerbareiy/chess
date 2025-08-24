@@ -30,24 +30,24 @@ namespace Chess
 
                 input[0] = std::toupper(input[0]);
 
-                if (input[0] == PieceTypeConverter::ConvertToString(ePieceType::KING)[0])
+                if (input[0] == PieceTypeConverter::ConvertToShortString(ePieceType::KING)[0])
                 {
                     input[0] = std::tolower(input[0]);
                 }
 
-                if (input[0] == PieceTypeConverter::ConvertToString(ePieceType::BISHOP)[0])
+                if (input[0] == PieceTypeConverter::ConvertToShortString(ePieceType::BISHOP)[0])
                 {
                     return ePieceType::BISHOP;
                 }
-                if (input[0] == PieceTypeConverter::ConvertToString(ePieceType::KNIGHT)[0])
+                if (input[0] == PieceTypeConverter::ConvertToShortString(ePieceType::KNIGHT)[0])
                 {
                     return ePieceType::KNIGHT;
                 }
-                if (input[0] == PieceTypeConverter::ConvertToString(ePieceType::QUEEN)[0])
+                if (input[0] == PieceTypeConverter::ConvertToShortString(ePieceType::QUEEN)[0])
                 {
                     return ePieceType::QUEEN;
                 }
-                if (input[0] == PieceTypeConverter::ConvertToString(ePieceType::ROOK)[0])
+                if (input[0] == PieceTypeConverter::ConvertToShortString(ePieceType::ROOK)[0])
                 {
                     return ePieceType::ROOK;
                 }

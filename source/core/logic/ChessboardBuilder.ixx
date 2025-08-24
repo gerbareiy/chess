@@ -62,7 +62,8 @@ namespace Chess
         {
             if (IsPieceOnBoard(piecesOnBoard, coordinate))
             {
-                std::cerr << "Cannot upload the piece " << PieceTypeConverter::ConvertToNormalString(pieceType) << ", the coordinate " << coordinate.file
+
+                std::cerr << "Cannot upload the piece " << PieceTypeConverter::ConvertToString(pieceType) << ", the coordinate " << coordinate.file
                           << " : " << coordinate.rank << " already exist"
                           << "\n ";
                 return;
@@ -108,7 +109,7 @@ namespace Chess
                     auto pieceAsObj = piece.as_object();
                     if (!pieceAsObj.contains("file") || !pieceAsObj.contains("rank"))
                     {
-                        std::cerr << "Error: " << PieceTypeConverter::ConvertToNormalString(pieceType) << " is missing 'file' or 'rank' in configuration\n";
+                        std::cerr << "Error: " << PieceTypeConverter::ConvertToString(pieceType) << " is missing 'file' or 'rank' in configuration\n";
                         continue;
                     }
                     const auto file = *pieceAsObj["file"].as_string().c_str();
@@ -129,8 +130,7 @@ namespace Chess
 
             if (!std::filesystem::exists(configurationPath))
             {
-                std::cerr << "Configuration was not found\n";
-                return {};
+                throw std::invalid_argument("Configuration was not found");
             }
 
             auto expectedConfig = GetConfig(configurationPath);
