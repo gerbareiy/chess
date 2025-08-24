@@ -8,7 +8,7 @@ AlignAfterOpenBracket: AlwaysBreak
 BinPackArguments: false
 BinPackParameters: false
 BreakBeforeBraces: Allman
-AllowShortFunctionsOnASingleLine: None
+AllowShortFunctionsOnASingleLine: Empty
 AllowShortLambdasOnASingleLine: true
 
 AlignConsecutiveAssignments: true
