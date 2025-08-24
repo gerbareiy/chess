@@ -6,10 +6,8 @@ module;
 export module Chess.PawnChecker;
 import Chess.Coordinate;
 import Chess.Counts;
-import Chess.eError;
 import Chess.ePieceColor;
 import Chess.ePieceType;
-import Chess.ErrorConverter;
 import Chess.IMoveChecker;
 import Chess.Pawn;
 import Chess.Piece;
@@ -78,8 +76,9 @@ namespace Chess
                 {
                     moves.emplace_back(rightDiagonal);
                 }
-                else if (rightPiece && typeid(*rightPiece) == typeid(Pawn) && std::static_pointer_cast<Pawn>(rightPiece)->GetCanEnPassant()
-                         && rightPiece->GetColorAndType().color != pawn->GetColorAndType().color)
+                else if (
+                    rightPiece && typeid(*rightPiece) == typeid(Pawn) && std::static_pointer_cast<Pawn>(rightPiece)->GetCanEnPassant()
+                    && rightPiece->GetColorAndType().color != pawn->GetColorAndType().color)
                 {
                     moves.emplace_back(rightDiagonal);
                 }
@@ -94,8 +93,9 @@ namespace Chess
                 {
                     moves.emplace_back(leftDiagonal);
                 }
-                else if (leftPiece && typeid(*leftPiece) == typeid(Pawn) && std::static_pointer_cast<Pawn>(leftPiece)->GetCanEnPassant()
-                         && leftPiece->GetColorAndType().color != pawn->GetColorAndType().color)
+                else if (
+                    leftPiece && typeid(*leftPiece) == typeid(Pawn) && std::static_pointer_cast<Pawn>(leftPiece)->GetCanEnPassant()
+                    && leftPiece->GetColorAndType().color != pawn->GetColorAndType().color)
                 {
                     moves.emplace_back(leftDiagonal);
                 }
@@ -108,11 +108,11 @@ namespace Chess
         {
             if (!PositionChecker::IsPositionValid(pawn->GetPosition()))
             {
-                return std::unexpected(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
+                return std::unexpected("ChessPiece is out of the Chessboard");
             }
             if (pawn->GetColorAndType().color == ePieceColor::NONE)
             {
-                return std::unexpected(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
+                return std::unexpected("Piece is not correct");
             }
             return {};
         }

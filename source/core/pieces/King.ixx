@@ -1,15 +1,11 @@
 module;
 #include <boost/signals2.hpp>
 
-#include <expected>
-#include <memory>
 export module Chess.King;
 import Chess.Coordinate;
 import Chess.eCastleSide;
-import Chess.eError;
 import Chess.ePieceColor;
 import Chess.ePieceType;
-import Chess.ErrorConverter;
 import Chess.ICastable;
 import Chess.Piece;
 import Chess.PieceColorAndType;
@@ -50,7 +46,7 @@ namespace Chess
             m_isCheck = isCheck;
         }
 
-        virtual std::expected<void, std::string> Move(Coordinate to, bool isRealMove = true) override
+        virtual void Move(Coordinate to, bool isRealMove = true) override
         {
             if (isRealMove)
             {
@@ -70,14 +66,14 @@ namespace Chess
                     }
                     else
                     {
-                        return std::unexpected(ErrorConverter::ToString(eError::NOT_CORRECT_MOVE));
+                        throw std::logic_error("Move is impossible");
                     }
 
                     m_signalCastling(to, side);
                 }
             }
 
-            return Piece::Move(to);
+            Piece::Move(to);
         }
 
         boost::signals2::connection ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber)

@@ -10,4 +10,4 @@ namespace Chess
         RANK,
         PROMOTION
     };
-}
+} // namespace Chess

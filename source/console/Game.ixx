@@ -1,7 +1,9 @@
 module;
 #include <filesystem>
 #include <functional>
+#include <iostream>
 #include <memory>
+#include <print>
 export module Chess.Game;
 import Chess.Chessboard;
 import Chess.ChessboardPresenter;
@@ -22,7 +24,7 @@ namespace Chess
         std::shared_ptr<Chessboard>          m_chessboard;
         std::shared_ptr<Controller>          m_controller;
         std::shared_ptr<InputHandler>        m_inputHandler;
-        std::unique_ptr<LabelDisplayer>      m_labelDisplayer;
+        std::unique_ptr<LabelPresenter>      m_labelDisplayer;
         std::shared_ptr<ConsolePromoter>     m_promoter = std::make_shared<ConsolePromoter>();
 
         static void HandleInput(const std::function<Coordinate()>& inputFunction, const std::function<bool(const Coordinate&)>& initFunction)
@@ -42,17 +44,17 @@ namespace Chess
 
             if (!m_chessboard->GetMoveValidator()->GetPiecesCanMoveCount() && m_chessboard->GetPieceDirector()->GetIsCheck())
             {
-                LabelDisplayer::Show("Checkmate!\n");
+                std::println("Checkmate!");
                 return false;
             }
             if (drawChecker->IsDraw(m_chessboard))
             {
-                LabelDisplayer::Show("Draw!\n");
+                std::println("Draw!");
                 return false;
             }
             if (m_chessboard->GetPieceDirector()->GetIsCheck())
             {
-                LabelDisplayer::Show("Check!\n");
+                std::println("Check!");
             }
 
             return true;
@@ -61,7 +63,7 @@ namespace Chess
     public:
         Game()
             : m_inputHandler(std::make_shared<InputHandler>())
-            , m_labelDisplayer(std::make_unique<LabelDisplayer>(m_inputHandler))
+            , m_labelDisplayer(std::make_unique<LabelPresenter>(m_inputHandler))
 
         {
             const auto resourcePath = std::filesystem::current_path().parent_path().parent_path().parent_path() / "resources" / "chessboard.json";
@@ -75,10 +77,7 @@ namespace Chess
         void Play() const
         {
             m_labelDisplayer->Init();
-            const auto tryMovePiece = [this](const Coordinate& to) -> bool
-            {
-                return m_controller->TryMovePiece(to, m_promoter);
-            };
+            const auto tryMovePiece = [this](const Coordinate& to) -> bool { return m_controller->TryMovePiece(to, m_promoter); };
 
             while (true)
             {
@@ -87,10 +86,17 @@ namespace Chess
                     break;
                 }
 
-                HandleInput(std::bind(&InputHandler::EnterFrom, m_inputHandler),
-                            std::bind(&Controller::TryInitPiece, m_controller.get(), std::placeholders::_1));
+                HandleInput(
+                    std::bind(&InputHandler::EnterFrom, m_inputHandler), std::bind(&Controller::TryInitPiece, m_controller.get(), std::placeholders::_1));
 
-                HandleInput(std::bind(&InputHandler::EnterTo, m_inputHandler), tryMovePiece);
+                try
+                {
+                    HandleInput(std::bind(&InputHandler::EnterTo, m_inputHandler), tryMovePiece);
+                }
+                catch (const std::invalid_argument& e)
+                {
+                    std::cerr << e.what();
+                }
             }
         }
     };

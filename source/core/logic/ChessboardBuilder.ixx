@@ -54,16 +54,18 @@ namespace Chess
             return std::ranges::any_of(piecesOnBoard, [&](const auto& piece) { return piece->GetPosition() == coordinate; });
         }
 
-        static void AddPiece(std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
-                             ePieceColor                          color,
-                             ePieceType                           pieceType,
-                             const Coordinate&                    coordinate,
-                             std::shared_ptr<King>&               king)
+        static void AddPiece(
+            std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
+            ePieceColor                          color,
+            ePieceType                           pieceType,
+            const Coordinate&                    coordinate,
+            std::shared_ptr<King>&               king)
         {
             if (IsPieceOnBoard(piecesOnBoard, coordinate))
             {
-                std::cerr << "Cannot upload the piece " << PieceTypeConverter::ConvertToNormalString(pieceType) << ", the coordinate " << coordinate.file
-                          << " : " << coordinate.rank << " already exist"
+
+                std::cerr << "Cannot upload the piece " << PieceTypeConverter::ConvertToString(pieceType) << ", the coordinate " << coordinate.file << " : "
+                          << coordinate.rank << " already exist"
                           << "\n ";
                 return;
             }
@@ -93,12 +95,13 @@ namespace Chess
             }
         }
 
-        static void AddPieces(std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
-                              const boost::json::object&           side,
-                              const std::string&                   pieceName,
-                              ePieceColor                          color,
-                              ePieceType                           pieceType,
-                              std::shared_ptr<King>&               king)
+        static void AddPieces(
+            std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
+            const boost::json::object&           side,
+            const std::string&                   pieceName,
+            ePieceColor                          color,
+            ePieceType                           pieceType,
+            std::shared_ptr<King>&               king)
         {
             if (side.contains(pieceName))
             {
@@ -108,7 +111,7 @@ namespace Chess
                     auto pieceAsObj = piece.as_object();
                     if (!pieceAsObj.contains("file") || !pieceAsObj.contains("rank"))
                     {
-                        std::cerr << "Error: " << PieceTypeConverter::ConvertToNormalString(pieceType) << " is missing 'file' or 'rank' in configuration\n";
+                        std::cerr << "Error: " << PieceTypeConverter::ConvertToString(pieceType) << " is missing 'file' or 'rank' in configuration\n";
                         continue;
                     }
                     const auto file = *pieceAsObj["file"].as_string().c_str();
@@ -129,8 +132,7 @@ namespace Chess
 
             if (!std::filesystem::exists(configurationPath))
             {
-                std::cerr << "Configuration was not found\n";
-                return {};
+                throw std::invalid_argument("Configuration was not found");
             }
 
             auto expectedConfig = GetConfig(configurationPath);

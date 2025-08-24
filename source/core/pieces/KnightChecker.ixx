@@ -6,9 +6,7 @@ module;
 export module Chess.KnightChecker;
 import Chess.Coordinate;
 import Chess.Counts;
-import Chess.eError;
 import Chess.ePieceType;
-import Chess.ErrorConverter;
 import Chess.IMoveChecker;
 import Chess.Knight;
 import Chess.Piece;
@@ -21,13 +19,13 @@ namespace Chess
     {
         std::vector<std::pair<int, int>> m_knightMoveDirections = { { 2, 1 }, { 2, -1 }, { -2, 1 }, { -2, -1 }, { 1, 2 }, { 1, -2 }, { -1, 2 }, { -1, -2 } };
 
-        std::expected<std::vector<Coordinate>, std::string> FindPossibleMoves(const std::shared_ptr<Piece>&              knight,
-                                                                              const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+        std::expected<std::vector<Coordinate>, std::string> FindPossibleMoves(
+            const std::shared_ptr<Piece>& knight, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
         {
             const auto knightPosition = knight->GetPosition();
             if (knightPosition.file < 'A' || knightPosition.file >= 'A' + CHESSBOARD_SIZE || knightPosition.rank < 1 || knightPosition.rank > CHESSBOARD_SIZE)
             {
-                return std::unexpected(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
+                return std::unexpected("ChessPiece is out of the Chessboard");
             }
 
             std::vector<Coordinate> moves;

@@ -8,6 +8,7 @@ import Chess.CheckChecker;
 import Chess.Coordinate;
 import Chess.Counts;
 import Chess.ePieceColor;
+import Chess.King;
 import Chess.Pawn;
 import Chess.Piece;
 import Chess.PieceColorAndType;
@@ -65,27 +66,17 @@ namespace Chess
 
         PieceColorAndType GetPieceColorAndType(const Coordinate& from) const
         {
-            const auto piece = GetPiece(from);
-
-            if (!piece)
+            if (const auto piece = GetPiece(from))
             {
-                return {};
+                return piece->GetColorAndType();
             }
-
-            return piece->GetColorAndType();
+            return {};
         }
 
         std::shared_ptr<Piece> GetPiece(const Coordinate& from) const
         {
-            for (std::shared_ptr<Piece> pieceOnBoard : m_piecesOnBoard)
-            {
-                if (pieceOnBoard->GetPosition() == from)
-                {
-                    return pieceOnBoard;
-                }
-            }
-
-            return nullptr;
+            const auto it = std::ranges::find(m_piecesOnBoard, from, &Piece::GetPosition);
+            return it != m_piecesOnBoard.end() ? *it : nullptr;
         }
 
         void InitCurrentPiece(const Coordinate& from)
@@ -95,13 +86,8 @@ namespace Chess
 
         void MovePiece(const Coordinate& to, const boost::signals2::signal<void()>& signalChessboardUndated, const std::shared_ptr<Promoter>& promoter)
         {
-            auto fromTake = PieceTakeLocator::Find(m_currentPiece, m_piecesOnBoard, to);
-
-            const auto it = std::ranges::find_if(m_piecesOnBoard,
-                                                 [fromTake](const std::shared_ptr<Piece>& current)
-                                                 {
-                                                     return current->GetPosition() == fromTake;
-                                                 });
+            const auto from = PieceTakeLocator::Find(m_currentPiece, m_piecesOnBoard, to);
+            const auto it   = std::ranges::find(m_piecesOnBoard, from, &Piece::GetPosition);
 
             if (it != m_piecesOnBoard.end())
             {
@@ -133,7 +119,7 @@ namespace Chess
             }
 
             m_isCheck = CheckChecker::IsCheck(color, m_piecesOnBoard);
-            if (auto king = std::dynamic_pointer_cast<King>(m_currentPiece))
+            if (const auto king = std::dynamic_pointer_cast<King>(m_currentPiece))
             {
                 king->SetCheck(m_isCheck);
             }

@@ -20,7 +20,7 @@ namespace Chess
             std::vector<Coordinate> moves;
             moves.reserve(COUNT_OF_ROOK_WAYS);
 
-            const auto finder     = std::make_shared<PieceFinder>(piecesOnBoard);
+            const auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
 
             auto first  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, rook, { -1, 0 });
             auto second = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, rook, { 1, 0 });

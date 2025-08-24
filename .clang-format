@@ -3,15 +3,30 @@ BasedOnStyle: Microsoft
 UseTab: Never
 IndentWidth: 4
 TabWidth: 4
-AlignAfterOpenBracket: Align
-AlignConsecutiveAssignments: 'true'
-AlignConsecutiveDeclarations: 'true'
-Cpp11BracedListStyle: 'false'
-AlignOperands: 'true'
-AlignTrailingComments: 'true'
+
+AlignAfterOpenBracket: AlwaysBreak
+BinPackArguments: false
+BinPackParameters: false
+BreakBeforeBraces: Allman
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortLambdasOnASingleLine: true
+
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignOperands: true
+AlignTrailingComments: true
+
+BreakConstructorInitializers: BeforeComma
+
+Cpp11BracedListStyle: false
 ColumnLimit: 160
-AccessModifierOffset: '-4'
-IncludeBlocks: 'Regroup'
+AccessModifierOffset: -4
+NamespaceIndentation: All
+PointerAlignment: Left
+BreakBeforeBinaryOperators: NonAssignment
+InsertNewlineAtEOF: true
+
+IncludeBlocks: Regroup
 IncludeCategories:
   - Regex: ^"[^\\\/]*"$
     Priority: 1
@@ -33,13 +48,3 @@ IncludeCategories:
     Priority: 3
     SortPriority: 3
     CaseSensitive: false
-PointerAlignment: Left
-BinPackArguments: false
-BinPackParameters: false
-NamespaceIndentation: All
-BreakConstructorInitializers: BeforeComma
-AllowShortLambdasOnASingleLine: true
-AllowShortFunctionsOnASingleLine: None
-BreakBeforeBraces: Allman
-BreakBeforeBinaryOperators: NonAssignment
-InsertNewlineAtEOF: true
