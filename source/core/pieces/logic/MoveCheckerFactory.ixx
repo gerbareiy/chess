@@ -4,9 +4,7 @@ module;
 #include <stdexcept>
 export module Chess.MoveCheckerFactory;
 import Chess.BishopChecker;
-import Chess.eError;
 import Chess.ePieceType;
-import Chess.ErrorConverter;
 import Chess.IMoveChecker;
 import Chess.KingChecker;
 import Chess.KnightChecker;
@@ -38,7 +36,7 @@ namespace Chess
             case ePieceType::ROOK:
                 return std::make_shared<RookChecker>();
             default:
-                return std::unexpected(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
+                return std::unexpected("Piece is not correct");
             }
         }
     };

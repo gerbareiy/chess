@@ -6,8 +6,6 @@ module;
 export module Chess.KingChecker;
 import Chess.Coordinate;
 import Chess.Counts;
-import Chess.eError;
-import Chess.ErrorConverter;
 import Chess.Piece;
 import Chess.PieceFinder;
 import Chess.ICastable;
@@ -78,7 +76,7 @@ std::expected<std::vector<Chess::Coordinate>, std::string> FindPossibleMoves(
     const auto kingPosition = king->GetPosition();
     if (kingPosition.file < 'A' || kingPosition.file > 'A' + Chess::CHESSBOARD_SIZE - 1 || kingPosition.rank < 1 || kingPosition.rank > Chess::CHESSBOARD_SIZE)
     {
-        return std::unexpected(Chess::ErrorConverter::ToString(Chess::eError::OUT_OF_CHESSBOARD));
+        return std::unexpected("ChessPiece is out of the Chessboard");
     }
 
     std::vector<Chess::Coordinate> moves;

@@ -1,15 +1,11 @@
 module;
 #include <boost/signals2.hpp>
 
-#include <expected>
-#include <memory>
 export module Chess.King;
 import Chess.Coordinate;
 import Chess.eCastleSide;
-import Chess.eError;
 import Chess.ePieceColor;
 import Chess.ePieceType;
-import Chess.ErrorConverter;
 import Chess.ICastable;
 import Chess.Piece;
 import Chess.PieceColorAndType;
@@ -58,7 +54,7 @@ namespace Chess
                     }
                     else
                     {
-                        throw std::logic_error(ErrorConverter::ToString(eError::NOT_CORRECT_MOVE));
+                        throw std::logic_error("Move is impossible");
                     }
 
                     m_signalCastling(to, side);

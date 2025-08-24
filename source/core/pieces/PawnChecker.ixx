@@ -6,10 +6,8 @@ module;
 export module Chess.PawnChecker;
 import Chess.Coordinate;
 import Chess.Counts;
-import Chess.eError;
 import Chess.ePieceColor;
 import Chess.ePieceType;
-import Chess.ErrorConverter;
 import Chess.IMoveChecker;
 import Chess.Pawn;
 import Chess.Piece;
@@ -110,11 +108,11 @@ namespace Chess
         {
             if (!PositionChecker::IsPositionValid(pawn->GetPosition()))
             {
-                return std::unexpected(ErrorConverter::ToString(eError::OUT_OF_CHESSBOARD));
+                return std::unexpected("ChessPiece is out of the Chessboard");
             }
             if (pawn->GetColorAndType().color == ePieceColor::NONE)
             {
-                return std::unexpected(ErrorConverter::ToString(eError::NOT_CORRECT_PIECE));
+                return std::unexpected("Piece is not correct");
             }
             return {};
         }
