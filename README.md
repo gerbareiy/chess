@@ -131,7 +131,7 @@ something
 const auto shared = std::make_shared<T>();
 const auto lambda = [weak = std::weak_ptr(shared)]()
 {
-    // somthing
+    // something
 }
 ```
 
