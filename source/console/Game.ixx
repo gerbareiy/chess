@@ -67,17 +67,7 @@ namespace Chess
             , m_labelDisplayer(std::make_unique<LabelPresenter>(m_inputHandler))
 
         {
-            std::vector<std::shared_ptr<Piece>> pieces;
-            try
-            {
-                pieces = ChessboardBuilder::InitBoard(path.string());
-            }
-            catch (const std::exception& e)
-            {
-                std::cerr << e.what();
-                return;
-            }
-            m_chessboard          = std::make_shared<Chessboard>(pieces);
+            m_chessboard          = std::make_shared<Chessboard>(ChessboardBuilder::InitBoard(path.string()));
             m_controller          = std::make_shared<Controller>(m_chessboard);
             m_chessboardDisplayer = std::make_unique<ChessboardPresenter>(m_chessboard);
             m_chessboardDisplayer->Show();
