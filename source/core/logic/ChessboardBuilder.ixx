@@ -100,6 +100,10 @@ namespace Chess
             }
 
             auto pieces = side.at(pieceName).as_array();
+            if (pieces.size() != COUNT_OF_KINGS_WITH_ONE_COLOR && type == ePieceType::KING)
+            {
+                throw std::invalid_argument("Configuration must contain exactly one king for each color");
+            }
             for (const auto& piece : pieces)
             {
                 const auto coordinate = ParseCoordinate(piece.as_object(), type);
