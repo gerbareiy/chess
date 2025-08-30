@@ -13,6 +13,7 @@ import Chess.Coordinate;
 import Chess.DrawChecker;
 import Chess.InputHandler;
 import Chess.LabelDisplayer;
+import Chess.Piece;
 import Chess.PieceDirector;
 import Chess.ChessboardBuilder;
 
@@ -61,16 +62,24 @@ namespace Chess
         }
 
     public:
-        Game()
+        Game(const std::filesystem::path& path)
             : m_inputHandler(std::make_shared<InputHandler>())
             , m_labelDisplayer(std::make_unique<LabelPresenter>(m_inputHandler))
 
         {
-            const auto resourcePath = std::filesystem::current_path().parent_path().parent_path().parent_path() / "resources" / "chessboard.json";
-            m_chessboard            = std::make_shared<Chessboard>(ChessboardBuilder::InitBoard(resourcePath.string()));
-            m_controller            = std::make_shared<Controller>(m_chessboard);
-            m_chessboardDisplayer   = std::make_unique<ChessboardPresenter>(m_chessboard);
-
+            std::vector<std::shared_ptr<Piece>> pieces;
+            try
+            {
+                pieces = ChessboardBuilder::InitBoard(path.string());
+            }
+            catch (const std::exception& e)
+            {
+                std::cerr << e.what();
+                return;
+            }
+            m_chessboard          = std::make_shared<Chessboard>(pieces);
+            m_controller          = std::make_shared<Controller>(m_chessboard);
+            m_chessboardDisplayer = std::make_unique<ChessboardPresenter>(m_chessboard);
             m_chessboardDisplayer->Show();
         }
 

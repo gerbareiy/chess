@@ -3,7 +3,7 @@ import Chess.Sizes;
 
 namespace Chess
 {
-    export constexpr int COUNT_OF_BISHOP_KNIGHT_ROOK_WITH_1_COLOR = 2;
+    export constexpr int COUNT_OF_KINGS_WITH_ONE_COLOR              = 1;
 
     export constexpr int COUNT_OF_BISHOP_WAYS = CHESSBOARD_SIZE * 2;
     export constexpr int COUNT_OF_KING_WAYS   = 10;

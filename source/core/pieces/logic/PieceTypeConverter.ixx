@@ -9,8 +9,9 @@ namespace Chess
     export class PieceTypeConverter
     {
     public:
-        static constexpr std::array pieceTypes = { ePieceType::KING,  ePieceType::PAWN,   ePieceType::ROOK,
-                                                   ePieceType::QUEEN, ePieceType::KNIGHT, ePieceType::BISHOP };
+        static constexpr std::array pieceTypes = {
+            ePieceType::BISHOP, ePieceType::KING, ePieceType::KNIGHT, ePieceType::PAWN, ePieceType::QUEEN, ePieceType::ROOK};
+
         /**
          * @param type Chess piece type (e.g., Chess::ePieceType::ROOK)
          * @return short name of the piece (e.g., "R")

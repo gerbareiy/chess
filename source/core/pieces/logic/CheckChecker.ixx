@@ -27,7 +27,7 @@ namespace Chess
                     return false;
                 }
 
-                const auto moves = moveChecker.value()->GetMoves(piece, piecesOnBoard);
+                const auto moves = moveChecker->GetMoves(piece, piecesOnBoard);
                 for (const auto& move : moves)
                 {
                     if (move == king->GetPosition())
