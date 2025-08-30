@@ -4,7 +4,7 @@ module;
 export module Chess.MoveValidator;
 import Chess.Coordinate;
 import Chess.Counts;
-import Chess.MoveChecker;
+import Chess.MoveCheckerOwner;
 import Chess.Piece;
 import Chess.PieceFinder;
 import Chess.Player;
@@ -43,7 +43,7 @@ namespace Chess
             {
                 if (piece->GetColorAndType().color == m_player->GetPlayerColor())
                 {
-                    const auto moveChecker = MoveChecker(piece);
+                    const auto moveChecker = MoveCheckerOwner(piece);
 
                     if (moveChecker.GetFilteredMoves(m_piecesOnBoard).size())
                     {
@@ -61,7 +61,7 @@ namespace Chess
 
             if (it != m_piecesCanMove.end())
             {
-                const auto moveChecker = std::make_shared<MoveChecker>(piece);
+                const auto moveChecker = std::make_shared<MoveCheckerOwner>(piece);
                 m_possibleMoves        = moveChecker->GetFilteredMoves(m_piecesOnBoard);
             }
         }

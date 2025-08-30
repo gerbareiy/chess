@@ -1,5 +1,3 @@
-module;
-#include <stdexcept>
 export module Chess.Bishop;
 import Chess.Coordinate;
 import Chess.ePieceColor;

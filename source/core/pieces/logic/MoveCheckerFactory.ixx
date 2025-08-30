@@ -1,5 +1,4 @@
 module;
-#include <expected>
 #include <memory>
 #include <stdexcept>
 export module Chess.MoveCheckerFactory;
@@ -19,7 +18,7 @@ namespace Chess
     export class MoveCheckerFactory
     {
     public:
-        static std::expected<std::shared_ptr<IMoveChecker>, std::string> Create(const std::shared_ptr<Piece>& piece)
+        static std::shared_ptr<IMoveChecker> Create(const std::shared_ptr<Piece>& piece)
         {
             switch (piece->GetColorAndType().type)
             {
@@ -35,8 +34,10 @@ namespace Chess
                 return std::make_shared<QueenChecker>();
             case ePieceType::ROOK:
                 return std::make_shared<RookChecker>();
+            case ePieceType::NONE:
+                return nullptr;
             default:
-                return std::unexpected("Piece is not correct");
+                throw std::invalid_argument("Unknown piece type");
             }
         }
     };

@@ -1,18 +1,27 @@
 module;
+#include <expected>
 #include <memory>
 #include <optional>
+#include <string>
 #include <vector>
-export module Chess.MoveChecker;
+export module Chess.MoveCheckerOwner;
+import Chess.BishopChecker;
 import Chess.CheckChecker;
 import Chess.Coordinate;
+import Chess.ePieceType;
 import Chess.IMoveChecker;
+import Chess.KingChecker;
+import Chess.KnightChecker;
 import Chess.MoveCheckerFactory;
+import Chess.PawnChecker;
 import Chess.Piece;
 import Chess.PieceFinder;
+import Chess.QueenChecker;
+import Chess.RookChecker;
 
 namespace Chess
 {
-    export class MoveChecker
+    export class MoveCheckerOwner
     {
         std::shared_ptr<IMoveChecker> m_moveCheckerOfPiece;
         std::shared_ptr<Piece>        m_piece;
@@ -39,8 +48,8 @@ namespace Chess
         }
 
     public:
-        explicit MoveChecker(const std::shared_ptr<Piece>& piece)
-            : m_moveCheckerOfPiece(MoveCheckerFactory::Create(piece).value_or(nullptr))
+        explicit MoveCheckerOwner(const std::shared_ptr<Piece>& piece)
+            : m_moveCheckerOfPiece(MoveCheckerFactory::Create(piece))
             , m_piece(piece)
         {
         }
