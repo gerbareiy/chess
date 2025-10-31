@@ -1,6 +1,7 @@
 module;
 #include <boost/signals2.hpp>
 
+#include <cctype>
 #include <iostream>
 #include <string>
 export module Chess.ConsolePromoter;
@@ -13,6 +14,28 @@ namespace Chess
 {
     export class ConsolePromoter final : public Promoter
     {
+        static char NormalizePromotionChoice(const std::string& input)
+        {
+            for (unsigned char symbol : input)
+            {
+                if (std::isspace(symbol))
+                {
+                    continue;
+                }
+
+                auto normalized = static_cast<char>(std::toupper(static_cast<unsigned char>(symbol)));
+
+                if (normalized == PieceTypeConverter::ConvertToShortString(ePieceType::KING)[0])
+                {
+                    normalized = static_cast<char>(std::tolower(static_cast<unsigned char>(normalized)));
+                }
+
+                return normalized;
+            }
+
+            return '\0';
+        }
+
         static void EnterPromotionType(std::string& input)
         {
             std::getline(std::cin, input);
@@ -28,26 +51,26 @@ namespace Chess
                 std::string input;
                 EnterPromotionType(input);
 
-                input[0] = std::toupper(input[0]);
+                const auto normalized = NormalizePromotionChoice(input);
 
-                if (input[0] == PieceTypeConverter::ConvertToShortString(ePieceType::KING)[0])
+                if (normalized == '\0')
                 {
-                    input[0] = std::tolower(input[0]);
+                    continue;
                 }
 
-                if (input[0] == PieceTypeConverter::ConvertToShortString(ePieceType::BISHOP)[0])
+                if (normalized == PieceTypeConverter::ConvertToShortString(ePieceType::BISHOP)[0])
                 {
                     return ePieceType::BISHOP;
                 }
-                if (input[0] == PieceTypeConverter::ConvertToShortString(ePieceType::KNIGHT)[0])
+                if (normalized == PieceTypeConverter::ConvertToShortString(ePieceType::KNIGHT)[0])
                 {
                     return ePieceType::KNIGHT;
                 }
-                if (input[0] == PieceTypeConverter::ConvertToShortString(ePieceType::QUEEN)[0])
+                if (normalized == PieceTypeConverter::ConvertToShortString(ePieceType::QUEEN)[0])
                 {
                     return ePieceType::QUEEN;
                 }
-                if (input[0] == PieceTypeConverter::ConvertToShortString(ePieceType::ROOK)[0])
+                if (normalized == PieceTypeConverter::ConvertToShortString(ePieceType::ROOK)[0])
                 {
                     return ePieceType::ROOK;
                 }

@@ -1,7 +1,9 @@
 module;
 #include <boost/signals2.hpp>
 
+#include <cctype>
 #include <iostream>
+#include <string>
 export module Chess.InputHandler;
 import Chess.Coordinate;
 import Chess.eInputType;
@@ -11,13 +13,32 @@ namespace Chess
 {
     export class InputHandler final : public Inputer
     {
+        static char NormalizeFileInput(const std::string& input)
+        {
+            for (unsigned char symbol : input)
+            {
+                if (std::isspace(symbol))
+                {
+                    continue;
+                }
+
+                if (std::isalpha(symbol))
+                {
+                    return static_cast<char>(std::toupper(static_cast<unsigned char>(symbol)));
+                }
+            }
+
+            return '\0';
+        }
+
         char EnterFile() const
         {
             m_signalOnEnter(eInputType::FILE);
 
             std::string input;
             std::getline(std::cin, input);
-            return std::toupper(*input.data());
+
+            return NormalizeFileInput(input);
         }
 
         int EnterRank() const
