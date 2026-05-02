@@ -24,7 +24,7 @@ namespace Chess
         Coordinate m_from = { .file = 0, .rank = 0 };
         Coordinate m_to   = { .file = 0, .rank = 0 };
 
-        boost::signals2::signal<void()> m_signalChessboardUndated;
+        boost::signals2::signal<void()> m_signalChessboardUpdated;
 
     public:
         Chessboard(
@@ -83,7 +83,7 @@ namespace Chess
                 return false;
             }
 
-            m_signalChessboardUndated();
+            m_signalChessboardUpdated();
 
             return true;
         }
@@ -100,17 +100,17 @@ namespace Chess
 
             m_validator->ClearPossibleMoves();
             m_validator->ClearPiecesCanMove();
-            m_director->MovePiece(to, m_signalChessboardUndated, promoter);
+            m_director->MovePiece(to, m_signalChessboardUpdated, promoter);
             m_validator->CalculatePiecesCanMove();
 
-            m_signalChessboardUndated();
+            m_signalChessboardUpdated();
 
             return true;
         }
 
         boost::signals2::connection ConnectChessboardUpdated(const std::function<void()>& subscriber)
         {
-            return m_signalChessboardUndated.connect(subscriber);
+            return m_signalChessboardUpdated.connect(subscriber);
         }
     };
 } // namespace Chess

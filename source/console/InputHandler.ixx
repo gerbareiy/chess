@@ -1,4 +1,5 @@
 module;
+#include <boost/lexical_cast.hpp>
 #include <boost/signals2.hpp>
 
 #include <cctype>
@@ -43,16 +44,10 @@ namespace Chess
             std::string input;
             int         rank;
             std::getline(std::cin, input);
-
-            try
+            if (!boost::conversion::try_lexical_convert(input, rank))
             {
-                rank = std::stoi(input);
+                return -1;
             }
-            catch (...)
-            {
-                return 0;
-            }
-
             return rank;
         }
 

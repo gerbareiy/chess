@@ -18,22 +18,22 @@ namespace Chess
     export class MoveCheckerFactory
     {
     public:
-        static std::shared_ptr<IMoveChecker> Create(const std::shared_ptr<Piece>& piece)
+        static std::unique_ptr<IMoveChecker> Create(const std::shared_ptr<Piece>& piece)
         {
             switch (piece->GetColorAndType().type)
             {
             case ePieceType::BISHOP:
-                return std::make_shared<BishopChecker>();
+                return std::make_unique<BishopChecker>();
             case ePieceType::KING:
-                return std::make_shared<KingChecker>();
+                return std::make_unique<KingChecker>();
             case ePieceType::KNIGHT:
-                return std::make_shared<KnightChecker>();
+                return std::make_unique<KnightChecker>();
             case ePieceType::PAWN:
-                return std::make_shared<PawnChecker>();
+                return std::make_unique<PawnChecker>();
             case ePieceType::QUEEN:
-                return std::make_shared<QueenChecker>();
+                return std::make_unique<QueenChecker>();
             case ePieceType::ROOK:
-                return std::make_shared<RookChecker>();
+                return std::make_unique<RookChecker>();
             case ePieceType::NONE:
                 return nullptr;
             default:

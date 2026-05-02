@@ -1,5 +1,3 @@
-module;
-#include <stdexcept>
 export module Chess.Player;
 import Chess.ePieceColor;
 
@@ -15,11 +13,11 @@ namespace Chess
         {
         }
 
-        void Init() const
+        void Init()
         {
             if (m_playerColor == ePieceColor::NONE)
             {
-                throw std::logic_error("Player color cannot be NONE");
+                m_playerColor = ePieceColor::WHITE;
             }
         }
 

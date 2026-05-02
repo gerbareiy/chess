@@ -65,13 +65,13 @@ namespace Chess
         Game(
             const std::shared_ptr<Chessboard>&     chessboard,
             std::unique_ptr<Controller>&&          controller,
-            std::unique_ptr<ChessboardPresenter>&& chessboardPresenter,
+            const std::shared_ptr<ChessboardPresenter>& chessboardPresenter,
             const std::shared_ptr<InputHandler>&   inputHandler,
             std::unique_ptr<LabelPresenter>&&      labelPresenter,
             std::unique_ptr<ConsolePromoter>&&     promoter)
             : m_chessboard(chessboard)
             , m_controller(std::move(controller))
-            , m_chessboardPresenter(std::move(chessboardPresenter))
+            , m_chessboardPresenter(chessboardPresenter)
             , m_inputHandler(inputHandler)
             , m_labelPresenter(std::move(labelPresenter))
             , m_promoter(std::move(promoter))

@@ -27,12 +27,11 @@ int main()
         const auto chessboard    = std::make_shared<Chess::Chessboard>(player, std::move(piecesOnBoard), std::move(director), std::move(validator));
 
         auto       controller          = std::make_unique<Chess::Controller>(chessboard);
-        auto       chessboardPresenter = std::make_unique<Chess::ChessboardPresenter>(chessboard);
+        const auto chessboardPresenter = std::make_shared<Chess::ChessboardPresenter>(chessboard);
         const auto inputHandler        = std::make_shared<Chess::InputHandler>();
         auto       labelPresenter      = std::make_unique<Chess::LabelPresenter>(inputHandler);
         auto       promoter            = std::make_unique<Chess::ConsolePromoter>();
-        auto       chess =
-            Chess::Game(chessboard, std::move(controller), std::move(chessboardPresenter), inputHandler, std::move(labelPresenter), std::move(promoter));
+        auto       chess = Chess::Game(chessboard, std::move(controller), chessboardPresenter, inputHandler, std::move(labelPresenter), std::move(promoter));
         chess.Init();
         chess.Play();
     }
