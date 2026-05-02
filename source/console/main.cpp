@@ -25,7 +25,6 @@ int main()
         auto       director      = std::make_unique<Chess::PieceDirector>(piecesOnBoard, player);
         auto       validator     = std::make_unique<Chess::MoveValidator>(piecesOnBoard, player);
         const auto chessboard    = std::make_shared<Chess::Chessboard>(player, std::move(piecesOnBoard), std::move(director), std::move(validator));
-        chessboard->Init();
 
         auto       controller          = std::make_unique<Chess::Controller>(chessboard);
         auto       chessboardPresenter = std::make_unique<Chess::ChessboardPresenter>(chessboard);

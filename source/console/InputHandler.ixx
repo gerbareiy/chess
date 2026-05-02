@@ -17,12 +17,7 @@ namespace Chess
         {
             for (const unsigned char symbol : input)
             {
-                if (std::isspace(symbol))
-                {
-                    continue;
-                }
-
-                if (std::isalpha(symbol))
+                if (!std::isspace(symbol) && std::isalpha(symbol))
                 {
                     return static_cast<char>(std::toupper(symbol));
                 }

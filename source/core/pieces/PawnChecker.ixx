@@ -26,7 +26,7 @@ namespace Chess
                 return {}; // TODO: somehow call checkmate here
             }
 
-            const auto moveVector = (pawn->GetColorAndType().color == ePieceColor::WHITE) ? 1 : -1;
+            const auto moveVector = pawn->GetColorAndType().color == ePieceColor::WHITE ? 1 : -1;
 
             std::vector<Coordinate> moves;
             moves.reserve(COUNT_OF_PAWN_WAYS);
@@ -58,7 +58,7 @@ namespace Chess
                 return {}; // TODO: somehow call checkmate here
             }
 
-            const int moveVector = (pawn->GetColorAndType().color == ePieceColor::WHITE) ? 1 : -1;
+            const int moveVector = pawn->GetColorAndType().color == ePieceColor::WHITE ? 1 : -1;
 
             std::vector<Coordinate> moves;
             moves.reserve(COUNT_OF_PAWN_WAYS);

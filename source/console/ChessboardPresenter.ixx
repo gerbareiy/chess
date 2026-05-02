@@ -60,7 +60,7 @@ namespace Chess
         static void SetConsoleColor(Console::eConsoleColor textColor, Console::eConsoleColor backgroundColor)
         {
             const auto hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-            SetConsoleTextAttribute(hConsole, (static_cast<int>(backgroundColor) << 4) | static_cast<int>(textColor));
+            SetConsoleTextAttribute(hConsole, static_cast<int>(backgroundColor) << 4 | static_cast<int>(textColor));
         }
 
         static void ShowChessboardFiles(bool isChessboardSizeOneDigit)
@@ -76,7 +76,7 @@ namespace Chess
 
         static void ShowChessboardRank(int y, bool isChessboardSizeOneDigit)
         {
-            const auto space = (isChessboardSizeOneDigit ? ' ' : '\t');
+            const auto space = isChessboardSizeOneDigit ? ' ' : '\t';
             std::print("{}{}{}", space, y, space);
         }
 

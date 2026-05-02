@@ -72,18 +72,18 @@ namespace Chess
                     case ePieceType::BISHOP:
                         if (color == ePieceColor::BLACK)
                         {
-                            ((x + y) % 2 == 0) ? ++blackBishopLightCount : ++blackBishopDarkCount;
+                            (x + y) % 2 == 0 ? ++blackBishopLightCount : ++blackBishopDarkCount;
                         }
                         else
                         {
-                            ((x + y) % 2 == 0) ? ++whiteBishopLightCount : ++whiteBishopDarkCount;
+                            (x + y) % 2 == 0 ? ++whiteBishopLightCount : ++whiteBishopDarkCount;
                         }
                         break;
                     case ePieceType::KNIGHT:
-                        (color == ePieceColor::BLACK) ? ++blackKnightCount : ++whiteKnightCount;
+                        color == ePieceColor::BLACK ? ++blackKnightCount : ++whiteKnightCount;
                         break;
                     case ePieceType::KING:
-                        (color == ePieceColor::BLACK) ? blackKing = true : whiteKing = true;
+                        color == ePieceColor::BLACK ? blackKing = true : whiteKing = true;
                         break;
                     default:
                         return false;
@@ -91,8 +91,8 @@ namespace Chess
                 }
             }
 
-            const auto insufficientWhiteBishops = (whiteBishopLightCount == 0 || whiteBishopDarkCount == 0);
-            const auto insufficientBlackBishops = (blackBishopLightCount == 0 || blackBishopDarkCount == 0);
+            const auto insufficientWhiteBishops = whiteBishopLightCount == 0 || whiteBishopDarkCount == 0;
+            const auto insufficientBlackBishops = blackBishopLightCount == 0 || blackBishopDarkCount == 0;
 
             if (whiteKing && blackKing
                 && (blackKnightCount + blackBishopLightCount + blackBishopDarkCount + whiteBishopLightCount + whiteBishopDarkCount + whiteKnightCount <= 1
