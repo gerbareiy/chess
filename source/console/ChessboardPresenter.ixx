@@ -19,7 +19,7 @@ import Chess.Sizes;
 
 namespace Chess
 {
-    export class ChessboardPresenter : std::enable_shared_from_this<ChessboardPresenter>
+    export class ChessboardPresenter : public std::enable_shared_from_this<ChessboardPresenter>
     {
         std::shared_ptr<Chessboard> m_chessboard;
 
