@@ -13,12 +13,9 @@ namespace Chess
         std::unordered_map<Coordinate, std::shared_ptr<Piece>> m_pieceMap;
 
     public:
-        explicit PieceFinder(const std::vector<std::shared_ptr<Piece>>& pieces)
+        explicit PieceFinder(std::unordered_map<Coordinate, std::shared_ptr<Piece>>&& pieceMap)
+            : m_pieceMap(std::move(pieceMap))
         {
-            for (const auto& piece : pieces)
-            {
-                m_pieceMap[piece->GetPosition()] = piece;
-            }
         }
 
         std::shared_ptr<Piece> Find(const Coordinate& coordinate) const

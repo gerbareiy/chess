@@ -1,5 +1,6 @@
 module;
 #include <boost/functional/hash.hpp>
+
 #include <functional>
 export module Chess.Coordinate;
 

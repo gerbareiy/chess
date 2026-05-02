@@ -19,7 +19,7 @@ import Chess.Sizes;
 
 namespace Chess
 {
-    export class ChessboardPresenter
+    export class ChessboardPresenter : std::enable_shared_from_this<ChessboardPresenter>
     {
         std::shared_ptr<Chessboard> m_chessboard;
 
@@ -134,9 +134,20 @@ namespace Chess
         explicit ChessboardPresenter(const std::shared_ptr<Chessboard>& chessboard)
             : m_chessboard(chessboard)
         {
+        }
+
+        void Init()
+        {
             if (m_chessboard)
             {
-                m_connection = m_chessboard->ConnectChessboardUpdated(std::bind(&ChessboardPresenter::Show, this));
+                auto const subscriber = [weak = weak_from_this()]
+                {
+                    if (const auto shared = weak.lock())
+                    {
+                        shared->Show();
+                    }
+                };
+                m_connection = m_chessboard->ConnectChessboardUpdated(subscriber);
             }
         }
 

@@ -5,6 +5,7 @@ module;
 #include <vector>
 export module Chess.KnightChecker;
 import Chess.Coordinate;
+import Chess.CoordinateToPieceBuilder;
 import Chess.Counts;
 import Chess.ePieceType;
 import Chess.IMoveChecker;
@@ -31,13 +32,14 @@ namespace Chess
             std::vector<Coordinate> moves;
             moves.reserve(COUNT_OF_KNIGHT_WAYS);
 
-            const auto currentPos = knight->GetPosition();
-            const auto finder     = std::make_shared<PieceFinder>(piecesOnBoard);
+            auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
+            const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
+            const auto [file, rank] = knight->GetPosition();
             for (const auto& [first, second] : m_knightMoveDirections)
             {
-                char newFile = currentPos.file + first;
-                int  newRank = currentPos.rank + second;
+                char newFile = file + first;
+                int  newRank = rank + second;
 
                 if (newFile < 'A' || newFile >= 'A' + CHESSBOARD_SIZE || newRank < 1 || newRank > CHESSBOARD_SIZE)
                 {

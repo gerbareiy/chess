@@ -5,6 +5,7 @@ export module Chess.BishopChecker;
 import Chess.Bishop;
 import Chess.BishopQueenRookDirectionChecker;
 import Chess.Coordinate;
+import Chess.CoordinateToPieceBuilder;
 import Chess.Counts;
 import Chess.ePieceType;
 import Chess.IMoveChecker;
@@ -21,7 +22,8 @@ namespace Chess
             std::vector<Coordinate> result;
             result.reserve(COUNT_OF_BISHOP_WAYS);
 
-            const auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
+            auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
+            const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
             auto first  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece, { -1, -1 });
             auto second = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece, { -1, 1 });

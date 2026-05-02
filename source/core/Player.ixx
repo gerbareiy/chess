@@ -1,6 +1,5 @@
 module;
-#include <functional>
-#include <memory>
+#include <stdexcept>
 export module Chess.Player;
 import Chess.ePieceColor;
 
@@ -11,9 +10,17 @@ namespace Chess
         ePieceColor m_playerColor;
 
     public:
-        Player(ePieceColor firstMoveColor)
+        explicit Player(ePieceColor firstMoveColor)
+            : m_playerColor(firstMoveColor)
         {
-            m_playerColor = firstMoveColor == ePieceColor::NONE ? ePieceColor::WHITE : firstMoveColor;
+        }
+
+        void Init() const
+        {
+            if (m_playerColor == ePieceColor::NONE)
+            {
+                throw std::logic_error("Player color cannot be NONE");
+            }
         }
 
         void ChangeColor()

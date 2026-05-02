@@ -8,6 +8,7 @@ export module Chess.MoveCheckerOwner;
 import Chess.BishopChecker;
 import Chess.CheckChecker;
 import Chess.Coordinate;
+import Chess.CoordinateToPieceBuilder;
 import Chess.ePieceType;
 import Chess.IMoveChecker;
 import Chess.KingChecker;
@@ -28,7 +29,8 @@ namespace Chess
 
         std::optional<Coordinate> FindUncheckedMove(const Coordinate& move, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
         {
-            const auto finder        = std::make_shared<PieceFinder>(piecesOnBoard);
+            auto       pieceMap      = CoordinateToPieceBuilder::Build(piecesOnBoard);
+            const auto finder        = std::make_shared<PieceFinder>(std::move(pieceMap));
             const auto capturedPiece = finder->Find(move);
 
             std::vector<std::shared_ptr<Piece>> tempPiecesOnBoard = piecesOnBoard;
@@ -48,8 +50,8 @@ namespace Chess
         }
 
     public:
-        explicit MoveCheckerOwner(const std::shared_ptr<Piece>& piece)
-            : m_moveCheckerOfPiece(MoveCheckerFactory::Create(piece))
+        explicit MoveCheckerOwner(const std::shared_ptr<Piece>& piece, const std::shared_ptr<IMoveChecker>& moveChecker)
+            : m_moveCheckerOfPiece(moveChecker)
             , m_piece(piece)
         {
         }

@@ -16,14 +16,14 @@ namespace Chess
     {
         static char NormalizePromotionChoice(const std::string& input)
         {
-            for (unsigned char symbol : input)
+            for (const unsigned char symbol : input)
             {
                 if (std::isspace(symbol))
                 {
                     continue;
                 }
 
-                auto normalized = static_cast<char>(std::toupper(static_cast<unsigned char>(symbol)));
+                auto normalized = static_cast<char>(std::toupper(symbol));
 
                 if (normalized == PieceTypeConverter::ConvertToShortString(ePieceType::KING)[0])
                 {

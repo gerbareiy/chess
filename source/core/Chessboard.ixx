@@ -16,22 +16,33 @@ namespace Chess
 {
     export class Chessboard
     {
-        std::shared_ptr<PieceDirector>      m_director;
-        Coordinate                          m_from = { .file = 0, .rank = 0 };
-        std::shared_ptr<MoveValidator>      m_validator;
-        std::vector<std::shared_ptr<Piece>> m_piecesOnBoard;
-        Coordinate                          m_to = { .file = 0, .rank = 0 };
         std::shared_ptr<Player>             m_player;
+        std::vector<std::shared_ptr<Piece>> m_piecesOnBoard;
+        std::shared_ptr<PieceDirector>      m_director;
+        std::shared_ptr<MoveValidator>      m_validator;
+
+        Coordinate m_from = { .file = 0, .rank = 0 };
+        Coordinate m_to   = { .file = 0, .rank = 0 };
 
         boost::signals2::signal<void()> m_signalChessboardUndated;
 
     public:
-        Chessboard(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
-            : m_piecesOnBoard(piecesOnBoard)
+        Chessboard(
+            const std::shared_ptr<Player>&        player,
+            std::vector<std::shared_ptr<Piece>>&& piecesOnBoard,
+            std::unique_ptr<PieceDirector>&&      director,
+            std::unique_ptr<MoveValidator>&&      validator)
+            : m_player(player)
+            , m_piecesOnBoard(std::move(piecesOnBoard))
+            , m_director(std::move(director))
+            , m_validator(std::move(validator))
         {
-            m_player    = std::make_shared<Player>(ePieceColor::WHITE);
-            m_director  = std::make_shared<PieceDirector>(m_piecesOnBoard, m_player);
-            m_validator = std::make_shared<MoveValidator>(m_piecesOnBoard, m_player);
+        }
+
+        void Init()
+        {
+            m_player->Init();
+            m_validator->Init();
         }
 
         Coordinate GetFrom() const

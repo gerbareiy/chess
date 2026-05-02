@@ -5,6 +5,7 @@ module;
 #include <vector>
 export module Chess.KingChecker;
 import Chess.Coordinate;
+import Chess.CoordinateToPieceBuilder;
 import Chess.Counts;
 import Chess.Piece;
 import Chess.PieceFinder;
@@ -82,7 +83,8 @@ std::expected<std::vector<Chess::Coordinate>, std::string> FindPossibleMoves(
     std::vector<Chess::Coordinate> moves;
     moves.reserve(Chess::COUNT_OF_KING_WAYS);
 
-    const auto finder = std::make_shared<Chess::PieceFinder>(piecesOnBoard);
+    auto       pieceMap = Chess::CoordinateToPieceBuilder::Build(piecesOnBoard);
+    const auto finder   = std::make_shared<Chess::PieceFinder>(std::move(pieceMap));
 
     for (auto deltaFile = -1; deltaFile <= 1; ++deltaFile)
     {

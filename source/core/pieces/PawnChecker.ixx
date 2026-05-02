@@ -5,6 +5,7 @@ module;
 #include <vector>
 export module Chess.PawnChecker;
 import Chess.Coordinate;
+import Chess.CoordinateToPieceBuilder;
 import Chess.Counts;
 import Chess.ePieceColor;
 import Chess.ePieceType;
@@ -127,7 +128,8 @@ namespace Chess
 
             std::vector<Coordinate> allMoves;
 
-            const auto finder        = std::make_shared<PieceFinder>(piecesOnBoard);
+            auto       pieceMap      = CoordinateToPieceBuilder::Build(piecesOnBoard);
+            const auto finder        = std::make_shared<PieceFinder>(std::move(pieceMap));
             auto       forwardMoves  = GetForwardMoves(std::static_pointer_cast<Pawn>(piece), finder);
             auto       diagonalMoves = GetDiagonalMoves(std::static_pointer_cast<Pawn>(piece), finder);
 

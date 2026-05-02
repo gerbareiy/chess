@@ -4,6 +4,7 @@ module;
 export module Chess.RookChecker;
 import Chess.BishopQueenRookDirectionChecker;
 import Chess.Coordinate;
+import Chess.CoordinateToPieceBuilder;
 import Chess.Counts;
 import Chess.ePieceType;
 import Chess.IMoveChecker;
@@ -20,7 +21,8 @@ namespace Chess
             std::vector<Coordinate> moves;
             moves.reserve(COUNT_OF_ROOK_WAYS);
 
-            const auto finder = std::make_shared<PieceFinder>(piecesOnBoard);
+            auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
+            const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
             auto first  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, rook, { -1, 0 });
             auto second = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, rook, { 1, 0 });

@@ -3,6 +3,7 @@ module;
 export module Chess.DrawChecker;
 import Chess.Chessboard;
 import Chess.Coordinate;
+import Chess.CoordinateToPieceBuilder;
 import Chess.Counts;
 import Chess.ePieceColor;
 import Chess.ePieceType;
@@ -20,8 +21,9 @@ namespace Chess
 
         void CalculateMovesCountWithoutPawnAndTaking(const std::shared_ptr<Chessboard>& chessboard)
         {
-            const auto  finder = PieceFinder(chessboard->GetPieceDirector()->GetPiecesOnBoard());
-            const auto& piece  = finder.Find(chessboard->GetTo());
+            auto        pieceMap = CoordinateToPieceBuilder::Build(chessboard->GetPieceDirector()->GetPiecesOnBoard());
+            const auto  finder   = PieceFinder(std::move(pieceMap));
+            const auto& piece    = finder.Find(chessboard->GetTo());
 
             if (!piece)
             {

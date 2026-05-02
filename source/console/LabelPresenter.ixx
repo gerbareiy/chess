@@ -3,7 +3,7 @@ module;
 
 #include <memory>
 #include <print>
-export module Chess.LabelDisplayer;
+export module Chess.LabelPresenter;
 import Chess.eInputType;
 import Chess.Inputer;
 
