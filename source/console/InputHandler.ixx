@@ -20,7 +20,7 @@ namespace Chess
             {
                 return '\0';
             }
-            const auto iter = std::ranges::find_if(input, [](unsigned char c) { return std::isalpha(c) && !std::isspace(c); });
+            const auto iter = std::ranges::find_if(input, [](unsigned char c) { return std::isalpha(c); });
             return iter != input.end() ? static_cast<char>(std::toupper(*iter)) : '\0';
         }
 
