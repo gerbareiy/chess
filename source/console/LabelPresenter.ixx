@@ -1,4 +1,6 @@
 module;
+#include <boost/signals2.hpp>
+
 #include <memory>
 #include <print>
 export module Chess.LabelDisplayer;
@@ -9,7 +11,8 @@ namespace Chess
 {
     export class LabelPresenter
     {
-        std::shared_ptr<Inputer> m_inputer;
+        std::shared_ptr<Inputter> m_inputter;
+        boost::signals2::scoped_connection m_connection;
 
     public:
         static void Show(eInputType type)
@@ -34,15 +37,15 @@ namespace Chess
             }
         }
 
+        explicit LabelPresenter(const std::shared_ptr<Inputter>& inputter)
+            : m_inputter(inputter)
+        {
+        }
+
         void Init()
         {
             const auto show = [this](eInputType type) { Show(type); };
-            m_inputer->ConnectOnEnter(show);
-        }
-
-        explicit LabelPresenter(const std::shared_ptr<Inputer>& inputer)
-            : m_inputer(inputer)
-        {
+            m_connection    = m_inputter->ConnectOnEnter(show);
         }
 
         ~LabelPresenter() = default;

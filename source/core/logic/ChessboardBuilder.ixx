@@ -25,7 +25,6 @@ namespace Chess
 {
     export class ChessboardBuilder
     {
-    private:
         static boost::json::object GetConfig(const std::string& path)
         {
             std::ifstream file(path);

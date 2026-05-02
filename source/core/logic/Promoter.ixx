@@ -5,7 +5,7 @@ import Chess.Inputer;
 
 namespace Chess
 {
-    export class Promoter : public Inputer
+    export class Promoter : public Inputter
     {
     public:
         virtual ~Promoter() = default;

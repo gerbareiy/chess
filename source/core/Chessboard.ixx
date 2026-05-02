@@ -97,7 +97,7 @@ namespace Chess
             return true;
         }
 
-        boost::signals2::connection ConnectChessboardUpdated(const boost::signals2::signal<void()>::slot_type& subscriber)
+        boost::signals2::connection ConnectChessboardUpdated(const std::function<void()>& subscriber)
         {
             return m_signalChessboardUndated.connect(subscriber);
         }

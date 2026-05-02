@@ -8,7 +8,6 @@ namespace Chess
 {
     export class Player
     {
-    private:
         ePieceColor m_playerColor;
 
     public:
@@ -17,7 +16,6 @@ namespace Chess
             m_playerColor = firstMoveColor == ePieceColor::NONE ? ePieceColor::WHITE : firstMoveColor;
         }
 
-    public:
         void ChangeColor()
         {
             m_playerColor = m_playerColor == ePieceColor::BLACK ? ePieceColor::WHITE : ePieceColor::BLACK;

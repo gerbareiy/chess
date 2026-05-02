@@ -1,7 +1,5 @@
 module;
 #include <boost/signals2.hpp>
-
-#include <expected>
 export module Chess.Rook;
 import Chess.Coordinate;
 import Chess.eCastleSide;
@@ -17,8 +15,8 @@ namespace Chess
 {
     export class Rook final : public Piece, public ICastable
     {
-        bool                        m_canMakeCastling = true;
-        boost::signals2::connection m_castlingConnection;
+        bool                               m_canMakeCastling = true;
+        boost::signals2::scoped_connection m_connection;
 
         void DisableCastling()
         {
@@ -32,7 +30,7 @@ namespace Chess
                 return;
             }
 
-            m_castlingConnection = king->ConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
+            m_connection = king->ConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
         }
 
         void OnCastling(const Coordinate& to, eCastleSide side)
@@ -49,7 +47,7 @@ namespace Chess
                 }
             }
 
-            m_castlingConnection.disconnect();
+            m_connection.disconnect();
         }
 
     public:

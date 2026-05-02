@@ -11,11 +11,11 @@ import Chess.Inputer;
 
 namespace Chess
 {
-    export class InputHandler final : public Inputer
+    export class InputHandler final : public Inputter
     {
         static char NormalizeFileInput(const std::string& input)
         {
-            for (unsigned char symbol : input)
+            for (const unsigned char symbol : input)
             {
                 if (std::isspace(symbol))
                 {
@@ -24,7 +24,7 @@ namespace Chess
 
                 if (std::isalpha(symbol))
                 {
-                    return static_cast<char>(std::toupper(static_cast<unsigned char>(symbol)));
+                    return static_cast<char>(std::toupper(symbol));
                 }
             }
 

@@ -5,15 +5,15 @@ import Chess.eInputType;
 
 namespace Chess
 {
-    export class Inputer
+    export class Inputter
     {
     protected:
         boost::signals2::signal<void(eInputType)> m_signalOnEnter;
 
     public:
-        virtual ~Inputer() = default;
+        virtual ~Inputter() = default;
 
-        virtual boost::signals2::connection ConnectOnEnter(const boost::signals2::signal<void(eInputType)>::slot_type& subscriber)
+        boost::signals2::connection ConnectOnEnter(const std::function<void(eInputType)>& subscriber)
         {
             return m_signalOnEnter.connect(subscriber);
         }

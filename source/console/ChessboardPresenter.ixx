@@ -1,4 +1,6 @@
 module;
+#include <boost/signals2/connection.hpp>
+
 #include <windows.h>
 
 #include <functional>
@@ -20,6 +22,8 @@ namespace Chess
     export class ChessboardPresenter
     {
         std::shared_ptr<Chessboard> m_chessboard;
+
+        boost::signals2::scoped_connection m_connection;
 
         static std::string GetChessboardFiles()
         {
@@ -61,13 +65,13 @@ namespace Chess
 
         static void ShowChessboardFiles(bool isChessboardSizeOneDigit)
         {
-            ShowEmpty();
+            PrintEmpty();
 
             std::print("{}", isChessboardSizeOneDigit ? "   " : "\t");
             std::print("{}", GetChessboardFiles());
 
-            ShowEmpty();
-            ShowEmpty();
+            PrintEmpty();
+            PrintEmpty();
         }
 
         static void ShowChessboardRank(int y, bool isChessboardSizeOneDigit)
@@ -110,7 +114,7 @@ namespace Chess
 
             ShowChessboardFiles(isChessboardSizeOneDigit);
 
-            for (auto y = CHESSBOARD_SIZE; y > 0; --y, ShowEmpty())
+            for (auto y = CHESSBOARD_SIZE; y > 0; --y, PrintEmpty())
             {
                 ShowChessboardRank(y, isChessboardSizeOneDigit);
                 ShowChessboardRowWithRank(y, originalTextColor);
@@ -122,7 +126,7 @@ namespace Chess
         }
 
     public:
-        static void ShowEmpty()
+        static void PrintEmpty()
         {
             std::print("\n");
         }
@@ -132,12 +136,12 @@ namespace Chess
         {
             if (m_chessboard)
             {
-                m_chessboard->ConnectChessboardUpdated(std::bind(&ChessboardPresenter::Show, this));
+                m_connection = m_chessboard->ConnectChessboardUpdated(std::bind(&ChessboardPresenter::Show, this));
             }
         }
 
         // You can choose this default Display
-        void Show()
+        void Show() const
         {
             system("CLS");
             ShowTakenPieces(ePieceColor::WHITE);
@@ -163,7 +167,7 @@ namespace Chess
         {
             const auto eatenPieces = m_chessboard->GetPieceDirector()->GetEatenPieces();
 
-            ShowEmpty();
+            PrintEmpty();
 
             for (const auto& piece : eatenPieces)
             {
@@ -173,8 +177,8 @@ namespace Chess
                 }
             }
 
-            ShowEmpty();
-            ShowEmpty();
+            PrintEmpty();
+            PrintEmpty();
         }
     };
 } // namespace Chess

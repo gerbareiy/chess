@@ -1,6 +1,5 @@
 module;
 #include <boost/signals2.hpp>
-
 export module Chess.King;
 import Chess.Coordinate;
 import Chess.eCastleSide;
@@ -76,7 +75,7 @@ namespace Chess
             Piece::Move(to);
         }
 
-        boost::signals2::connection ConnectCastling(const boost::signals2::signal<void(Coordinate, eCastleSide)>::slot_type& subscriber)
+        boost::signals2::connection ConnectCastling(const std::function<void(Coordinate, eCastleSide)>& subscriber)
         {
             return m_signalCastling.connect(subscriber);
         }

@@ -1,6 +1,4 @@
 module;
-#include <boost/signals2.hpp>
-
 #include <memory>
 export module Chess.Controller;
 import Chess.Chessboard;
@@ -11,10 +9,7 @@ namespace Chess
 {
     export class Controller
     {
-    private:
         std::shared_ptr<Chessboard> m_chessboard;
-
-        boost::signals2::signal<void()> m_signalMove;
 
     public:
         explicit Controller(const std::shared_ptr<Chessboard>& chessboard)
@@ -30,7 +25,6 @@ namespace Chess
         bool TryMovePiece(const Coordinate& to, const std::shared_ptr<Promoter>& promoter) const
         {
             const auto moved = m_chessboard->TryMovePiece(to, promoter);
-            m_signalMove();
             return moved;
         }
     };
