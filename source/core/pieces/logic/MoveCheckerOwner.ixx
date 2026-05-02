@@ -2,7 +2,6 @@ module;
 #include <expected>
 #include <memory>
 #include <optional>
-#include <string>
 #include <vector>
 export module Chess.MoveCheckerOwner;
 import Chess.BishopChecker;
