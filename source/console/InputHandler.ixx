@@ -16,24 +16,19 @@ namespace Chess
     {
         static char NormalizeFileInput(const std::string& input)
         {
-            for (const unsigned char symbol : input)
+            if (input.size() != 1)
             {
-                if (!std::isspace(symbol) && std::isalpha(symbol))
-                {
-                    return static_cast<char>(std::toupper(symbol));
-                }
+                return '\0';
             }
-
-            return '\0';
+            const auto iter = std::ranges::find_if(input, [](unsigned char c) { return std::isalpha(c) && !std::isspace(c); });
+            return iter != input.end() ? static_cast<char>(std::toupper(*iter)) : '\0';
         }
 
         char EnterFile() const
         {
             m_signalOnEnter(eInputType::FILE);
-
             std::string input;
             std::getline(std::cin, input);
-
             return NormalizeFileInput(input);
         }
 
