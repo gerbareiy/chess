@@ -1,5 +1,5 @@
 #include <filesystem>
-#include <iostream>
+#include <print>
 import Chess.Game;
 
 int main()
@@ -12,7 +12,7 @@ int main()
     }
     catch (const std::exception& e)
     {
-        std::cerr << e.what();
+        std::println("{}", e.what());
     }
 
     return 0;

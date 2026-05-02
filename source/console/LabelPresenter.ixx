@@ -11,7 +11,7 @@ namespace Chess
 {
     export class LabelPresenter
     {
-        std::shared_ptr<Inputter> m_inputter;
+        std::shared_ptr<Inputter>          m_inputter;
         boost::signals2::scoped_connection m_connection;
 
     public:
