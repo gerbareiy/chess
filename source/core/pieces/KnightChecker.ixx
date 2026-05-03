@@ -30,7 +30,7 @@ namespace Chess
             }
 
             std::vector<Coordinate> moves;
-            moves.reserve(COUNT_OF_KNIGHT_WAYS);
+            moves.reserve(KNIGHT_WAYS_COUNT);
 
             auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));

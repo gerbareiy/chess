@@ -63,12 +63,12 @@ namespace Chess
 
     public:
         Game(
-            const std::shared_ptr<Chessboard>&     chessboard,
-            std::unique_ptr<Controller>&&          controller,
+            const std::shared_ptr<Chessboard>&          chessboard,
+            std::unique_ptr<Controller>&&               controller,
             const std::shared_ptr<ChessboardPresenter>& chessboardPresenter,
-            const std::shared_ptr<InputHandler>&   inputHandler,
-            std::unique_ptr<LabelPresenter>&&      labelPresenter,
-            std::unique_ptr<ConsolePromoter>&&     promoter)
+            const std::shared_ptr<InputHandler>&        inputHandler,
+            std::unique_ptr<LabelPresenter>&&           labelPresenter,
+            std::unique_ptr<ConsolePromoter>&&          promoter)
             : m_chessboard(chessboard)
             , m_controller(std::move(controller))
             , m_chessboardPresenter(chessboardPresenter)
@@ -88,26 +88,12 @@ namespace Chess
 
         void Play()
         {
-            const auto tryMovePiece = [this](const Coordinate& to) -> bool { return m_controller->TryMovePiece(to, m_promoter); };
-
-            while (true)
+            const auto trySelectPiece = std::bind(&Controller::TrySelectPiece, m_controller.get(), std::placeholders::_1);
+            const auto tryMovePiece   = [this](const Coordinate& to) -> bool { return m_controller->TryMovePiece(to, m_promoter); };
+            while (ContinueGame())
             {
-                if (!ContinueGame())
-                {
-                    break;
-                }
-
-                HandleInput(
-                    std::bind(&InputHandler::EnterFrom, m_inputHandler), std::bind(&Controller::TryInitPiece, m_controller.get(), std::placeholders::_1));
-
-                try
-                {
-                    HandleInput(std::bind(&InputHandler::EnterTo, m_inputHandler), tryMovePiece);
-                }
-                catch (const std::invalid_argument& e)
-                {
-                    std::cerr << e.what();
-                }
+                HandleInput(std::bind(&InputHandler::EnterFrom, m_inputHandler), trySelectPiece);
+                HandleInput(std::bind(&InputHandler::EnterTo, m_inputHandler), tryMovePiece);
             }
         }
     };

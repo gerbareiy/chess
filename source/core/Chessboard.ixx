@@ -65,7 +65,7 @@ namespace Chess
             return m_to;
         }
 
-        bool TryInitPiece(const Coordinate& from)
+        bool TrySelectPiece(const Coordinate& from)
         {
             m_from = from;
             m_to   = Coordinate(0, 0);
@@ -76,7 +76,7 @@ namespace Chess
                 return false;
             }
 
-            m_validator->CalculatePossibleMoves(m_director->GetCurrentPiece());
+            m_validator->RefreshPossibleMoves(m_director->GetCurrentPiece());
 
             if (m_validator->GetPossibleMoves().size() < 1)
             {
@@ -84,7 +84,6 @@ namespace Chess
             }
 
             m_signalChessboardUpdated();
-
             return true;
         }
 
@@ -101,7 +100,7 @@ namespace Chess
             m_validator->ClearPossibleMoves();
             m_validator->ClearPiecesCanMove();
             m_director->MovePiece(to, m_signalChessboardUpdated, promoter);
-            m_validator->CalculatePiecesCanMove();
+            m_validator->RefreshPiecesCanMove();
 
             m_signalChessboardUpdated();
 

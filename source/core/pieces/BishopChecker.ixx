@@ -20,7 +20,7 @@ namespace Chess
         virtual std::vector<Coordinate> GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
         {
             std::vector<Coordinate> result;
-            result.reserve(COUNT_OF_BISHOP_WAYS);
+            result.reserve(BISHOP_WAYS_COUNT);
 
             auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));

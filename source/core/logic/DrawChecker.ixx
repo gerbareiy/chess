@@ -110,7 +110,7 @@ namespace Chess
         {
             CalculateMovesCountWithoutPawnAndTaking(chessboard);
 
-            return !chessboard->GetMoveValidator()->GetPiecesCanMoveCount() || m_movesCountWithoutPawnAndTaking >= MAX_MOVES_COUNT_WITHOUT_PAWN_MOVE_AND_TAKING
+            return !chessboard->GetMoveValidator()->GetPiecesCanMoveCount() || m_movesCountWithoutPawnAndTaking >= MAX_MOVES_WITHOUT_PAWN_MOVE_AND_TAKING_COUNT
                    || IsInsufficientMaterial(chessboard);
         }
     };

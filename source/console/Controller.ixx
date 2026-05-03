@@ -17,9 +17,9 @@ namespace Chess
         {
         }
 
-        bool TryInitPiece(const Coordinate& from) const
+        bool TrySelectPiece(const Coordinate& from) const
         {
-            return m_chessboard->TryInitPiece(from);
+            return m_chessboard->TrySelectPiece(from);
         }
 
         bool TryMovePiece(const Coordinate& to, const std::shared_ptr<Promoter>& promoter) const

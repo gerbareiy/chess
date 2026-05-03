@@ -19,7 +19,7 @@ namespace Chess
         static std::vector<Coordinate> FindPossibleMoves(const std::shared_ptr<Queen>& queen, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
         {
             std::vector<Coordinate> moves;
-            moves.reserve(COUNT_OF_QUEEN_WAYS);
+            moves.reserve(QUEEN_WAYS_COUNT);
 
             auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));

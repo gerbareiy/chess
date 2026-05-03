@@ -29,7 +29,7 @@ namespace Chess
             const auto moveVector = pawn->GetColorAndType().color == ePieceColor::WHITE ? 1 : -1;
 
             std::vector<Coordinate> moves;
-            moves.reserve(COUNT_OF_PAWN_WAYS);
+            moves.reserve(PAWN_WAYS_COUNT);
 
             Coordinate oneStepForward(pawn->GetPosition().file, pawn->GetPosition().rank + moveVector);
 
@@ -61,7 +61,7 @@ namespace Chess
             const int moveVector = pawn->GetColorAndType().color == ePieceColor::WHITE ? 1 : -1;
 
             std::vector<Coordinate> moves;
-            moves.reserve(COUNT_OF_PAWN_WAYS);
+            moves.reserve(PAWN_WAYS_COUNT);
 
             Coordinate       rightDiagonal(pawn->GetPosition().file + 1, pawn->GetPosition().rank + moveVector);
             Coordinate       leftDiagonal(pawn->GetPosition().file - 1, pawn->GetPosition().rank + moveVector);

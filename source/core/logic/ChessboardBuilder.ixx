@@ -74,7 +74,7 @@ namespace Chess
         {
             const auto kings = side.at(PieceTypeConverter::ConvertToConfigString(ePieceType::KING)).as_array();
 
-            if (kings.size() != COUNT_OF_KINGS_WITH_ONE_COLOR)
+            if (kings.size() != ONE_COLOR_KINGS_COUNT)
             {
                 throw std::invalid_argument("Configuration must contain exactly one king for each color");
             }
@@ -99,7 +99,7 @@ namespace Chess
             }
 
             auto pieces = side.at(pieceName).as_array();
-            if (pieces.size() != COUNT_OF_KINGS_WITH_ONE_COLOR && type == ePieceType::KING)
+            if (pieces.size() != ONE_COLOR_KINGS_COUNT && type == ePieceType::KING)
             {
                 throw std::invalid_argument("Configuration must contain exactly one king for each color");
             }
@@ -134,7 +134,7 @@ namespace Chess
             const auto config = GetConfig(configurationPath);
 
             std::vector<std::shared_ptr<Piece>> piecesOnBoard;
-            piecesOnBoard.reserve(MAX_COUNT_ELEMENTS);
+            piecesOnBoard.reserve(MAX_ELEMENTS_COUNT);
 
             const auto whiteSide = config.at("white").as_object();
             auto       whiteKing = ParseKing(whiteSide, ePieceColor::WHITE);

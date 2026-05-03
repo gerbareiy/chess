@@ -29,7 +29,7 @@ namespace Chess
 
         void Init()
         {
-            CalculatePiecesCanMove();
+            RefreshPiecesCanMove();
         }
 
         std::vector<Coordinate> GetPossibleMoves()
@@ -37,13 +37,13 @@ namespace Chess
             return m_possibleMoves;
         }
 
-        void CalculatePiecesCanMove()
+        void RefreshPiecesCanMove()
         {
             ClearPiecesCanMove();
             ClearPossibleMoves();
 
             std::vector<std::shared_ptr<Piece>> pieces;
-            pieces.reserve(MAX_COUNT_ELEMENTS);
+            pieces.reserve(MAX_ELEMENTS_COUNT);
 
             for (const auto& piece : m_piecesOnBoard)
             {
@@ -61,7 +61,7 @@ namespace Chess
             m_piecesCanMove = pieces;
         }
 
-        void CalculatePossibleMoves(const std::shared_ptr<Piece>& piece)
+        void RefreshPossibleMoves(const std::shared_ptr<Piece>& piece)
         {
             const auto it = std::ranges::find(m_piecesCanMove, piece);
 
@@ -97,19 +97,17 @@ namespace Chess
 
         bool IsCoordinateInPossibleMoves(const Coordinate& coordinate) const
         {
-            const auto it = std::ranges::find(m_possibleMoves, coordinate);
-
-            return it != m_possibleMoves.end();
+            const auto iter = std::ranges::find(m_possibleMoves, coordinate);
+            return iter != m_possibleMoves.end();
         }
 
         bool IsValidMove(const std::shared_ptr<Piece>& piece, const Coordinate& to) const
         {
-            if (!piece)
+            if (piece)
             {
-                return false;
+                return std::ranges::find(m_possibleMoves, to) != m_possibleMoves.end();
             }
-
-            return std::ranges::find(m_possibleMoves, to) != m_possibleMoves.end();
+            return false;
         }
     };
 } // namespace Chess

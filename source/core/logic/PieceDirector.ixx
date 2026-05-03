@@ -40,7 +40,7 @@ namespace Chess
             : m_piecesOnBoard(piecesOnBoard)
             , m_player(player)
         {
-            m_eatenPieces.reserve(MAX_COUNT_ELEMENTS);
+            m_eatenPieces.reserve(MAX_ELEMENTS_COUNT);
             m_promotion = std::make_shared<Promotion>();
         }
 
