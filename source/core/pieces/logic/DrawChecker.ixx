@@ -19,7 +19,7 @@ namespace Chess
         int    m_movesCountWithoutPawnAndTaking = 0;
         size_t m_lastCountEatenPeaces           = 0;
 
-        void CalculateMovesCountWithoutPawnAndTaking(const std::shared_ptr<Chessboard>& chessboard)
+        void RefreshMovesCountWithoutPawnAndTaking(const std::shared_ptr<Chessboard>& chessboard)
         {
             auto        pieceMap = CoordinateToPieceBuilder::Build(chessboard->GetPieceDirector()->GetPiecesOnBoard());
             const auto  finder   = PieceFinder(std::move(pieceMap));
@@ -108,10 +108,10 @@ namespace Chess
     public:
         bool IsDraw(const std::shared_ptr<Chessboard>& chessboard)
         {
-            CalculateMovesCountWithoutPawnAndTaking(chessboard);
+            RefreshMovesCountWithoutPawnAndTaking(chessboard);
 
-            return !chessboard->GetMoveValidator()->GetPiecesCanMoveCount() || m_movesCountWithoutPawnAndTaking >= MAX_MOVES_WITHOUT_PAWN_MOVE_AND_TAKING_COUNT
-                   || IsInsufficientMaterial(chessboard);
+            return chessboard->GetMoveValidator()->GetPiecesCanMoveCount() == 0
+                   || m_movesCountWithoutPawnAndTaking >= MAX_MOVES_WITHOUT_PAWN_MOVE_AND_TAKING_COUNT || IsInsufficientMaterial(chessboard);
         }
     };
 } // namespace Chess

@@ -1,7 +1,6 @@
 module;
 #include <filesystem>
 #include <functional>
-#include <iostream>
 #include <memory>
 #include <print>
 export module Chess.Game;
@@ -39,7 +38,7 @@ namespace Chess
             }
         }
 
-        bool ContinueGame() const
+        bool TryContinueGame() const
         {
             const auto drawChecker = std::make_unique<DrawChecker>();
 
@@ -56,6 +55,10 @@ namespace Chess
             if (m_chessboard->GetPieceDirector()->GetIsCheck())
             {
                 std::println("Check!");
+            }
+            if (false)
+            {
+                std::println("Game broken!");
             }
 
             return true;
@@ -90,7 +93,7 @@ namespace Chess
         {
             const auto trySelectPiece = std::bind(&Controller::TrySelectPiece, m_controller.get(), std::placeholders::_1);
             const auto tryMovePiece   = [this](const Coordinate& to) -> bool { return m_controller->TryMovePiece(to, m_promoter); };
-            while (ContinueGame())
+            while (TryContinueGame())
             {
                 HandleInput(std::bind(&InputHandler::EnterFrom, m_inputHandler), trySelectPiece);
                 HandleInput(std::bind(&InputHandler::EnterTo, m_inputHandler), tryMovePiece);
