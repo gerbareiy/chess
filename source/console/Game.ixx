@@ -38,16 +38,14 @@ namespace Chess
             }
         }
 
-        bool TryContinueGame() const
+        bool TryContinue() const
         {
-            const auto drawChecker = std::make_unique<DrawChecker>();
-
             if (!m_chessboard->GetMoveValidator()->GetPiecesCanMoveCount() && m_chessboard->GetPieceDirector()->GetIsCheck())
             {
                 std::println("Checkmate!");
                 return false;
             }
-            if (drawChecker->IsDraw(m_chessboard))
+            if (DrawChecker().IsDraw(m_chessboard))
             {
                 std::println("Draw!");
                 return false;
@@ -60,7 +58,6 @@ namespace Chess
             {
                 std::println("Game broken!");
             }
-
             return true;
         }
 
@@ -93,7 +90,7 @@ namespace Chess
         {
             const auto trySelectPiece = std::bind(&Controller::TrySelectPiece, m_controller.get(), std::placeholders::_1);
             const auto tryMovePiece   = [this](const Coordinate& to) -> bool { return m_controller->TryMovePiece(to, m_promoter); };
-            while (TryContinueGame())
+            while (TryContinue())
             {
                 HandleInput(std::bind(&InputHandler::EnterFrom, m_inputHandler), trySelectPiece);
                 HandleInput(std::bind(&InputHandler::EnterTo, m_inputHandler), tryMovePiece);
