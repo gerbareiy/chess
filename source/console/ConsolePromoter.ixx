@@ -4,15 +4,15 @@ module;
 #include <cctype>
 #include <iostream>
 #include <string>
-export module Chess.ConsolePromoter;
+export module Console.Chess.ConsolePromoter;
 import Chess.eInputType;
 import Chess.ePieceType;
 import Chess.Promoter;
 import Chess.PieceTypeConverter;
 
-namespace Chess
+namespace Console::Chess
 {
-    export class ConsolePromoter final : public Promoter
+    export class ConsolePromoter final : public ::Chess::Promoter
     {
         static char NormalizePromotionChoice(const std::string& input)
         {
@@ -25,7 +25,7 @@ namespace Chess
 
                 auto normalized = static_cast<char>(std::toupper(symbol));
 
-                if (normalized == PieceTypeConverter::ConvertToShortString(ePieceType::KING)[0])
+                if (normalized == ::Chess::PieceTypeConverter::ConvertToShortString(::Chess::ePieceType::KING)[0])
                 {
                     normalized = static_cast<char>(std::tolower(static_cast<unsigned char>(normalized)));
                 }
@@ -42,11 +42,11 @@ namespace Chess
         }
 
     public:
-        virtual ePieceType GetPromoteType() const override
+        virtual ::Chess::ePieceType GetPromoteType() const override
         {
             while (true)
             {
-                m_signalOnEnter(eInputType::PROMOTION);
+                GetSignalOnEnter()(::Chess::eInputType::PROMOTION);
 
                 std::string input;
                 EnterPromotionType(input);
@@ -58,23 +58,23 @@ namespace Chess
                     continue;
                 }
 
-                if (normalized == PieceTypeConverter::ConvertToShortString(ePieceType::BISHOP)[0])
+                if (normalized == ::Chess::PieceTypeConverter::ConvertToShortString(::Chess::ePieceType::BISHOP)[0])
                 {
-                    return ePieceType::BISHOP;
+                    return ::Chess::ePieceType::BISHOP;
                 }
-                if (normalized == PieceTypeConverter::ConvertToShortString(ePieceType::KNIGHT)[0])
+                if (normalized == ::Chess::PieceTypeConverter::ConvertToShortString(::Chess::ePieceType::KNIGHT)[0])
                 {
-                    return ePieceType::KNIGHT;
+                    return ::Chess::ePieceType::KNIGHT;
                 }
-                if (normalized == PieceTypeConverter::ConvertToShortString(ePieceType::QUEEN)[0])
+                if (normalized == ::Chess::PieceTypeConverter::ConvertToShortString(::Chess::ePieceType::QUEEN)[0])
                 {
-                    return ePieceType::QUEEN;
+                    return ::Chess::ePieceType::QUEEN;
                 }
-                if (normalized == PieceTypeConverter::ConvertToShortString(ePieceType::ROOK)[0])
+                if (normalized == ::Chess::PieceTypeConverter::ConvertToShortString(::Chess::ePieceType::ROOK)[0])
                 {
-                    return ePieceType::ROOK;
+                    return ::Chess::ePieceType::ROOK;
                 }
             }
         }
     };
-} // namespace Chess
+} // namespace Console::Chess

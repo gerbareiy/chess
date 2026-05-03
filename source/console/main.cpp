@@ -2,17 +2,16 @@
 #include <print>
 import Chess.Chessboard;
 import Chess.ChessboardBuilder;
-import Chess.ChessboardPresenter;
-import Chess.ChessboardPresenter;
-import Chess.ConsolePromoter;
-import Chess.Controller;
 import Chess.ePieceColor;
-import Chess.Game;
-import Chess.InputHandler;
-import Chess.LabelPresenter;
 import Chess.MoveValidator;
 import Chess.PieceDirector;
 import Chess.Player;
+import Console.Chess.ChessboardPresenter;
+import Console.Chess.ConsolePromoter;
+import Console.Chess.Controller;
+import Console.Chess.InputHandler;
+import Console.Chess.Game;
+import Console.Chess.LabelPresenter;
 
 int main()
 {
@@ -26,12 +25,12 @@ int main()
         auto       validator     = std::make_unique<Chess::MoveValidator>(piecesOnBoard, player);
         const auto chessboard    = std::make_shared<Chess::Chessboard>(player, std::move(piecesOnBoard), std::move(director), std::move(validator));
 
-        auto       controller          = std::make_unique<Chess::Controller>(chessboard);
-        const auto chessboardPresenter = std::make_shared<Chess::ChessboardPresenter>(chessboard);
-        const auto inputHandler        = std::make_shared<Chess::InputHandler>();
-        auto       labelPresenter      = std::make_unique<Chess::LabelPresenter>(inputHandler);
-        auto       promoter            = std::make_unique<Chess::ConsolePromoter>();
-        auto       chess = Chess::Game(chessboard, std::move(controller), chessboardPresenter, inputHandler, std::move(labelPresenter), std::move(promoter));
+        auto       controller          = std::make_unique<Console::Chess::Controller>(chessboard);
+        const auto chessboardPresenter = std::make_shared<Console::Chess::ChessboardPresenter>(chessboard);
+        const auto inputHandler        = std::make_shared<Console::Chess::InputHandler>();
+        auto       labelPresenter      = std::make_unique<Console::Chess::LabelPresenter>(inputHandler);
+        auto       promoter            = std::make_unique<Console::Chess::ConsolePromoter>();
+        auto chess = Console::Chess::Game(chessboard, std::move(controller), chessboardPresenter, inputHandler, std::move(labelPresenter), std::move(promoter));
         chess.Init();
         chess.Play();
     }

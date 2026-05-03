@@ -3,31 +3,31 @@ module;
 #include <functional>
 #include <memory>
 #include <print>
-export module Chess.Game;
+export module Console.Chess.Game;
 import Chess.Chessboard;
-import Chess.ChessboardPresenter;
-import Chess.ConsolePromoter;
-import Chess.Controller;
+import Chess.ChessboardBuilder;
 import Chess.Coordinate;
 import Chess.DrawChecker;
-import Chess.InputHandler;
-import Chess.LabelPresenter;
 import Chess.Piece;
 import Chess.PieceDirector;
-import Chess.ChessboardBuilder;
+import Console.Chess.ChessboardPresenter;
+import Console.Chess.ConsolePromoter;
+import Console.Chess.Controller;
+import Console.Chess.InputHandler;
+import Console.Chess.LabelPresenter;
 
-namespace Chess
+namespace Console::Chess
 {
     export class Game
     {
-        std::shared_ptr<Chessboard>          m_chessboard;
+        std::shared_ptr<::Chess::Chessboard> m_chessboard;
         std::shared_ptr<Controller>          m_controller;
         std::shared_ptr<ChessboardPresenter> m_chessboardPresenter;
         std::shared_ptr<InputHandler>        m_inputHandler;
         std::unique_ptr<LabelPresenter>      m_labelPresenter;
         std::shared_ptr<ConsolePromoter>     m_promoter;
 
-        static void HandleInput(const std::function<Coordinate()>& inputFunction, const std::function<bool(const Coordinate&)>& initFunction)
+        static void HandleInput(const std::function<::Chess::Coordinate()>& inputFunction, const std::function<bool(const ::Chess::Coordinate&)>& initFunction)
         {
             while (true)
             {
@@ -45,7 +45,7 @@ namespace Chess
                 std::println("Checkmate!");
                 return false;
             }
-            if (DrawChecker().IsDraw(m_chessboard))
+            if (::Chess::DrawChecker().IsDraw(m_chessboard))
             {
                 std::println("Draw!");
                 return false;
@@ -63,7 +63,7 @@ namespace Chess
 
     public:
         Game(
-            const std::shared_ptr<Chessboard>&          chessboard,
+            const std::shared_ptr<::Chess::Chessboard>& chessboard,
             std::unique_ptr<Controller>&&               controller,
             const std::shared_ptr<ChessboardPresenter>& chessboardPresenter,
             const std::shared_ptr<InputHandler>&        inputHandler,
@@ -89,7 +89,7 @@ namespace Chess
         void Play()
         {
             const auto trySelectPiece = std::bind(&Controller::TrySelectPiece, m_controller.get(), std::placeholders::_1);
-            const auto tryMovePiece   = [this](const Coordinate& to) -> bool { return m_controller->TryMovePiece(to, m_promoter); };
+            const auto tryMovePiece   = [this](const ::Chess::Coordinate& to) -> bool { return m_controller->TryMovePiece(to, m_promoter); };
             while (TryContinue())
             {
                 HandleInput(std::bind(&InputHandler::EnterFrom, m_inputHandler), trySelectPiece);
@@ -97,4 +97,4 @@ namespace Chess
             }
         }
     };
-} // namespace Chess
+} // namespace Console::Chess

@@ -7,8 +7,13 @@ namespace Chess
 {
     export class Inputter
     {
-    protected:
         boost::signals2::signal<void(eInputType)> m_signalOnEnter;
+
+    protected:
+        const boost::signals2::signal<void(eInputType)>& GetSignalOnEnter() const
+        {
+            return m_signalOnEnter;
+        }
 
     public:
         virtual ~Inputter() = default;

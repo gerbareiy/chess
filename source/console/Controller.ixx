@@ -1,31 +1,31 @@
 module;
 #include <memory>
-export module Chess.Controller;
+export module Console.Chess.Controller;
 import Chess.Chessboard;
 import Chess.Coordinate;
 import Chess.Promoter;
 
-namespace Chess
+namespace Console::Chess
 {
     export class Controller
     {
-        std::shared_ptr<Chessboard> m_chessboard;
+        std::shared_ptr<::Chess::Chessboard> m_chessboard;
 
     public:
-        explicit Controller(const std::shared_ptr<Chessboard>& chessboard)
+        explicit Controller(const std::shared_ptr<::Chess::Chessboard>& chessboard)
             : m_chessboard(chessboard)
         {
         }
 
-        bool TrySelectPiece(const Coordinate& from) const
+        bool TrySelectPiece(const ::Chess::Coordinate& from) const
         {
             return m_chessboard->TrySelectPiece(from);
         }
 
-        bool TryMovePiece(const Coordinate& to, const std::shared_ptr<Promoter>& promoter) const
+        bool TryMovePiece(const ::Chess::Coordinate& to, const std::shared_ptr<::Chess::Promoter>& promoter) const
         {
             const auto moved = m_chessboard->TryMovePiece(to, promoter);
             return moved;
         }
     };
-} // namespace Chess
+} // namespace Console::Chess

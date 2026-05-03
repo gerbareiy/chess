@@ -5,14 +5,14 @@ module;
 #include <cctype>
 #include <iostream>
 #include <string>
-export module Chess.InputHandler;
+export module Console.Chess.InputHandler;
 import Chess.Coordinate;
 import Chess.eInputType;
 import Chess.Inputer;
 
-namespace Chess
+namespace Console::Chess
 {
-    export class InputHandler final : public Inputter
+    export class InputHandler final : public ::Chess::Inputter
     {
         static char NormalizeFileInput(const std::string& input)
         {
@@ -26,7 +26,7 @@ namespace Chess
 
         char EnterFile() const
         {
-            m_signalOnEnter(eInputType::FILE);
+            GetSignalOnEnter()(::Chess::eInputType::FILE);
             std::string input;
             std::getline(std::cin, input);
             return NormalizeFileInput(input);
@@ -34,7 +34,7 @@ namespace Chess
 
         int EnterRank() const
         {
-            m_signalOnEnter(eInputType::RANK);
+            GetSignalOnEnter()(::Chess::eInputType::RANK);
 
             std::string input;
             int         rank = 0;
@@ -46,7 +46,7 @@ namespace Chess
             return rank;
         }
 
-        Coordinate EnterCoordinate() const
+        ::Chess::Coordinate EnterCoordinate() const
         {
             const auto file = EnterFile();
             const auto rank = EnterRank();
@@ -54,16 +54,16 @@ namespace Chess
         }
 
     public:
-        Coordinate EnterFrom() const
+        ::Chess::Coordinate EnterFrom() const
         {
-            m_signalOnEnter(eInputType::FROM);
+            GetSignalOnEnter()(::Chess::eInputType::FROM);
             return EnterCoordinate();
         }
 
-        Coordinate EnterTo() const
+        ::Chess::Coordinate EnterTo() const
         {
-            m_signalOnEnter(eInputType::TO);
+            GetSignalOnEnter()(::Chess::eInputType::TO);
             return EnterCoordinate();
         }
     };
-} // namespace Chess
+} // namespace Console::Chess
