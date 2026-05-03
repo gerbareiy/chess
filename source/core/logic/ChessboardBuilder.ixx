@@ -1,5 +1,6 @@
 module;
 #include <boost/json.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <expected>
 #include <filesystem>
@@ -41,10 +42,10 @@ namespace Chess
 
         static bool IsPieceOnBoard(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const Coordinate& coordinate)
         {
-            return std::ranges::any_of(piecesOnBoard, [&](const auto& piece) { return piece->GetPosition() == coordinate; });
+            return std::ranges::any_of(piecesOnBoard, [&coordinate](const auto& piece) { return piece->GetPosition() == coordinate; });
         }
 
-        static void ThrowIfPieceOnBoard(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const Coordinate& coordinate)
+        static void ThrowIfPieceAlreadyOnBoard(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const Coordinate& coordinate)
         {
             if (IsPieceOnBoard(piecesOnBoard, coordinate))
             {
@@ -54,9 +55,13 @@ namespace Chess
 
         static Coordinate ParseCoordinate(const boost::json::object& piece, ePieceType type)
         {
-            if (!piece.contains("file") || !piece.contains("rank"))
+            if (!piece.contains("file"))
             {
-                throw std::invalid_argument(std::format("{} is missing 'file' or 'rank' in configuration", PieceTypeConverter::ConvertToString(type)));
+                throw std::invalid_argument(std::format("{} is missing 'file' in configuration", PieceTypeConverter::ConvertToString(type)));
+            }
+            if (!piece.contains("rank"))
+            {
+                throw std::invalid_argument(std::format("{} is missing 'rank' in configuration", PieceTypeConverter::ConvertToString(type)));
             }
 
             const std::string files = piece.at("file").as_string().c_str();
@@ -65,20 +70,24 @@ namespace Chess
                 throw std::invalid_argument(std::format("{} has invalid 'file' in configuration", PieceTypeConverter::ConvertToString(type)));
             }
 
-            const char file = files[0];
-            const int  rank = std::stoi(piece.at("rank").as_string().c_str());
+            const char        file       = files[0];
+            const std::string stringRank = piece.at("rank").as_string().c_str();
+            int               rank       = 0;
+            if (!boost::conversion::try_lexical_convert(stringRank, rank))
+            {
+                throw std::invalid_argument(
+                    std::format("{} has invalid 'rank' in configuration, it must be convertible to int", PieceTypeConverter::ConvertToString(type)));
+            }
             return Coordinate(file, rank);
         }
 
         static std::shared_ptr<King> ParseKing(const boost::json::object& side, ePieceColor color)
         {
             const auto kings = side.at(PieceTypeConverter::ConvertToConfigString(ePieceType::KING)).as_array();
-
             if (kings.size() != ONE_COLOR_KINGS_COUNT)
             {
                 throw std::invalid_argument("Configuration must contain exactly one king for each color");
             }
-
             const auto coordinate = ParseCoordinate(kings[0].as_object(), ePieceType::KING);
             return std::make_shared<King>(color, coordinate);
         }
@@ -106,7 +115,7 @@ namespace Chess
             for (const auto& piece : pieces)
             {
                 const auto coordinate = ParseCoordinate(piece.as_object(), type);
-                ThrowIfPieceOnBoard(piecesOnBoard, coordinate);
+                ThrowIfPieceAlreadyOnBoard(piecesOnBoard, coordinate);
                 result.push_back(PieceFactory::Create(PieceColorAndType(color, type), coordinate, king));
             }
 

@@ -37,11 +37,11 @@ namespace Chess
             m_signalOnEnter(eInputType::RANK);
 
             std::string input;
-            int         rank;
+            int         rank = 0;
             std::getline(std::cin, input);
             if (!boost::conversion::try_lexical_convert(input, rank))
             {
-                return -1;
+                return 0;
             }
             return rank;
         }
