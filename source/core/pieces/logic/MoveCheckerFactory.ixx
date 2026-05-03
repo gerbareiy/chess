@@ -35,7 +35,7 @@ namespace Chess
             case ePieceType::ROOK:
                 return std::make_unique<RookChecker>();
             case ePieceType::NONE:
-                return nullptr;
+                throw std::invalid_argument("Piece type cannot be NONE");
             default:
                 throw std::invalid_argument("Unknown piece type");
             }

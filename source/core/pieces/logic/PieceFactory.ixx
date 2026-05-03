@@ -36,7 +36,7 @@ namespace Chess
             case ePieceType::ROOK:
                 return std::make_shared<Rook>(colorAndType.color, coordinate, king);
             case ePieceType::NONE:
-                return nullptr;
+                throw std::invalid_argument("Piece type cannot be NONE");
             default:
                 throw std::invalid_argument("Unknown piece type");
             }
