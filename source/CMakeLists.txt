@@ -12,14 +12,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 find_package(Boost REQUIRED COMPONENTS json signals2)
 
 add_subdirectory(console)
-add_subdirectory(core)
+add_subdirectory(server)
 
-target_link_libraries(console PRIVATE core)
+target_link_libraries(console PRIVATE server)
 
-# core options
-target_include_directories(core PUBLIC ${CMAKE_SOURCE_DIR}/source)
-target_include_directories(core PRIVATE ${Boost_INCLUDE_DIRS})
-target_link_libraries(core PRIVATE Boost::signals2 Boost::json)
+# server options
+target_include_directories(server PUBLIC ${CMAKE_SOURCE_DIR}/source)
+target_include_directories(server PRIVATE ${Boost_INCLUDE_DIRS})
+target_link_libraries(server PRIVATE Boost::signals2 Boost::json)
 
 # console options
 target_include_directories(console PUBLIC ${CMAKE_SOURCE_DIR}/source)
