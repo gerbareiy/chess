@@ -23,7 +23,7 @@ namespace Chess
                 currentCoordinate.file = currentCoordinate.file + coordinateIncrement.first;
                 currentCoordinate.rank = currentCoordinate.rank + coordinateIncrement.second;
 
-                if (!PositionChecker::IsPositionValid(currentCoordinate))
+                if (!PositionChecker::IsInChessboard(currentCoordinate))
                 {
                     break;
                 }

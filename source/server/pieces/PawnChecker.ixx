@@ -33,7 +33,7 @@ namespace Chess
 
             Coordinate oneStepForward(pawn->GetPosition().file, pawn->GetPosition().rank + moveVector);
 
-            if (PositionChecker::IsPositionValid(oneStepForward) && !finder->Find(oneStepForward))
+            if (PositionChecker::IsInChessboard(oneStepForward) && !finder->Find(oneStepForward))
             {
                 moves.emplace_back(oneStepForward);
 
@@ -41,7 +41,7 @@ namespace Chess
                 {
                     Coordinate twoStepsForward(pawn->GetPosition().file, pawn->GetPosition().rank + (moveVector << 1));
 
-                    if (PositionChecker::IsPositionValid(twoStepsForward) && !finder->Find(twoStepsForward))
+                    if (PositionChecker::IsInChessboard(twoStepsForward) && !finder->Find(twoStepsForward))
                     {
                         moves.emplace_back(twoStepsForward);
                     }
@@ -68,7 +68,7 @@ namespace Chess
             const Coordinate left(pawn->GetPosition().file - 1, pawn->GetPosition().rank);
             const Coordinate right(pawn->GetPosition().file + 1, pawn->GetPosition().rank);
 
-            if (PositionChecker::IsPositionValid(rightDiagonal))
+            if (PositionChecker::IsInChessboard(rightDiagonal))
             {
                 const auto rightDiagonalPiece = finder->Find(rightDiagonal);
                 const auto rightPiece         = finder->Find(right);
@@ -85,7 +85,7 @@ namespace Chess
                 }
             }
 
-            if (PositionChecker::IsPositionValid(leftDiagonal))
+            if (PositionChecker::IsInChessboard(leftDiagonal))
             {
                 const auto leftDiagonalPiece = finder->Find(leftDiagonal);
                 const auto leftPiece         = finder->Find(left);
@@ -107,7 +107,7 @@ namespace Chess
 
         static std::expected<void, std::string> ValidatePawn(const std::shared_ptr<Pawn>& pawn)
         {
-            if (!PositionChecker::IsPositionValid(pawn->GetPosition()))
+            if (!PositionChecker::IsInChessboard(pawn->GetPosition()))
             {
                 return std::unexpected("ChessPiece is out of the Chessboard");
             }

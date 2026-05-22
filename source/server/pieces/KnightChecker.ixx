@@ -12,6 +12,7 @@ import Chess.IMoveChecker;
 import Chess.Knight;
 import Chess.Piece;
 import Chess.PieceFinder;
+import Chess.PositionChecker;
 import Chess.Sizes;
 
 namespace Chess
@@ -23,8 +24,13 @@ namespace Chess
         std::expected<std::vector<Coordinate>, std::string> FindPossibleMoves(
             const std::shared_ptr<Piece>& knight, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
         {
-            const auto knightPosition = knight->GetPosition();
-            if (knightPosition.file < 'A' || knightPosition.file >= 'A' + CHESSBOARD_SIZE || knightPosition.rank < 1 || knightPosition.rank > CHESSBOARD_SIZE)
+            if (knight == nullptr)
+            {
+                return std::unexpected("Piece is nullptr");
+            }
+
+            const auto position = knight->GetPosition();
+            if (position.file < 'A' || position.file >= 'A' + CHESSBOARD_SIZE || position.rank < 1 || position.rank > CHESSBOARD_SIZE)
             {
                 return std::unexpected("ChessPiece is out of the Chessboard");
             }
@@ -35,19 +41,17 @@ namespace Chess
             auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
-            const auto [file, rank] = knight->GetPosition();
-            for (const auto& [first, second] : m_knightMoveDirections)
+            for (const auto& [fileDirection, rankDirection] : m_knightMoveDirections)
             {
-                char newFile = file + first;
-                int  newRank = rank + second;
+                char newFile = position.file + fileDirection;
+                int  newRank = position.rank + rankDirection;
 
-                if (newFile < 'A' || newFile >= 'A' + CHESSBOARD_SIZE || newRank < 1 || newRank > CHESSBOARD_SIZE)
+                if (!PositionChecker::IsInChessboard({ .file = newFile, .rank = newRank }))
                 {
                     continue;
                 }
 
                 const auto piece = finder->Find({ .file = newFile, .rank = newRank });
-
                 if (!piece || piece->GetColorAndType().color != knight->GetColorAndType().color)
                 {
                     moves.emplace_back(newFile, newRank);
@@ -60,17 +64,12 @@ namespace Chess
     public:
         virtual std::vector<Coordinate> GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
         {
-            if (!piece || typeid(*piece) != typeid(Knight) || piece->GetColorAndType().type != ePieceType::KNIGHT)
-            {
-                return {};
-            }
-
-            auto possibleMoves = FindPossibleMoves(std::static_pointer_cast<Knight>(piece), piecesOnBoard);
+            auto possibleMoves = FindPossibleMoves(std::dynamic_pointer_cast<Knight>(piece), piecesOnBoard);
             if (possibleMoves.has_value())
             {
                 return possibleMoves.value();
             }
-            return {}; // TODO: somehow call checkmate here
+            return {};
         }
     };
 } // namespace Chess
