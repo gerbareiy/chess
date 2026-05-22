@@ -6,6 +6,7 @@ module;
 #include <functional>
 #include <memory>
 #include <print>
+#include <ranges>
 export module Console.Chess.ChessboardPresenter;
 import Chess.Chessboard;
 import Chess.Coordinate;
@@ -27,13 +28,13 @@ namespace Console::Chess
 
         static std::string GetChessboardFiles()
         {
-            std::string files = "";
-
-            for (auto i = 0; i < ::Chess::CHESSBOARD_SIZE; ++i)
+            std::string result = "";
+            result.reserve(::Chess::CHESSBOARD_SIZE);
+            for (const char file : std::views::iota('A', 'A' + ::Chess::CHESSBOARD_SIZE))
             {
-                files += static_cast<char>('A' + i);
+                result += file;
             }
-            return files;
+            return result;
         }
 
         static void GetOriginalConsoleColor(WORD& originalColors)
@@ -114,12 +115,13 @@ namespace Console::Chess
 
             ShowChessboardFiles(isChessboardSizeOneDigit);
 
-            for (auto y = ::Chess::CHESSBOARD_SIZE; y > 0; --y, PrintEmpty())
+            for (auto y = ::Chess::CHESSBOARD_SIZE; y > 0; --y)
             {
                 ShowChessboardRank(y, isChessboardSizeOneDigit);
                 ShowChessboardRowWithRank(y, originalTextColor);
                 SetConsoleColor(static_cast<eConsoleColor>(originalTextColor), static_cast<eConsoleColor>(originalBackgroundColor));
                 ShowChessboardRank(y, isChessboardSizeOneDigit);
+                PrintEmpty();
             }
 
             ShowChessboardFiles(isChessboardSizeOneDigit);
@@ -138,17 +140,18 @@ namespace Console::Chess
 
         void Init()
         {
-            if (m_chessboard)
+            if (!m_chessboard)
             {
-                auto const subscriber = [weak = weak_from_this()]
-                {
-                    if (const auto shared = weak.lock())
-                    {
-                        shared->Show();
-                    }
-                };
-                m_connection = m_chessboard->ConnectChessboardUpdated(subscriber);
+                return;
             }
+            auto const subscriber = [weak = weak_from_this()]
+            {
+                if (const auto shared = weak.lock())
+                {
+                    shared->Show();
+                }
+            };
+            m_connection = m_chessboard->ConnectChessboardUpdated(subscriber);
         }
 
         // You can choose this default Display
