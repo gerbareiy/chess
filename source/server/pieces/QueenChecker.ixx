@@ -1,11 +1,13 @@
 module;
 #include <memory>
+#include <stdexcept>
 #include <vector>
 export module Chess.QueenChecker;
 import Chess.BishopQueenRookDirectionChecker;
 import Chess.Coordinate;
 import Chess.CoordinateToPieceBuilder;
 import Chess.Counts;
+import Chess.ePieceColor;
 import Chess.ePieceType;
 import Chess.IMoveChecker;
 import Chess.Piece;
@@ -16,7 +18,7 @@ namespace Chess
 {
     export class QueenChecker final : public IMoveChecker
     {
-        static std::vector<Coordinate> FindPossibleMoves(const std::shared_ptr<Queen>& queen, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
+        static std::vector<Coordinate> FindPossibleMoves(Coordinate position, ePieceColor color, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
         {
             std::vector<Coordinate> moves;
             moves.reserve(QUEEN_WAYS_COUNT);
@@ -24,14 +26,14 @@ namespace Chess
             auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
-            auto first   = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, queen, { -1, -1 });
-            auto second  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, queen, { -1, 1 });
-            auto third   = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, queen, { 1, -1 });
-            auto fourth  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, queen, { 1, 1 });
-            auto fifth   = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, queen, { -1, 0 });
-            auto sixth   = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, queen, { 1, 0 });
-            auto seventh = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, queen, { 0, -1 });
-            auto eighth  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, queen, { 0, 1 });
+            auto first   = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, position, color, { -1, -1 });
+            auto second  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, position, color, { -1, 1 });
+            auto third   = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, position, color, { 1, -1 });
+            auto fourth  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, position, color, { 1, 1 });
+            auto fifth   = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, position, color, { -1, 0 });
+            auto sixth   = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, position, color, { 1, 0 });
+            auto seventh = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, position, color, { 0, -1 });
+            auto eighth  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, position, color, { 0, 1 });
 
             moves.insert(moves.end(), first.begin(), first.end());
             moves.insert(moves.end(), second.begin(), second.end());
@@ -48,12 +50,11 @@ namespace Chess
     public:
         virtual std::vector<Coordinate> GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
         {
-            if (!piece || typeid(*piece) != typeid(Queen) || piece->GetColorAndType().type != ePieceType::QUEEN)
+            if (piece == nullptr)
             {
-                return {};
+                throw std::logic_error("piece is nullptr");
             }
-
-            return FindPossibleMoves(std::static_pointer_cast<Queen>(piece), piecesOnBoard);
+            return FindPossibleMoves(piece->GetPosition(), piece->GetColorAndType().color, piecesOnBoard);
         }
     };
 } // namespace Chess

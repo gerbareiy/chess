@@ -3,6 +3,7 @@ module;
 #include <vector>
 export module Chess.BishopQueenRookDirectionChecker;
 import Chess.Coordinate;
+import Chess.ePieceColor;
 import Chess.Piece;
 import Chess.PieceFinder;
 import Chess.PositionChecker;
@@ -13,32 +14,31 @@ namespace Chess
     {
     public:
         static std::vector<Coordinate> FindPossibleMoves(
-            const std::shared_ptr<PieceFinder>& finder, const std::shared_ptr<Piece>& current, std::pair<int, int> coordinateIncrement)
+            const std::shared_ptr<PieceFinder>& finder, Coordinate position, ePieceColor color, std::pair<int, int> coordinateIncrement)
         {
             std::vector<Coordinate> moves;
-            auto                    currentCoordinate = current->GetPosition();
 
             while (true)
             {
-                currentCoordinate.file = currentCoordinate.file + coordinateIncrement.first;
-                currentCoordinate.rank = currentCoordinate.rank + coordinateIncrement.second;
+                position.file = position.file + coordinateIncrement.first;
+                position.rank = position.rank + coordinateIncrement.second;
 
-                if (!PositionChecker::IsInChessboard(currentCoordinate))
+                if (!PositionChecker::IsInChessboard(position))
                 {
                     break;
                 }
 
-                if (const auto found = finder->Find(currentCoordinate))
+                if (const auto found = finder->Find(position))
                 {
-                    if (found->GetColorAndType().color != current->GetColorAndType().color)
+                    if (found->GetColorAndType().color != color)
                     {
-                        moves.emplace_back(currentCoordinate);
+                        moves.emplace_back(position);
                     }
 
                     break;
                 }
 
-                moves.emplace_back(currentCoordinate);
+                moves.emplace_back(position);
             }
 
             return moves;

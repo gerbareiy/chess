@@ -25,10 +25,10 @@ namespace Chess
             auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
-            auto first  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece, { -1, -1 });
-            auto second = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece, { -1, 1 });
-            auto third  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece, { 1, -1 });
-            auto fourth = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece, { 1, 1 });
+            auto first  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece->GetPosition(), piece->GetColorAndType().color, { -1, -1 });
+            auto second = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece->GetPosition(), piece->GetColorAndType().color, { -1, 1 });
+            auto third  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece->GetPosition(), piece->GetColorAndType().color, { 1, -1 });
+            auto fourth = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece->GetPosition(), piece->GetColorAndType().color, { 1, 1 });
 
             result.insert(result.end(), first.begin(), first.end());
             result.insert(result.end(), second.begin(), second.end());

@@ -7,6 +7,7 @@ export module Chess.KnightChecker;
 import Chess.Coordinate;
 import Chess.CoordinateToPieceBuilder;
 import Chess.Counts;
+import Chess.ePieceColor;
 import Chess.ePieceType;
 import Chess.IMoveChecker;
 import Chess.Knight;
@@ -22,14 +23,8 @@ namespace Chess
         std::vector<std::pair<int, int>> m_knightMoveDirections = { { 2, 1 }, { 2, -1 }, { -2, 1 }, { -2, -1 }, { 1, 2 }, { 1, -2 }, { -1, 2 }, { -1, -2 } };
 
         std::expected<std::vector<Coordinate>, std::string> FindPossibleMoves(
-            const std::shared_ptr<Piece>& knight, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+            Coordinate position, ePieceColor color, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
         {
-            if (knight == nullptr)
-            {
-                return std::unexpected("Piece is nullptr");
-            }
-
-            const auto position = knight->GetPosition();
             if (position.file < 'A' || position.file >= 'A' + CHESSBOARD_SIZE || position.rank < 1 || position.rank > CHESSBOARD_SIZE)
             {
                 return std::unexpected("ChessPiece is out of the Chessboard");
@@ -52,7 +47,7 @@ namespace Chess
                 }
 
                 const auto piece = finder->Find({ .file = newFile, .rank = newRank });
-                if (!piece || piece->GetColorAndType().color != knight->GetColorAndType().color)
+                if (!piece || piece->GetColorAndType().color != color)
                 {
                     moves.emplace_back(newFile, newRank);
                 }
@@ -64,7 +59,11 @@ namespace Chess
     public:
         virtual std::vector<Coordinate> GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
         {
-            auto possibleMoves = FindPossibleMoves(std::dynamic_pointer_cast<Knight>(piece), piecesOnBoard);
+            if (piece == nullptr)
+            {
+                throw std::logic_error("piece is nullptr");
+            }
+            auto possibleMoves = FindPossibleMoves(piece->GetPosition(), piece->GetColorAndType().color, piecesOnBoard);
             if (possibleMoves.has_value())
             {
                 return possibleMoves.value();
