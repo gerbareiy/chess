@@ -64,6 +64,16 @@ namespace Console::Chess
             SetConsoleTextAttribute(hConsole, static_cast<int>(backgroundColor) << 4 | static_cast<int>(textColor));
         }
 
+        static void Clear()
+        {
+            system("CLS");
+        }
+
+        static void PrintEmpty()
+        {
+            std::print("\n");
+        }
+
         static void ShowChessboardFiles(bool isChessboardSizeOneDigit)
         {
             PrintEmpty();
@@ -92,16 +102,16 @@ namespace Console::Chess
                 return eConsoleColor::YELLOW;
             }
 
-            const auto isSquareBlack = (coordinate.file + 1 + coordinate.rank) % 2;
+            const auto isBlackSquare = (coordinate.file + 1 + coordinate.rank) % 2;
             if (m_chessboard->GetMoveValidator()->IsCoordinateInPieceCanMove(coordinate))
             {
-                return isSquareBlack ? eConsoleColor::BLUE : eConsoleColor::CERULEAN;
+                return isBlackSquare ? eConsoleColor::BLUE : eConsoleColor::CERULEAN;
             }
             if (m_chessboard->GetMoveValidator()->IsCoordinateInPossibleMoves(coordinate))
             {
-                return isSquareBlack ? eConsoleColor::DARK_RED : eConsoleColor::RED;
+                return isBlackSquare ? eConsoleColor::DARK_RED : eConsoleColor::RED;
             }
-            return isSquareBlack ? eConsoleColor::GRAY : eConsoleColor::GREEN;
+            return isBlackSquare ? eConsoleColor::GRAY : eConsoleColor::GREEN;
         }
 
         void ShowChessboardWithCoordinates() const
@@ -128,11 +138,6 @@ namespace Console::Chess
         }
 
     public:
-        static void PrintEmpty()
-        {
-            std::print("\n");
-        }
-
         explicit ChessboardPresenter(const std::shared_ptr<::Chess::Chessboard>& chessboard)
             : m_chessboard(chessboard)
         {
@@ -157,7 +162,7 @@ namespace Console::Chess
         // You can choose this default Display
         void Show() const
         {
-            system("CLS");
+            Clear();
             ShowTakenPieces(::Chess::ePieceColor::WHITE);
             ShowChessboardWithCoordinates();
             ShowTakenPieces(::Chess::ePieceColor::BLACK);
@@ -179,10 +184,9 @@ namespace Console::Chess
 
         void ShowTakenPieces(::Chess::ePieceColor color) const
         {
-            const auto eatenPieces = m_chessboard->GetPieceDirector()->GetEatenPieces();
-
             PrintEmpty();
 
+            const auto eatenPieces = m_chessboard->GetPieceDirector()->GetEatenPieces();
             for (const auto& piece : eatenPieces)
             {
                 if (piece->GetColorAndType().color == color)

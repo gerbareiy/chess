@@ -20,12 +20,13 @@ namespace Console::Chess
 {
     export class Game
     {
-        std::shared_ptr<::Chess::Chessboard> m_chessboard;
-        std::shared_ptr<Controller>          m_controller;
-        std::shared_ptr<ChessboardPresenter> m_chessboardPresenter;
-        std::shared_ptr<InputHandler>        m_inputHandler;
-        std::unique_ptr<LabelPresenter>      m_labelPresenter;
-        std::shared_ptr<ConsolePromoter>     m_promoter;
+        std::shared_ptr<::Chess::Chessboard>  m_chessboard;
+        std::shared_ptr<Controller>           m_controller;
+        std::shared_ptr<ChessboardPresenter>  m_chessboardPresenter;
+        std::shared_ptr<InputHandler>         m_inputHandler;
+        std::unique_ptr<LabelPresenter>       m_labelPresenter;
+        std::shared_ptr<ConsolePromoter>      m_promoter;
+        std::unique_ptr<::Chess::DrawChecker> m_drawChecker;
 
         static void HandleInput(const std::function<::Chess::Coordinate()>& inputFunction, const std::function<bool(const ::Chess::Coordinate&)>& initFunction)
         {
@@ -45,7 +46,7 @@ namespace Console::Chess
                 std::println("Checkmate!");
                 return false;
             }
-            if (::Chess::DrawChecker().IsDraw(m_chessboard))
+            if (m_drawChecker->IsDraw(m_chessboard))
             {
                 std::println("Draw!");
                 return false;
@@ -68,13 +69,15 @@ namespace Console::Chess
             const std::shared_ptr<ChessboardPresenter>& chessboardPresenter,
             const std::shared_ptr<InputHandler>&        inputHandler,
             std::unique_ptr<LabelPresenter>&&           labelPresenter,
-            std::unique_ptr<ConsolePromoter>&&          promoter)
+            std::unique_ptr<ConsolePromoter>&&          promoter,
+            std::unique_ptr<::Chess::DrawChecker>&&     drawChecker)
             : m_chessboard(chessboard)
             , m_controller(std::move(controller))
             , m_chessboardPresenter(chessboardPresenter)
             , m_inputHandler(inputHandler)
             , m_labelPresenter(std::move(labelPresenter))
             , m_promoter(std::move(promoter))
+            , m_drawChecker(std::move(drawChecker))
         {
         }
 
