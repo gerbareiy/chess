@@ -28,7 +28,8 @@ namespace Console::Chess
         std::shared_ptr<ConsolePromoter>      m_promoter;
         std::unique_ptr<::Chess::DrawChecker> m_drawChecker;
 
-        static void HandleInput(const std::function<::Chess::Coordinate()>& inputFunction, const std::function<bool(const ::Chess::Coordinate&)>& initFunction)
+        static void HandleInput(
+            const std::function<::Chess::Coordinate()>& inputFunction, const std::function<bool(const ::Chess::Coordinate&)>& initFunction)
         {
             while (true)
             {

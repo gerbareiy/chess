@@ -18,7 +18,8 @@ namespace Chess
 {
     export class QueenChecker final : public IMoveChecker
     {
-        static std::vector<Coordinate> FindPossibleMoves(Coordinate position, ePieceColor color, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
+        static std::vector<Coordinate> FindPossibleMoves(
+            Coordinate position, ePieceColor color, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
         {
             std::vector<Coordinate> moves;
             moves.reserve(QUEEN_WAYS_COUNT);
@@ -48,7 +49,8 @@ namespace Chess
         }
 
     public:
-        virtual std::vector<Coordinate> GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
+        virtual std::vector<Coordinate> GetMoves(
+            const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
         {
             if (piece == nullptr)
             {

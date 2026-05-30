@@ -17,7 +17,8 @@ namespace Chess
     export class BishopChecker final : public IMoveChecker
     {
     public:
-        virtual std::vector<Coordinate> GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
+        virtual std::vector<Coordinate> GetMoves(
+            const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
         {
             std::vector<Coordinate> result;
             result.reserve(BISHOP_WAYS_COUNT);
@@ -25,7 +26,7 @@ namespace Chess
             auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
-            auto first  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece->GetPosition(), piece->GetColorAndType().color, { -1, -1 });
+            auto first = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece->GetPosition(), piece->GetColorAndType().color, { -1, -1 });
             auto second = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece->GetPosition(), piece->GetColorAndType().color, { -1, 1 });
             auto third  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece->GetPosition(), piece->GetColorAndType().color, { 1, -1 });
             auto fourth = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, piece->GetPosition(), piece->GetColorAndType().color, { 1, 1 });

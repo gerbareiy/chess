@@ -95,8 +95,11 @@ namespace Chess
             const auto insufficientBlackBishops = blackBishopLightCount == 0 || blackBishopDarkCount == 0;
 
             if (whiteKing && blackKing
-                && (blackKnightCount + blackBishopLightCount + blackBishopDarkCount + whiteBishopLightCount + whiteBishopDarkCount + whiteKnightCount <= 1
-                    || (blackKnightCount + blackBishopLightCount + blackBishopDarkCount + whiteBishopLightCount + whiteBishopDarkCount + whiteKnightCount <= 2
+                && (blackKnightCount + blackBishopLightCount + blackBishopDarkCount + whiteBishopLightCount + whiteBishopDarkCount + whiteKnightCount
+                        <= 1
+                    || (blackKnightCount + blackBishopLightCount + blackBishopDarkCount + whiteBishopLightCount + whiteBishopDarkCount
+                                + whiteKnightCount
+                            <= 2
                         && insufficientWhiteBishops && insufficientBlackBishops)))
             {
                 return true;

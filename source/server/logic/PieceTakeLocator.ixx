@@ -21,7 +21,8 @@ namespace Chess
             const auto currentPawn          = std::dynamic_pointer_cast<Pawn>(piece);
             const auto opponentPawn         = std::dynamic_pointer_cast<Pawn>(finder->Find(pawnOnPassCoordinate));
 
-            if (currentPawn && opponentPawn && opponentPawn->GetCanEnPassant() && opponentPawn->GetColorAndType().color != currentPawn->GetColorAndType().color)
+            if (currentPawn && opponentPawn && opponentPawn->GetCanEnPassant()
+                && opponentPawn->GetColorAndType().color != currentPawn->GetColorAndType().color)
             {
                 return pawnOnPassCoordinate;
             }

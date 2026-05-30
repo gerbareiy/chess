@@ -119,7 +119,8 @@ namespace Chess
         }
 
     public:
-        virtual std::vector<Coordinate> GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
+        virtual std::vector<Coordinate> GetMoves(
+            const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
         {
             if (!piece || typeid(*piece) != typeid(Pawn) || piece->GetColorAndType().type != ePieceType::PAWN)
             {

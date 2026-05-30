@@ -20,7 +20,8 @@ namespace Chess
 {
     export class KnightChecker final : public IMoveChecker
     {
-        std::vector<std::pair<int, int>> m_knightMoveDirections = { { 2, 1 }, { 2, -1 }, { -2, 1 }, { -2, -1 }, { 1, 2 }, { 1, -2 }, { -1, 2 }, { -1, -2 } };
+        std::vector<std::pair<int, int>> m_knightMoveDirections = { { 2, 1 }, { 2, -1 }, { -2, 1 }, { -2, -1 },
+                                                                    { 1, 2 }, { 1, -2 }, { -1, 2 }, { -1, -2 } };
 
         std::expected<std::vector<Coordinate>, std::string> FindPossibleMoves(
             Coordinate position, ePieceColor color, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
@@ -57,7 +58,8 @@ namespace Chess
         }
 
     public:
-        virtual std::vector<Coordinate> GetMoves(const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
+        virtual std::vector<Coordinate> GetMoves(
+            const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
         {
             if (piece == nullptr)
             {

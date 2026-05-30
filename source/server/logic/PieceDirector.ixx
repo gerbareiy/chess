@@ -84,7 +84,8 @@ namespace Chess
             m_currentPiece = GetPiece(from);
         }
 
-        void MovePiece(const Coordinate& to, const boost::signals2::signal<void()>& signalChessboardUndated, const std::shared_ptr<Promoter>& promoter)
+        void MovePiece(
+            const Coordinate& to, const boost::signals2::signal<void()>& signalChessboardUndated, const std::shared_ptr<Promoter>& promoter)
         {
             const auto from = PieceTakeLocator::Find(m_currentPiece, m_piecesOnBoard, to);
             const auto it   = std::ranges::find(m_piecesOnBoard, from, &Piece::GetPosition);

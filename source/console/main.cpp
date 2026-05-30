@@ -34,8 +34,14 @@ int main()
         auto       drawChecker         = std::make_unique<Chess::DrawChecker>();
 
         auto chess = Console::Chess::Game(
-            chessboard, std::move(controller), chessboardPresenter, inputHandler, std::move(labelPresenter), std::move(promoter), std::move(drawChecker));
-        
+            chessboard,
+            std::move(controller),
+            chessboardPresenter,
+            inputHandler,
+            std::move(labelPresenter),
+            std::move(promoter),
+            std::move(drawChecker));
+
         chess.Init();
         chess.Play();
     }
