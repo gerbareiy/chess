@@ -27,7 +27,7 @@ namespace Chess
                     return false;
                 }
 
-                const auto moves = moveChecker->GetMoves(piece, piecesOnBoard);
+                const auto moves = moveChecker->GetMoves(piecesOnBoard);
                 for (const auto& move : moves)
                 {
                     if (move == king->GetPosition())
@@ -45,13 +45,11 @@ namespace Chess
             for (const auto& piece : piecesOnBoard)
             {
                 const auto king = std::dynamic_pointer_cast<King>(piece);
-
                 if (king && king->GetColorAndType().color == kingColor)
                 {
                     return IsCheck(king, piecesOnBoard);
                 }
             }
-
             return false;
         }
     };

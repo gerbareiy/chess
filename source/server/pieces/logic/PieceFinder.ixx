@@ -17,16 +17,14 @@ namespace Chess
         {
         }
 
-        std::shared_ptr<Piece> Find(const Coordinate& coordinate) const
+        std::shared_ptr<Piece> TryFind(const Coordinate& coordinate) const
         {
-            const auto it = m_pieceMap.find(coordinate);
-
-            if (it == m_pieceMap.end())
+            const auto iter = m_pieceMap.find(coordinate);
+            if (iter == m_pieceMap.end())
             {
                 return nullptr;
             }
-
-            return it->second;
+            return iter->second;
         }
     };
 } // namespace Chess

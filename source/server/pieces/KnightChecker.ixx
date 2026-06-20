@@ -1,4 +1,5 @@
 module;
+#include <array>
 #include <expected>
 #include <memory>
 #include <stdexcept>
@@ -20,24 +21,25 @@ namespace Chess
 {
     export class KnightChecker final : public IMoveChecker
     {
-        std::vector<std::pair<int, int>> m_knightMoveDirections = { { 2, 1 }, { 2, -1 }, { -2, 1 }, { -2, -1 },
-                                                                    { 1, 2 }, { 1, -2 }, { -1, 2 }, { -1, -2 } };
+        std::shared_ptr<Knight> m_knight;
 
-        std::expected<std::vector<Coordinate>, std::string> FindPossibleMoves(
-            Coordinate position, ePieceColor color, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+        static std::vector<Coordinate> FindPossibleMoves(
+            Coordinate position, ePieceColor color, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
         {
             if (position.file < 'A' || position.file >= 'A' + CHESSBOARD_SIZE || position.rank < 1 || position.rank > CHESSBOARD_SIZE)
             {
-                return std::unexpected("ChessPiece is out of the Chessboard");
+                return {};
             }
-
-            std::vector<Coordinate> moves;
-            moves.reserve(KNIGHT_WAYS_COUNT);
 
             auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
-            for (const auto& [fileDirection, rankDirection] : m_knightMoveDirections)
+            std::array constexpr knightMoveDirections = { std::pair(2, 1), std::pair(2, -1), std::pair(-2, 1), std::pair(-2, -1),
+                                                          std::pair(1, 2), std::pair(1, -2), std::pair(-1, 2), std::pair(-1, -2) };
+
+            std::vector<Coordinate> result;
+            result.reserve(KNIGHT_WAYS_COUNT);
+            for (const auto& [fileDirection, rankDirection] : knightMoveDirections)
             {
                 char newFile = position.file + fileDirection;
                 int  newRank = position.rank + rankDirection;
@@ -47,30 +49,29 @@ namespace Chess
                     continue;
                 }
 
-                const auto piece = finder->Find({ .file = newFile, .rank = newRank });
+                const auto piece = finder->TryFind({ .file = newFile, .rank = newRank });
                 if (!piece || piece->GetColorAndType().color != color)
                 {
-                    moves.emplace_back(newFile, newRank);
+                    result.emplace_back(newFile, newRank);
                 }
             }
 
-            return moves;
+            return result;
         }
 
     public:
-        virtual std::vector<Coordinate> GetMoves(
-            const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
+        explicit KnightChecker(const std::shared_ptr<Knight>& knight)
+            : m_knight(knight)
         {
-            if (piece == nullptr)
+        }
+
+        virtual std::vector<Coordinate> GetMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
+        {
+            if (m_knight == nullptr)
             {
                 throw std::logic_error("piece is nullptr");
             }
-            auto possibleMoves = FindPossibleMoves(piece->GetPosition(), piece->GetColorAndType().color, piecesOnBoard);
-            if (possibleMoves.has_value())
-            {
-                return possibleMoves.value();
-            }
-            return {};
+            return FindPossibleMoves(m_knight->GetPosition(), m_knight->GetColorAndType().color, piecesOnBoard);
         }
     };
 } // namespace Chess

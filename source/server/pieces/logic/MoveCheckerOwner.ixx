@@ -30,7 +30,7 @@ namespace Chess
         {
             auto       pieceMap      = CoordinateToPieceBuilder::Build(piecesOnBoard);
             const auto finder        = std::make_shared<PieceFinder>(std::move(pieceMap));
-            const auto capturedPiece = finder->Find(move);
+            const auto capturedPiece = finder->TryFind(move);
 
             std::vector<std::shared_ptr<Piece>> tempPiecesOnBoard = piecesOnBoard;
 
@@ -58,7 +58,7 @@ namespace Chess
         std::vector<Coordinate> GetFilteredMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
         {
             std::vector<Coordinate> filteredMoves;
-            const auto              notFilteredMoves = m_moveCheckerOfPiece->GetMoves(m_piece, piecesOnBoard);
+            const auto              notFilteredMoves = m_moveCheckerOfPiece->GetMoves(piecesOnBoard);
             const auto              pieceCoordinate  = m_piece->GetPosition();
 
             for (const auto& move : notFilteredMoves)
@@ -71,7 +71,6 @@ namespace Chess
             }
 
             m_piece->Move(pieceCoordinate, false);
-
             return filteredMoves;
         }
     };

@@ -3,10 +3,10 @@ module;
 #include <stdexcept>
 #include <vector>
 export module Chess.RookChecker;
-import Chess.BishopQueenRookDirectionChecker;
 import Chess.Coordinate;
 import Chess.CoordinateToPieceBuilder;
 import Chess.Counts;
+import Chess.DirectionMoveChecker;
 import Chess.ePieceColor;
 import Chess.ePieceType;
 import Chess.IMoveChecker;
@@ -18,37 +18,38 @@ namespace Chess
 {
     export class RookChecker final : public IMoveChecker
     {
-        static std::vector<Coordinate> FindPossibleMoves(
-            Coordinate position, ePieceColor color, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
+        std::shared_ptr<Rook> m_rook;
+
+    public:
+        explicit RookChecker(const std::shared_ptr<Rook>& rook)
+            : m_rook(rook)
         {
-            std::vector<Coordinate> moves;
-            moves.reserve(ROOK_WAYS_COUNT);
+        }
+
+        virtual std::vector<Coordinate> GetMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
+        {
+            if (m_rook == nullptr)
+            {
+                throw std::logic_error("piece is nullptr");
+            }
 
             auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
-            auto first  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, position, color, { -1, 0 });
-            auto second = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, position, color, { 1, 0 });
-            auto third  = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, position, color, { 0, -1 });
-            auto fourth = BishopQueenRookDirectionChecker::FindPossibleMoves(finder, position, color, { 0, 1 });
+            const auto position = m_rook->GetPosition();
+            const auto color    = m_rook->GetColorAndType().color;
+            auto       first    = DirectionMoveChecker::FindPossibleMoves(finder, position, color, { -1, 0 });
+            auto       second   = DirectionMoveChecker::FindPossibleMoves(finder, position, color, { 1, 0 });
+            auto       third    = DirectionMoveChecker::FindPossibleMoves(finder, position, color, { 0, -1 });
+            auto       fourth   = DirectionMoveChecker::FindPossibleMoves(finder, position, color, { 0, 1 });
 
-            moves.insert(moves.end(), first.begin(), first.end());
-            moves.insert(moves.end(), second.begin(), second.end());
-            moves.insert(moves.end(), third.begin(), third.end());
-            moves.insert(moves.end(), fourth.begin(), fourth.end());
-
+            std::vector<Coordinate> moves;
+            moves.reserve(ROOK_WAYS_COUNT);
+            moves.insert_range(moves.end(), std::move(first));
+            moves.insert_range(moves.end(), std::move(second));
+            moves.insert_range(moves.end(), std::move(third));
+            moves.insert_range(moves.end(), std::move(fourth));
             return moves;
-        }
-
-    public:
-        virtual std::vector<Coordinate> GetMoves(
-            const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
-        {
-            if (piece == nullptr)
-            {
-                throw std::logic_error("piece is nullptr");
-            }
-            return FindPossibleMoves(piece->GetPosition(), piece->GetColorAndType().color, piecesOnBoard);
         }
     };
 } // namespace Chess

@@ -12,8 +12,13 @@ namespace Chess
     {
     public:
         Knight(ePieceColor color, const Coordinate& coordinate)
-            : Piece(PieceColorAndType(color, ePieceType::KNIGHT), coordinate)
+            : Piece(color, coordinate)
         {
+        }
+
+        virtual PieceColorAndType GetColorAndType() const override
+        {
+            return { GetColor(), ePieceType::KNIGHT };
         }
     };
 } // namespace Chess

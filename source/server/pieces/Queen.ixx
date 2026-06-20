@@ -12,8 +12,13 @@ namespace Chess
     {
     public:
         Queen(ePieceColor color, const Coordinate& coordinate)
-            : Piece(PieceColorAndType(color, ePieceType::QUEEN), coordinate)
+            : Piece(color, coordinate)
         {
+        }
+
+        virtual PieceColorAndType GetColorAndType() const override
+        {
+            return { GetColor(), ePieceType::QUEEN };
         }
     };
 } // namespace Chess

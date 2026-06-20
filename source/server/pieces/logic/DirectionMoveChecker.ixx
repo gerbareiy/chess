@@ -1,7 +1,7 @@
 module;
 #include <memory>
 #include <vector>
-export module Chess.BishopQueenRookDirectionChecker;
+export module Chess.DirectionMoveChecker;
 import Chess.Coordinate;
 import Chess.ePieceColor;
 import Chess.Piece;
@@ -10,25 +10,25 @@ import Chess.PositionChecker;
 
 namespace Chess
 {
-    export class BishopQueenRookDirectionChecker
+    export class DirectionMoveChecker
     {
     public:
         static std::vector<Coordinate> FindPossibleMoves(
-            const std::shared_ptr<PieceFinder>& finder, Coordinate position, ePieceColor color, std::pair<int, int> coordinateIncrement)
+            const std::shared_ptr<PieceFinder>& finder, Coordinate position, ePieceColor color, std::pair<int, int> direction)
         {
             std::vector<Coordinate> moves;
 
             while (true)
             {
-                position.file = position.file + coordinateIncrement.first;
-                position.rank = position.rank + coordinateIncrement.second;
+                position.file = position.file + direction.first;
+                position.rank = position.rank + direction.second;
 
                 if (!PositionChecker::IsInChessboard(position))
                 {
                     break;
                 }
 
-                if (const auto found = finder->Find(position))
+                if (const auto found = finder->TryFind(position))
                 {
                     if (found->GetColorAndType().color != color)
                     {

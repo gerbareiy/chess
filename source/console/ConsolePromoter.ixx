@@ -14,7 +14,7 @@ namespace Console::Chess
 {
     export class ConsolePromoter final : public ::Chess::Promoter
     {
-        static char NormalizePromotionChoice(const std::string& input)
+        static std::optional<char> TryNormalizePromotionChoice(const std::string& input)
         {
             for (const unsigned char symbol : input)
             {
@@ -25,20 +25,21 @@ namespace Console::Chess
 
                 auto normalized = static_cast<char>(std::toupper(symbol));
 
-                if (normalized == ::Chess::PieceTypeConverter::ConvertToShortString(::Chess::ePieceType::KING)[0])
+                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::KING))
                 {
                     normalized = static_cast<char>(std::tolower(static_cast<unsigned char>(normalized)));
                 }
 
                 return normalized;
             }
-
-            return '\0';
+            return std::nullopt;
         }
 
-        static void EnterPromotionType(std::string& input)
+        static std::string EnterPromotionType()
         {
-            std::getline(std::cin, input);
+            std::string result;
+            std::getline(std::cin, result);
+            return result;
         }
 
     public:
@@ -48,29 +49,21 @@ namespace Console::Chess
             {
                 GetSignalOnEnter()(::Chess::eInputType::PROMOTION);
 
-                std::string input;
-                EnterPromotionType(input);
-
-                const auto normalized = NormalizePromotionChoice(input);
-
-                if (normalized == '\0')
-                {
-                    continue;
-                }
-
-                if (normalized == ::Chess::PieceTypeConverter::ConvertToShortString(::Chess::ePieceType::BISHOP)[0])
+                auto const input      = EnterPromotionType();
+                const auto normalized = TryNormalizePromotionChoice(input);
+                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::BISHOP))
                 {
                     return ::Chess::ePieceType::BISHOP;
                 }
-                if (normalized == ::Chess::PieceTypeConverter::ConvertToShortString(::Chess::ePieceType::KNIGHT)[0])
+                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::KNIGHT))
                 {
                     return ::Chess::ePieceType::KNIGHT;
                 }
-                if (normalized == ::Chess::PieceTypeConverter::ConvertToShortString(::Chess::ePieceType::QUEEN)[0])
+                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::QUEEN))
                 {
                     return ::Chess::ePieceType::QUEEN;
                 }
-                if (normalized == ::Chess::PieceTypeConverter::ConvertToShortString(::Chess::ePieceType::ROOK)[0])
+                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::ROOK))
                 {
                     return ::Chess::ePieceType::ROOK;
                 }

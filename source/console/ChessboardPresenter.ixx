@@ -178,7 +178,7 @@ namespace Console::Chess
 
                 SetConsoleColor(textColor, background);
 
-                std::print("{}", ::Chess::PieceTypeConverter::ConvertToShortString(colorAndType.type)[0]);
+                std::print("{}", ::Chess::PieceTypeConverter::TryConvertToChar(colorAndType.type).value_or(' '));
             }
         }
 
@@ -191,7 +191,7 @@ namespace Console::Chess
             {
                 if (piece->GetColorAndType().color == color)
                 {
-                    std::print("{}", ::Chess::PieceTypeConverter::ConvertToShortString(piece->GetColorAndType().type));
+                    std::print("{}", ::Chess::PieceTypeConverter::TryConvertToChar(piece->GetColorAndType().type).value_or(' '));
                 }
             }
 

@@ -12,8 +12,13 @@ namespace Chess
     {
     public:
         Bishop(ePieceColor color, const Coordinate& coordinate)
-            : Piece(PieceColorAndType(color, ePieceType::BISHOP), coordinate)
+            : Piece(color, coordinate)
         {
+        }
+
+        virtual PieceColorAndType GetColorAndType() const override
+        {
+            return { GetColor(), ePieceType::BISHOP };
         }
     };
 } // namespace Chess

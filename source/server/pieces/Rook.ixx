@@ -25,11 +25,10 @@ namespace Chess
 
         void MakeTracking(const std::shared_ptr<King>& king)
         {
-            if (!king)
+            if (king == nullptr)
             {
                 return;
             }
-
             m_connection = king->ConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
         }
 
@@ -52,7 +51,7 @@ namespace Chess
 
     public:
         Rook(ePieceColor color, const Coordinate& coordinate)
-            : Piece(PieceColorAndType(color, ePieceType::ROOK), coordinate)
+            : Piece(color, coordinate)
         {
         }
 
@@ -60,6 +59,11 @@ namespace Chess
             : Rook(color, coordinate)
         {
             MakeTracking(king);
+        }
+
+        virtual PieceColorAndType GetColorAndType() const override
+        {
+            return { GetColor(), ePieceType::ROOK };
         }
 
         virtual bool GetCanMakeCastling() const override

@@ -1,6 +1,7 @@
 module;
 #include <expected>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <vector>
 export module Chess.PawnChecker;
@@ -19,94 +20,91 @@ namespace Chess
 {
     export class PawnChecker final : public IMoveChecker
     {
+        std::shared_ptr<Pawn> m_pawn;
+
         static std::vector<Coordinate> GetForwardMoves(const std::shared_ptr<Pawn>& pawn, const std::shared_ptr<PieceFinder>& finder)
         {
             if (!ValidatePawn(pawn).has_value())
             {
-                return {}; // TODO: somehow call checkmate here
+                return {};
             }
 
             const auto moveVector = pawn->GetColorAndType().color == ePieceColor::WHITE ? 1 : -1;
-
-            std::vector<Coordinate> moves;
-            moves.reserve(PAWN_WAYS_COUNT);
-
-            Coordinate oneStepForward(pawn->GetPosition().file, pawn->GetPosition().rank + moveVector);
-
-            if (PositionChecker::IsInChessboard(oneStepForward) && !finder->Find(oneStepForward))
+            auto       forward    = Coordinate(pawn->GetPosition().file, pawn->GetPosition().rank + moveVector);
+            if (!PositionChecker::IsInChessboard(forward) || finder->TryFind(forward))
             {
-                moves.emplace_back(oneStepForward);
-
-                if (pawn->GetIsNotMoved())
-                {
-                    Coordinate twoStepsForward(pawn->GetPosition().file, pawn->GetPosition().rank + (moveVector << 1));
-
-                    if (PositionChecker::IsInChessboard(twoStepsForward) && !finder->Find(twoStepsForward))
-                    {
-                        moves.emplace_back(twoStepsForward);
-                    }
-                }
+                return {};
             }
 
-            return moves;
+            if (!pawn->GetIsNotMoved())
+            {
+                return { forward };
+            }
+
+            auto twoStepsForward = Coordinate(pawn->GetPosition().file, pawn->GetPosition().rank + (moveVector << 1));
+            if (!PositionChecker::IsInChessboard(twoStepsForward) || finder->TryFind(twoStepsForward))
+            {
+                return { forward };
+            }
+            return { forward, twoStepsForward };
+        }
+
+        static std::optional<Coordinate> CalculateDiagonalMove(
+            const std::shared_ptr<Pawn>& pawn, const std::shared_ptr<PieceFinder>& finder, Coordinate&& diagonal, const Coordinate& side)
+        {
+            if (!PositionChecker::IsInChessboard(diagonal))
+            {
+                return std::nullopt;
+            }
+
+            const auto diagonalPiece = finder->TryFind(diagonal);
+            const auto sidePiece     = finder->TryFind(side);
+
+            if ((diagonalPiece && diagonalPiece->GetColorAndType().color != pawn->GetColorAndType().color)
+                || (sidePiece && std::dynamic_pointer_cast<Pawn>(sidePiece) && std::dynamic_pointer_cast<Pawn>(sidePiece)->GetCanEnPassant()
+                    && sidePiece->GetColorAndType().color != pawn->GetColorAndType().color))
+            {
+                return diagonal;
+            }
+            return std::nullopt;
         }
 
         static std::vector<Coordinate> GetDiagonalMoves(const std::shared_ptr<Pawn>& pawn, const std::shared_ptr<PieceFinder>& finder)
         {
             if (!ValidatePawn(pawn).has_value())
             {
-                return {}; // TODO: somehow call checkmate here
+                return {};
             }
 
             const int moveVector = pawn->GetColorAndType().color == ePieceColor::WHITE ? 1 : -1;
 
-            std::vector<Coordinate> moves;
-            moves.reserve(PAWN_WAYS_COUNT);
+            std::vector<Coordinate> result;
+            result.reserve(PAWN_WAYS_COUNT);
 
-            Coordinate       rightDiagonal(pawn->GetPosition().file + 1, pawn->GetPosition().rank + moveVector);
-            Coordinate       leftDiagonal(pawn->GetPosition().file - 1, pawn->GetPosition().rank + moveVector);
-            const Coordinate left(pawn->GetPosition().file - 1, pawn->GetPosition().rank);
-            const Coordinate right(pawn->GetPosition().file + 1, pawn->GetPosition().rank);
+            auto       rightDiagonal = Coordinate(pawn->GetPosition().file + 1, pawn->GetPosition().rank + moveVector);
+            auto       leftDiagonal  = Coordinate(pawn->GetPosition().file - 1, pawn->GetPosition().rank + moveVector);
+            const auto right         = Coordinate(pawn->GetPosition().file + 1, pawn->GetPosition().rank);
+            const auto left          = Coordinate(pawn->GetPosition().file - 1, pawn->GetPosition().rank);
 
-            if (PositionChecker::IsInChessboard(rightDiagonal))
+            auto const rightMove = CalculateDiagonalMove(pawn, finder, std::move(rightDiagonal), right);
+            auto const leftMove  = CalculateDiagonalMove(pawn, finder, std::move(leftDiagonal), left);
+            if (rightMove.has_value())
             {
-                const auto rightDiagonalPiece = finder->Find(rightDiagonal);
-                const auto rightPiece         = finder->Find(right);
-
-                if (rightDiagonalPiece && rightDiagonalPiece->GetColorAndType().color != pawn->GetColorAndType().color)
-                {
-                    moves.emplace_back(rightDiagonal);
-                }
-                else if (
-                    rightPiece && typeid(*rightPiece) == typeid(Pawn) && std::static_pointer_cast<Pawn>(rightPiece)->GetCanEnPassant()
-                    && rightPiece->GetColorAndType().color != pawn->GetColorAndType().color)
-                {
-                    moves.emplace_back(rightDiagonal);
-                }
+                result.push_back(rightMove.value());
             }
-
-            if (PositionChecker::IsInChessboard(leftDiagonal))
+            if (leftMove.has_value())
             {
-                const auto leftDiagonalPiece = finder->Find(leftDiagonal);
-                const auto leftPiece         = finder->Find(left);
-
-                if (leftDiagonalPiece && leftDiagonalPiece->GetColorAndType().color != pawn->GetColorAndType().color)
-                {
-                    moves.emplace_back(leftDiagonal);
-                }
-                else if (
-                    leftPiece && typeid(*leftPiece) == typeid(Pawn) && std::static_pointer_cast<Pawn>(leftPiece)->GetCanEnPassant()
-                    && leftPiece->GetColorAndType().color != pawn->GetColorAndType().color)
-                {
-                    moves.emplace_back(leftDiagonal);
-                }
+                result.push_back(leftMove.value());
             }
-
-            return moves;
+            return result;
         }
 
         static std::expected<void, std::string> ValidatePawn(const std::shared_ptr<Pawn>& pawn)
         {
+            if (!pawn)
+            {
+                return std::unexpected("Piece is nullptr");
+            }
             if (!PositionChecker::IsInChessboard(pawn->GetPosition()))
             {
                 return std::unexpected("ChessPiece is out of the Chessboard");
@@ -119,25 +117,28 @@ namespace Chess
         }
 
     public:
-        virtual std::vector<Coordinate> GetMoves(
-            const std::shared_ptr<Piece>& piece, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
+        explicit PawnChecker(const std::shared_ptr<Pawn>& pawn)
+            : m_pawn(pawn)
         {
-            if (!piece || typeid(*piece) != typeid(Pawn) || piece->GetColorAndType().type != ePieceType::PAWN)
-            {
-                return {};
-            }
+        }
 
-            std::vector<Coordinate> allMoves;
+        virtual std::vector<Coordinate> GetMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
+        {
+            if (m_pawn == nullptr)
+            {
+                throw std::logic_error("piece is nullptr");
+            }
 
             auto       pieceMap      = CoordinateToPieceBuilder::Build(piecesOnBoard);
             const auto finder        = std::make_shared<PieceFinder>(std::move(pieceMap));
-            auto       forwardMoves  = GetForwardMoves(std::static_pointer_cast<Pawn>(piece), finder);
-            auto       diagonalMoves = GetDiagonalMoves(std::static_pointer_cast<Pawn>(piece), finder);
+            auto       forwardMoves  = GetForwardMoves(m_pawn, finder);
+            auto       diagonalMoves = GetDiagonalMoves(m_pawn, finder);
 
-            allMoves.insert(allMoves.end(), forwardMoves.begin(), forwardMoves.end());
-            allMoves.insert(allMoves.end(), diagonalMoves.begin(), diagonalMoves.end());
-
-            return allMoves;
+            std::vector<Coordinate> result;
+            result.reserve(PAWN_WAYS_COUNT);
+            result.insert_range(result.end(), std::move(forwardMoves));
+            result.insert_range(result.end(), std::move(diagonalMoves));
+            return result;
         }
     };
 } // namespace Chess

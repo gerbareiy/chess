@@ -21,12 +21,12 @@ namespace Chess
             }
         }
 
-        void ChangeColor()
+        void InverseColor()
         {
             m_playerColor = m_playerColor == ePieceColor::BLACK ? ePieceColor::WHITE : ePieceColor::BLACK;
         }
 
-        ePieceColor GetPlayerColor()
+        ePieceColor GetPlayerColor() const
         {
             return m_playerColor;
         }

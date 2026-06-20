@@ -19,7 +19,7 @@ namespace Chess
             auto       pieceMap             = CoordinateToPieceBuilder::Build(piecesOnBoard);
             const auto finder               = std::make_shared<PieceFinder>(std::move(pieceMap));
             const auto currentPawn          = std::dynamic_pointer_cast<Pawn>(piece);
-            const auto opponentPawn         = std::dynamic_pointer_cast<Pawn>(finder->Find(pawnOnPassCoordinate));
+            const auto opponentPawn         = std::dynamic_pointer_cast<Pawn>(finder->TryFind(pawnOnPassCoordinate));
 
             if (currentPawn && opponentPawn && opponentPawn->GetCanEnPassant()
                 && opponentPawn->GetColorAndType().color != currentPawn->GetColorAndType().color)

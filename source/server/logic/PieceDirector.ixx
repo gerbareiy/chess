@@ -75,8 +75,8 @@ namespace Chess
 
         std::shared_ptr<Piece> GetPiece(const Coordinate& from) const
         {
-            const auto it = std::ranges::find(m_piecesOnBoard, from, &Piece::GetPosition);
-            return it != m_piecesOnBoard.end() ? *it : nullptr;
+            const auto iter = std::ranges::find(m_piecesOnBoard, from, &Piece::GetPosition);
+            return iter != m_piecesOnBoard.end() ? *iter : nullptr;
         }
 
         void InitCurrentPiece(const Coordinate& from)
@@ -88,17 +88,16 @@ namespace Chess
             const Coordinate& to, const boost::signals2::signal<void()>& signalChessboardUndated, const std::shared_ptr<Promoter>& promoter)
         {
             const auto from = PieceTakeLocator::Find(m_currentPiece, m_piecesOnBoard, to);
-            const auto it   = std::ranges::find(m_piecesOnBoard, from, &Piece::GetPosition);
-
-            if (it != m_piecesOnBoard.end())
+            const auto iter = std::ranges::find(m_piecesOnBoard, from, &Piece::GetPosition);
+            if (iter != m_piecesOnBoard.end())
             {
-                Take(static_cast<int>(std::distance(m_piecesOnBoard.begin(), it)));
+                Take(static_cast<int>(std::distance(m_piecesOnBoard.begin(), iter)));
             }
 
             m_currentPiece->Move(to);
             if (m_player)
             {
-                m_player->ChangeColor();
+                m_player->InverseColor();
             }
 
             if (typeid(*m_currentPiece) == typeid(Pawn)

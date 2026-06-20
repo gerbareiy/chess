@@ -1,41 +1,41 @@
-module;
-#include <expected>
-#include <string>
 export module Chess.Piece;
 import Chess.Coordinate;
+import Chess.ePieceColor;
 import Chess.PieceColorAndType;
 
 namespace Chess
 {
     export class Piece
     {
+        ePieceColor m_color    = {};
+        Coordinate  m_position = {};
+
     protected:
-        PieceColorAndType m_colorAndType = {};
-        Coordinate        m_position     = {};
+        ePieceColor GetColor() const
+        {
+            return m_color;
+        }
 
     public:
         Piece() = default;
-        Piece(const PieceColorAndType& colorAndType, const Coordinate& coordinate)
-            : m_colorAndType(colorAndType)
+        Piece(const ePieceColor& color, const Coordinate& coordinate)
+            : m_color(color)
             , m_position(coordinate)
         {
         }
 
         virtual ~Piece() = default;
 
-        PieceColorAndType GetColorAndType() const
+        virtual PieceColorAndType GetColorAndType() const = 0;
+
+        virtual void Move(Coordinate to, bool isRealMove = true)
         {
-            return m_colorAndType;
+            m_position = to;
         }
 
         Coordinate GetPosition() const
         {
             return m_position;
-        }
-
-        virtual void Move(Coordinate to, bool isRealMove = true)
-        {
-            m_position = to;
         }
     };
 } // namespace Chess

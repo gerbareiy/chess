@@ -1,4 +1,5 @@
 module;
+#include <algorithm>
 #include <memory>
 #include <vector>
 export module Chess.MoveValidator;
@@ -63,9 +64,8 @@ namespace Chess
 
         void RefreshPossibleMoves(const std::shared_ptr<Piece>& piece)
         {
-            const auto it = std::ranges::find(m_piecesCanMove, piece);
-
-            if (it != m_piecesCanMove.end())
+            const auto iter = std::ranges::find(m_piecesCanMove, piece);
+            if (iter != m_piecesCanMove.end())
             {
                 const auto moveChecker = std::make_shared<MoveCheckerOwner>(piece, MoveCheckerFactory::Create(piece));
                 m_possibleMoves        = moveChecker->GetFilteredMoves(m_piecesOnBoard);
@@ -91,23 +91,21 @@ namespace Chess
         {
             auto       pieceMap = CoordinateToPieceBuilder::Build(m_piecesCanMove);
             const auto finder   = std::make_unique<PieceFinder>(std::move(pieceMap));
-
-            return !!finder->Find(coordinate);
+            return !!finder->TryFind(coordinate);
         }
 
         bool IsCoordinateInPossibleMoves(const Coordinate& coordinate) const
         {
-            const auto iter = std::ranges::find(m_possibleMoves, coordinate);
-            return iter != m_possibleMoves.end();
+            return std::ranges::contains(m_possibleMoves, coordinate);
         }
 
         bool IsValidMove(const std::shared_ptr<Piece>& piece, const Coordinate& to) const
         {
-            if (piece)
+            if (piece == nullptr)
             {
-                return std::ranges::find(m_possibleMoves, to) != m_possibleMoves.end();
+                return false;
             }
-            return false;
+            return std::ranges::contains(m_possibleMoves, to);
         }
     };
 } // namespace Chess

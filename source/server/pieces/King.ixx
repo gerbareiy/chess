@@ -26,23 +26,18 @@ namespace Chess
 
     public:
         King(ePieceColor color, const Coordinate& coordinate)
-            : Piece(PieceColorAndType(color, ePieceType::KING), coordinate)
+            : Piece(color, coordinate)
         {
+        }
+
+        virtual PieceColorAndType GetColorAndType() const override
+        {
+            return { GetColor(), ePieceType::KING };
         }
 
         virtual bool GetCanMakeCastling() const override
         {
             return m_canMakeCastling;
-        }
-
-        bool GetIsCheck() const
-        {
-            return m_isCheck;
-        }
-
-        void SetCheck(bool isCheck)
-        {
-            m_isCheck = isCheck;
         }
 
         virtual void Move(Coordinate to, bool isRealMove = true) override
@@ -73,6 +68,16 @@ namespace Chess
             }
 
             Piece::Move(to);
+        }
+
+        bool GetIsCheck() const
+        {
+            return m_isCheck;
+        }
+
+        void SetCheck(bool isCheck)
+        {
+            m_isCheck = isCheck;
         }
 
         boost::signals2::connection ConnectCastling(const std::function<void(Coordinate, eCastleSide)>& subscriber)

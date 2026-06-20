@@ -19,30 +19,6 @@ namespace Chess
         int    m_movesCountWithoutPawnAndTaking = 0;
         size_t m_lastCountEatenPeaces           = 0;
 
-        void RefreshMovesCountWithoutPawnAndTaking(const std::shared_ptr<Chessboard>& chessboard)
-        {
-            auto        pieceMap = CoordinateToPieceBuilder::Build(chessboard->GetPieceDirector()->GetPiecesOnBoard());
-            const auto  finder   = PieceFinder(std::move(pieceMap));
-            const auto& piece    = finder.Find(chessboard->GetTo());
-
-            if (!piece)
-            {
-                return;
-            }
-
-            const auto eatenPiecesCount = chessboard->GetPieceDirector()->GetEatenPieces().size();
-
-            if (typeid(*piece) == typeid(Pawn) || m_lastCountEatenPeaces != eatenPiecesCount)
-            {
-                m_movesCountWithoutPawnAndTaking = 0;
-                m_lastCountEatenPeaces           = eatenPiecesCount;
-            }
-            else
-            {
-                ++m_movesCountWithoutPawnAndTaking;
-            }
-        }
-
         static bool IsInsufficientMaterial(const std::shared_ptr<Chessboard>& chessboard)
         {
             auto blackBishopDarkCount  = 0;
@@ -93,19 +69,34 @@ namespace Chess
 
             const auto insufficientWhiteBishops = whiteBishopLightCount == 0 || whiteBishopDarkCount == 0;
             const auto insufficientBlackBishops = blackBishopLightCount == 0 || blackBishopDarkCount == 0;
+            const int minorPiecesCount =
+                blackKnightCount + blackBishopLightCount + blackBishopDarkCount + whiteKnightCount + whiteBishopLightCount + whiteBishopDarkCount;
+            const bool onlyOneMinorPieceLeft = minorPiecesCount <= 1;
+            const bool onlyBishopsOrTwoMinorPiecesLeft = minorPiecesCount <= 2 && insufficientWhiteBishops && insufficientBlackBishops;
+            return whiteKing && blackKing && (onlyOneMinorPieceLeft || onlyBishopsOrTwoMinorPiecesLeft);
+        }
 
-            if (whiteKing && blackKing
-                && (blackKnightCount + blackBishopLightCount + blackBishopDarkCount + whiteBishopLightCount + whiteBishopDarkCount + whiteKnightCount
-                        <= 1
-                    || (blackKnightCount + blackBishopLightCount + blackBishopDarkCount + whiteBishopLightCount + whiteBishopDarkCount
-                                + whiteKnightCount
-                            <= 2
-                        && insufficientWhiteBishops && insufficientBlackBishops)))
+        void RefreshMovesCountWithoutPawnAndTaking(const std::shared_ptr<Chessboard>& chessboard)
+        {
+            auto        pieceMap = CoordinateToPieceBuilder::Build(chessboard->GetPieceDirector()->GetPiecesOnBoard());
+            const auto  finder   = PieceFinder(std::move(pieceMap));
+            const auto& piece    = finder.TryFind(chessboard->GetTo());
+
+            if (!piece)
             {
-                return true;
+                return;
             }
 
-            return false;
+            const auto eatenPiecesCount = chessboard->GetPieceDirector()->GetEatenPieces().size();
+            if (typeid(*piece) == typeid(Pawn) || m_lastCountEatenPeaces != eatenPiecesCount)
+            {
+                m_movesCountWithoutPawnAndTaking = 0;
+                m_lastCountEatenPeaces           = eatenPiecesCount;
+            }
+            else
+            {
+                ++m_movesCountWithoutPawnAndTaking;
+            }
         }
 
     public:

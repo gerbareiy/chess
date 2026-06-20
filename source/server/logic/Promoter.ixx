@@ -8,7 +8,7 @@ namespace Chess
     export class Promoter : public Inputter
     {
     public:
-        virtual ~Promoter() = default;
+        virtual ~Promoter() override = default;
 
         virtual ePieceType GetPromoteType() const = 0;
     };

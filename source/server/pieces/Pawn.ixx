@@ -1,5 +1,4 @@
 module;
-#include <expected>
 #include <memory>
 #include <stdexcept>
 export module Chess.Pawn;
@@ -36,19 +35,14 @@ namespace Chess
 
     public:
         Pawn(ePieceColor color, const Coordinate& coordinate)
-            : Piece(PieceColorAndType(color, ePieceType::PAWN), coordinate)
+            : Piece(color, coordinate)
         {
             MakeTracking();
         }
 
-        bool GetCanEnPassant() const
+        virtual PieceColorAndType GetColorAndType() const override
         {
-            return m_canEnPassant;
-        }
-
-        bool GetIsNotMoved() const
-        {
-            return m_isNotMoved;
+            return { GetColor(), ePieceType::PAWN };
         }
 
         virtual void Move(Coordinate to, bool isRealMove = true) override
@@ -69,6 +63,16 @@ namespace Chess
             }
 
             Piece::Move(to);
+        }
+
+        bool GetCanEnPassant() const
+        {
+            return m_canEnPassant;
+        }
+
+        bool GetIsNotMoved() const
+        {
+            return m_isNotMoved;
         }
     };
 } // namespace Chess

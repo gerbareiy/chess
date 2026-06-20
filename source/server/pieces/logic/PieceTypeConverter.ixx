@@ -1,5 +1,6 @@
 module;
 #include <array>
+#include <optional>
 #include <string>
 export module Chess.PieceTypeConverter;
 import Chess.ePieceType;
@@ -17,26 +18,26 @@ namespace Chess
          * @param type Chess piece type (e.g., Chess::ePieceType::ROOK)
          * @return short name of the piece (e.g., "R")
          */
-        static std::string ConvertToShortString(ePieceType type)
+        static std::optional<char> TryConvertToChar(ePieceType type)
         {
             switch (type)
             {
             case ePieceType::NONE:
-                return " ";
+                return ' ';
             case ePieceType::BISHOP:
-                return "B";
+                return 'B';
             case ePieceType::KING:
-                return "K";
+                return 'K';
             case ePieceType::KNIGHT:
-                return "k";
+                return 'k';
             case ePieceType::PAWN:
-                return "P";
+                return 'P';
             case ePieceType::QUEEN:
-                return "Q";
+                return 'Q';
             case ePieceType::ROOK:
-                return "R";
+                return 'R';
             default:
-                return "Unknown piece";
+                return std::nullopt;
             }
         }
 
