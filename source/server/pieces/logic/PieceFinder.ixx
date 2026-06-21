@@ -1,9 +1,11 @@
 module;
 #include <memory>
+#include <optional>
 #include <unordered_map>
 export module Chess.PieceFinder;
 import Chess.Coordinate;
 import Chess.Piece;
+import Chess.PieceColorAndType;
 
 namespace Chess
 {
@@ -25,6 +27,18 @@ namespace Chess
                 return nullptr;
             }
             return iter->second;
+        }
+
+        std::optional<Coordinate> TryFind(PieceColorAndType colorAndType) const
+        {
+            for (const auto& [coordinate, currentPiece] : m_pieceMap)
+            {
+                if (colorAndType == currentPiece->GetColorAndType())
+                {
+                    return coordinate;
+                }
+            }
+            return std::nullopt;
         }
     };
 } // namespace Chess

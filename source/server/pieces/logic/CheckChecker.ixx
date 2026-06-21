@@ -1,4 +1,5 @@
 module;
+#include <cassert>
 #include <memory>
 #include <vector>
 export module Chess.CheckChecker;
@@ -24,7 +25,8 @@ namespace Chess
                 const auto moveChecker = MoveCheckerFactory::Create(piece);
                 if (!moveChecker)
                 {
-                    return false;
+                    assert(false);
+                    std::unreachable();
                 }
 
                 const auto moves = moveChecker->GetMoves(piecesOnBoard);

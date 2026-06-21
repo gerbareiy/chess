@@ -5,7 +5,7 @@ module;
 export module Chess.BishopChecker;
 import Chess.Bishop;
 import Chess.Coordinate;
-import Chess.CoordinateToPieceBuilder;
+import Chess.CoordinateToPieceFactory;
 import Chess.Counts;
 import Chess.DirectionMoveChecker;
 import Chess.ePieceType;
@@ -32,7 +32,7 @@ namespace Chess
                 throw std::logic_error("piece is nullptr");
             }
 
-            auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
+            auto       pieceMap = CoordinateToPieceFactory::Create(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
             auto first  = DirectionMoveChecker::FindPossibleMoves(finder, m_bishop->GetPosition(), m_bishop->GetColorAndType().color, { -1, -1 });

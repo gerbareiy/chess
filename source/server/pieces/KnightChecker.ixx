@@ -6,7 +6,7 @@ module;
 #include <vector>
 export module Chess.KnightChecker;
 import Chess.Coordinate;
-import Chess.CoordinateToPieceBuilder;
+import Chess.CoordinateToPieceFactory;
 import Chess.Counts;
 import Chess.ePieceColor;
 import Chess.ePieceType;
@@ -31,7 +31,7 @@ namespace Chess
                 return {};
             }
 
-            auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
+            auto       pieceMap = CoordinateToPieceFactory::Create(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
             std::array constexpr knightMoveDirections = { std::pair(2, 1), std::pair(2, -1), std::pair(-2, 1), std::pair(-2, -1),

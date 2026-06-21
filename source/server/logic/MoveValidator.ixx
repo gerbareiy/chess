@@ -1,10 +1,11 @@
 module;
 #include <algorithm>
+#include <cassert>
 #include <memory>
 #include <vector>
 export module Chess.MoveValidator;
 import Chess.Coordinate;
-import Chess.CoordinateToPieceBuilder;
+import Chess.CoordinateToPieceFactory;
 import Chess.Counts;
 import Chess.MoveCheckerFactory;
 import Chess.MoveCheckerOwner;
@@ -50,9 +51,14 @@ namespace Chess
             {
                 if (piece->GetColorAndType().color == m_player->GetPlayerColor())
                 {
-                    const auto moveChecker = MoveCheckerOwner(piece, MoveCheckerFactory::Create(piece));
+                    auto moveChecker = MoveCheckerFactory::Create(piece);
+                    if (!moveChecker)
+                    {
+                        assert(false);
+                        std::unreachable();
+                    }
 
-                    if (moveChecker.GetFilteredMoves(m_piecesOnBoard).size())
+                    if (MoveCheckerOwner(piece, std::move(moveChecker)).HasFilteredMoves(m_piecesOnBoard))
                     {
                         pieces.emplace_back(piece);
                     }
@@ -67,8 +73,13 @@ namespace Chess
             const auto iter = std::ranges::find(m_piecesCanMove, piece);
             if (iter != m_piecesCanMove.end())
             {
-                const auto moveChecker = std::make_shared<MoveCheckerOwner>(piece, MoveCheckerFactory::Create(piece));
-                m_possibleMoves        = moveChecker->GetFilteredMoves(m_piecesOnBoard);
+                auto moveChecker = MoveCheckerFactory::Create(piece);
+                if (!moveChecker)
+                {
+                    assert(false);
+                    std::unreachable();
+                }
+                m_possibleMoves = MoveCheckerOwner(piece, std::move(moveChecker)).GetFilteredMoves(m_piecesOnBoard);
             }
         }
 
@@ -89,7 +100,7 @@ namespace Chess
 
         bool IsCoordinateInPieceCanMove(const Coordinate& coordinate) const
         {
-            auto       pieceMap = CoordinateToPieceBuilder::Build(m_piecesCanMove);
+            auto       pieceMap = CoordinateToPieceFactory::Create(m_piecesCanMove);
             const auto finder   = std::make_unique<PieceFinder>(std::move(pieceMap));
             return !!finder->TryFind(coordinate);
         }

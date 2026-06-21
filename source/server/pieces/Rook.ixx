@@ -23,9 +23,9 @@ namespace Chess
             m_canMakeCastling = false;
         }
 
-        void MakeTracking(const std::shared_ptr<King>& king)
+        void TryMakeTracking(const std::shared_ptr<King>& king)
         {
-            if (king == nullptr)
+            if (king == nullptr || !king->GetCanMakeCastling())
             {
                 return;
             }
@@ -50,15 +50,10 @@ namespace Chess
         }
 
     public:
-        Rook(ePieceColor color, const Coordinate& coordinate)
+        Rook(ePieceColor color, Coordinate coordinate, const std::shared_ptr<King>& king = nullptr)
             : Piece(color, coordinate)
         {
-        }
-
-        Rook(ePieceColor color, Coordinate coordinate, const std::shared_ptr<King>& king)
-            : Rook(color, coordinate)
-        {
-            MakeTracking(king);
+            TryMakeTracking(king);
         }
 
         virtual PieceColorAndType GetColorAndType() const override
@@ -71,12 +66,9 @@ namespace Chess
             return m_canMakeCastling;
         }
 
-        virtual void Move(Coordinate to, bool isRealMove = true) override
+        virtual void Move(Coordinate to) override
         {
-            if (isRealMove)
-            {
-                DisableCastling();
-            }
+            DisableCastling();
             Piece::Move(to);
         }
     };

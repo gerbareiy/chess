@@ -5,7 +5,7 @@ module;
 #include <vector>
 export module Chess.KingChecker;
 import Chess.Coordinate;
-import Chess.CoordinateToPieceBuilder;
+import Chess.CoordinateToPieceFactory;
 import Chess.Counts;
 import Chess.ePieceColor;
 import Chess.Piece;
@@ -86,7 +86,7 @@ namespace Chess
                 return {};
             }
 
-            auto       pieceMap = CoordinateToPieceBuilder::Build(piecesOnBoard);
+            auto       pieceMap = CoordinateToPieceFactory::Create(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
             std::vector<Coordinate> result;

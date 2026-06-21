@@ -25,8 +25,9 @@ namespace Chess
         }
 
     public:
-        King(ePieceColor color, const Coordinate& coordinate)
+        King(ePieceColor color, const Coordinate& coordinate, bool canMakeCastling = true)
             : Piece(color, coordinate)
+            , m_canMakeCastling(canMakeCastling)
         {
         }
 
@@ -40,33 +41,29 @@ namespace Chess
             return m_canMakeCastling;
         }
 
-        virtual void Move(Coordinate to, bool isRealMove = true) override
+        virtual void Move(Coordinate to) override
         {
-            if (isRealMove)
+            DisableCastling();
+
+            if (std::abs(GetPosition().file - to.file) > 1)
             {
-                DisableCastling();
+                eCastleSide side;
 
-                if (std::abs(GetPosition().file - to.file) > 1)
+                if (to.file > GetPosition().file)
                 {
-                    eCastleSide side;
-
-                    if (to.file > GetPosition().file)
-                    {
-                        side = eCastleSide::RIGHT;
-                    }
-                    else if (to.file < GetPosition().file)
-                    {
-                        side = eCastleSide::LEFT;
-                    }
-                    else
-                    {
-                        throw std::logic_error("Move is impossible");
-                    }
-
-                    m_signalCastling(to, side);
+                    side = eCastleSide::RIGHT;
                 }
-            }
+                else if (to.file < GetPosition().file)
+                {
+                    side = eCastleSide::LEFT;
+                }
+                else
+                {
+                    throw std::logic_error("Move is impossible");
+                }
 
+                m_signalCastling(to, side);
+            }
             Piece::Move(to);
         }
 

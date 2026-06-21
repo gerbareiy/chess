@@ -3,7 +3,7 @@ module;
 export module Chess.DrawChecker;
 import Chess.Chessboard;
 import Chess.Coordinate;
-import Chess.CoordinateToPieceBuilder;
+import Chess.CoordinateToPieceFactory;
 import Chess.Counts;
 import Chess.ePieceColor;
 import Chess.ePieceType;
@@ -78,7 +78,7 @@ namespace Chess
 
         void RefreshMovesCountWithoutPawnAndTaking(const std::shared_ptr<Chessboard>& chessboard)
         {
-            auto        pieceMap = CoordinateToPieceBuilder::Build(chessboard->GetPieceDirector()->GetPiecesOnBoard());
+            auto        pieceMap = CoordinateToPieceFactory::Create(chessboard->GetPieceDirector()->GetPiecesOnBoard());
             const auto  finder   = PieceFinder(std::move(pieceMap));
             const auto& piece    = finder.TryFind(chessboard->GetTo());
 

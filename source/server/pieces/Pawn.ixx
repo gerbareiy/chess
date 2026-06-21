@@ -45,23 +45,19 @@ namespace Chess
             return { GetColor(), ePieceType::PAWN };
         }
 
-        virtual void Move(Coordinate to, bool isRealMove = true) override
+        virtual void Move(Coordinate to) override
         {
-            if (isRealMove)
+            if (abs(to.rank - GetPosition().rank) == 2)
             {
-                if (abs(to.rank - GetPosition().rank) == 2)
-                {
-                    m_canEnPassant = m_isNotMoved;
-                }
-                else
-                {
-                    LostEnPassant();
-                }
-
-                m_isOnPawnFirstMove = m_isNotMoved;
-                m_isNotMoved        = false;
+                m_canEnPassant = m_isNotMoved;
+            }
+            else
+            {
+                LostEnPassant();
             }
 
+            m_isOnPawnFirstMove = m_isNotMoved;
+            m_isNotMoved        = false;
             Piece::Move(to);
         }
 

@@ -28,7 +28,7 @@ namespace Chess
 
         virtual PieceColorAndType GetColorAndType() const = 0;
 
-        virtual void Move(Coordinate to, bool isRealMove = true)
+        virtual void Move(Coordinate to)
         {
             m_position = to;
         }
