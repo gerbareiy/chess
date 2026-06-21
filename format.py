@@ -20,8 +20,8 @@ def format_file(file_path):
     try:
         subprocess.run(["clang-format", "-i", file_path], check=True)
         print(f"Formatted: {file_path}")
-    except subprocess.CalledProcessError as e:
-        print(f"Failed to format {file_path}: {e}")
+    except subprocess.CalledProcessError as exception:
+        print(f"Failed to format {file_path}: {exception}")
 
 for root, dirs, files in os.walk(project_dir):
     dirs[:] = [d for d in dirs if d not in exclude_dirs]

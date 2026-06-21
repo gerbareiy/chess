@@ -1,0 +1,111 @@
+module;
+#include <memory>
+export module Chess.DrawChecker;
+import Chess.Chessboard;
+import Chess.Coordinate;
+import Chess.CoordinateToPieceFactory;
+import Chess.Counts;
+import Chess.ePieceColor;
+import Chess.ePieceType;
+import Chess.Pawn;
+import Chess.PieceDirector;
+import Chess.PieceFinder;
+import Chess.Sizes;
+
+namespace Chess
+{
+    export class DrawChecker
+    {
+        int    m_movesCountWithoutPawnAndTaking = 0;
+        size_t m_lastCountEatenPeaces           = 0;
+
+        static bool IsInsufficientMaterial(const std::shared_ptr<Chessboard>& chessboard)
+        {
+            auto blackBishopDarkCount  = 0;
+            auto blackBishopLightCount = 0;
+            auto blackKing             = false;
+            auto blackKnightCount      = 0;
+            auto whiteBishopDarkCount  = 0;
+            auto whiteBishopLightCount = 0;
+            auto whiteKing             = false;
+            auto whiteKnightCount      = 0;
+
+            for (auto y = CHESSBOARD_SIZE; y > 0; --y)
+            {
+                for (auto x = 'A'; x < 'A' + CHESSBOARD_SIZE; ++x)
+                {
+                    const auto piece = chessboard->GetPieceDirector()->GetPiece(Coordinate(x, y));
+
+                    if (!piece)
+                    {
+                        continue;
+                    }
+
+                    const auto [color, type] = piece->GetColorAndType();
+
+                    switch (type)
+                    {
+                    case ePieceType::BISHOP:
+                        if (color == ePieceColor::BLACK)
+                        {
+                            (x + y) % 2 == 0 ? ++blackBishopLightCount : ++blackBishopDarkCount;
+                        }
+                        else
+                        {
+                            (x + y) % 2 == 0 ? ++whiteBishopLightCount : ++whiteBishopDarkCount;
+                        }
+                        break;
+                    case ePieceType::KNIGHT:
+                        color == ePieceColor::BLACK ? ++blackKnightCount : ++whiteKnightCount;
+                        break;
+                    case ePieceType::KING:
+                        color == ePieceColor::BLACK ? blackKing = true : whiteKing = true;
+                        break;
+                    default:
+                        return false;
+                    }
+                }
+            }
+
+            const auto insufficientWhiteBishops = whiteBishopLightCount == 0 || whiteBishopDarkCount == 0;
+            const auto insufficientBlackBishops = blackBishopLightCount == 0 || blackBishopDarkCount == 0;
+            const int minorPiecesCount =
+                blackKnightCount + blackBishopLightCount + blackBishopDarkCount + whiteKnightCount + whiteBishopLightCount + whiteBishopDarkCount;
+            const bool onlyOneMinorPieceLeft = minorPiecesCount <= 1;
+            const bool onlyBishopsOrTwoMinorPiecesLeft = minorPiecesCount <= 2 && insufficientWhiteBishops && insufficientBlackBishops;
+            return whiteKing && blackKing && (onlyOneMinorPieceLeft || onlyBishopsOrTwoMinorPiecesLeft);
+        }
+
+        void RefreshMovesCountWithoutPawnAndTaking(const std::shared_ptr<Chessboard>& chessboard)
+        {
+            auto        pieceMap = CoordinateToPieceFactory::Create(chessboard->GetPieceDirector()->GetPiecesOnBoard());
+            const auto  finder   = PieceFinder(std::move(pieceMap));
+            const auto& piece    = finder.TryFind(chessboard->GetTo());
+
+            if (!piece)
+            {
+                return;
+            }
+
+            const auto eatenPiecesCount = chessboard->GetPieceDirector()->GetEatenPieces().size();
+            if (typeid(*piece) == typeid(Pawn) || m_lastCountEatenPeaces != eatenPiecesCount)
+            {
+                m_movesCountWithoutPawnAndTaking = 0;
+                m_lastCountEatenPeaces           = eatenPiecesCount;
+            }
+            else
+            {
+                ++m_movesCountWithoutPawnAndTaking;
+            }
+        }
+
+    public:
+        bool IsDraw(const std::shared_ptr<Chessboard>& chessboard)
+        {
+            RefreshMovesCountWithoutPawnAndTaking(chessboard);
+
+            return chessboard->GetMoveValidator()->GetPiecesCanMoveCount() == 0
+                   || m_movesCountWithoutPawnAndTaking >= MAX_MOVES_WITHOUT_PAWN_MOVE_AND_TAKING_COUNT || IsInsufficientMaterial(chessboard);
+        }
+    };
+} // namespace Chess
