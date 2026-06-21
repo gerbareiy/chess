@@ -14,7 +14,7 @@ namespace Chess
 {
     export class King final : public ICastable, public Piece
     {
-        bool m_canMakeCastling = true;
+        bool m_canMakeCastling = false;
         bool m_isCheck         = false;
 
         boost::signals2::signal<void(Coordinate, eCastleSide)> m_signalCastling;
@@ -22,6 +22,7 @@ namespace Chess
         void DisableCastling()
         {
             m_canMakeCastling = false;
+            m_signalCastling.disconnect_all_slots();
         }
 
     public:
@@ -43,15 +44,25 @@ namespace Chess
 
         virtual void Move(Coordinate to) override
         {
-            DisableCastling();
-
-            if (std::abs(GetPosition().file - to.file) > 1)
+            if (std::abs(GetPosition().file - to.file) > 2)
             {
-                eCastleSide side;
+                throw std::logic_error("Impossible move");
+            }
+            if (std::abs(GetPosition().rank - to.rank) > 1)
+            {
+                throw std::logic_error("Impossible move");
+            }
 
+            if (GetCanMakeCastling() && std::abs(GetPosition().file - to.file) == 2)
+            {
+                if (to.rank != GetPosition().rank)
+                {
+                    throw std::logic_error("Impossible move");
+                }
+
+                auto side = eCastleSide::RIGHT;
                 if (to.file > GetPosition().file)
                 {
-                    side = eCastleSide::RIGHT;
                 }
                 else if (to.file < GetPosition().file)
                 {
@@ -59,11 +70,12 @@ namespace Chess
                 }
                 else
                 {
-                    throw std::logic_error("Move is impossible");
+                    throw std::logic_error("Impossible move");
                 }
 
                 m_signalCastling(to, side);
             }
+            DisableCastling();
             Piece::Move(to);
         }
 
@@ -77,9 +89,13 @@ namespace Chess
             m_isCheck = isCheck;
         }
 
-        boost::signals2::connection ConnectCastling(const std::function<void(Coordinate, eCastleSide)>& subscriber)
+        std::optional<boost::signals2::connection> TryConnectCastling(const std::function<void(Coordinate, eCastleSide)>& subscriber)
         {
-            return m_signalCastling.connect(subscriber);
+            if (GetCanMakeCastling())
+            {
+                return m_signalCastling.connect(subscriber);
+            }
+            return std::nullopt;
         }
     };
 } // namespace Chess

@@ -15,13 +15,7 @@ namespace Chess
 {
     export class Rook final : public Piece, public ICastable
     {
-        bool                               m_canMakeCastling = true;
         boost::signals2::scoped_connection m_connection;
-
-        void DisableCastling()
-        {
-            m_canMakeCastling = false;
-        }
 
         void TryMakeTracking(const std::shared_ptr<King>& king)
         {
@@ -29,7 +23,12 @@ namespace Chess
             {
                 return;
             }
-            m_connection = king->ConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
+            std::optional<boost::signals2::scoped_connection> connection =
+                king->TryConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
+            if (connection.has_value())
+            {
+                m_connection = std::move(connection).value();
+            }
         }
 
         void OnCastling(const Coordinate& to, eCastleSide side)
@@ -63,12 +62,12 @@ namespace Chess
 
         virtual bool GetCanMakeCastling() const override
         {
-            return m_canMakeCastling;
+            return m_connection.connected();
         }
 
         virtual void Move(Coordinate to) override
         {
-            DisableCastling();
+            m_connection.disconnect();
             Piece::Move(to);
         }
     };
