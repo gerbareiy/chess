@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-
 import Chess.ePieceColor;
 import Chess.PieceColorConverter;
 

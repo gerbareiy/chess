@@ -1,7 +1,5 @@
 #include <gtest/gtest.h>
-
 #include <optional>
-
 import Chess.ePieceType;
 import Chess.PieceTypeConverter;
 

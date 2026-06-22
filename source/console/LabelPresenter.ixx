@@ -1,6 +1,5 @@
 module;
 #include <boost/signals2.hpp>
-
 #include <memory>
 #include <print>
 export module Console.Chess.LabelPresenter;
@@ -44,8 +43,11 @@ namespace Console::Chess
 
         void Init()
         {
-            const auto show = [this](::Chess::eInputType type) { Show(type); };
-            m_connection    = m_inputter->ConnectOnEnter(show);
+            const auto show = [this](::Chess::eInputType type)
+            {
+                Show(type);
+            };
+            m_connection = m_inputter->ConnectOnEnter(show);
         }
 
         ~LabelPresenter() = default;

@@ -1,12 +1,10 @@
 module;
 #include <boost/signals2/connection.hpp>
-
-#include <windows.h>
-
 #include <functional>
 #include <memory>
 #include <print>
 #include <ranges>
+#include <windows.h>
 export module Console.Chess.ChessboardPresenter;
 import Chess.Chessboard;
 import Chess.Coordinate;
@@ -167,6 +165,7 @@ namespace Console::Chess
             ShowChessboardWithCoordinates();
             ShowTakenPieces(::Chess::ePieceColor::BLACK);
         }
+
         // Or create own Display by combining some methods below
         void ShowChessboardRowWithRank(int y, int originalTextColor) const
         {

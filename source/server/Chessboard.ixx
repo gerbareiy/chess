@@ -1,6 +1,5 @@
 module;
 #include <boost/signals2.hpp>
-
 #include <memory>
 #include <vector>
 export module Chess.Chessboard;

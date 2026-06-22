@@ -93,7 +93,10 @@ namespace Console::Chess
         void Play()
         {
             const auto trySelectPiece = std::bind(&Controller::TrySelectPiece, m_controller.get(), std::placeholders::_1);
-            const auto tryMovePiece   = [this](const ::Chess::Coordinate& to) -> bool { return m_controller->TryMovePiece(to, m_promoter); };
+            const auto tryMovePiece   = [this](const ::Chess::Coordinate& to) -> bool
+            {
+                return m_controller->TryMovePiece(to, m_promoter);
+            };
             while (TryContinue())
             {
                 HandleInput(std::bind(&InputHandler::EnterFrom, m_inputHandler), trySelectPiece);

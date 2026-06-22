@@ -17,7 +17,6 @@ namespace Chess
         }
 
     public:
-        Piece() = default;
         Piece(const ePieceColor& color, const Coordinate& coordinate)
             : m_color(color)
             , m_position(coordinate)

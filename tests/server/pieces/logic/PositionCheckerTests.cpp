@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-
 import Chess.PositionChecker;
 
 namespace ServerTests

@@ -1,7 +1,5 @@
 #include <gtest/gtest.h>
-
 #include <stdexcept>
-
 import Chess.ePieceColor;
 import Chess.King;
 

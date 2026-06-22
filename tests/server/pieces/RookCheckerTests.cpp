@@ -1,9 +1,7 @@
-#include <gtest/gtest.h>
-
 #include <algorithm>
+#include <gtest/gtest.h>
 #include <memory>
 #include <vector>
-
 import Chess.Coordinate;
 import Chess.ePieceColor;
 import Chess.Pawn;

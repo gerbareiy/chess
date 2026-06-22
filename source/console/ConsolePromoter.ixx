@@ -1,6 +1,5 @@
 module;
 #include <boost/signals2.hpp>
-
 #include <cctype>
 #include <iostream>
 #include <string>

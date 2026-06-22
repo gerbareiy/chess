@@ -1,7 +1,6 @@
 module;
 #include <boost/lexical_cast.hpp>
 #include <boost/signals2.hpp>
-
 #include <cctype>
 #include <iostream>
 #include <string>
