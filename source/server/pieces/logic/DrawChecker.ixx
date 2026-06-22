@@ -69,9 +69,9 @@ namespace Chess
 
             const auto insufficientWhiteBishops = whiteBishopLightCount == 0 || whiteBishopDarkCount == 0;
             const auto insufficientBlackBishops = blackBishopLightCount == 0 || blackBishopDarkCount == 0;
-            const int minorPiecesCount =
+            const int  minorPiecesCount =
                 blackKnightCount + blackBishopLightCount + blackBishopDarkCount + whiteKnightCount + whiteBishopLightCount + whiteBishopDarkCount;
-            const bool onlyOneMinorPieceLeft = minorPiecesCount <= 1;
+            const bool onlyOneMinorPieceLeft           = minorPiecesCount <= 1;
             const bool onlyBishopsOrTwoMinorPiecesLeft = minorPiecesCount <= 2 && insufficientWhiteBishops && insufficientBlackBishops;
             return whiteKing && blackKing && (onlyOneMinorPieceLeft || onlyBishopsOrTwoMinorPiecesLeft);
         }

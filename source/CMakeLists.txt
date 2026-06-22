@@ -15,13 +15,3 @@ add_subdirectory(console)
 add_subdirectory(server)
 
 target_link_libraries(console PRIVATE server)
-
-# server options
-target_include_directories(server PUBLIC ${CMAKE_SOURCE_DIR}/source)
-target_include_directories(server PRIVATE ${Boost_INCLUDE_DIRS})
-target_link_libraries(server PRIVATE Boost::signals2 Boost::json)
-
-# console options
-target_include_directories(console PUBLIC ${CMAKE_SOURCE_DIR}/source)
-target_include_directories(console PRIVATE ${Boost_INCLUDE_DIRS})
-target_link_libraries(console PRIVATE Boost::signals2)
