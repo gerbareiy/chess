@@ -13,5 +13,8 @@ find_package(Boost REQUIRED COMPONENTS json signals2)
 
 add_subdirectory(console)
 add_subdirectory(server)
+add_subdirectory(utils)
 
 target_link_libraries(console PRIVATE server)
+target_link_libraries(server PRIVATE utils)
+target_link_libraries(console PRIVATE utils)

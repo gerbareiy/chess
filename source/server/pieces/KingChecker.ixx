@@ -1,7 +1,6 @@
 module;
 #include <expected>
 #include <memory>
-#include <stdexcept>
 #include <vector>
 export module Chess.KingChecker;
 import Chess.Coordinate;
@@ -14,6 +13,7 @@ import Chess.ICastable;
 import Chess.IMoveChecker;
 import Chess.King;
 import Chess.Sizes;
+import Chess.Utils.Exceptions;
 
 namespace Chess
 {
@@ -129,7 +129,7 @@ namespace Chess
         {
             if (m_king == nullptr)
             {
-                throw std::logic_error("piece is nullptr");
+                throw Utils::PieceIsNullptrException();
             }
             return FindPossibleMoves(m_king, m_king->GetPosition(), m_king->GetColorAndType().color, piecesOnBoard);
         }

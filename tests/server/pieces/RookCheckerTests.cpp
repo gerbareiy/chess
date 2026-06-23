@@ -25,10 +25,10 @@ namespace ServerTests
         const auto rook     = std::make_shared<Chess::Rook>(Chess::ePieceColor::WHITE, Chess::Coordinate{ .file = 'D', .rank = 4 });
         const auto ownPiece = std::make_shared<Chess::Pawn>(Chess::ePieceColor::WHITE, Chess::Coordinate{ .file = 'D', .rank = 6 });
         const auto opponent = std::make_shared<Chess::Pawn>(Chess::ePieceColor::BLACK, Chess::Coordinate{ .file = 'B', .rank = 4 });
-        const std::vector<std::shared_ptr<Chess::Piece>> pieces{ rook, ownPiece, opponent };
+        const std::vector<std::shared_ptr<Chess::Piece>> pieces = { rook, ownPiece, opponent };
 
-        const Chess::RookChecker checker(rook);
-        const auto               moves = checker.GetMoves(pieces);
+        const auto checker = Chess::RookChecker(rook);
+        const auto moves   = checker.GetMoves(pieces);
 
         EXPECT_TRUE(RookCheckerTestHelper::Contains(moves, { .file = 'B', .rank = 4 }));
         EXPECT_FALSE(RookCheckerTestHelper::Contains(moves, { .file = 'A', .rank = 4 }));

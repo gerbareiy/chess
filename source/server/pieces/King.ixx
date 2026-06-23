@@ -1,5 +1,6 @@
 module;
 #include <boost/signals2.hpp>
+#include <cstdlib>
 export module Chess.King;
 import Chess.Coordinate;
 import Chess.eCastleSide;
@@ -9,6 +10,7 @@ import Chess.ICastable;
 import Chess.Piece;
 import Chess.PieceColorAndType;
 import Chess.Sizes;
+import Chess.Utils.Exceptions;
 
 namespace Chess
 {
@@ -44,20 +46,31 @@ namespace Chess
 
         virtual void Move(Coordinate to) override
         {
-            if (std::abs(GetPosition().file - to.file) > 2)
+            const int fileDifference = std::abs(GetPosition().file - to.file);
+            const int rankDifference = std::abs(GetPosition().rank - to.rank);
+
+            if (fileDifference > 2)
             {
-                throw std::logic_error("Impossible move");
+                throw Utils::ImpossibleMoveException();
             }
-            if (std::abs(GetPosition().rank - to.rank) > 1)
+            if (rankDifference > 1)
             {
-                throw std::logic_error("Impossible move");
+                throw Utils::ImpossibleMoveException();
+            }
+            if (fileDifference == 0 && rankDifference == 0)
+            {
+                throw Utils::ImpossibleMoveException();
             }
 
-            if (GetCanMakeCastling() && std::abs(GetPosition().file - to.file) == 2)
+            if (fileDifference == 2)
             {
+                if (!GetCanMakeCastling())
+                {
+                    throw Utils::ImpossibleMoveException();
+                }
                 if (to.rank != GetPosition().rank)
                 {
-                    throw std::logic_error("Impossible move");
+                    throw Utils::ImpossibleMoveException();
                 }
 
                 auto side = eCastleSide::RIGHT;
@@ -70,7 +83,7 @@ namespace Chess
                 }
                 else
                 {
-                    throw std::logic_error("Impossible move");
+                    throw Utils::ImpossibleMoveException();
                 }
 
                 m_signalCastling(to, side);

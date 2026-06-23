@@ -10,6 +10,7 @@ import Chess.King;
 import Chess.Piece;
 import Chess.PieceColorAndType;
 import Chess.Sizes;
+import Chess.Utils.Exceptions;
 
 namespace Chess
 {
@@ -67,6 +68,15 @@ namespace Chess
 
         virtual void Move(Coordinate to) override
         {
+            if (to.file != GetPosition().file && to.rank != GetPosition().rank)
+            {
+                throw Utils::ImpossibleMoveException();
+            }
+            if (to.file == GetPosition().file && to.rank == GetPosition().rank)
+            {
+                throw Utils::ImpossibleMoveException();
+            }
+
             m_connection.disconnect();
             Piece::Move(to);
         }

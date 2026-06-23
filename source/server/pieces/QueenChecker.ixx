@@ -1,6 +1,5 @@
 module;
 #include <memory>
-#include <stdexcept>
 #include <vector>
 export module Chess.QueenChecker;
 import Chess.Coordinate;
@@ -13,6 +12,7 @@ import Chess.IMoveChecker;
 import Chess.Piece;
 import Chess.PieceFinder;
 import Chess.Queen;
+import Chess.Utils.Exceptions;
 
 namespace Chess
 {
@@ -30,7 +30,7 @@ namespace Chess
         {
             if (m_queen == nullptr)
             {
-                throw std::logic_error("piece is nullptr");
+                throw Utils::PieceIsNullptrException();
             }
             auto       pieceMap = CoordinateToPieceFactory::Create(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));

@@ -1,6 +1,6 @@
 module;
+#include <cstdlib>
 #include <memory>
-#include <stdexcept>
 export module Chess.Pawn;
 import Chess.Coordinate;
 import Chess.ePieceColor;
@@ -8,6 +8,7 @@ import Chess.ePieceType;
 import Chess.Piece;
 import Chess.PieceColorAndType;
 import Chess.Sizes;
+import Chess.Utils.Exceptions;
 
 namespace Chess
 {
@@ -47,7 +48,19 @@ namespace Chess
 
         virtual void Move(Coordinate to) override
         {
-            if (abs(to.rank - GetPosition().rank) == 2)
+            const int fileDifference = std::abs(to.file - GetPosition().file);
+            const int rankDifference = to.rank - GetPosition().rank;
+            const int moveVector     = GetColorAndType().color == ePieceColor::WHITE ? 1 : -1;
+
+            const bool isOneStepForward  = fileDifference == 0 && rankDifference == moveVector;
+            const bool isTwoStepsForward = fileDifference == 0 && m_isNotMoved && rankDifference == moveVector * m_MAX_POSSIBLE_COUNT_MOVES;
+            const bool isDiagonalMove    = fileDifference == 1 && rankDifference == moveVector;
+            if (!isOneStepForward && !isTwoStepsForward && !isDiagonalMove)
+            {
+                throw Utils::ImpossibleMoveException();
+            }
+
+            if (std::abs(rankDifference) == m_MAX_POSSIBLE_COUNT_MOVES)
             {
                 m_canEnPassant = m_isNotMoved;
             }

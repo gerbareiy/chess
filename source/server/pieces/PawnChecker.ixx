@@ -1,4 +1,5 @@
 module;
+#include <cassert>
 #include <expected>
 #include <memory>
 #include <optional>
@@ -15,6 +16,7 @@ import Chess.Pawn;
 import Chess.Piece;
 import Chess.PieceFinder;
 import Chess.PositionChecker;
+import Chess.Utils.Exceptions;
 
 namespace Chess
 {
@@ -103,7 +105,8 @@ namespace Chess
         {
             if (!pawn)
             {
-                return std::unexpected("Piece is nullptr");
+                assert(false);
+                std::unreachable();
             }
             if (!PositionChecker::IsInChessboard(pawn->GetPosition()))
             {
@@ -126,7 +129,7 @@ namespace Chess
         {
             if (m_pawn == nullptr)
             {
-                throw std::logic_error("piece is nullptr");
+                throw Utils::PieceIsNullptrException();
             }
 
             auto       pieceMap      = CoordinateToPieceFactory::Create(piecesOnBoard);
