@@ -135,6 +135,17 @@ const auto lambda = [weak = std::weak_ptr(shared)]()
 }
 ```
 
+## Дефолтная инициализация
+Мы используем только copy initialization; copy list initialization для различных контейнеров
+```cpp
+int a;          // default initialization (для локальных фундаментальных типов значение не определено)
+int b{};        // value initialization
+int c = 5;      // copy initialization - это
+int d(5);       // direct initialization
+int e{5};       // direct list initialization
+std::vector f = {5};    // copy list initialization - и это
+```
+
 # Как играть
 
 Взаимодействие с игрой через консоль
