@@ -10,11 +10,17 @@ endif()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 find_package(Boost REQUIRED COMPONENTS json signals2)
+find_package(glfw3 CONFIG REQUIRED)
+find_package(glm CONFIG REQUIRED)
+find_package(Vulkan REQUIRED)
 
 add_subdirectory(console)
 add_subdirectory(server)
 add_subdirectory(utils)
+add_subdirectory(window)
 
 target_link_libraries(console PRIVATE server)
-target_link_libraries(server PRIVATE utils)
 target_link_libraries(console PRIVATE utils)
+
+target_link_libraries(server PRIVATE utils)
+

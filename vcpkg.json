@@ -3,6 +3,9 @@
         "boost-json",
         "boost-lexical-cast",
         "boost-signals2",
-        "gtest"
+        "gtest",
+        "glfw3",
+        "glm",
+        "vulkan"
     ]
 }
