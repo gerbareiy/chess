@@ -16,9 +16,9 @@ namespace Chess::Engine
         static std::vector<VkPhysicalDevice> CalculatePhysicalDevices(const VkInstance& instance)
         {
             uint32_t count = 0;
-            VulkanChecker::ThrowIfNotSuccess(vkEnumeratePhysicalDevices(instance, &count, nullptr));
+            VulkanChecker::ThrowIfNotSuccess(vkEnumeratePhysicalDevices(instance, std::addressof(count), nullptr));
             std::vector<VkPhysicalDevice> devices(count);
-            VulkanChecker::ThrowIfNotSuccess(vkEnumeratePhysicalDevices(instance, &count, devices.data()));
+            VulkanChecker::ThrowIfNotSuccess(vkEnumeratePhysicalDevices(instance, std::addressof(count), devices.data()));
             return devices;
         }
 
@@ -29,7 +29,7 @@ namespace Chess::Engine
             for (const auto& device : devices)
             {
                 auto properties = VkPhysicalDeviceProperties();
-                vkGetPhysicalDeviceProperties(device, &properties);
+                vkGetPhysicalDeviceProperties(device, std::addressof(properties));
                 result.push_back(std::move(properties));
             }
             return result;
@@ -42,7 +42,7 @@ namespace Chess::Engine
             for (const auto& device : devices)
             {
                 auto features = VkPhysicalDeviceFeatures();
-                vkGetPhysicalDeviceFeatures(device, &features);
+                vkGetPhysicalDeviceFeatures(device, std::addressof(features));
                 result.push_back(std::move(features));
             }
             return result;

@@ -26,7 +26,7 @@ namespace Chess::Engine
             glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
             m_window  = glfwCreateWindow(1600, 900, applicationName, nullptr, nullptr);
             m_context = Context::Create(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
-            glfwCreateWindowSurface(m_context->GetInstance().GetInstance(), m_window, nullptr, &m_surface);
+            glfwCreateWindowSurface(m_context->GetInstance().GetInstance(), m_window, nullptr, std::addressof(m_surface));
         }
 
     public:

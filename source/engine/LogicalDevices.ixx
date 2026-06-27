@@ -19,9 +19,9 @@ namespace Chess::Engine
         static std::vector<VkDeviceQueueCreateInfo> CalculateQueueCreateInfos(const VkPhysicalDevice& device)
         {
             uint32_t count = 0u;
-            vkGetPhysicalDeviceQueueFamilyProperties(device, &count, nullptr);
+            vkGetPhysicalDeviceQueueFamilyProperties(device, std::addressof(count), nullptr);
             auto queueFamilies = std::vector<VkQueueFamilyProperties>(count);
-            vkGetPhysicalDeviceQueueFamilyProperties(device, &count, queueFamilies.data());
+            vkGetPhysicalDeviceQueueFamilyProperties(device, std::addressof(count), queueFamilies.data());
 
             auto result = std::vector<VkDeviceQueueCreateInfo>();
             result.reserve(queueFamilies.size());
@@ -32,7 +32,7 @@ namespace Chess::Engine
                 queueInfo.sType            = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
                 queueInfo.queueFamilyIndex = index;
                 queueInfo.queueCount       = 1;
-                queueInfo.pQueuePriorities = &m_priority;
+                queueInfo.pQueuePriorities = std::addressof(m_priority);
                 result.push_back(std::move(queueInfo));
             }
             return result;
@@ -71,7 +71,7 @@ namespace Chess::Engine
                 info.enabledExtensionCount   = 0;
                 info.ppEnabledExtensionNames = nullptr;
 
-                info.pEnabledFeatures = &features[index];
+                info.pEnabledFeatures = std::addressof(features[index]);
                 result.push_back(std::move(info));
             }
             return result;
@@ -91,7 +91,7 @@ namespace Chess::Engine
             for (const size_t index : std::views::iota(0u, devices.size()))
             {
                 VkDevice logical;
-                VulkanChecker::ThrowIfNotSuccess(vkCreateDevice(devices[index], &infos[index], nullptr, &logical));
+                VulkanChecker::ThrowIfNotSuccess(vkCreateDevice(devices[index], std::addressof(infos[index]), nullptr, std::addressof(logical)));
                 result.push_back(std::move(logical));
             }
             return result;

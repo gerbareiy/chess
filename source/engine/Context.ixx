@@ -34,7 +34,7 @@ namespace Chess::Engine
 
         const Instance& GetInstance() const
         {
-            return *m_instance.get();
+            return *m_instance;
         }
     };
 } // namespace Chess::Engine

@@ -18,7 +18,7 @@ namespace Chess::Engine
         static std::vector<const char*> CalculateExtensions()
         {
             uint32_t     count      = 0u;
-            const char** extensions = glfwGetRequiredInstanceExtensions(&count);
+            const char** extensions = glfwGetRequiredInstanceExtensions(std::addressof(count));
             return std::vector(extensions, extensions + count);
         }
 
@@ -39,7 +39,7 @@ namespace Chess::Engine
         {
             auto result                    = VkInstanceCreateInfo();
             result.sType                   = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-            result.pApplicationInfo        = &info;
+            result.pApplicationInfo        = std::addressof(info);
             result.enabledExtensionCount   = static_cast<uint32_t>(extensions.size());
             result.ppEnabledExtensionNames = extensions.data();
             return result;
@@ -48,7 +48,7 @@ namespace Chess::Engine
         static VkInstance CalculateInstance(const VkInstanceCreateInfo& info)
         {
             auto result = VkInstance();
-            VulkanChecker::ThrowIfNotSuccess(vkCreateInstance(&info, nullptr, &result));
+            VulkanChecker::ThrowIfNotSuccess(vkCreateInstance(std::addressof(info), nullptr, std::addressof(result)));
             return result;
         }
 
