@@ -88,10 +88,10 @@ namespace MyNamespace
 ## Скобки
 
 ```cpp
-    for (auto const& object : objects) // не так
+    for (const auto& object : objects) // не так
         // ...
 
-    for (auto const& object : objects) // так
+    for (const auto& object : objects) // так
     {
         // ...
     }
@@ -138,7 +138,7 @@ const auto lambda = [weak = std::weak_ptr(shared)]()
 ```
 
 ## Дефолтная инициализация
-Мы используем только copy initialization; copy list initialization для различных контейнеров
+Мы используем только copy initialization и copy list initialization для различных контейнеров
 ```cpp
 int a;          // default initialization (для локальных фундаментальных типов значение не определено)
 int b{};        // value initialization
