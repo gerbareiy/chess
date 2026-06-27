@@ -3,16 +3,24 @@ module;
 #include <GLFW/glfw3.h>
 #include <memory>
 export module Chess.Engine.Engine;
-import Chess.Engine.Context;
+import Chess.Engine.Instance;
+import Chess.Engine.LogicalDevice;
+import Chess.Engine.PhysicalDevices;
+import Chess.Engine.PhysicalDeviceSelector;
+import Chess.Engine.Surface;
+import Chess.Engine.Swapchain;
 import Chess.Utils.Exceptions;
 
 namespace Chess::Engine
 {
     export class Engine
     {
-        GLFWwindow*              m_window = nullptr;
-        std::unique_ptr<Context> m_context;
-        VkSurfaceKHR             m_surface = VkSurfaceKHR();
+        std::unique_ptr<Instance>        m_instance;
+        std::unique_ptr<Surface>         m_surface;
+        std::unique_ptr<PhysicalDevices> m_physicalDevices;
+        std::unique_ptr<LogicalDevice>   m_logicalDevice;
+        std::unique_ptr<Swapchain>       m_swapchain;
+        GLFWwindow*                      m_window = nullptr;
 
         Engine() = default;
 
@@ -24,22 +32,14 @@ namespace Chess::Engine
             }
 
             glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-            m_window  = glfwCreateWindow(1600, 900, applicationName, nullptr, nullptr);
-            m_context = Context::Create(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
-            glfwCreateWindowSurface(m_context->GetInstance().GetInstance(), m_window, nullptr, std::addressof(m_surface));
+            m_window = glfwCreateWindow(1600, 900, applicationName, nullptr, nullptr);
 
-            auto swapchain                       = VkSwapchainKHR();
-            auto swapchainCreateInfo             = VkSwapchainCreateInfoKHR();
-            swapchainCreateInfo.sType            = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-            swapchainCreateInfo.compositeAlpha   = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-            swapchainCreateInfo.clipped          = VK_TRUE;
-            swapchainCreateInfo.oldSwapchain     = VK_NULL_HANDLE;
-            swapchainCreateInfo.imageUsage       = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
-            swapchainCreateInfo.imageArrayLayers = 1u;
-
-            uint32_t swapchainCreateInfo.pQueueFamilyIndices = ;
-
-            // vkCreateSwapchainKHR()
+            m_instance         = Instance::Create(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
+            m_surface          = Surface::Create(*m_instance, m_window);
+            m_physicalDevices  = PhysicalDevices::Create(m_instance->GetInstance(), m_surface->GetSurface());
+            const auto& device = PhysicalDeviceSelector::Select(*m_physicalDevices);
+            m_logicalDevice    = LogicalDevice::Create(device);
+            m_swapchain        = Swapchain::Create(device.device, m_logicalDevice->GetDevice(), m_surface->GetSurface());
         }
 
     public:
@@ -51,18 +51,15 @@ namespace Chess::Engine
             return result;
         }
 
+        Engine(Engine&& other)            = default;
+        Engine& operator=(Engine&& other) = default;
+
         ~Engine()
         {
-            if (m_surface != VK_NULL_HANDLE)
-            {
-                vkDestroySurfaceKHR(m_context->GetInstance().GetInstance(), m_surface, nullptr);
-            }
-
             if (m_window != nullptr)
             {
                 glfwDestroyWindow(m_window);
             }
-
             glfwTerminate();
         }
 

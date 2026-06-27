@@ -13,7 +13,8 @@ namespace Chess::Engine
 {
     export class LogicalDevice
     {
-        static constexpr float m_priority = 1.f;
+        static constexpr float          m_priority   = 1.f;
+        static constexpr std::array m_extensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
 
         VkDevice m_device = VK_NULL_HANDLE;
 
@@ -80,15 +81,15 @@ namespace Chess::Engine
         {
             const auto queueInfos = CalculateQueueCreateInfos(device);
 
-            VkDeviceCreateInfo createInfo{};
+            auto createInfo                    = VkDeviceCreateInfo();
             createInfo.sType                   = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
             createInfo.queueCreateInfoCount    = static_cast<uint32_t>(queueInfos.size());
             createInfo.pQueueCreateInfos       = queueInfos.data();
-            createInfo.enabledExtensionCount   = static_cast<uint32_t>(device.extensions.size());
-            createInfo.ppEnabledExtensionNames = device.extensions.data();
+            createInfo.enabledExtensionCount   = m_extensions.size();
+            createInfo.ppEnabledExtensionNames = m_extensions.data();
             createInfo.pEnabledFeatures        = &device.features;
 
-            VulkanChecker::ThrowIfNotSuccess(vkCreateDevice(device.device, &createInfo, nullptr, &m_device));
+            VulkanChecker::ThrowIfNotSuccess(vkCreateDevice(device.device, &createInfo, nullptr, std::addressof(m_device)));
             InitializeQueues(device);
         }
 
@@ -103,6 +104,11 @@ namespace Chess::Engine
         ~LogicalDevice()
         {
             vkDestroyDevice(m_device, nullptr);
+        }
+
+        const VkDevice& GetDevice() const
+        {
+            return m_device;
         }
     };
 } // namespace Chess::Engine

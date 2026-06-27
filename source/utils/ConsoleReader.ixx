@@ -7,6 +7,7 @@ namespace Chess::Utils
 {
     export class ConsoleReader
     {
+    public:
         static std::string ReadLine()
         {
             std::string line;

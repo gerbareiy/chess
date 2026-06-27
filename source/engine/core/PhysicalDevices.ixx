@@ -54,24 +54,23 @@ namespace Chess::Engine
         {
             uint32_t count = 0;
             VulkanChecker::ThrowIfNotSuccess(vkEnumerateDeviceExtensionProperties(device, nullptr, &count, nullptr));
-            std::vector<VkExtensionProperties> result(count);
+            auto result = std::vector<VkExtensionProperties>(count);
             VulkanChecker::ThrowIfNotSuccess(vkEnumerateDeviceExtensionProperties(device, nullptr, &count, result.data()));
             return result;
         }
 
         static PhysicalDeviceInfo BuildPhysicalDeviceInfo(VkPhysicalDevice device, VkSurfaceKHR surface)
         {
-            PhysicalDeviceInfo info;
-            info.device = device;
+            PhysicalDeviceInfo result;
+            result.device = device;
 
-            vkGetPhysicalDeviceProperties(device, &info.properties);
-            vkGetPhysicalDeviceFeatures(device, &info.features);
-            vkGetPhysicalDeviceMemoryProperties(device, &info.memory);
+            vkGetPhysicalDeviceProperties(device, &result.properties);
+            vkGetPhysicalDeviceFeatures(device, &result.features);
+            vkGetPhysicalDeviceMemoryProperties(device, &result.memory);
 
-            info.queueFamilies = CalculateQueueFamilies(device, surface);
-            info.extensions    = CalculateExtensions(device);
-
-            return info;
+            result.queueFamilies = CalculateQueueFamilies(device, surface);
+            result.extensions    = CalculateExtensions(device);
+            return result;
         }
 
         PhysicalDevices() = default;

@@ -70,7 +70,7 @@ namespace Chess::Engine
 
         ~Instance()
         {
-            vkDestroyInstance(GetInstance(),nullptr);
+            vkDestroyInstance(GetInstance(), nullptr);
         }
 
         const VkInstance& GetInstance() const

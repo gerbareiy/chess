@@ -1,5 +1,4 @@
 module;
-#include <string>
 #include <vector>
 #include <vulkan/vulkan_core.h>
 export module Chess.Engine.PhysicalDeviceInfo;
@@ -15,13 +14,7 @@ namespace Chess::Engine
         VkPhysicalDeviceFeatures         features   = VkPhysicalDeviceFeatures();
         VkPhysicalDeviceMemoryProperties memory     = VkPhysicalDeviceMemoryProperties();
 
-        std::vector<QueueFamilyInfo> queueFamilies;
-
+        std::vector<QueueFamilyInfo>       queueFamilies;
         std::vector<VkExtensionProperties> extensions;
-
-        uint32_t vendorID = 0;
-        uint32_t deviceID = 0;
-
-        std::string deviceName;
     };
 } // namespace Chess::Engine
