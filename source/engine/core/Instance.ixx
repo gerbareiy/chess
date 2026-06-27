@@ -1,5 +1,5 @@
 module;
-#define GLFW_INCLUDE_VULKAN ;
+#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 #include <memory>
 #include <vector>
@@ -10,19 +10,16 @@ namespace Chess::Engine
 {
     export class Instance
     {
-        std::vector<const char*> m_extensions;
-        VkApplicationInfo        m_info       = VkApplicationInfo();
-        VkInstanceCreateInfo     m_createInfo = VkInstanceCreateInfo();
-        VkInstance               m_instance   = VkInstance();
+        VkInstance m_instance = VK_NULL_HANDLE;
 
-        static std::vector<const char*> CalculateExtensions()
+        static std::vector<const char*> GetRequiredExtensions()
         {
             uint32_t     count      = 0u;
             const char** extensions = glfwGetRequiredInstanceExtensions(std::addressof(count));
             return std::vector(extensions, extensions + count);
         }
 
-        static VkApplicationInfo CalculateApplicationInfo(
+        static VkApplicationInfo CreateApplicationInfo(
             const char* applicationName, uint32_t applicationVersion, const char* engineName, uint32_t engineVersion, uint32_t apiVersion)
         {
             auto result               = VkApplicationInfo();
@@ -35,7 +32,7 @@ namespace Chess::Engine
             return result;
         }
 
-        static VkInstanceCreateInfo CalculateInstanceCreateInfo(const std::vector<const char*>& extensions, const VkApplicationInfo& info)
+        static VkInstanceCreateInfo CreateInstanceCreateInfo(const std::vector<const char*>& extensions, const VkApplicationInfo& info)
         {
             auto result                    = VkInstanceCreateInfo();
             result.sType                   = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
@@ -45,7 +42,7 @@ namespace Chess::Engine
             return result;
         }
 
-        static VkInstance CalculateInstance(const VkInstanceCreateInfo& info)
+        static VkInstance CreateInstance(const VkInstanceCreateInfo& info)
         {
             auto result = VkInstance();
             VulkanChecker::ThrowIfNotSuccess(vkCreateInstance(std::addressof(info), nullptr, std::addressof(result)));
@@ -56,10 +53,10 @@ namespace Chess::Engine
 
         void Init(const char* applicationName, uint32_t applicationVersion, const char* engineName, uint32_t engineVersion, uint32_t apiVersion)
         {
-            m_extensions = CalculateExtensions();
-            m_info       = CalculateApplicationInfo(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
-            m_createInfo = CalculateInstanceCreateInfo(m_extensions, m_info);
-            m_instance   = CalculateInstance(m_createInfo);
+            const auto extensions      = GetRequiredExtensions();
+            const auto applicationInfo = CreateApplicationInfo(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
+            const auto createInfo      = CreateInstanceCreateInfo(extensions, applicationInfo);
+            m_instance                 = CreateInstance(createInfo);
         }
 
     public:
@@ -69,6 +66,11 @@ namespace Chess::Engine
             auto result = std::unique_ptr<Instance>(new Instance);
             result->Init(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
             return result;
+        }
+
+        ~Instance()
+        {
+            vkDestroyInstance(GetInstance(),nullptr);
         }
 
         const VkInstance& GetInstance() const

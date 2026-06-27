@@ -27,6 +27,19 @@ namespace Chess::Engine
             m_window  = glfwCreateWindow(1600, 900, applicationName, nullptr, nullptr);
             m_context = Context::Create(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
             glfwCreateWindowSurface(m_context->GetInstance().GetInstance(), m_window, nullptr, std::addressof(m_surface));
+
+            auto swapchain                       = VkSwapchainKHR();
+            auto swapchainCreateInfo             = VkSwapchainCreateInfoKHR();
+            swapchainCreateInfo.sType            = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+            swapchainCreateInfo.compositeAlpha   = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+            swapchainCreateInfo.clipped          = VK_TRUE;
+            swapchainCreateInfo.oldSwapchain     = VK_NULL_HANDLE;
+            swapchainCreateInfo.imageUsage       = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+            swapchainCreateInfo.imageArrayLayers = 1u;
+
+            uint32_t swapchainCreateInfo.pQueueFamilyIndices = ;
+
+            // vkCreateSwapchainKHR()
         }
 
     public:
@@ -36,6 +49,21 @@ namespace Chess::Engine
             auto result = Engine();
             result.Init(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
             return result;
+        }
+
+        ~Engine()
+        {
+            if (m_surface != VK_NULL_HANDLE)
+            {
+                vkDestroySurfaceKHR(m_context->GetInstance().GetInstance(), m_surface, nullptr);
+            }
+
+            if (m_window != nullptr)
+            {
+                glfwDestroyWindow(m_window);
+            }
+
+            glfwTerminate();
         }
 
         void Update()
