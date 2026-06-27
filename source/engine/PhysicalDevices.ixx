@@ -1,4 +1,5 @@
 module;
+#include <memory>
 #include <vector>
 #include <vulkan/vulkan_core.h>
 export module Chess.Engine.PhysicalDevices;
@@ -8,9 +9,9 @@ namespace Chess::Engine
 {
     export class PhysicalDevices
     {
-        std::vector<VkPhysicalDevice>           m_physicalDevices;
-        std::vector<VkPhysicalDeviceProperties> m_physicalDevicesProperties;
-        std::vector<VkPhysicalDeviceFeatures>   m_physicalDevicesFeatures;
+        std::vector<VkPhysicalDevice>           m_devices;
+        std::vector<VkPhysicalDeviceProperties> m_devicesProperties;
+        std::vector<VkPhysicalDeviceFeatures>   m_devicesFeatures;
 
         static std::vector<VkPhysicalDevice> CalculatePhysicalDevices(const VkInstance& instance)
         {
@@ -47,29 +48,31 @@ namespace Chess::Engine
             return result;
         }
 
+        PhysicalDevices() = default;
+
         void Init(const VkInstance& instance)
         {
-            m_physicalDevices           = CalculatePhysicalDevices(instance);
-            m_physicalDevicesProperties = CalculatePhysicalDevicesProperties(m_physicalDevices);
-            m_physicalDevicesFeatures   = CalculatePhysicalDevicesFeatures(m_physicalDevices);
+            m_devices           = CalculatePhysicalDevices(instance);
+            m_devicesProperties = CalculatePhysicalDevicesProperties(m_devices);
+            m_devicesFeatures   = CalculatePhysicalDevicesFeatures(m_devices);
         }
 
     public:
-        static PhysicalDevices Create(const VkInstance& instance)
+        static std::unique_ptr<PhysicalDevices> Create(const VkInstance& instance)
         {
-            auto result = PhysicalDevices();
-            result.Init(instance);
+            auto result = std::unique_ptr<PhysicalDevices>(new PhysicalDevices);
+            result->Init(instance);
             return result;
         }
 
         const std::vector<VkPhysicalDevice>& GetPhysicalDevices() const
         {
-            return m_physicalDevices;
+            return m_devices;
         }
 
         const std::vector<VkPhysicalDeviceFeatures>& GetPhysicalDevicesFeatures() const
         {
-            return m_physicalDevicesFeatures;
+            return m_devicesFeatures;
         }
     };
 } // namespace Chess::Engine

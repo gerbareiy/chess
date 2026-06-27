@@ -1,7 +1,8 @@
 module;
-#include <vector>
 #define GLFW_INCLUDE_VULKAN ;
 #include <GLFW/glfw3.h>
+#include <memory>
+#include <vector>
 export module Chess.Engine.Instance;
 import Chess.Engine.VulkanChecker;
 
@@ -9,10 +10,10 @@ namespace Chess::Engine
 {
     export class Instance
     {
-        std::vector<const char*> m_InstanceExtensions;
-        VkApplicationInfo        m_applicationInfo    = VkApplicationInfo();
-        VkInstanceCreateInfo     m_instanceCreateInfo = VkInstanceCreateInfo();
-        VkInstance               m_instance           = VkInstance();
+        std::vector<const char*> m_extensions;
+        VkApplicationInfo        m_info       = VkApplicationInfo();
+        VkInstanceCreateInfo     m_createInfo = VkInstanceCreateInfo();
+        VkInstance               m_instance   = VkInstance();
 
         static std::vector<const char*> CalculateExtensions()
         {
@@ -51,20 +52,22 @@ namespace Chess::Engine
             return result;
         }
 
+        Instance() = default;
+
         void Init(const char* applicationName, uint32_t applicationVersion, const char* engineName, uint32_t engineVersion, uint32_t apiVersion)
         {
-            m_InstanceExtensions = CalculateExtensions();
-            m_applicationInfo    = CalculateApplicationInfo(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
-            m_instanceCreateInfo = CalculateInstanceCreateInfo(m_InstanceExtensions, m_applicationInfo);
-            m_instance           = CalculateInstance(m_instanceCreateInfo);
+            m_extensions = CalculateExtensions();
+            m_info       = CalculateApplicationInfo(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
+            m_createInfo = CalculateInstanceCreateInfo(m_extensions, m_info);
+            m_instance   = CalculateInstance(m_createInfo);
         }
 
     public:
-        static Instance Create(
+        static std::unique_ptr<Instance> Create(
             const char* applicationName, uint32_t applicationVersion, const char* engineName, uint32_t engineVersion, uint32_t apiVersion)
         {
-            auto result = Instance();
-            result.Init(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
+            auto result = std::unique_ptr<Instance>(new Instance);
+            result->Init(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
             return result;
         }
 

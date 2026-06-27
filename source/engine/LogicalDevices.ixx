@@ -1,4 +1,5 @@
 module;
+#include <memory>
 #include <ranges>
 #include <vector>
 #include <vulkan/vulkan_core.h>
@@ -12,8 +13,8 @@ namespace Chess::Engine
     {
         static constexpr float                            m_priority = 1.f;
         std::vector<std::vector<VkDeviceQueueCreateInfo>> m_queueCreateInfos;
-        std::vector<VkDeviceCreateInfo>                   m_logicalDeviceCreateInfos;
-        std::vector<VkDevice>                             m_logicalDevices;
+        std::vector<VkDeviceCreateInfo>                   m_createInfos;
+        std::vector<VkDevice>                             m_devices;
 
         static std::vector<VkDeviceQueueCreateInfo> CalculateQueueCreateInfos(const VkPhysicalDevice& device)
         {
@@ -96,19 +97,21 @@ namespace Chess::Engine
             return result;
         }
 
+        LogicalDevices() = default;
+
         void Init(const std::vector<VkPhysicalDevice>& physicalDevices, const std::vector<VkPhysicalDeviceFeatures>& physicalDevicesFeatures)
         {
-            m_queueCreateInfos         = CalculateAllQueueCreateInfos(physicalDevices);
-            m_logicalDeviceCreateInfos = CalculateDeviceCreateInfos(physicalDevicesFeatures, m_queueCreateInfos);
-            m_logicalDevices           = CalculateLogicalDevices(physicalDevices, m_logicalDeviceCreateInfos);
+            m_queueCreateInfos = CalculateAllQueueCreateInfos(physicalDevices);
+            m_createInfos      = CalculateDeviceCreateInfos(physicalDevicesFeatures, m_queueCreateInfos);
+            m_devices          = CalculateLogicalDevices(physicalDevices, m_createInfos);
         }
 
     public:
-        static LogicalDevices Create(
+        static std::unique_ptr<LogicalDevices> Create(
             const std::vector<VkPhysicalDevice>& physicalDevices, const std::vector<VkPhysicalDeviceFeatures>& physicalDevicesFeatures)
         {
-            auto result = LogicalDevices();
-            result.Init(physicalDevices, physicalDevicesFeatures);
+            auto result = std::unique_ptr<LogicalDevices>(new LogicalDevices);
+            result->Init(physicalDevices, physicalDevicesFeatures);
             return result;
         }
     };

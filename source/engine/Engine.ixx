@@ -1,23 +1,32 @@
 module;
-#include <cstdint>
+#define GLFW_INCLUDE_VULKAN ;
+#include <GLFW/glfw3.h>
+#include <memory>
 export module Chess.Engine.Engine;
-import Chess.Engine.Instance;
-import Chess.Engine.LogicalDevices;
-import Chess.Engine.PhysicalDevices;
+import Chess.Engine.Context;
+import Chess.Utils.Exceptions;
 
 namespace Chess::Engine
 {
     export class Engine
     {
-        Instance        m_instance;
-        PhysicalDevices m_physicalDevices;
-        LogicalDevices  m_logicalDevices;
+        GLFWwindow*              m_window = nullptr;
+        std::unique_ptr<Context> m_context;
+        VkSurfaceKHR             m_surface = VkSurfaceKHR();
+
+        Engine() = default;
 
         void Init(const char* applicationName, uint32_t applicationVersion, const char* engineName, uint32_t engineVersion, uint32_t apiVersion)
         {
-            m_instance        = Instance::Create(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
-            m_physicalDevices = PhysicalDevices::Create(m_instance.GetInstance());
-            m_logicalDevices  = LogicalDevices::Create(m_physicalDevices.GetPhysicalDevices(), m_physicalDevices.GetPhysicalDevicesFeatures());
+            if (!glfwInit())
+            {
+                throw Utils::EngineException("Couldn't init glfw");
+            }
+
+            glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+            m_window  = glfwCreateWindow(1600, 900, applicationName, nullptr, nullptr);
+            m_context = Context::Create(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
+            glfwCreateWindowSurface(m_context->GetInstance().GetInstance(), m_window, nullptr, &m_surface);
         }
 
     public:
@@ -29,9 +38,14 @@ namespace Chess::Engine
             return result;
         }
 
-        const Instance& GetInstance() const
+        void Update()
         {
-            return m_instance;
+            glfwPollEvents();
+        }
+
+        bool NeedUpdate() const
+        {
+            return glfwWindowShouldClose(m_window) == 0;
         }
     };
 } // namespace Chess::Engine
