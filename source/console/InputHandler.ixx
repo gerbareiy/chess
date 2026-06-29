@@ -8,6 +8,7 @@ export module Console.Chess.InputHandler;
 import Chess.Coordinate;
 import Chess.eInputType;
 import Chess.Inputer;
+import Chess.Utils.ConsoleReader;
 
 namespace Console::Chess
 {
@@ -26,8 +27,7 @@ namespace Console::Chess
         char EnterFile() const
         {
             GetSignalOnEnter()(::Chess::eInputType::FILE);
-            std::string input;
-            std::getline(std::cin, input);
+            const auto input = ::Chess::Utils::ConsoleReader::ReadLine();
             return NormalizeFileInput(input);
         }
 
@@ -35,9 +35,8 @@ namespace Console::Chess
         {
             GetSignalOnEnter()(::Chess::eInputType::RANK);
 
-            std::string input;
+            const auto  input = ::Chess::Utils::ConsoleReader::ReadLine();
             int         rank = 0;
-            std::getline(std::cin, input);
             if (!boost::conversion::try_lexical_convert(input, rank))
             {
                 return 0;
