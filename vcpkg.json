@@ -2,7 +2,6 @@
     "builtin-baseline": "a0400024711b283056538ac19ced80b91a83c24c",
     "dependencies": [
         "boost-json",
-        "boost-lexical-cast",
         "boost-signals2",
         "glfw3",
         "glm",

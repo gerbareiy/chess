@@ -1,5 +1,4 @@
 module;
-#include <boost/lexical_cast.hpp>
 #include <boost/signals2.hpp>
 #include <cctype>
 #include <iostream>
@@ -9,6 +8,7 @@ import Chess.Coordinate;
 import Chess.eInputType;
 import Chess.Inputer;
 import Chess.Utils.ConsoleReader;
+import Chess.Utils.Converter;
 
 namespace Console::Chess
 {
@@ -24,31 +24,33 @@ namespace Console::Chess
             return iter != input.end() ? static_cast<char>(std::toupper(*iter)) : '\0';
         }
 
-        char EnterFile() const
+        std::optional<char> EnterFile() const
         {
             GetSignalOnEnter()(::Chess::eInputType::FILE);
             const auto input = ::Chess::Utils::ConsoleReader::ReadLine();
             return NormalizeFileInput(input);
         }
 
-        int EnterRank() const
+        std::optional<int32_t> EnterRank() const
         {
             GetSignalOnEnter()(::Chess::eInputType::RANK);
 
-            const auto  input = ::Chess::Utils::ConsoleReader::ReadLine();
-            int         rank = 0;
-            if (!boost::conversion::try_lexical_convert(input, rank))
-            {
-                return 0;
-            }
-            return rank;
+            const auto input = ::Chess::Utils::ConsoleReader::ReadLine();
+            return ::Chess::Utils::Converter::ToInt32(input);
         }
 
         ::Chess::Coordinate EnterCoordinate() const
         {
-            const auto file = EnterFile();
-            const auto rank = EnterRank();
-            return { .file = file, .rank = rank };
+            while (true)
+            {
+                const auto file = EnterFile();
+                const auto rank = EnterRank();
+
+                if (file.has_value() && rank.has_value())
+                {
+                    return { .file = file.value(), .rank = rank.value() };
+                }
+            }
         }
 
     public:

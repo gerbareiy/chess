@@ -1,6 +1,5 @@
 module;
 #include <boost/json.hpp>
-#include <boost/lexical_cast.hpp>
 #include <expected>
 #include <filesystem>
 #include <format>
@@ -20,6 +19,7 @@ import Chess.King;
 import Chess.PieceColorAndType;
 import Chess.PieceFactory;
 import Chess.Sizes;
+import Chess.Utils.Converter;
 
 namespace Chess
 {
@@ -71,13 +71,13 @@ namespace Chess
 
             const char        file       = files[0];
             const std::string stringRank = piece.at("rank").as_string().c_str();
-            int               rank       = 0;
-            if (!boost::conversion::try_lexical_convert(stringRank, rank))
+            const auto        rank       = Utils::Converter::ToInt32(stringRank);
+            if (!rank.has_value())
             {
                 throw std::invalid_argument(
                     std::format("{} has invalid 'rank' in configuration, it must be convertible to int", PieceTypeConverter::ConvertToString(type)));
             }
-            return Coordinate(file, rank);
+            return Coordinate(file, rank.value());
         }
 
         static std::shared_ptr<King> ParseKing(const boost::json::object& side, ePieceColor color)
