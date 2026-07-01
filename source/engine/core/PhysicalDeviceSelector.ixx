@@ -33,8 +33,7 @@ namespace Chess::Engine
 
         static bool IsSuitable(const PhysicalDeviceInfo& device)
         {
-            return HasQueue(device, VK_QUEUE_GRAPHICS_BIT) && HasPresentQueue(device)
-                && SupportsExtension(device, VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+            return HasQueue(device, VK_QUEUE_GRAPHICS_BIT) && HasPresentQueue(device) && SupportsExtension(device, VK_KHR_SWAPCHAIN_EXTENSION_NAME);
         }
 
     public:

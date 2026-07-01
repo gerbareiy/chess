@@ -6,7 +6,7 @@ namespace ServerTests
 {
     TEST(CoordinateTests, EqualityComparesFileAndRank)
     {
-        constexpr auto first = Chess::Coordinate{ .file = 'C', .rank = 3 };
+        constexpr auto first  = Chess::Coordinate{ .file = 'C', .rank = 3 };
         constexpr auto second = Chess::Coordinate{ .file = 'C', .rank = 3 };
         constexpr auto third  = Chess::Coordinate{ .file = 'C', .rank = 4 };
 

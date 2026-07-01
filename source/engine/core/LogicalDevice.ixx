@@ -13,7 +13,7 @@ namespace Chess::Engine
 {
     export class LogicalDevice
     {
-        static constexpr float          m_priority   = 1.f;
+        static constexpr float      m_priority   = 1.f;
         static constexpr std::array m_extensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
 
         VkDevice m_device = VK_NULL_HANDLE;

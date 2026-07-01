@@ -9,15 +9,16 @@ module;
 #include <string>
 #include <vector>
 export module Chess.ChessboardBuilder;
-import Chess.PieceTypeConverter;
-import Chess.Piece;
 import Chess.Counts;
 import Chess.Coordinate;
 import Chess.ePieceColor;
 import Chess.ePieceType;
 import Chess.King;
+import Chess.Piece;
 import Chess.PieceColorAndType;
-import Chess.PieceFactory;
+import Chess.PiecePlacement;
+import Chess.PiecesOnBoardCreator;
+import Chess.PieceTypeConverter;
 import Chess.Sizes;
 import Chess.Utils.Converter;
 
@@ -39,14 +40,14 @@ namespace Chess
             return value.as_object();
         }
 
-        static bool IsPieceOnBoard(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const Coordinate& coordinate)
+        static bool IsPieceOnBoard(const std::vector<PiecePlacement>& placements, const Coordinate& coordinate)
         {
-            return std::ranges::any_of(piecesOnBoard, [&coordinate](const auto& piece) { return piece->GetPosition() == coordinate; });
+            return std::ranges::any_of(placements, [&coordinate](const auto& placement) { return placement.coordinate == coordinate; });
         }
 
-        static void ThrowIfPieceAlreadyOnBoard(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const Coordinate& coordinate)
+        static void ThrowIfPieceAlreadyOnBoard(const std::vector<PiecePlacement>& placements, const Coordinate& coordinate)
         {
-            if (IsPieceOnBoard(piecesOnBoard, coordinate))
+            if (IsPieceOnBoard(placements, coordinate))
             {
                 throw std::invalid_argument(std::format("Two pieces cannot occupy the same square: {},{}", coordinate.file, coordinate.rank));
             }
@@ -91,43 +92,27 @@ namespace Chess
             return std::make_shared<King>(color, coordinate);
         }
 
-        static std::vector<std::shared_ptr<Piece>> ParsePieces(
-            const std::vector<std::shared_ptr<Piece>>& piecesOnBoard,
-            const boost::json::object&                 side,
-            ePieceColor                                color,
-            ePieceType                                 type,
-            const std::shared_ptr<King>&               king)
+        static void ParsePieces(std::vector<PiecePlacement>& placements, const boost::json::object& side, ePieceColor color, ePieceType type)
         {
-            std::vector<std::shared_ptr<Piece>> result;
-
             const auto pieceName = PieceTypeConverter::ConvertToConfigString(type);
             if (!side.contains(pieceName))
             {
-                return result;
+                return;
             }
 
-            auto pieces = side.at(pieceName).as_array();
-            if (pieces.size() != ONE_COLOR_KINGS_COUNT && type == ePieceType::KING)
-            {
-                throw std::invalid_argument("Configuration must contain exactly one king for each color");
-            }
-            for (const auto& piece : pieces)
+            for (const auto& piece : side.at(pieceName).as_array())
             {
                 const auto coordinate = ParseCoordinate(piece.as_object(), type);
-                ThrowIfPieceAlreadyOnBoard(piecesOnBoard, coordinate);
-                result.push_back(PieceFactory::Create(PieceColorAndType(color, type), coordinate, king));
+                ThrowIfPieceAlreadyOnBoard(placements, coordinate);
+                placements.push_back({ PieceColorAndType(color, type), coordinate });
             }
-
-            return result;
         }
 
-        static void ParseSidePieces(
-            std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const boost::json::object& side, ePieceColor color, const std::shared_ptr<King>& king)
+        static void ParseSidePieces(std::vector<PiecePlacement>& placements, const boost::json::object& side, ePieceColor color)
         {
             for (const auto& pieceType : PieceTypeConverter::pieceTypes | std::views::filter([](auto type) { return type != ePieceType::KING; }))
             {
-                auto parsed = ParsePieces(piecesOnBoard, side, color, pieceType, king);
-                piecesOnBoard.insert(piecesOnBoard.end(), std::make_move_iterator(parsed.begin()), std::make_move_iterator(parsed.end()));
+                ParsePieces(placements, side, color, pieceType);
             }
         }
 
@@ -141,22 +126,19 @@ namespace Chess
 
             const auto config = GetConfig(configurationPath);
 
-            std::vector<std::shared_ptr<Piece>> piecesOnBoard;
-            piecesOnBoard.reserve(MAX_ELEMENTS_COUNT);
-
             const auto whiteSide = config.at("white").as_object();
-            auto       whiteKing = ParseKing(whiteSide, ePieceColor::WHITE);
+            const auto whiteKing = ParseKing(whiteSide, ePieceColor::WHITE);
 
             const auto blackSide = config.at("black").as_object();
-            auto       blackKing = ParseKing(blackSide, ePieceColor::BLACK);
+            const auto blackKing = ParseKing(blackSide, ePieceColor::BLACK);
 
-            ParseSidePieces(piecesOnBoard, whiteSide, ePieceColor::WHITE, whiteKing);
-            ParseSidePieces(piecesOnBoard, blackSide, ePieceColor::BLACK, blackKing);
+            std::vector<PiecePlacement> placements;
+            placements.reserve(MAX_ELEMENTS_COUNT);
 
-            piecesOnBoard.push_back(std::move(whiteKing));
-            piecesOnBoard.push_back(std::move(blackKing));
+            ParseSidePieces(placements, whiteSide, ePieceColor::WHITE);
+            ParseSidePieces(placements, blackSide, ePieceColor::BLACK);
 
-            return piecesOnBoard;
+            return PiecesOnBoardCreator::Create(whiteKing, blackKing, placements);
         }
     };
 } // namespace Chess
