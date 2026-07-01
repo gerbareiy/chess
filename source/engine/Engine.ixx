@@ -1,6 +1,7 @@
 module;
-#define GLFW_INCLUDE_VULKAN ;
+#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+#include <utility>
 #include <memory>
 export module Chess.Engine.Engine;
 import Chess.Engine.Instance;
@@ -33,13 +34,35 @@ namespace Chess::Engine
 
             glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
             m_window = glfwCreateWindow(1600, 900, applicationName, nullptr, nullptr);
+            if (m_window == nullptr)
+            {
+                glfwTerminate();
+                throw Utils::EngineException("Couldn't create window");
+            }
 
             m_instance         = Instance::Create(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
             m_surface          = Surface::Create(*m_instance, m_window);
             m_physicalDevices  = PhysicalDevices::Create(m_instance->GetInstance(), m_surface->GetSurface());
             const auto& device = PhysicalDeviceSelector::Select(*m_physicalDevices);
             m_logicalDevice    = LogicalDevice::Create(device);
-            m_swapchain        = Swapchain::Create(device.device, m_logicalDevice->GetDevice(), m_surface->GetSurface());
+            m_swapchain        = Swapchain::Create(device.device, m_logicalDevice->GetDevice(), m_surface->GetSurface(), m_window);
+        }
+
+        void Destroy() noexcept
+        {
+            // Vulkan objects must be released before the window / glfw is torn down.
+            m_swapchain.reset();
+            m_logicalDevice.reset();
+            m_physicalDevices.reset();
+            m_surface.reset();
+            m_instance.reset();
+
+            if (m_window != nullptr)
+            {
+                glfwDestroyWindow(m_window);
+                m_window = nullptr;
+                glfwTerminate();
+            }
         }
 
     public:
@@ -51,16 +74,38 @@ namespace Chess::Engine
             return result;
         }
 
-        Engine(Engine&& other)            = default;
-        Engine& operator=(Engine&& other) = default;
+        Engine(const Engine&)            = delete;
+        Engine& operator=(const Engine&) = delete;
+
+        Engine(Engine&& other) noexcept
+            : m_instance(std::move(other.m_instance))
+            , m_surface(std::move(other.m_surface))
+            , m_physicalDevices(std::move(other.m_physicalDevices))
+            , m_logicalDevice(std::move(other.m_logicalDevice))
+            , m_swapchain(std::move(other.m_swapchain))
+            , m_window(std::exchange(other.m_window, nullptr))
+        {
+        }
+
+        Engine& operator=(Engine&& other) noexcept
+        {
+            if (this != std::addressof(other))
+            {
+                Destroy();
+
+                m_instance        = std::move(other.m_instance);
+                m_surface         = std::move(other.m_surface);
+                m_physicalDevices = std::move(other.m_physicalDevices);
+                m_logicalDevice   = std::move(other.m_logicalDevice);
+                m_swapchain       = std::move(other.m_swapchain);
+                m_window          = std::exchange(other.m_window, nullptr);
+            }
+            return *this;
+        }
 
         ~Engine()
         {
-            if (m_window != nullptr)
-            {
-                glfwDestroyWindow(m_window);
-            }
-            glfwTerminate();
+            Destroy();
         }
 
         void Update()
