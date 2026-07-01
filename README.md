@@ -166,6 +166,28 @@ int e{5};       // direct list initialization
 std::vector f = {5};    // copy list initialization - и это
 ```
 
+## Работа с std::optional
+Наличие значения проверяем только через `has_value()`, а само значение берём через `value()` (или `value_or()`, если нужно значение по умолчанию).
+Проверять optional неявным или явным преобразованием к bool и брать значение через `operator*` запрещено.
+```cpp
+std::optional<int> value = TryGetValue();
+
+// не так
+if (value)
+{
+    Use(*value);
+}
+
+// так
+if (value.has_value())
+{
+    Use(value.value());
+}
+
+// или, если нужно значение по умолчанию
+Use(value.value_or(0));
+```
+
 # Как играть
 
 Взаимодействие с игрой через консоль
