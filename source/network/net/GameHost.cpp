@@ -47,9 +47,12 @@ namespace Chess::Net
             return payload;
         }
 
-        chess::proto::Chessboard BoardToProto(const std::shared_ptr<Chess::Chessboard>& board)
+        // Каждые сколько полуходов сервер рассылает полную доску для сверки.
+        constexpr uint32_t BOARD_CHECK_PERIOD = 10;
+
+        chess::proto::Chessboard BoardToProto(const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
         {
-            return Chess::Proto::Chessboard::ToProto(board->GetPieceDirector()->GetPiecesOnBoard(), board->GetSideToMove(), 0);
+            return Chess::Proto::Chessboard::ToProto(board->GetPieceDirector()->GetPiecesOnBoard(), board->GetSideToMove(), 0, ply);
         }
 
         void ReadFindGame(tcp::socket& socket)
@@ -58,28 +61,35 @@ namespace Chess::Net
             envelope.ParseFromString(ReceiveBytes(socket));
         }
 
-        void SendGameStarted(tcp::socket& socket, Chess::ePieceColor color, const std::shared_ptr<Chess::Chessboard>& board)
+        void SendGameStarted(tcp::socket& socket, Chess::ePieceColor color, const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
         {
             chess::proto::Envelope envelope;
             auto*                  started = envelope.mutable_game_started();
             started->set_your_color(Chess::Proto::PieceColorAndType::ToProto(color));
-            *started->mutable_board() = BoardToProto(board);
+            *started->mutable_board() = BoardToProto(board, ply);
             SendBytes(socket, envelope.SerializeAsString());
         }
 
-        void SendBoardSync(tcp::socket& socket, const std::shared_ptr<Chess::Chessboard>& board)
+        void SendBoardSync(tcp::socket& socket, const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
         {
             chess::proto::Envelope envelope;
-            *envelope.mutable_board_sync() = BoardToProto(board);
+            *envelope.mutable_board_sync() = BoardToProto(board, ply);
             SendBytes(socket, envelope.SerializeAsString());
         }
 
-        void SendGameOver(tcp::socket& socket, Chess::eGameState state, const std::shared_ptr<Chess::Chessboard>& board)
+        void SendBoardCheck(tcp::socket& socket, const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
+        {
+            chess::proto::Envelope envelope;
+            *envelope.mutable_board_check() = BoardToProto(board, ply);
+            SendBytes(socket, envelope.SerializeAsString());
+        }
+
+        void SendGameOver(tcp::socket& socket, Chess::eGameState state, const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
         {
             chess::proto::Envelope envelope;
             auto*                  over = envelope.mutable_game_over();
             over->set_state(Chess::Proto::Session::ToProto(state));
-            *over->mutable_board() = BoardToProto(board);
+            *over->mutable_board() = BoardToProto(board, ply);
             SendBytes(socket, envelope.SerializeAsString());
         }
 
@@ -88,6 +98,7 @@ namespace Chess::Net
             Chess::GameStateChecker checker;
             tcp::socket*            current  = &white;
             tcp::socket*            opponent = &black;
+            uint32_t                ply      = 0;
 
             try
             {
@@ -108,9 +119,11 @@ namespace Chess::Net
                     {
                         // Нелегальный ход (баг или обход клиентской валидации) — откатываем отправителя
                         // к авторитетной доске, ход остаётся за ним.
-                        SendBoardSync(*current, board);
+                        SendBoardSync(*current, board, ply);
                         continue;
                     }
+
+                    ++ply;
 
                     chess::proto::Envelope forwarded;
                     *forwarded.mutable_move() = envelope.move();
@@ -119,9 +132,16 @@ namespace Chess::Net
                     const auto state = checker.Calculate(board);
                     if (state == Chess::eGameState::CHECKMATE || state == Chess::eGameState::DRAW)
                     {
-                        SendGameOver(white, state, board);
-                        SendGameOver(black, state, board);
+                        SendGameOver(white, state, board, ply);
+                        SendGameOver(black, state, board, ply);
                         return;
+                    }
+
+                    // Периодическая полная сверка доски у обоих клиентов.
+                    if (ply % BOARD_CHECK_PERIOD == 0)
+                    {
+                        SendBoardCheck(white, board, ply);
+                        SendBoardCheck(black, board, ply);
                     }
 
                     std::swap(current, opponent);
@@ -147,8 +167,8 @@ namespace Chess::Net
 
         const auto board = Chess::ChessboardFactory::Create(std::move(pieces), Chess::ePieceColor::WHITE);
 
-        SendGameStarted(white, Chess::ePieceColor::WHITE, board);
-        SendGameStarted(black, Chess::ePieceColor::BLACK, board);
+        SendGameStarted(white, Chess::ePieceColor::WHITE, board, 0);
+        SendGameStarted(black, Chess::ePieceColor::BLACK, board, 0);
 
         RunMatch(white, black, board);
     }

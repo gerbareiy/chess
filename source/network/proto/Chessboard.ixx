@@ -7,6 +7,7 @@ module;
 export module Chess.Proto.Chessboard;
 import Chess.ePieceColor;
 import Chess.Piece;
+import Chess.Proto.BoardReconstructor;
 import Chess.Proto.PieceColorAndType;
 import Chess.Proto.Piece;
 
@@ -16,7 +17,7 @@ namespace Chess::Proto
     {
     public:
         static chess::proto::Chessboard ToProto(
-            const std::vector<std::shared_ptr<Chess::Piece>>& pieces, Chess::ePieceColor sideToMove, uint32_t halfMoveClock)
+            const std::vector<std::shared_ptr<Chess::Piece>>& pieces, Chess::ePieceColor sideToMove, uint32_t halfMoveClock, uint32_t ply = 0)
         {
             chess::proto::Chessboard result;
             for (const auto& piece : pieces)
@@ -25,18 +26,14 @@ namespace Chess::Proto
             }
             result.set_side_to_move(PieceColorAndType::ToProto(sideToMove));
             result.set_half_move_clock(halfMoveClock);
+            result.set_ply(ply);
             return result;
         }
 
+        // Восстанавливает фигуры со скрытым состоянием (рокировка короля/ладьи, взятие на проходе).
         static std::vector<std::shared_ptr<Chess::Piece>> FromProto(const chess::proto::Chessboard& message)
         {
-            std::vector<std::shared_ptr<Chess::Piece>> result;
-            result.reserve(message.pieces_size());
-            for (const auto& piece : message.pieces())
-            {
-                result.push_back(Piece::FromProto(piece));
-            }
-            return result;
+            return BoardReconstructor::Reconstruct(message);
         }
     };
 } // namespace Chess::Proto

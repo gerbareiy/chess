@@ -83,5 +83,13 @@ namespace Chess
         {
             return m_isNotMoved;
         }
+
+        // Восстанавливает скрытое состояние пешки при перестройке доски из сети: право на взятие
+        // на проходе и признак того, что пешка ещё не ходила (для хода на две клетки).
+        void RestoreState(bool canEnPassant, bool isNotMoved)
+        {
+            m_canEnPassant = canEnPassant;
+            m_isNotMoved   = isNotMoved;
+        }
     };
 } // namespace Chess

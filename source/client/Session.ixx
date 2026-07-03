@@ -1,6 +1,7 @@
 module;
 #include "Envelope.pb.h"
 
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <utility>
@@ -35,12 +36,14 @@ namespace Chess::Client
         Chess::ePieceColor                 m_myColor    = Chess::ePieceColor::NONE;
         bool                               m_gameOver   = false;
         Chess::eGameState                  m_finalState = Chess::eGameState::PLAYING;
+        uint32_t                           m_ply        = 0;
 
         void Rebuild(const chess::proto::Chessboard& board)
         {
             auto       pieces = Chess::Proto::Chessboard::FromProto(board);
             const auto side   = Chess::Proto::PieceColorAndType::FromProto(board.side_to_move());
             m_chessboard      = Chess::ChessboardFactory::Create(std::move(pieces), side);
+            m_ply             = board.ply();
         }
 
         bool ApplyMove(const Chess::Move& move)
@@ -49,7 +52,12 @@ namespace Chess::Client
             {
                 return false;
             }
-            return m_chessboard->TryMovePiece(move.to, std::make_shared<Chess::FixedPromoter>(move.promotion));
+            if (!m_chessboard->TryMovePiece(move.to, std::make_shared<Chess::FixedPromoter>(move.promotion)))
+            {
+                return false;
+            }
+            ++m_ply;
+            return true;
         }
 
         Session(const std::string& host, unsigned short port)
@@ -123,7 +131,16 @@ namespace Chess::Client
                 ApplyMove(Chess::Proto::Move::FromProto(envelope.move()));
                 return eServerEvent::OpponentMoved;
             case chess::proto::Envelope::kBoardSync:
+                // Принудительный ресинк (отклонение хода) — доверяем серверу безусловно.
                 Rebuild(envelope.board_sync());
+                return eServerEvent::Resynced;
+            case chess::proto::Envelope::kBoardCheck:
+                // Периодическая сверка: применяем, только если она не устарела относительно нашей
+                // локальной партии (иначе откатили бы уже сделанный нами ход).
+                if (envelope.board_check().ply() >= m_ply)
+                {
+                    Rebuild(envelope.board_check());
+                }
                 return eServerEvent::Resynced;
             case chess::proto::Envelope::kGameOver:
                 m_gameOver   = true;
