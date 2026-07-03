@@ -1,8 +1,9 @@
 module;
+#include "Envelope.pb.h"
+
 #include <memory>
 #include <string>
 #include <utility>
-#include "Envelope.pb.h"
 export module Chess.Client.Session;
 import Chess.Chessboard;
 import Chess.ChessboardFactory;

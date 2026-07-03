@@ -1,8 +1,9 @@
 module;
+#include "Chessboard.pb.h"
+
 #include <cstdint>
 #include <memory>
 #include <vector>
-#include "Chessboard.pb.h"
 export module Chess.Proto.Chessboard;
 import Chess.ePieceColor;
 import Chess.Piece;

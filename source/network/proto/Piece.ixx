@@ -1,6 +1,7 @@
 module;
-#include <memory>
 #include "Piece.pb.h"
+
+#include <memory>
 export module Chess.Proto.Piece;
 import Chess.Coordinate;
 import Chess.ePieceType;

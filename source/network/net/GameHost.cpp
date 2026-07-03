@@ -1,13 +1,14 @@
 module;
+#include "Envelope.pb.h"
+
 #include <array>
+#include <boost/asio.hpp>
 #include <cstdint>
 #include <exception>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
-#include <boost/asio.hpp>
-#include "Envelope.pb.h"
 module Chess.Net.GameHost;
 import Chess.Chessboard;
 import Chess.ChessboardFactory;

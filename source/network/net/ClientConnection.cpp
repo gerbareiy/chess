@@ -1,10 +1,10 @@
 module;
 #include <array>
+#include <boost/asio.hpp>
 #include <cstdint>
 #include <memory>
 #include <string>
 #include <utility>
-#include <boost/asio.hpp>
 module Chess.Net.ClientConnection;
 import Chess.Net.Framing;
 

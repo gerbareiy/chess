@@ -1,10 +1,11 @@
+#include "Envelope.pb.h"
+
 #include <chrono>
 #include <exception>
 #include <gtest/gtest.h>
 #include <memory>
 #include <thread>
 #include <vector>
-#include "Envelope.pb.h"
 import Chess.Coordinate;
 import Chess.ePieceColor;
 import Chess.King;

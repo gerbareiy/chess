@@ -27,8 +27,8 @@ namespace Chess::Net
 
         static uint32_t DecodeLength(const std::array<uint8_t, HEADER_SIZE>& header)
         {
-            return (static_cast<uint32_t>(header[0]) << 24) | (static_cast<uint32_t>(header[1]) << 16)
-                   | (static_cast<uint32_t>(header[2]) << 8) | static_cast<uint32_t>(header[3]);
+            return (static_cast<uint32_t>(header[0]) << 24) | (static_cast<uint32_t>(header[1]) << 16) | (static_cast<uint32_t>(header[2]) << 8)
+                   | static_cast<uint32_t>(header[3]);
         }
     };
 } // namespace Chess::Net

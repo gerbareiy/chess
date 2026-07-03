@@ -19,7 +19,7 @@ namespace NetworkTests
 {
     TEST(CoordinateProtoTests, RoundTrip)
     {
-        const Chess::Coordinate coordinate{ .file = 'D', .rank = 4 };
+        constexpr Chess::Coordinate coordinate{ .file = 'D', .rank = 4 };
         EXPECT_EQ(Chess::Proto::Coordinate::FromProto(Chess::Proto::Coordinate::ToProto(coordinate)), coordinate);
     }
 
@@ -47,15 +47,13 @@ namespace NetworkTests
 
     TEST(PieceColorAndTypeProtoTests, MessageRoundTrip)
     {
-        const Chess::PieceColorAndType value{ Chess::ePieceColor::BLACK, Chess::ePieceType::QUEEN };
+        constexpr Chess::PieceColorAndType value{ Chess::ePieceColor::BLACK, Chess::ePieceType::QUEEN };
         EXPECT_EQ(Chess::Proto::PieceColorAndType::FromProto(Chess::Proto::PieceColorAndType::ToProto(value)), value);
     }
 
     TEST(MoveProtoTests, RoundTripWithPromotion)
     {
-        const Chess::Move move{
-            .from = { .file = 'E', .rank = 7 }, .to = { .file = 'E', .rank = 8 }, .promotion = Chess::ePieceType::QUEEN
-        };
+        constexpr Chess::Move move{ .from = { .file = 'E', .rank = 7 }, .to = { .file = 'E', .rank = 8 }, .promotion = Chess::ePieceType::QUEEN };
         EXPECT_EQ(Chess::Proto::Move::FromProto(Chess::Proto::Move::ToProto(move)), move);
     }
 
@@ -81,8 +79,7 @@ namespace NetworkTests
             std::make_shared<Chess::Pawn>(Chess::ePieceColor::WHITE, Chess::Coordinate{ .file = 'A', .rank = 2 }),
         };
 
-        const auto restored =
-            Chess::Proto::Chessboard::FromProto(Chess::Proto::Chessboard::ToProto(pieces, Chess::ePieceColor::WHITE, 7));
+        const auto restored = Chess::Proto::Chessboard::FromProto(Chess::Proto::Chessboard::ToProto(pieces, Chess::ePieceColor::WHITE, 7));
 
         EXPECT_EQ(restored.size(), pieces.size());
     }
