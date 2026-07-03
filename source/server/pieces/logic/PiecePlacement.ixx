@@ -4,7 +4,6 @@ import Chess.PieceColorAndType;
 
 namespace Chess
 {
-    // Описание одной фигуры на доске: её цвет с типом и позиция.
     export struct PiecePlacement
     {
         PieceColorAndType colorAndType;
