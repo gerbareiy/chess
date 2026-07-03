@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package chess.proto;
+
+import "Chessboard.proto";
+import "PieceColorAndType.proto";
+
+enum GameState
+{
+    GAME_STATE_PLAYING   = 0;
+    GAME_STATE_CHECK     = 1;
+    GAME_STATE_CHECKMATE = 2;
+    GAME_STATE_DRAW      = 3;
+}
+
+// Клиент -> сервер: запрос на поиск партии.
+message FindGame
+{
+}
+
+// Сервер -> клиент: партия началась. Назначенный цвет и полная стартовая доска.
+message GameStarted
+{
+    PieceColor your_color = 1;
+    Chessboard board      = 2;
+}
+
+// Сервер -> клиент: партия окончена. Терминальное состояние и финальная доска.
+message GameOver
+{
+    GameState  state = 1;
+    Chessboard board = 2;
+}

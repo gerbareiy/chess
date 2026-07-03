@@ -49,6 +49,11 @@ namespace Chess
             return m_from;
         }
 
+        ePieceColor GetSideToMove() const
+        {
+            return m_player->GetPlayerColor();
+        }
+
         const std::shared_ptr<MoveValidator>& GetMoveValidator() const
         {
             return m_validator;

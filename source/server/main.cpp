@@ -1,43 +1,25 @@
-#include <cstdint>
 #include <exception>
+#include <filesystem>
 #include <print>
-#include <boost/asio.hpp>
-#include "Envelope.pb.h"
-import Chess.Move;
-import Chess.Net.Connection;
-import Chess.Proto.Move;
+#include <utility>
+import Chess.ChessboardBuilder;
+import Chess.Net.GameHost;
 
-// Фундаментный сервер: принимает подключение, читает один ход и отправляет его эхом (ack).
-// Авторитетная валидация на core-доске и матчмейкинг двух клиентов появятся в фазе B.
+// Авторитетный сервер: запускается двойным щелчком, ждёт двух игроков и хостит партии одну за другой.
 int main()
 {
-    using boost::asio::ip::tcp;
     constexpr unsigned short port = 5555;
 
     try
     {
-        boost::asio::io_context io;
-        tcp::acceptor           acceptor(io, tcp::endpoint(tcp::v4(), port));
-        std::println("Chess server listening on port {}", port);
+        const auto path = std::filesystem::current_path().parent_path().parent_path().parent_path() / "resources" / "chessboard.json";
 
+        std::println("Chess server on port {}. Waiting for two players...", port);
         while (true)
         {
-            Chess::Net::Connection connection(acceptor.accept());
-
-            chess::proto::Envelope envelope;
-            envelope.ParseFromString(connection.ReceiveBytes());
-
-            if (envelope.payload_case() == chess::proto::Envelope::kMove)
-            {
-                const Chess::Move move = Chess::Proto::Move::FromProto(envelope.move());
-                std::println("Received move: {}{} -> {}{}",
-                             static_cast<char>(move.from.file),
-                             move.from.rank,
-                             static_cast<char>(move.to.file),
-                             move.to.rank);
-
-                connection.SendBytes(envelope.SerializeAsString());
-            }
+            auto pieces = Chess::ChessboardBuilder::InitBoard(path.string());
+            Chess::Net::GameHost::HostSingleMatch(port, std::move(pieces));
+            std::println("Match finished. Waiting for the next two players...");
         }
     }
     catch (const std::exception& exception)

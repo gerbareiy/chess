@@ -1,84 +1,140 @@
-#include <filesystem>
+#include <exception>
+#include <memory>
 #include <print>
-#include <string_view>
 import Chess.Chessboard;
-import Chess.ChessboardBuilder;
-import Chess.Client.MoveClient;
+import Chess.Client.Session;
+import Chess.Coordinate;
+import Chess.eGameState;
 import Chess.ePieceColor;
-import Chess.GameStateChecker;
+import Chess.ePieceType;
 import Chess.Move;
 import Chess.MoveValidator;
+import Chess.Piece;
+import Chess.PieceColorAndType;
 import Chess.PieceDirector;
-import Chess.Player;
 import Console.Chess.ChessboardPresenter;
 import Console.Chess.ConsolePromoter;
-import Console.Chess.Controller;
 import Console.Chess.InputHandler;
-import Console.Chess.Game;
 import Console.Chess.LabelPresenter;
 
 namespace
 {
-    int RunClientDemo()
+    bool IsPromotion(const std::shared_ptr<Chess::Chessboard>& board, const Chess::Coordinate& from, const Chess::Coordinate& to)
     {
-        try
+        const auto piece = board->GetPieceDirector()->GetPiece(from);
+        if (!piece)
         {
-            const Chess::Move move{ .from = { .file = 'E', .rank = 2 }, .to = { .file = 'E', .rank = 4 } };
-            const Chess::Move echoed = Chess::Client::MoveClient::SendMove("127.0.0.1", 5555, move);
-            std::println("Server echoed: {}{} -> {}{}",
-                         static_cast<char>(echoed.from.file),
-                         echoed.from.rank,
-                         static_cast<char>(echoed.to.file),
-                         echoed.to.rank);
+            return false;
         }
-        catch (const std::exception& exception)
+        const auto [color, type] = piece->GetColorAndType();
+        if (type != Chess::ePieceType::PAWN)
         {
-            std::println("Client error: {}", exception.what());
-            return 1;
+            return false;
         }
-        return 0;
+        return (color == Chess::ePieceColor::WHITE && to.rank == 8) || (color == Chess::ePieceColor::BLACK && to.rank == 1);
+    }
+
+    void PrintOutcome(Chess::eGameState state)
+    {
+        switch (state)
+        {
+        case Chess::eGameState::CHECKMATE:
+            std::println("Checkmate!");
+            break;
+        case Chess::eGameState::DRAW:
+            std::println("Draw!");
+            break;
+        default:
+            std::println("Game over.");
+            break;
+        }
+    }
+
+    void RunNetworkGame(Chess::Client::Session& session)
+    {
+        const auto inputHandler   = std::make_shared<Console::Chess::InputHandler>();
+        auto       labelPresenter = std::make_unique<Console::Chess::LabelPresenter>(inputHandler);
+        labelPresenter->Init();
+        const auto promoter = std::make_shared<Console::Chess::ConsolePromoter>();
+
+        std::println("You play {}.", session.GetMyColor() == Chess::ePieceColor::WHITE ? "White" : "Black");
+
+        std::shared_ptr<Chess::Chessboard>                   bound;
+        std::shared_ptr<Console::Chess::ChessboardPresenter> presenter;
+        const auto                                           render = [&]()
+        {
+            if (bound != session.GetChessboard())
+            {
+                bound     = session.GetChessboard();
+                presenter = std::make_shared<Console::Chess::ChessboardPresenter>(bound);
+                presenter->Init();
+            }
+            presenter->Show();
+        };
+
+        while (true)
+        {
+            render();
+
+            if (session.IsGameOver())
+            {
+                PrintOutcome(session.GetFinalState());
+                break;
+            }
+
+            if (!session.IsMyTurn())
+            {
+                std::println("Waiting for opponent...");
+                session.ReceiveNext();
+                continue;
+            }
+
+            if (session.GetChessboard()->GetMoveValidator()->GetPiecesCanMoveCount() == 0)
+            {
+                // Своих ходов нет (мат или пат) — сервер пришлёт итог партии, дожидаемся его.
+                std::println("No moves available. Waiting for result...");
+                session.ReceiveNext();
+                continue;
+            }
+
+            const auto from = inputHandler->EnterFrom();
+            if (!session.GetChessboard()->TrySelectPiece(from))
+            {
+                std::println("No movable piece there.");
+                continue;
+            }
+            render();
+
+            const auto to = inputHandler->EnterTo();
+
+            auto promotion = Chess::ePieceType::NONE;
+            if (IsPromotion(session.GetChessboard(), from, to))
+            {
+                promotion = promoter->GetPromoteType();
+            }
+
+            if (!session.SubmitMove(Chess::Move{ .from = from, .to = to, .promotion = promotion }))
+            {
+                std::println("Illegal move.");
+                continue;
+            }
+
+            // Ход принят локально и отправлен — ждём ответ сервера (ход соперника, ресинк или конец).
+            session.ReceiveNext();
+        }
     }
 } // namespace
 
-int main(int argc, char** argv)
+int main()
 {
-    if (argc > 1 && std::string_view(argv[1]) == "client")
-    {
-        return RunClientDemo();
-    }
-
     try
     {
-        const auto path = std::filesystem::current_path().parent_path().parent_path().parent_path() / "resources" / "chessboard.json";
-
-        auto       piecesOnBoard = Chess::ChessboardBuilder::InitBoard(path.string());
-        auto const player        = std::make_shared<Chess::Player>(Chess::ePieceColor::WHITE);
-        auto       director      = std::make_unique<Chess::PieceDirector>(piecesOnBoard, player);
-        auto       validator     = std::make_unique<Chess::MoveValidator>(piecesOnBoard, player);
-        const auto chessboard    = std::make_shared<Chess::Chessboard>(player, std::move(piecesOnBoard), std::move(director), std::move(validator));
-
-        auto       controller          = std::make_unique<Console::Chess::Controller>(chessboard);
-        const auto chessboardPresenter = std::make_shared<Console::Chess::ChessboardPresenter>(chessboard);
-        const auto inputHandler        = std::make_shared<Console::Chess::InputHandler>();
-        auto       labelPresenter      = std::make_unique<Console::Chess::LabelPresenter>(inputHandler);
-        auto       promoter            = std::make_unique<Console::Chess::ConsolePromoter>();
-        auto       gameStateChecker    = std::make_unique<Chess::GameStateChecker>();
-
-        auto chess = Console::Chess::Game(
-            chessboard,
-            std::move(controller),
-            chessboardPresenter,
-            inputHandler,
-            std::move(labelPresenter),
-            std::move(promoter),
-            std::move(gameStateChecker));
-
-        chess.Init();
-        chess.Play();
+        const auto session = Chess::Client::Session::Connect("127.0.0.1", 5555);
+        RunNetworkGame(*session);
     }
-    catch (const std::exception& e)
+    catch (const std::exception& exception)
     {
-        std::println("{}", e.what());
+        std::println("{}", exception.what());
     }
 
     return 0;
