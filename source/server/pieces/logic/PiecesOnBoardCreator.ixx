@@ -1,31 +1,47 @@
 module;
 #include <memory>
-#include <ranges>
 #include <stdexcept>
 #include <vector>
 export module Chess.PiecesOnBoardCreator;
-import Chess.Piece;
+import Chess.Coordinate;
 import Chess.CoordinateToPieceFactory;
 import Chess.ePieceColor;
 import Chess.ePieceType;
 import Chess.ICastable;
 import Chess.King;
+import Chess.Piece;
+import Chess.PieceColorAndType;
 import Chess.PieceFinder;
 import Chess.PieceFactory;
-import Chess.PieceColorAndType;
+import Chess.PiecePlacement;
 
 namespace Chess
 {
     export class PiecesOnBoardCreator
     {
     public:
+        static std::vector<std::shared_ptr<Piece>> Create(
+            const std::shared_ptr<King>& whiteKing, const std::shared_ptr<King>& blackKing, const std::vector<PiecePlacement>& nonKingPieces)
+        {
+            std::vector<std::shared_ptr<Piece>> piecesOnBoard;
+            piecesOnBoard.reserve(nonKingPieces.size() + 2);
+
+            piecesOnBoard.push_back(whiteKing);
+            piecesOnBoard.push_back(blackKing);
+
+            for (const auto& [colorAndType, coordinate] : nonKingPieces)
+            {
+                const auto& king = colorAndType.color == ePieceColor::WHITE ? whiteKing : blackKing;
+                piecesOnBoard.push_back(PieceFactory::Create(colorAndType, coordinate, king));
+            }
+
+            return piecesOnBoard;
+        }
+
         static std::vector<std::shared_ptr<Piece>> Create(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
         {
             auto       pieceMap = CoordinateToPieceFactory::Create(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
-
-            std::vector<std::shared_ptr<Piece>> piecesOnBoardCopy;
-            piecesOnBoardCopy.reserve(piecesOnBoard.size());
 
             constexpr auto whiteKingColorAndType = PieceColorAndType{ ePieceColor::WHITE, ePieceType::KING };
             constexpr auto blackKingColorAndType = PieceColorAndType{ ePieceColor::BLACK, ePieceType::KING };
@@ -43,25 +59,17 @@ namespace Chess
             const auto whiteKing = std::make_shared<King>(whiteKingColorAndType.color, whiteKingPosition, originalWhiteKing->GetCanMakeCastling());
             const auto blackKing = std::make_shared<King>(blackKingColorAndType.color, blackKingPosition, originalBlackKing->GetCanMakeCastling());
 
-            piecesOnBoardCopy.push_back(whiteKing);
-            piecesOnBoardCopy.push_back(blackKing);
-
-            const auto filtered = [&piecesOnBoard = std::as_const(piecesOnBoard)](ePieceColor color)
+            std::vector<PiecePlacement> nonKingPieces;
+            nonKingPieces.reserve(piecesOnBoard.size());
+            for (const auto& piece : piecesOnBoard)
             {
-                return piecesOnBoard
-                       | std::views::filter([color](const auto& piece)
-                                            { return piece->GetColorAndType().color == color && piece->GetColorAndType().type != ePieceType::KING; });
-            };
-
-            for (const auto& piece : filtered(ePieceColor::WHITE))
-            {
-                piecesOnBoardCopy.push_back(PieceFactory::Create(piece->GetColorAndType(), piece->GetPosition(), whiteKing));
+                if (piece->GetColorAndType().type != ePieceType::KING)
+                {
+                    nonKingPieces.push_back({ piece->GetColorAndType(), piece->GetPosition() });
+                }
             }
-            for (const auto& piece : filtered(ePieceColor::BLACK))
-            {
-                piecesOnBoardCopy.push_back(PieceFactory::Create(piece->GetColorAndType(), piece->GetPosition(), blackKing));
-            }
-            return piecesOnBoardCopy;
+
+            return Create(whiteKing, blackKing, nonKingPieces);
         }
     };
 

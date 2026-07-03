@@ -88,13 +88,31 @@ namespace MyNamespace
 ## Скобки
 
 ```cpp
-    for (auto const& object : objects) // не так
+    for (const auto& object : objects) // не так
         // ...
 
-    for (auto const& object : objects) // так
+    for (const auto& object : objects) // так
     {
         // ...
     }
+```
+
+## Циклы по диапазону чисел
+
+Все классические циклы по диапазону чисел следует писать только через std::views::iota.
+
+```cpp
+// не так
+for (int i = 0; i < count; ++i)
+{
+    // ...
+}
+
+// так
+for (int i : std::views::iota(0, count))
+{
+    // ...
+}
 ```
 
 ## Кострукторы
@@ -138,7 +156,7 @@ const auto lambda = [weak = std::weak_ptr(shared)]()
 ```
 
 ## Дефолтная инициализация
-Мы используем только copy initialization; copy list initialization для различных контейнеров
+Мы используем только copy initialization и copy list initialization для различных контейнеров
 ```cpp
 int a;          // default initialization (для локальных фундаментальных типов значение не определено)
 int b{};        // value initialization
@@ -146,6 +164,28 @@ int c = 5;      // copy initialization - это
 int d(5);       // direct initialization
 int e{5};       // direct list initialization
 std::vector f = {5};    // copy list initialization - и это
+```
+
+## Работа с std::optional
+Наличие значения проверяем только через `has_value()`, а само значение берём через `value()` (или `value_or()`, если нужно значение по умолчанию).
+Проверять optional неявным или явным преобразованием к bool и брать значение через `operator*` запрещено.
+```cpp
+std::optional<int> value = TryGetValue();
+
+// не так
+if (value)
+{
+    Use(*value);
+}
+
+// так
+if (value.has_value())
+{
+    Use(value.value());
+}
+
+// или, если нужно значение по умолчанию
+Use(value.value_or(0));
 ```
 
 # Как играть

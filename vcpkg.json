@@ -1,8 +1,12 @@
 {
+    "builtin-baseline": "86dc619bd8d9697405ae5c944b474117ea9457ce",
     "dependencies": [
         "boost-json",
-        "boost-lexical-cast",
         "boost-signals2",
-        "gtest"
+        "glfw3",
+        "glm",
+        "gtest",
+        "magic-enum",
+        "vulkan"
     ]
 }

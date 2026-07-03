@@ -8,6 +8,7 @@ import Chess.eInputType;
 import Chess.ePieceType;
 import Chess.Promoter;
 import Chess.PieceTypeConverter;
+import Chess.Utils.ConsoleReader;
 
 namespace Console::Chess
 {
@@ -36,7 +37,7 @@ namespace Console::Chess
 
         static std::string EnterPromotionType()
         {
-            std::string result;
+            auto result = ::Chess::Utils::ConsoleReader::ReadLine();
             std::getline(std::cin, result);
             return result;
         }
