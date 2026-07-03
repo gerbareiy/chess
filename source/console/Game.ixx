@@ -7,7 +7,8 @@ export module Console.Chess.Game;
 import Chess.Chessboard;
 import Chess.ChessboardBuilder;
 import Chess.Coordinate;
-import Chess.DrawChecker;
+import Chess.eGameState;
+import Chess.GameStateChecker;
 import Chess.Piece;
 import Chess.PieceDirector;
 import Console.Chess.ChessboardPresenter;
@@ -20,13 +21,13 @@ namespace Console::Chess
 {
     export class Game
     {
-        std::shared_ptr<::Chess::Chessboard>  m_chessboard;
-        std::shared_ptr<Controller>           m_controller;
-        std::shared_ptr<ChessboardPresenter>  m_chessboardPresenter;
-        std::shared_ptr<InputHandler>         m_inputHandler;
-        std::unique_ptr<LabelPresenter>       m_labelPresenter;
-        std::shared_ptr<ConsolePromoter>      m_promoter;
-        std::unique_ptr<::Chess::DrawChecker> m_drawChecker;
+        std::shared_ptr<::Chess::Chessboard>       m_chessboard;
+        std::shared_ptr<Controller>                m_controller;
+        std::shared_ptr<ChessboardPresenter>       m_chessboardPresenter;
+        std::shared_ptr<InputHandler>              m_inputHandler;
+        std::unique_ptr<LabelPresenter>            m_labelPresenter;
+        std::shared_ptr<ConsolePromoter>           m_promoter;
+        std::unique_ptr<::Chess::GameStateChecker> m_gameStateChecker;
 
         static void HandleInput(
             const std::function<::Chess::Coordinate()>& inputFunction, const std::function<bool(const ::Chess::Coordinate&)>& initFunction)
@@ -42,43 +43,39 @@ namespace Console::Chess
 
         bool TryContinue() const
         {
-            if (!m_chessboard->GetMoveValidator()->GetPiecesCanMoveCount() && m_chessboard->GetPieceDirector()->GetIsCheck())
+            switch (m_gameStateChecker->Calculate(m_chessboard))
             {
+            case ::Chess::eGameState::CHECKMATE:
                 std::println("Checkmate!");
                 return false;
-            }
-            if (m_drawChecker->IsDraw(m_chessboard))
-            {
+            case ::Chess::eGameState::DRAW:
                 std::println("Draw!");
                 return false;
-            }
-            if (m_chessboard->GetPieceDirector()->GetIsCheck())
-            {
+            case ::Chess::eGameState::CHECK:
                 std::println("Check!");
-            }
-            if (false)
-            {
-                std::println("Game broken!");
+                return true;
+            case ::Chess::eGameState::PLAYING:
+                return true;
             }
             return true;
         }
 
     public:
         Game(
-            const std::shared_ptr<::Chess::Chessboard>& chessboard,
-            std::unique_ptr<Controller>&&               controller,
-            const std::shared_ptr<ChessboardPresenter>& chessboardPresenter,
-            const std::shared_ptr<InputHandler>&        inputHandler,
-            std::unique_ptr<LabelPresenter>&&           labelPresenter,
-            std::unique_ptr<ConsolePromoter>&&          promoter,
-            std::unique_ptr<::Chess::DrawChecker>&&     drawChecker)
+            const std::shared_ptr<::Chess::Chessboard>&  chessboard,
+            std::unique_ptr<Controller>&&                controller,
+            const std::shared_ptr<ChessboardPresenter>&  chessboardPresenter,
+            const std::shared_ptr<InputHandler>&         inputHandler,
+            std::unique_ptr<LabelPresenter>&&            labelPresenter,
+            std::unique_ptr<ConsolePromoter>&&           promoter,
+            std::unique_ptr<::Chess::GameStateChecker>&& gameStateChecker)
             : m_chessboard(chessboard)
             , m_controller(std::move(controller))
             , m_chessboardPresenter(chessboardPresenter)
             , m_inputHandler(inputHandler)
             , m_labelPresenter(std::move(labelPresenter))
             , m_promoter(std::move(promoter))
-            , m_drawChecker(std::move(drawChecker))
+            , m_gameStateChecker(std::move(gameStateChecker))
         {
         }
 

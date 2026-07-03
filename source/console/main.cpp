@@ -2,8 +2,8 @@
 #include <print>
 import Chess.Chessboard;
 import Chess.ChessboardBuilder;
-import Chess.DrawChecker;
 import Chess.ePieceColor;
+import Chess.GameStateChecker;
 import Chess.MoveValidator;
 import Chess.PieceDirector;
 import Chess.Player;
@@ -31,7 +31,7 @@ int main()
         const auto inputHandler        = std::make_shared<Console::Chess::InputHandler>();
         auto       labelPresenter      = std::make_unique<Console::Chess::LabelPresenter>(inputHandler);
         auto       promoter            = std::make_unique<Console::Chess::ConsolePromoter>();
-        auto       drawChecker         = std::make_unique<Chess::DrawChecker>();
+        auto       gameStateChecker    = std::make_unique<Chess::GameStateChecker>();
 
         auto chess = Console::Chess::Game(
             chessboard,
@@ -40,7 +40,7 @@ int main()
             inputHandler,
             std::move(labelPresenter),
             std::move(promoter),
-            std::move(drawChecker));
+            std::move(gameStateChecker));
 
         chess.Init();
         chess.Play();
