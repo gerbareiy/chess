@@ -12,6 +12,7 @@ namespace Chess
     export constexpr int QUEEN_WAYS_COUNT  = CHESSBOARD_SIZE * 4;
     export constexpr int ROOK_WAYS_COUNT   = CHESSBOARD_SIZE * 2;
 
-    export constexpr int MAX_ELEMENTS_COUNT                           = 32;
-    export constexpr int MAX_MOVES_WITHOUT_PAWN_MOVE_AND_TAKING_COUNT = 75;
+    export constexpr int MAX_ELEMENTS_COUNT = 32;
+
+    export constexpr int MAX_HALF_MOVES_WITHOUT_PAWN_MOVE_AND_TAKING_COUNT = 150;
 } // namespace Chess
