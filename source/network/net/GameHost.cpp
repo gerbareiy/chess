@@ -1,6 +1,5 @@
 module;
 #include "Envelope.pb.h"
-
 #include <array>
 #include <boost/asio.hpp>
 #include <boost/system/system_error.hpp>
@@ -114,8 +113,8 @@ namespace Chess::Net
                     continue;
                 }
 
-                const auto [from, to, promotion] = Chess::Proto::Move::FromProto(incoming.move());
-                const bool valid = board->TrySelectPiece(from) && board->TryMovePiece(to, std::make_shared<Chess::FixedPromoter>(promotion));
+                const auto [from, to, promotion] = Proto::Move::FromProto(incoming.move());
+                const bool valid                 = board->TrySelectPiece(from) && board->TryMovePiece(to, std::make_shared<FixedPromoter>(promotion));
 
                 auto state = eGameState::PLAYING;
                 if (valid)
@@ -136,7 +135,7 @@ namespace Chess::Net
                     *forwarded.mutable_move() = incoming.move();
                     SendBytes(*opponent, forwarded.SerializeAsString());
 
-                    if (state == Chess::eGameState::CHECKMATE || state == Chess::eGameState::DRAW)
+                    if (state == eGameState::CHECKMATE || state == Chess::eGameState::DRAW)
                     {
                         SendGameOver(white, state, board, ply);
                         SendGameOver(black, state, board, ply);
@@ -160,7 +159,7 @@ namespace Chess::Net
         }
     } // namespace
 
-    void GameHost::HostSingleMatch(unsigned short port, std::vector<std::shared_ptr<Chess::Piece>> pieces)
+    void GameHost::HostSingleMatch(unsigned short port, std::vector<std::shared_ptr<Piece>> pieces)
     {
         auto io       = boost::asio::io_context();
         auto acceptor = boost::asio::ip::tcp::acceptor(io, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port));
@@ -171,10 +170,10 @@ namespace Chess::Net
         ReadFindGame(white);
         ReadFindGame(black);
 
-        const auto board = Chess::ChessboardFactory::Create(std::move(pieces), Chess::ePieceColor::WHITE);
+        const auto board = ChessboardFactory::Create(std::move(pieces), ePieceColor::WHITE);
 
-        SendGameStarted(white, Chess::ePieceColor::WHITE, board, 0);
-        SendGameStarted(black, Chess::ePieceColor::BLACK, board, 0);
+        SendGameStarted(white, ePieceColor::WHITE, board, 0);
+        SendGameStarted(black, ePieceColor::BLACK, board, 0);
 
         RunMatch(white, black, board);
     }

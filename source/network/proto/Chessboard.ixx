@@ -1,6 +1,5 @@
 module;
 #include "Chessboard.pb.h"
-
 #include <cstdint>
 #include <memory>
 #include <vector>

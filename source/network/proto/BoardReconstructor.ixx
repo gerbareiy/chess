@@ -1,6 +1,5 @@
 module;
 #include "Chessboard.pb.h"
-
 #include <memory>
 #include <vector>
 export module Chess.Proto.BoardReconstructor;
@@ -20,8 +19,7 @@ namespace Chess::Proto
 {
     export class BoardReconstructor
     {
-        static std::shared_ptr<King> KingOf(
-            ePieceColor color, const std::shared_ptr<King>& whiteKing, const std::shared_ptr<King>& blackKing)
+        static std::shared_ptr<King> KingOf(ePieceColor color, const std::shared_ptr<King>& whiteKing, const std::shared_ptr<King>& blackKing)
         {
             return color == ePieceColor::WHITE ? whiteKing : blackKing;
         }
@@ -45,7 +43,14 @@ namespace Chess::Proto
 
                 const auto coordinate = Coordinate::FromProto(piece.coordinate());
                 auto       king       = std::make_shared<King>(color, coordinate, piece.king_can_castle());
-                (color == ePieceColor::WHITE ? whiteKing : blackKing) = king;
+                if (color == ePieceColor::WHITE)
+                {
+                    whiteKing = king;
+                }
+                else
+                {
+                    blackKing = king;
+                }
                 result.push_back(std::move(king));
             }
 

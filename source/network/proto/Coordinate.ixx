@@ -1,6 +1,5 @@
 module;
 #include "Coordinate.pb.h"
-
 #include <cstdint>
 export module Chess.Proto.Coordinate;
 import Chess.Coordinate;

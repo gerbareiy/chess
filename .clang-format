@@ -39,7 +39,7 @@ InsertNewlineAtEOF: true
 SeparateDefinitionBlocks: Always
 
 SortIncludes: CaseSensitive
-IncludeBlocks: Regroup
+IncludeBlocks: Merge
 
 IncludeCategories:
   - Regex: '^".*"$'

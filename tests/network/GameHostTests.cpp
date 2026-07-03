@@ -1,5 +1,4 @@
 #include "Envelope.pb.h"
-
 #include <chrono>
 #include <exception>
 #include <gtest/gtest.h>

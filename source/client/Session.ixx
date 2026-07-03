@@ -1,6 +1,5 @@
 module;
 #include "Envelope.pb.h"
-
 #include <memory>
 #include <string>
 #include <utility>
