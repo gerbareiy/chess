@@ -45,8 +45,8 @@ namespace NetworkTests
         ASSERT_NE(restoredKing, nullptr);
         ASSERT_NE(restoredRook, nullptr);
 
-        EXPECT_TRUE(restoredKing->GetCanMakeCastling());  // король ещё может
-        EXPECT_FALSE(restoredRook->GetCanMakeCastling()); // а эта ладья уже нет
+        EXPECT_TRUE(restoredKing->GetCanMakeCastling());
+        EXPECT_FALSE(restoredRook->GetCanMakeCastling());
     }
 
     TEST(BoardReconstructorTests, EligibleRookKeepsCastling)
@@ -67,7 +67,7 @@ namespace NetworkTests
         const auto whiteKing = std::make_shared<Chess::King>(Chess::ePieceColor::WHITE, Chess::Coordinate{ .file = 'E', .rank = 1 }, false);
         const auto blackKing = std::make_shared<Chess::King>(Chess::ePieceColor::BLACK, Chess::Coordinate{ .file = 'E', .rank = 8 }, false);
         const auto pawn      = std::make_shared<Chess::Pawn>(Chess::ePieceColor::WHITE, Chess::Coordinate{ .file = 'D', .rank = 2 });
-        pawn->Move({ .file = 'D', .rank = 4 }); // двойной ход — становится доступным для взятия на проходе
+        pawn->Move({ .file = 'D', .rank = 4 });
         ASSERT_TRUE(pawn->GetCanEnPassant());
 
         const auto restored     = RoundTrip({ whiteKing, blackKing, pawn });

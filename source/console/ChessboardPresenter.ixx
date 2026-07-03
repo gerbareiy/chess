@@ -157,7 +157,6 @@ namespace Console::Chess
             m_connection = m_chessboard->ConnectChessboardUpdated(subscriber);
         }
 
-        // You can choose this default Display
         void Show() const
         {
             Clear();
@@ -166,7 +165,6 @@ namespace Console::Chess
             ShowTakenPieces(::Chess::ePieceColor::BLACK);
         }
 
-        // Or create own Display by combining some methods below
         void ShowChessboardRowWithRank(int y, int originalTextColor) const
         {
             for (auto x = 'A'; x < 'A' + ::Chess::CHESSBOARD_SIZE; ++x)

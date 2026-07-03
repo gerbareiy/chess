@@ -30,7 +30,6 @@ namespace Chess::Proto
             return result;
         }
 
-        // Восстанавливает фигуры со скрытым состоянием (рокировка короля/ладьи, взятие на проходе).
         static std::vector<std::shared_ptr<Chess::Piece>> FromProto(const chess::proto::Chessboard& message)
         {
             return BoardReconstructor::Reconstruct(message);

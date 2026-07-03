@@ -11,10 +11,10 @@ message Envelope
     oneof payload
     {
         Move        move         = 1;
-        Chessboard  board_sync   = 2; // принудительный ресинк (отклонение хода)
+        Chessboard  board_sync   = 2;
         FindGame    find_game    = 3;
         GameStarted game_started = 4;
         GameOver    game_over    = 5;
-        Chessboard  board_check  = 6; // периодическая сверка доски (раз в ~10 полуходов)
+        Chessboard  board_check  = 6;
     }
 }

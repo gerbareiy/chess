@@ -10,5 +10,5 @@ message Chessboard
     repeated Piece pieces          = 1;
     PieceColor     side_to_move    = 2;
     uint32         half_move_clock = 3;
-    uint32         ply             = 4; // монотонный счётчик полуходов — защита ресинка от устаревания
+    uint32         ply             = 4; 
 }

@@ -70,10 +70,10 @@ namespace NetworkTests
             std::make_shared<Chess::Pawn>(Chess::ePieceColor::BLACK, Chess::Coordinate{ .file = 'A', .rank = 7 }),
         };
 
-        std::thread host([pieces]() mutable { Chess::Net::GameHost::HostSingleMatch(port, std::move(pieces)); });
+        auto host = std::thread([pieces]() mutable { Chess::Net::GameHost::HostSingleMatch(port, std::move(pieces)); });
 
-        Chess::Net::ClientConnection white = ConnectWithRetry(port);
-        Chess::Net::ClientConnection black = ConnectWithRetry(port);
+        auto white = ConnectWithRetry(port);
+        auto black = ConnectWithRetry(port);
 
         SendFindGame(white);
         SendFindGame(black);
@@ -85,13 +85,11 @@ namespace NetworkTests
         EXPECT_EQ(whiteStart.game_started().your_color(), chess::proto::PIECE_COLOR_WHITE);
         EXPECT_EQ(blackStart.game_started().your_color(), chess::proto::PIECE_COLOR_BLACK);
 
-        // Белые делают легальный ход ладьёй H1-H5 — сервер ретранслирует его чёрным.
         SendMove(white, Chess::Move{ .from = { .file = 'H', .rank = 1 }, .to = { .file = 'H', .rank = 5 } });
         const auto relayed = Receive(black);
         EXPECT_EQ(relayed.payload_case(), chess::proto::Envelope::kMove);
         EXPECT_EQ(Chess::Proto::Move::FromProto(relayed.move()).to, (Chess::Coordinate{ .file = 'H', .rank = 5 }));
 
-        // Чёрные пытаются нелегальный ход королём E8-E5 — сервер отклоняет ресинком доски.
         SendMove(black, Chess::Move{ .from = { .file = 'E', .rank = 8 }, .to = { .file = 'E', .rank = 5 } });
         const auto rejected = Receive(black);
         EXPECT_EQ(rejected.payload_case(), chess::proto::Envelope::kBoardSync);

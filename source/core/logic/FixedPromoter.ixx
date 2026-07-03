@@ -4,8 +4,6 @@ import Chess.Promoter;
 
 namespace Chess
 {
-    // Неинтерактивный промоутер: возвращает заранее заданный тип превращения. Нужен там, где ход
-    // применяется программно (сервер, приём чужого хода на клиенте), без запроса у пользователя.
     export class FixedPromoter final : public Promoter
     {
         ePieceType m_type;

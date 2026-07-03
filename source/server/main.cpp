@@ -5,7 +5,6 @@
 import Chess.ChessboardBuilder;
 import Chess.Net.GameHost;
 
-// Авторитетный сервер: запускается двойным щелчком, ждёт двух игроков и хостит партии одну за другой.
 int main()
 {
     constexpr unsigned short port = 5555;

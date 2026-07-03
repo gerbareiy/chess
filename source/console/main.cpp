@@ -91,7 +91,6 @@ namespace
 
             if (session.GetChessboard()->GetMoveValidator()->GetPiecesCanMoveCount() == 0)
             {
-                // Своих ходов нет (мат или пат) — сервер пришлёт итог партии, дожидаемся его.
                 std::println("No moves available. Waiting for result...");
                 session.ReceiveNext();
                 continue;
@@ -119,7 +118,6 @@ namespace
                 continue;
             }
 
-            // Ход принят локально и отправлен — ждём ответ сервера (ход соперника, ресинк или конец).
             session.ReceiveNext();
         }
     }

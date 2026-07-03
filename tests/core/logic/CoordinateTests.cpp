@@ -19,7 +19,7 @@ namespace ServerTests
         std::unordered_map<Chess::Coordinate, int> map;
         map[{ .file = 'A', .rank = 1 }] = 10;
         map[{ .file = 'A', .rank = 2 }] = 20;
-        map[{ .file = 'A', .rank = 1 }] = 30; // overwrites
+        map[{ .file = 'A', .rank = 1 }] = 30;
 
         EXPECT_EQ(map.size(), 2u);
         EXPECT_EQ(map.at({ .file = 'A', .rank = 1 }), 30);

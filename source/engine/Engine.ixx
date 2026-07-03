@@ -50,7 +50,6 @@ namespace Chess::Engine
 
         void Destroy() noexcept
         {
-            // Vulkan objects must be released before the window / glfw is torn down.
             m_swapchain.reset();
             m_logicalDevice.reset();
             m_physicalDevices.reset();

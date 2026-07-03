@@ -5,8 +5,6 @@ export module Chess.Net.ClientConnection;
 
 namespace Chess::Net
 {
-    // Клиентское TCP-соединение. Asio полностью спрятан в реализации (pimpl), чтобы типы boost::asio
-    // не пересекали границу модулей — иначе у импортёров ломается ADL для make_error_code.
     export class ClientConnection
     {
         struct Impl;

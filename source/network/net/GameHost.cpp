@@ -3,8 +3,7 @@ module;
 
 #include <array>
 #include <boost/asio.hpp>
-#include <cstdint>
-#include <exception>
+#include <boost/system/system_error.hpp>
 #include <memory>
 #include <string>
 #include <utility>
@@ -28,15 +27,13 @@ namespace Chess::Net
 {
     namespace
     {
-        using boost::asio::ip::tcp;
-
-        void SendBytes(tcp::socket& socket, const std::string& payload)
+        void SendBytes(boost::asio::ip::tcp::socket& socket, const std::string& payload)
         {
             const auto frame = Framing::Encode(payload);
             boost::asio::write(socket, boost::asio::buffer(frame));
         }
 
-        std::string ReceiveBytes(tcp::socket& socket)
+        std::string ReceiveBytes(boost::asio::ip::tcp::socket& socket)
         {
             std::array<uint8_t, Framing::HEADER_SIZE> header{};
             boost::asio::read(socket, boost::asio::buffer(header));
@@ -47,89 +44,98 @@ namespace Chess::Net
             return payload;
         }
 
-        // Каждые сколько полуходов сервер рассылает полную доску для сверки.
         constexpr uint32_t BOARD_CHECK_PERIOD = 10;
 
-        chess::proto::Chessboard BoardToProto(const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
+        chess::proto::Chessboard BoardToProto(const std::shared_ptr<Chessboard>& board, uint32_t ply)
         {
-            return Chess::Proto::Chessboard::ToProto(board->GetPieceDirector()->GetPiecesOnBoard(), board->GetSideToMove(), 0, ply);
+            return Proto::Chessboard::ToProto(board->GetPieceDirector()->GetPiecesOnBoard(), board->GetSideToMove(), 0, ply);
         }
 
-        void ReadFindGame(tcp::socket& socket)
+        void ReadFindGame(boost::asio::ip::tcp::socket& socket)
         {
             chess::proto::Envelope envelope;
             envelope.ParseFromString(ReceiveBytes(socket));
         }
 
-        void SendGameStarted(tcp::socket& socket, Chess::ePieceColor color, const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
+        void SendGameStarted(boost::asio::ip::tcp::socket& socket, ePieceColor color, const std::shared_ptr<Chessboard>& board, uint32_t ply)
         {
-            chess::proto::Envelope envelope;
-            auto*                  started = envelope.mutable_game_started();
-            started->set_your_color(Chess::Proto::PieceColorAndType::ToProto(color));
+            auto  envelope = chess::proto::Envelope();
+            auto* started  = envelope.mutable_game_started();
+            started->set_your_color(Proto::PieceColorAndType::ToProto(color));
             *started->mutable_board() = BoardToProto(board, ply);
             SendBytes(socket, envelope.SerializeAsString());
         }
 
-        void SendBoardSync(tcp::socket& socket, const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
+        void SendBoardSync(boost::asio::ip::tcp::socket& socket, const std::shared_ptr<Chessboard>& board, uint32_t ply)
         {
             chess::proto::Envelope envelope;
             *envelope.mutable_board_sync() = BoardToProto(board, ply);
             SendBytes(socket, envelope.SerializeAsString());
         }
 
-        void SendBoardCheck(tcp::socket& socket, const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
+        void SendBoardCheck(boost::asio::ip::tcp::socket& socket, const std::shared_ptr<Chessboard>& board, uint32_t ply)
         {
             chess::proto::Envelope envelope;
             *envelope.mutable_board_check() = BoardToProto(board, ply);
             SendBytes(socket, envelope.SerializeAsString());
         }
 
-        void SendGameOver(tcp::socket& socket, Chess::eGameState state, const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
+        void SendGameOver(boost::asio::ip::tcp::socket& socket, eGameState state, const std::shared_ptr<Chessboard>& board, uint32_t ply)
         {
             chess::proto::Envelope envelope;
             auto*                  over = envelope.mutable_game_over();
-            over->set_state(Chess::Proto::Session::ToProto(state));
+            over->set_state(Proto::Session::ToProto(state));
             *over->mutable_board() = BoardToProto(board, ply);
             SendBytes(socket, envelope.SerializeAsString());
         }
 
-        void RunMatch(tcp::socket& white, tcp::socket& black, const std::shared_ptr<Chess::Chessboard>& board)
+        void RunMatch(boost::asio::ip::tcp::socket& white, boost::asio::ip::tcp::socket& black, const std::shared_ptr<Chess::Chessboard>& board)
         {
-            Chess::GameStateChecker checker;
-            tcp::socket*            current  = &white;
-            tcp::socket*            opponent = &black;
-            uint32_t                ply      = 0;
+            GameStateChecker              checker;
+            boost::asio::ip::tcp::socket* current  = &white;
+            boost::asio::ip::tcp::socket* opponent = &black;
+            uint32_t                      ply      = 0;
 
-            try
+            while (true)
             {
-                while (true)
+                chess::proto::Envelope incoming;
+                try
                 {
-                    chess::proto::Envelope envelope;
-                    envelope.ParseFromString(ReceiveBytes(*current));
-                    if (envelope.payload_case() != chess::proto::Envelope::kMove)
-                    {
-                        continue;
-                    }
+                    incoming.ParseFromString(ReceiveBytes(*current));
+                }
+                catch (const boost::system::system_error&)
+                {
+                    // current player disconnected, end the match.
+                    return;
+                }
 
-                    const Chess::Move move = Chess::Proto::Move::FromProto(envelope.move());
-                    const bool        valid =
-                        board->TrySelectPiece(move.from) && board->TryMovePiece(move.to, std::make_shared<Chess::FixedPromoter>(move.promotion));
+                if (incoming.payload_case() != chess::proto::Envelope::kMove)
+                {
+                    continue;
+                }
 
+                const auto [from, to, promotion] = Chess::Proto::Move::FromProto(incoming.move());
+                const bool valid = board->TrySelectPiece(from) && board->TryMovePiece(to, std::make_shared<Chess::FixedPromoter>(promotion));
+
+                auto state = eGameState::PLAYING;
+                if (valid)
+                {
+                    ++ply;
+                    state = checker.Calculate(board);
+                }
+
+                try
+                {
                     if (!valid)
                     {
-                        // Нелегальный ход (баг или обход клиентской валидации) — откатываем отправителя
-                        // к авторитетной доске, ход остаётся за ним.
                         SendBoardSync(*current, board, ply);
                         continue;
                     }
 
-                    ++ply;
-
                     chess::proto::Envelope forwarded;
-                    *forwarded.mutable_move() = envelope.move();
+                    *forwarded.mutable_move() = incoming.move();
                     SendBytes(*opponent, forwarded.SerializeAsString());
 
-                    const auto state = checker.Calculate(board);
                     if (state == Chess::eGameState::CHECKMATE || state == Chess::eGameState::DRAW)
                     {
                         SendGameOver(white, state, board, ply);
@@ -137,30 +143,30 @@ namespace Chess::Net
                         return;
                     }
 
-                    // Периодическая полная сверка доски у обоих клиентов.
                     if (ply % BOARD_CHECK_PERIOD == 0)
                     {
                         SendBoardCheck(white, board, ply);
                         SendBoardCheck(black, board, ply);
                     }
-
-                    std::swap(current, opponent);
                 }
-            }
-            catch (const std::exception&)
-            {
-                // Один из клиентов отключился — завершаем партию.
+                catch (const boost::system::system_error&)
+                {
+                    // one of the players disconnected, end the match.
+                    return;
+                }
+
+                std::swap(current, opponent);
             }
         }
     } // namespace
 
     void GameHost::HostSingleMatch(unsigned short port, std::vector<std::shared_ptr<Chess::Piece>> pieces)
     {
-        boost::asio::io_context io;
-        tcp::acceptor           acceptor(io, tcp::endpoint(tcp::v4(), port));
+        auto io       = boost::asio::io_context();
+        auto acceptor = boost::asio::ip::tcp::acceptor(io, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port));
 
-        tcp::socket white = acceptor.accept();
-        tcp::socket black = acceptor.accept();
+        boost::asio::ip::tcp::socket white = acceptor.accept();
+        boost::asio::ip::tcp::socket black = acceptor.accept();
 
         ReadFindGame(white);
         ReadFindGame(black);
