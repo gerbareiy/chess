@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package chess.proto;
+
+import "Piece.proto";
+import "PieceColorAndType.proto";
+
+message Chessboard
+{
+    repeated Piece pieces          = 1;
+    PieceColor     side_to_move    = 2;
+    uint32         half_move_clock = 3;
+}

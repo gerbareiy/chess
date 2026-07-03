@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package chess.proto;
+
+import "Coordinate.proto";
+import "PieceColorAndType.proto";
+
+message Move
+{
+    Coordinate from      = 1;
+    Coordinate to        = 2;
+    PieceType  promotion = 3;
+}

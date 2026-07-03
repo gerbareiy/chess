@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package chess.proto;
+
+import "Chessboard.proto";
+import "Move.proto";
+
+message Envelope
+{
+    oneof payload
+    {
+        Move       move       = 1;
+        Chessboard board_sync = 2;
+    }
+}

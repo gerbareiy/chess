@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package chess.proto;
+
+import "Coordinate.proto";
+import "PieceColorAndType.proto";
+
+message Piece
+{
+    PieceColorAndType color_and_type = 1;
+    Coordinate        coordinate     = 2;
+
+    bool king_can_castle     = 3;
+    bool rook_can_castle     = 4;
+    bool pawn_can_en_passant = 5;
+    bool pawn_is_not_moved   = 6;
+}
