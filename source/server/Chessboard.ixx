@@ -86,7 +86,6 @@ namespace Chess
             return true;
         }
 
-        // Before use this method, you need to InitPiece
         bool TryMovePiece(const Coordinate& to, const std::shared_ptr<Promoter>& promoter)
         {
             m_to = to;
