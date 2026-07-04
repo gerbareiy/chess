@@ -9,7 +9,7 @@ module;
 #include <string>
 #include <vector>
 export module Chess.ChessboardBuilder;
-import Chess.Counts;
+import Chess.Constants.Counts;
 import Chess.Coordinate;
 import Chess.ePieceColor;
 import Chess.ePieceType;
@@ -19,7 +19,6 @@ import Chess.PieceColorAndType;
 import Chess.PiecePlacement;
 import Chess.PiecesOnBoardCreator;
 import Chess.PieceTypeConverter;
-import Chess.Sizes;
 import Chess.Utils.Converter;
 
 namespace Chess
@@ -84,7 +83,7 @@ namespace Chess
         static std::shared_ptr<King> ParseKing(const boost::json::object& side, ePieceColor color)
         {
             const auto kings = side.at(PieceTypeConverter::ConvertToConfigString(ePieceType::KING)).as_array();
-            if (kings.size() != ONE_COLOR_KINGS_COUNT)
+            if (kings.size() != Constants::Counts::ONE_COLOR_KINGS_COUNT)
             {
                 throw std::invalid_argument("Configuration must contain exactly one king for each color");
             }
@@ -133,7 +132,7 @@ namespace Chess
             const auto blackKing = ParseKing(blackSide, ePieceColor::BLACK);
 
             std::vector<PiecePlacement> placements;
-            placements.reserve(MAX_ELEMENTS_COUNT);
+            placements.reserve(Constants::Counts::MAX_ELEMENTS_COUNT);
 
             ParseSidePieces(placements, whiteSide, ePieceColor::WHITE);
             ParseSidePieces(placements, blackSide, ePieceColor::BLACK);

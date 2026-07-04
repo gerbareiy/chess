@@ -1,15 +1,14 @@
 import Chess.Engine.Engine;
-import Chess.Window.AppInfo;
+import Chess.Constants.ApplicationInformation;
 
 int main()
 {
     auto engine = Chess::Engine::Engine::Create(
-        Chess::Window::AppInfo::APP_NAME.data(),
-        Chess::Window::AppInfo::APP_VERSION,
-        Chess::Window::AppInfo::ENGINE_NAME.data(),
-        Chess::Window::AppInfo::ENGINE_VERSION,
-        Chess::Window::AppInfo::API_VERSION);
-
+        Chess::Constants::ApplicationInformation::APP_NAME.data(),
+        Chess::Constants::ApplicationInformation::APP_VERSION,
+        Chess::Constants::ApplicationInformation::ENGINE_NAME.data(),
+        Chess::Constants::ApplicationInformation::ENGINE_VERSION,
+        Chess::Constants::ApplicationInformation::API_VERSION);
     while (engine.NeedUpdate())
     {
         engine.Update();

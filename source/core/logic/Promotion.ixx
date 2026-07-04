@@ -2,6 +2,7 @@ module;
 #include <memory>
 #include <vector>
 export module Chess.Promotion;
+import Chess.Constants.Sizes;
 import Chess.Bishop;
 import Chess.Coordinate;
 import Chess.ePieceColor;
@@ -13,7 +14,6 @@ import Chess.PieceFinder;
 import Chess.Promoter;
 import Chess.Queen;
 import Chess.Rook;
-import Chess.Sizes;
 
 namespace Chess
 {
@@ -29,7 +29,7 @@ namespace Chess
             }
 
             if (pawn->GetPosition().rank == 1 && pawn->GetColorAndType().color == ePieceColor::BLACK
-                || pawn->GetPosition().rank == CHESSBOARD_SIZE && pawn->GetColorAndType().color == ePieceColor::WHITE)
+                || pawn->GetPosition().rank == Constants::Sizes::CHESSBOARD_SIZE && pawn->GetColorAndType().color == ePieceColor::WHITE)
             {
                 const auto             promoteType = promoter->GetPromoteType();
                 std::shared_ptr<Piece> piece;

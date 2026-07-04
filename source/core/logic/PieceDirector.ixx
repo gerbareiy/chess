@@ -3,9 +3,10 @@ module;
 #include <memory>
 #include <vector>
 export module Chess.PieceDirector;
+import Chess.Constants.Counts;
+import Chess.Constants.Sizes;
 import Chess.CheckChecker;
 import Chess.Coordinate;
-import Chess.Counts;
 import Chess.ePieceColor;
 import Chess.King;
 import Chess.Pawn;
@@ -15,7 +16,6 @@ import Chess.PieceTakeLocator;
 import Chess.Player;
 import Chess.Promoter;
 import Chess.Promotion;
-import Chess.Sizes;
 
 namespace Chess
 {
@@ -39,7 +39,7 @@ namespace Chess
             : m_piecesOnBoard(piecesOnBoard)
             , m_player(player)
         {
-            m_eatenPieces.reserve(MAX_ELEMENTS_COUNT);
+            m_eatenPieces.reserve(Constants::Counts::MAX_ELEMENTS_COUNT);
             m_promotion = std::make_shared<Promotion>();
         }
 
@@ -101,7 +101,8 @@ namespace Chess
 
             if (typeid(*m_currentPiece) == typeid(Pawn)
                 && (m_currentPiece->GetPosition().rank == 1 && m_currentPiece->GetColorAndType().color == ePieceColor::BLACK
-                    || m_currentPiece->GetPosition().rank == CHESSBOARD_SIZE && m_currentPiece->GetColorAndType().color == ePieceColor::WHITE))
+                    || m_currentPiece->GetPosition().rank == Constants::Sizes::CHESSBOARD_SIZE
+                           && m_currentPiece->GetColorAndType().color == ePieceColor::WHITE))
             {
                 signalChessboardUndated();
                 Promotion::PromoteConditionally(std::static_pointer_cast<Pawn>(m_currentPiece), m_piecesOnBoard, promoter);

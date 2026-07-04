@@ -6,7 +6,6 @@ import Chess.ePieceColor;
 import Chess.ePieceType;
 import Chess.Piece;
 import Chess.PieceColorAndType;
-import Chess.Sizes;
 import Chess.Utils.Exceptions;
 
 namespace Chess

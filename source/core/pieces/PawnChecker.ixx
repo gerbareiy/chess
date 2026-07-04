@@ -6,9 +6,9 @@ module;
 #include <stdexcept>
 #include <vector>
 export module Chess.PawnChecker;
+import Chess.Constants.Counts;
 import Chess.Coordinate;
 import Chess.CoordinateToPieceFactory;
-import Chess.Counts;
 import Chess.ePieceColor;
 import Chess.ePieceType;
 import Chess.IMoveChecker;
@@ -81,7 +81,7 @@ namespace Chess
             const int moveVector = pawn->GetColorAndType().color == ePieceColor::WHITE ? 1 : -1;
 
             std::vector<Coordinate> result;
-            result.reserve(PAWN_WAYS_COUNT);
+            result.reserve(Constants::Counts::PAWN_WAYS_COUNT);
 
             auto       rightDiagonal = Coordinate(pawn->GetPosition().file + 1, pawn->GetPosition().rank + moveVector);
             auto       leftDiagonal  = Coordinate(pawn->GetPosition().file - 1, pawn->GetPosition().rank + moveVector);
@@ -138,7 +138,7 @@ namespace Chess
             auto       diagonalMoves = GetDiagonalMoves(m_pawn, finder);
 
             std::vector<Coordinate> result;
-            result.reserve(PAWN_WAYS_COUNT);
+            result.reserve(Constants::Counts::PAWN_WAYS_COUNT);
             result.insert_range(result.end(), std::move(forwardMoves));
             result.insert_range(result.end(), std::move(diagonalMoves));
             return result;

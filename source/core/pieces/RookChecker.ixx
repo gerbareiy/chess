@@ -2,9 +2,9 @@ module;
 #include <memory>
 #include <vector>
 export module Chess.RookChecker;
+import Chess.Constants.Counts;
 import Chess.Coordinate;
 import Chess.CoordinateToPieceFactory;
-import Chess.Counts;
 import Chess.DirectionMoveChecker;
 import Chess.ePieceColor;
 import Chess.ePieceType;
@@ -44,7 +44,7 @@ namespace Chess
             auto       fourth   = DirectionMoveChecker::FindPossibleMoves(finder, position, color, { 0, 1 });
 
             std::vector<Coordinate> moves;
-            moves.reserve(ROOK_WAYS_COUNT);
+            moves.reserve(Constants::Counts::ROOK_WAYS_COUNT);
             moves.insert_range(moves.end(), std::move(first));
             moves.insert_range(moves.end(), std::move(second));
             moves.insert_range(moves.end(), std::move(third));

@@ -1,13 +1,14 @@
 module;
 #include <memory>
+#include <ranges>
 export module Chess.DrawChecker;
+import Chess.Constants.Counts;
+import Chess.Constants.Sizes;
 import Chess.Chessboard;
 import Chess.Coordinate;
-import Chess.Counts;
 import Chess.ePieceColor;
 import Chess.ePieceType;
 import Chess.PieceDirector;
-import Chess.Sizes;
 
 namespace Chess
 {
@@ -27,9 +28,9 @@ namespace Chess
             auto whiteKing             = false;
             auto whiteKnightCount      = 0;
 
-            for (auto y = CHESSBOARD_SIZE; y > 0; --y)
+            for (auto y = Constants::Sizes::CHESSBOARD_SIZE; y > 0; --y)
             {
-                for (auto x = 'A'; x < 'A' + CHESSBOARD_SIZE; ++x)
+                for (const char x : std::views::iota('A', 'A' + Constants::Sizes::CHESSBOARD_SIZE))
                 {
                     const auto piece = chessboard->GetPieceDirector()->GetPiece(Coordinate(x, y));
 
@@ -116,7 +117,7 @@ namespace Chess
 
             const bool isStalemate = chessboard->GetMoveValidator()->GetPiecesCanMoveCount() == 0 && !chessboard->GetPieceDirector()->GetIsCheck();
 
-            return isStalemate || m_halfMovesWithoutPawnMoveAndTaking >= MAX_HALF_MOVES_WITHOUT_PAWN_MOVE_AND_TAKING_COUNT
+            return isStalemate || m_halfMovesWithoutPawnMoveAndTaking >= Constants::Counts::MAX_HALF_MOVES_WITHOUT_PAWN_MOVE_AND_TAKING_COUNT
                    || IsInsufficientMaterial(chessboard);
         }
     };

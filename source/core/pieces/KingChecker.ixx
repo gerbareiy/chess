@@ -3,16 +3,16 @@ module;
 #include <memory>
 #include <vector>
 export module Chess.KingChecker;
+import Chess.Constants.Counts;
+import Chess.Constants.Sizes;
 import Chess.Coordinate;
 import Chess.CoordinateToPieceFactory;
-import Chess.Counts;
 import Chess.ePieceColor;
 import Chess.Piece;
 import Chess.PieceFinder;
 import Chess.ICastable;
 import Chess.IMoveChecker;
 import Chess.King;
-import Chess.Sizes;
 import Chess.Utils.Exceptions;
 
 namespace Chess
@@ -28,7 +28,7 @@ namespace Chess
             if (!king->GetIsCheck() && king->GetCanMakeCastling())
             {
                 const auto leftRook  = finder->TryFind({ .file = 'A', .rank = king->GetPosition().rank });
-                const auto rightRook = finder->TryFind({ .file = 'A' + CHESSBOARD_SIZE - 1, .rank = king->GetPosition().rank });
+                const auto rightRook = finder->TryFind({ .file = 'A' + Constants::Sizes::CHESSBOARD_SIZE - 1, .rank = king->GetPosition().rank });
 
                 const auto canCastleLeft = leftRook && std::dynamic_pointer_cast<ICastable>(leftRook)
                                            && std::dynamic_pointer_cast<ICastable>(leftRook)->GetCanMakeCastling()
@@ -59,7 +59,7 @@ namespace Chess
                 if (canCastleRight)
                 {
                     auto pathClear = true;
-                    for (char file = king->GetPosition().file + 1; file < 'A' + CHESSBOARD_SIZE - 1; ++file)
+                    for (char file = king->GetPosition().file + 1; file < 'A' + Constants::Sizes::CHESSBOARD_SIZE - 1; ++file)
                     {
                         if (finder->TryFind({ .file = file, .rank = king->GetPosition().rank }))
                         {
@@ -81,7 +81,8 @@ namespace Chess
         static std::vector<Coordinate> FindPossibleMoves(
             const std::shared_ptr<const King>& king, Coordinate position, ePieceColor color, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
         {
-            if (position.file < 'A' || position.file > 'A' + CHESSBOARD_SIZE - 1 || position.rank < 1 || position.rank > CHESSBOARD_SIZE)
+            if (position.file < 'A' || position.file > 'A' + Constants::Sizes::CHESSBOARD_SIZE - 1 || position.rank < 1
+                || position.rank > Constants::Sizes::CHESSBOARD_SIZE)
             {
                 return {};
             }
@@ -90,7 +91,7 @@ namespace Chess
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
             std::vector<Coordinate> result;
-            result.reserve(KING_WAYS_COUNT);
+            result.reserve(Constants::Counts::KING_WAYS_COUNT);
             for (auto deltaFile = -1; deltaFile <= 1; ++deltaFile)
             {
                 for (auto deltaRank = -1; deltaRank <= 1; ++deltaRank)
@@ -105,8 +106,8 @@ namespace Chess
 
                     const auto piece = finder->TryFind({ .file = newFile, .rank = newRank });
 
-                    if (newFile >= 'A' && newFile <= 'A' + CHESSBOARD_SIZE - 1 && newRank >= 1 && newRank <= CHESSBOARD_SIZE
-                        && (!piece || piece->GetColorAndType().color != color))
+                    if (newFile >= 'A' && newFile <= 'A' + Constants::Sizes::CHESSBOARD_SIZE - 1 && newRank >= 1
+                        && newRank <= Constants::Sizes::CHESSBOARD_SIZE && (!piece || piece->GetColorAndType().color != color))
                     {
                         result.emplace_back(newFile, newRank);
                     }

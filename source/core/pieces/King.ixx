@@ -9,7 +9,6 @@ import Chess.ePieceType;
 import Chess.ICastable;
 import Chess.Piece;
 import Chess.PieceColorAndType;
-import Chess.Sizes;
 import Chess.Utils.Exceptions;
 
 namespace Chess
@@ -104,11 +103,7 @@ namespace Chess
 
         std::optional<boost::signals2::connection> TryConnectCastling(const std::function<void(Coordinate, eCastleSide)>& subscriber)
         {
-            if (GetCanMakeCastling())
-            {
-                return m_signalCastling.connect(subscriber);
-            }
-            return std::nullopt;
+            return GetCanMakeCastling() ? std::make_optional(m_signalCastling.connect(subscriber)) : std::nullopt;
         }
     };
 } // namespace Chess

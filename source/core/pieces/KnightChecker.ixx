@@ -4,9 +4,10 @@ module;
 #include <memory>
 #include <vector>
 export module Chess.KnightChecker;
+import Chess.Constants.Counts;
+import Chess.Constants.Sizes;
 import Chess.Coordinate;
 import Chess.CoordinateToPieceFactory;
-import Chess.Counts;
 import Chess.ePieceColor;
 import Chess.ePieceType;
 import Chess.IMoveChecker;
@@ -14,7 +15,6 @@ import Chess.Knight;
 import Chess.Piece;
 import Chess.PieceFinder;
 import Chess.PositionChecker;
-import Chess.Sizes;
 import Chess.Utils.Exceptions;
 
 namespace Chess
@@ -26,7 +26,8 @@ namespace Chess
         static std::vector<Coordinate> FindPossibleMoves(
             Coordinate position, ePieceColor color, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
         {
-            if (position.file < 'A' || position.file >= 'A' + CHESSBOARD_SIZE || position.rank < 1 || position.rank > CHESSBOARD_SIZE)
+            if (position.file < 'A' || position.file >= 'A' + Constants::Sizes::CHESSBOARD_SIZE || position.rank < 1
+                || position.rank > Constants::Sizes::CHESSBOARD_SIZE)
             {
                 return {};
             }
@@ -38,7 +39,7 @@ namespace Chess
                                                           std::pair(1, 2), std::pair(1, -2), std::pair(-1, 2), std::pair(-1, -2) };
 
             std::vector<Coordinate> result;
-            result.reserve(KNIGHT_WAYS_COUNT);
+            result.reserve(Constants::Counts::KNIGHT_WAYS_COUNT);
             for (const auto& [fileDirection, rankDirection] : knightMoveDirections)
             {
                 char newFile = position.file + fileDirection;

@@ -1,6 +1,6 @@
 export module Chess.PositionChecker;
 import Chess.Coordinate;
-import Chess.Sizes;
+import Chess.Constants.Sizes;
 
 namespace Chess
 {
@@ -9,7 +9,8 @@ namespace Chess
     public:
         static bool IsInChessboard(const Coordinate& position)
         {
-            return position.file >= 'A' && position.file < 'A' + CHESSBOARD_SIZE && position.rank >= 1 && position.rank <= CHESSBOARD_SIZE;
+            return position.file >= 'A' && position.file < 'A' + Constants::Sizes::CHESSBOARD_SIZE && position.rank >= 1
+                   && position.rank <= Constants::Sizes::CHESSBOARD_SIZE;
         }
     };
 } // namespace Chess

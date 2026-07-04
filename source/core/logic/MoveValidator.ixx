@@ -4,9 +4,9 @@ module;
 #include <memory>
 #include <vector>
 export module Chess.MoveValidator;
+import Chess.Constants.Counts;
 import Chess.Coordinate;
 import Chess.CoordinateToPieceFactory;
-import Chess.Counts;
 import Chess.MoveCheckerFactory;
 import Chess.MoveCheckerOwner;
 import Chess.Piece;
@@ -45,7 +45,7 @@ namespace Chess
             ClearPossibleMoves();
 
             std::vector<std::shared_ptr<Piece>> pieces;
-            pieces.reserve(MAX_ELEMENTS_COUNT);
+            pieces.reserve(Constants::Counts::MAX_ELEMENTS_COUNT);
 
             for (const auto& piece : m_piecesOnBoard)
             {

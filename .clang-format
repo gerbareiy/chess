@@ -44,12 +44,9 @@ IncludeBlocks: Merge
 IncludeCategories:
   - Regex: '^".*"$'
     Priority: 1
-
   - Regex: '^<.*>$'
     Priority: 2
-
   - Regex: '^(windows\.h|intrin\.h)$'
     Priority: 3
-
   - Regex: '.*'
     Priority: 4

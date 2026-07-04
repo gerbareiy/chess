@@ -6,6 +6,7 @@ module;
 #include <ranges>
 #include <windows.h>
 export module Console.Chess.ChessboardPresenter;
+import Chess.Constants.Sizes;
 import Chess.Chessboard;
 import Chess.Coordinate;
 import Chess.ePieceColor;
@@ -13,7 +14,6 @@ import Chess.MoveValidator;
 import Chess.PieceColorAndType;
 import Chess.PieceDirector;
 import Chess.PieceTypeConverter;
-import Chess.Sizes;
 import Console.Chess.ConsoleColor;
 
 namespace Console::Chess
@@ -27,8 +27,8 @@ namespace Console::Chess
         static std::string GetChessboardFiles()
         {
             std::string result = "";
-            result.reserve(::Chess::CHESSBOARD_SIZE);
-            for (const char file : std::views::iota('A', 'A' + ::Chess::CHESSBOARD_SIZE))
+            result.reserve(::Chess::Constants::Sizes::CHESSBOARD_SIZE);
+            for (const char file : std::views::iota('A', 'A' + ::Chess::Constants::Sizes::CHESSBOARD_SIZE))
             {
                 result += file;
             }
@@ -119,11 +119,11 @@ namespace Console::Chess
 
             auto           originalTextColor        = originalColors & 0x0F;
             auto           originalBackgroundColor  = (originalColors & 0xF0) >> 4;
-            constexpr auto isChessboardSizeOneDigit = ::Chess::CHESSBOARD_SIZE < 10;
+            constexpr auto isChessboardSizeOneDigit = ::Chess::Constants::Sizes::CHESSBOARD_SIZE < 10;
 
             ShowChessboardFiles(isChessboardSizeOneDigit);
 
-            for (auto y = ::Chess::CHESSBOARD_SIZE; y > 0; --y)
+            for (auto y = ::Chess::Constants::Sizes::CHESSBOARD_SIZE; y > 0; --y)
             {
                 ShowChessboardRank(y, isChessboardSizeOneDigit);
                 ShowChessboardRowWithRank(y, originalTextColor);
@@ -167,7 +167,7 @@ namespace Console::Chess
 
         void ShowChessboardRowWithRank(int y, int originalTextColor) const
         {
-            for (auto x = 'A'; x < 'A' + ::Chess::CHESSBOARD_SIZE; ++x)
+            for (const char x : std::views::iota('A', 'A' + ::Chess::Constants::Sizes::CHESSBOARD_SIZE))
             {
                 auto       colorAndType = m_chessboard->GetPieceDirector()->GetPieceColorAndType({ .file = x, .rank = y });
                 const auto textColor    = GetTextConsoleColor(colorAndType, originalTextColor);

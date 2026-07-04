@@ -1,6 +1,7 @@
 module;
 #include <boost/signals2.hpp>
 export module Chess.Rook;
+import Chess.Constants.Sizes;
 import Chess.Coordinate;
 import Chess.eCastleSide;
 import Chess.ePieceColor;
@@ -9,7 +10,6 @@ import Chess.ICastable;
 import Chess.King;
 import Chess.Piece;
 import Chess.PieceColorAndType;
-import Chess.Sizes;
 import Chess.Utils.Exceptions;
 
 namespace Chess
@@ -40,7 +40,7 @@ namespace Chess
                 {
                     Move(Coordinate(to.file + 1, to.rank));
                 }
-                else if (GetPosition().file == 'A' + CHESSBOARD_SIZE - 1 && side == eCastleSide::RIGHT)
+                else if (GetPosition().file == 'A' + Constants::Sizes::CHESSBOARD_SIZE - 1 && side == eCastleSide::RIGHT)
                 {
                     Move(Coordinate(to.file - 1, to.rank));
                 }

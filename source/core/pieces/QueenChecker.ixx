@@ -2,9 +2,9 @@ module;
 #include <memory>
 #include <vector>
 export module Chess.QueenChecker;
+import Chess.Constants.Counts;
 import Chess.Coordinate;
 import Chess.CoordinateToPieceFactory;
-import Chess.Counts;
 import Chess.DirectionMoveChecker;
 import Chess.ePieceColor;
 import Chess.ePieceType;
@@ -47,7 +47,7 @@ namespace Chess
             auto       eighth   = DirectionMoveChecker::FindPossibleMoves(finder, position, color, { 0, 1 });
 
             std::vector<Coordinate> result;
-            result.reserve(QUEEN_WAYS_COUNT);
+            result.reserve(Constants::Counts::QUEEN_WAYS_COUNT);
             result.insert_range(result.end(), std::move(first));
             result.insert_range(result.end(), std::move(second));
             result.insert_range(result.end(), std::move(third));

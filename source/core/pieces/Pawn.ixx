@@ -2,20 +2,18 @@ module;
 #include <cstdlib>
 #include <memory>
 export module Chess.Pawn;
+import Chess.Constants.Counts;
 import Chess.Coordinate;
 import Chess.ePieceColor;
 import Chess.ePieceType;
 import Chess.Piece;
 import Chess.PieceColorAndType;
-import Chess.Sizes;
 import Chess.Utils.Exceptions;
 
 namespace Chess
 {
     export class Pawn final : public Piece
     {
-        static constexpr int m_MAX_POSSIBLE_COUNT_MOVES = 2;
-
         bool m_canEnPassant      = false;
         bool m_isOnPawnFirstMove = false;
         bool m_isNotMoved        = true;
@@ -52,15 +50,16 @@ namespace Chess
             const int rankDifference = to.rank - GetPosition().rank;
             const int moveVector     = GetColorAndType().color == ePieceColor::WHITE ? 1 : -1;
 
-            const bool isOneStepForward  = fileDifference == 0 && rankDifference == moveVector;
-            const bool isTwoStepsForward = fileDifference == 0 && m_isNotMoved && rankDifference == moveVector * m_MAX_POSSIBLE_COUNT_MOVES;
-            const bool isDiagonalMove    = fileDifference == 1 && rankDifference == moveVector;
+            const bool isOneStepForward = fileDifference == 0 && rankDifference == moveVector;
+            const bool isTwoStepsForward =
+                fileDifference == 0 && m_isNotMoved && rankDifference == moveVector * Constants::Counts::MAX_POSSIBLE_PAWN_MOVE_COUNT;
+            const bool isDiagonalMove = fileDifference == 1 && rankDifference == moveVector;
             if (!isOneStepForward && !isTwoStepsForward && !isDiagonalMove)
             {
                 throw Utils::ImpossibleMoveException();
             }
 
-            if (std::abs(rankDifference) == m_MAX_POSSIBLE_COUNT_MOVES)
+            if (std::abs(rankDifference) == Constants::Counts::MAX_POSSIBLE_PAWN_MOVE_COUNT)
             {
                 m_canEnPassant = m_isNotMoved;
             }
