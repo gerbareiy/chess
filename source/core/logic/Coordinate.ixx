@@ -8,8 +8,8 @@ namespace Chess
 {
     export struct Coordinate
     {
-        char         file = 'A';
-        int rank = 1;
+        char file = 'A';
+        int  rank = 1;
 
         bool operator==(const Coordinate& other) const = default;
         bool operator!=(const Coordinate& other) const = default;

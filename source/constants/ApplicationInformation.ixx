@@ -12,4 +12,4 @@ namespace Chess::Constants::ApplicationInformation
     export constexpr uint32_t         ENGINE_VERSION = VK_MAKE_VERSION(0, 0, 1);
 
     export constexpr uint32_t API_VERSION = VK_API_VERSION_1_4;
-} // namespace Chess::Window::ApplicationInformation
+} // namespace Chess::Constants::ApplicationInformation

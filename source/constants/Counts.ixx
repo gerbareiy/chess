@@ -17,5 +17,5 @@ namespace Chess::Constants::Counts
     export constexpr int MAX_ELEMENTS_COUNT = 32;
 
     export constexpr int MAX_HALF_MOVES_WITHOUT_PAWN_MOVE_AND_TAKING_COUNT = 150;
-    export constexpr int MAX_POSSIBLE_PAWN_MOVE_COUNT                          = 2;
+    export constexpr int MAX_POSSIBLE_PAWN_MOVE_COUNT                      = 2;
 } // namespace Chess::Constants::Counts
