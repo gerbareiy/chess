@@ -17,9 +17,9 @@ import Console.Chess.ConsolePromoter;
 import Console.Chess.InputHandler;
 import Console.Chess.LabelPresenter;
 
-namespace
+class ConsoleGame
 {
-    bool IsPromotion(const std::shared_ptr<Chess::Chessboard>& board, const Chess::Coordinate& from, const Chess::Coordinate& to)
+    static bool IsPromotion(const std::shared_ptr<Chess::Chessboard>& board, const Chess::Coordinate& from, const Chess::Coordinate& to)
     {
         const auto piece = board->GetPieceDirector()->GetPiece(from);
         if (!piece)
@@ -34,7 +34,7 @@ namespace
         return (color == Chess::ePieceColor::WHITE && to.rank == 8) || (color == Chess::ePieceColor::BLACK && to.rank == 1);
     }
 
-    void PrintOutcome(Chess::eGameState state)
+    static void PrintOutcome(Chess::eGameState state)
     {
         switch (state)
         {
@@ -50,7 +50,8 @@ namespace
         }
     }
 
-    void RunNetworkGame(Chess::Client::Session& session)
+public:
+    static void RunNetworkGame(Chess::Client::Session& session)
     {
         const auto inputHandler   = std::make_shared<Console::Chess::InputHandler>();
         auto       labelPresenter = std::make_unique<Console::Chess::LabelPresenter>(inputHandler);
@@ -121,14 +122,14 @@ namespace
             session.ReceiveNext();
         }
     }
-} // namespace
+};
 
 int main()
 {
     try
     {
         const auto session = Chess::Client::Session::Connect("127.0.0.1", 5555);
-        RunNetworkGame(*session);
+        ConsoleGame::RunNetworkGame(*session);
     }
     catch (const std::exception& exception)
     {

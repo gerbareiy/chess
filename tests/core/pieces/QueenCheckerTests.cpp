@@ -12,13 +12,14 @@ import Chess.Utils.Exceptions;
 
 namespace ServerTests
 {
-    namespace
+    class QueenCheckerTestHelpers
     {
-        bool Contains(const std::vector<Chess::Coordinate>& coordinates, const Chess::Coordinate& coordinate)
+    public:
+        static bool Contains(const std::vector<Chess::Coordinate>& coordinates, const Chess::Coordinate& coordinate)
         {
             return std::ranges::contains(coordinates, coordinate);
         }
-    } // namespace
+    };
 
     TEST(QueenCheckerTests, MovesStraightAndDiagonallyStoppingAtBlockers)
     {
@@ -29,15 +30,15 @@ namespace ServerTests
 
         const auto moves = Chess::QueenChecker(queen).GetMoves(pieces);
 
-        EXPECT_TRUE(Contains(moves, { .file = 'D', .rank = 5 }));
-        EXPECT_FALSE(Contains(moves, { .file = 'D', .rank = 6 }));
-        EXPECT_FALSE(Contains(moves, { .file = 'D', .rank = 7 }));
+        EXPECT_TRUE(QueenCheckerTestHelpers::Contains(moves, { .file = 'D', .rank = 5 }));
+        EXPECT_FALSE(QueenCheckerTestHelpers::Contains(moves, { .file = 'D', .rank = 6 }));
+        EXPECT_FALSE(QueenCheckerTestHelpers::Contains(moves, { .file = 'D', .rank = 7 }));
 
-        EXPECT_TRUE(Contains(moves, { .file = 'E', .rank = 5 }));
-        EXPECT_TRUE(Contains(moves, { .file = 'F', .rank = 6 }));
-        EXPECT_FALSE(Contains(moves, { .file = 'G', .rank = 7 }));
+        EXPECT_TRUE(QueenCheckerTestHelpers::Contains(moves, { .file = 'E', .rank = 5 }));
+        EXPECT_TRUE(QueenCheckerTestHelpers::Contains(moves, { .file = 'F', .rank = 6 }));
+        EXPECT_FALSE(QueenCheckerTestHelpers::Contains(moves, { .file = 'G', .rank = 7 }));
 
-        EXPECT_TRUE(Contains(moves, { .file = 'A', .rank = 4 }));
+        EXPECT_TRUE(QueenCheckerTestHelpers::Contains(moves, { .file = 'A', .rank = 4 }));
     }
 
     TEST(QueenCheckerTests, ThrowsOnNullptrQueen)

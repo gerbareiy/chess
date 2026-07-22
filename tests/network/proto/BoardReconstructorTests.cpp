@@ -11,9 +11,11 @@ import Chess.Rook;
 
 namespace NetworkTests
 {
-    namespace
+    class BoardReconstructorTestHelpers
     {
-        template <typename T> std::shared_ptr<T> FindOfColor(const std::vector<std::shared_ptr<Chess::Piece>>& pieces, Chess::ePieceColor color)
+    public:
+        template <typename T>
+        static std::shared_ptr<T> FindOfColor(const std::vector<std::shared_ptr<Chess::Piece>>& pieces, Chess::ePieceColor color)
         {
             for (const auto& piece : pieces)
             {
@@ -25,11 +27,11 @@ namespace NetworkTests
             return nullptr;
         }
 
-        std::vector<std::shared_ptr<Chess::Piece>> RoundTrip(const std::vector<std::shared_ptr<Chess::Piece>>& pieces)
+        static std::vector<std::shared_ptr<Chess::Piece>> RoundTrip(const std::vector<std::shared_ptr<Chess::Piece>>& pieces)
         {
             return Chess::Proto::Chessboard::FromProto(Chess::Proto::Chessboard::ToProto(pieces, Chess::ePieceColor::WHITE, 0, 0));
         }
-    } // namespace
+    };
 
     TEST(BoardReconstructorTests, MovedRookLosesCastlingWhileKingKeepsIt)
     {
@@ -38,10 +40,10 @@ namespace NetworkTests
         const auto movedRook = std::make_shared<Chess::Rook>(Chess::ePieceColor::WHITE, Chess::Coordinate{ .file = 'A', .rank = 1 });
         ASSERT_FALSE(movedRook->GetCanMakeCastling());
 
-        const auto restored = RoundTrip({ whiteKing, blackKing, movedRook });
+        const auto restored = BoardReconstructorTestHelpers::RoundTrip({ whiteKing, blackKing, movedRook });
 
-        const auto restoredKing = FindOfColor<Chess::King>(restored, Chess::ePieceColor::WHITE);
-        const auto restoredRook = FindOfColor<Chess::Rook>(restored, Chess::ePieceColor::WHITE);
+        const auto restoredKing = BoardReconstructorTestHelpers::FindOfColor<Chess::King>(restored, Chess::ePieceColor::WHITE);
+        const auto restoredRook = BoardReconstructorTestHelpers::FindOfColor<Chess::Rook>(restored, Chess::ePieceColor::WHITE);
         ASSERT_NE(restoredKing, nullptr);
         ASSERT_NE(restoredRook, nullptr);
 
@@ -56,8 +58,8 @@ namespace NetworkTests
         const auto rook      = std::make_shared<Chess::Rook>(Chess::ePieceColor::WHITE, Chess::Coordinate{ .file = 'A', .rank = 1 }, whiteKing);
         ASSERT_TRUE(rook->GetCanMakeCastling());
 
-        const auto restored     = RoundTrip({ whiteKing, blackKing, rook });
-        const auto restoredRook = FindOfColor<Chess::Rook>(restored, Chess::ePieceColor::WHITE);
+        const auto restored     = BoardReconstructorTestHelpers::RoundTrip({ whiteKing, blackKing, rook });
+        const auto restoredRook = BoardReconstructorTestHelpers::FindOfColor<Chess::Rook>(restored, Chess::ePieceColor::WHITE);
         ASSERT_NE(restoredRook, nullptr);
         EXPECT_TRUE(restoredRook->GetCanMakeCastling());
     }
@@ -70,8 +72,8 @@ namespace NetworkTests
         pawn->Move({ .file = 'D', .rank = 4 });
         ASSERT_TRUE(pawn->GetCanEnPassant());
 
-        const auto restored     = RoundTrip({ whiteKing, blackKing, pawn });
-        const auto restoredPawn = FindOfColor<Chess::Pawn>(restored, Chess::ePieceColor::WHITE);
+        const auto restored     = BoardReconstructorTestHelpers::RoundTrip({ whiteKing, blackKing, pawn });
+        const auto restoredPawn = BoardReconstructorTestHelpers::FindOfColor<Chess::Pawn>(restored, Chess::ePieceColor::WHITE);
         ASSERT_NE(restoredPawn, nullptr);
         EXPECT_TRUE(restoredPawn->GetCanEnPassant());
         EXPECT_FALSE(restoredPawn->GetIsNotMoved());

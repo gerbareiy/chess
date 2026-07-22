@@ -12,13 +12,14 @@ import Chess.Utils.Exceptions;
 
 namespace ServerTests
 {
-    namespace
+    class BishopCheckerTestHelpers
     {
-        bool Contains(const std::vector<Chess::Coordinate>& coordinates, const Chess::Coordinate& coordinate)
+    public:
+        static bool Contains(const std::vector<Chess::Coordinate>& coordinates, const Chess::Coordinate& coordinate)
         {
             return std::ranges::contains(coordinates, coordinate);
         }
-    } // namespace
+    };
 
     TEST(BishopCheckerTests, StopsAtOwnPieceAndIncludesOpponentPiece)
     {
@@ -29,15 +30,15 @@ namespace ServerTests
 
         const auto moves = Chess::BishopChecker(bishop).GetMoves(pieces);
 
-        EXPECT_TRUE(Contains(moves, { .file = 'E', .rank = 5 }));
-        EXPECT_FALSE(Contains(moves, { .file = 'F', .rank = 6 }));
-        EXPECT_FALSE(Contains(moves, { .file = 'G', .rank = 7 }));
+        EXPECT_TRUE(BishopCheckerTestHelpers::Contains(moves, { .file = 'E', .rank = 5 }));
+        EXPECT_FALSE(BishopCheckerTestHelpers::Contains(moves, { .file = 'F', .rank = 6 }));
+        EXPECT_FALSE(BishopCheckerTestHelpers::Contains(moves, { .file = 'G', .rank = 7 }));
 
-        EXPECT_TRUE(Contains(moves, { .file = 'C', .rank = 3 }));
-        EXPECT_TRUE(Contains(moves, { .file = 'B', .rank = 2 }));
-        EXPECT_FALSE(Contains(moves, { .file = 'A', .rank = 1 }));
+        EXPECT_TRUE(BishopCheckerTestHelpers::Contains(moves, { .file = 'C', .rank = 3 }));
+        EXPECT_TRUE(BishopCheckerTestHelpers::Contains(moves, { .file = 'B', .rank = 2 }));
+        EXPECT_FALSE(BishopCheckerTestHelpers::Contains(moves, { .file = 'A', .rank = 1 }));
 
-        EXPECT_FALSE(Contains(moves, { .file = 'D', .rank = 5 }));
+        EXPECT_FALSE(BishopCheckerTestHelpers::Contains(moves, { .file = 'D', .rank = 5 }));
     }
 
     TEST(BishopCheckerTests, ThrowsOnNullptrBishop)

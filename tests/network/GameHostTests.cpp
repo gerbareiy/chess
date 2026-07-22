@@ -19,29 +19,30 @@ import Chess.Rook;
 
 namespace NetworkTests
 {
-    namespace
+    class GameHostTestHelpers
     {
-        void SendFindGame(Chess::Net::ClientConnection& connection)
+    public:
+        static void SendFindGame(Chess::Net::ClientConnection& connection)
         {
             chess::proto::Envelope envelope;
             envelope.mutable_find_game();
             connection.SendBytes(envelope.SerializeAsString());
         }
 
-        chess::proto::Envelope Receive(Chess::Net::ClientConnection& connection)
+        static chess::proto::Envelope Receive(Chess::Net::ClientConnection& connection)
         {
             chess::proto::Envelope envelope;
             envelope.ParseFromString(connection.ReceiveBytes());
             return envelope;
         }
 
-        void SendMove(Chess::Net::ClientConnection& connection, const Chess::Move& move)
+        static void SendMove(Chess::Net::ClientConnection& connection, const Chess::Move& move)
         {
             chess::proto::Envelope envelope;
             *envelope.mutable_move() = Chess::Proto::Move::ToProto(move);
             connection.SendBytes(envelope.SerializeAsString());
         }
-    } // namespace
+    };
 
     TEST(GameHostTests, RelaysLegalMoveAndRejectsIllegalMove)
     {
@@ -55,28 +56,28 @@ namespace NetworkTests
         };
 
         Chess::Net::ServerSocket socket(port);
-        auto                     host = std::thread([&socket, pieces]() mutable { Chess::Net::GameHost::HostSingleMatch(socket, std::move(pieces)); });
+        auto host = std::thread([&socket, pieces]() mutable { Chess::Net::GameHost::HostSingleMatch(socket, std::move(pieces)); });
 
         auto white = Chess::Net::ClientConnection::Connect("127.0.0.1", port);
         auto black = Chess::Net::ClientConnection::Connect("127.0.0.1", port);
 
-        SendFindGame(white);
-        SendFindGame(black);
+        GameHostTestHelpers::SendFindGame(white);
+        GameHostTestHelpers::SendFindGame(black);
 
-        const auto whiteStart = Receive(white);
-        const auto blackStart = Receive(black);
+        const auto whiteStart = GameHostTestHelpers::Receive(white);
+        const auto blackStart = GameHostTestHelpers::Receive(black);
         EXPECT_EQ(whiteStart.payload_case(), chess::proto::Envelope::kGameStarted);
         EXPECT_EQ(blackStart.payload_case(), chess::proto::Envelope::kGameStarted);
         EXPECT_EQ(whiteStart.game_started().your_color(), chess::proto::PIECE_COLOR_WHITE);
         EXPECT_EQ(blackStart.game_started().your_color(), chess::proto::PIECE_COLOR_BLACK);
 
-        SendMove(white, Chess::Move{ .from = { .file = 'H', .rank = 1 }, .to = { .file = 'H', .rank = 5 } });
-        const auto relayed = Receive(black);
+        GameHostTestHelpers::SendMove(white, Chess::Move{ .from = { .file = 'H', .rank = 1 }, .to = { .file = 'H', .rank = 5 } });
+        const auto relayed = GameHostTestHelpers::Receive(black);
         EXPECT_EQ(relayed.payload_case(), chess::proto::Envelope::kMove);
         EXPECT_EQ(Chess::Proto::Move::FromProto(relayed.move()).to, (Chess::Coordinate{ .file = 'H', .rank = 5 }));
 
-        SendMove(black, Chess::Move{ .from = { .file = 'E', .rank = 8 }, .to = { .file = 'E', .rank = 5 } });
-        const auto rejected = Receive(black);
+        GameHostTestHelpers::SendMove(black, Chess::Move{ .from = { .file = 'E', .rank = 8 }, .to = { .file = 'E', .rank = 5 } });
+        const auto rejected = GameHostTestHelpers::Receive(black);
         EXPECT_EQ(rejected.payload_case(), chess::proto::Envelope::kBoardSync);
 
         white.Close();

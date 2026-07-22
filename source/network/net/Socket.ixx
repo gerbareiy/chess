@@ -1,10 +1,10 @@
 module;
-#include <zmq.hpp>
 #include <random>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 #include <utility>
+#include <zmq.hpp>
 export module Chess.Net.Socket;
 
 namespace Chess::Net
@@ -15,15 +15,19 @@ namespace Chess::Net
         using std::runtime_error::runtime_error;
     };
 
-    namespace
+    // Wraps a ZeroMQ DEALER socket: one logical connection to a server.
+    // Portable across Windows/Linux/macOS, unlike raw WinSock.
+    export class ClientSocket
     {
-        zmq::context_t& Context()
+        zmq::socket_t m_socket;
+
+        static zmq::context_t& Context()
         {
             static zmq::context_t context(1);
             return context;
         }
 
-        std::string Endpoint(const std::string& host, unsigned short port)
+        static std::string Endpoint(const std::string& host, unsigned short port)
         {
             return "tcp://" + host + ":" + std::to_string(port);
         }
@@ -31,7 +35,7 @@ namespace Chess::Net
         // ZeroMQ ROUTER sockets route replies by identity. Assigning each DEALER an
         // explicit, process-unique identity (rather than relying on libzmq's
         // auto-generated one) keeps routing stable for the lifetime of the connection.
-        std::string GenerateIdentity()
+        static std::string GenerateIdentity()
         {
             static std::mt19937_64                       engine(std::random_device{}());
             std::uniform_int_distribution<std::uint64_t> distribution;
@@ -40,13 +44,6 @@ namespace Chess::Net
             stream << std::hex << distribution(engine);
             return stream.str();
         }
-    } // namespace
-
-    // Wraps a ZeroMQ DEALER socket: one logical connection to a server.
-    // Portable across Windows/Linux/macOS, unlike raw WinSock.
-    export class ClientSocket
-    {
-        zmq::socket_t m_socket;
 
         explicit ClientSocket(zmq::socket_t socket)
             : m_socket(std::move(socket))
@@ -117,6 +114,17 @@ namespace Chess::Net
     export class ServerSocket
     {
         zmq::socket_t m_socket;
+
+        static zmq::context_t& Context()
+        {
+            static zmq::context_t context(1);
+            return context;
+        }
+
+        static std::string Endpoint(const std::string& host, unsigned short port)
+        {
+            return "tcp://" + host + ":" + std::to_string(port);
+        }
 
     public:
         explicit ServerSocket(unsigned short port)

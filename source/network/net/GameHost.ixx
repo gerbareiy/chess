@@ -25,21 +25,19 @@ namespace Chess::Net
 {
     export class GameHost
     {
-    public:
-        static void HostSingleMatch(ServerSocket& socket, std::vector<std::shared_ptr<Chess::Piece>> pieces);
-    };
+        static constexpr uint32_t BOARD_CHECK_PERIOD = 10;
 
-    namespace
-    {
-        constexpr uint32_t BOARD_CHECK_PERIOD = 10;
-
-        chess::proto::Chessboard BoardToProto(const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
+        static chess::proto::Chessboard BoardToProto(const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
         {
             return Chess::Proto::Chessboard::ToProto(board->GetPieceDirector()->GetPiecesOnBoard(), board->GetSideToMove(), 0, ply);
         }
 
-        void SendGameStarted(
-            ServerSocket& socket, const std::string& identity, Chess::ePieceColor color, const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
+        static void SendGameStarted(
+            ServerSocket&                             socket,
+            const std::string&                        identity,
+            Chess::ePieceColor                        color,
+            const std::shared_ptr<Chess::Chessboard>& board,
+            uint32_t                                  ply)
         {
             chess::proto::Envelope envelope;
             auto*                  started = envelope.mutable_game_started();
@@ -48,21 +46,21 @@ namespace Chess::Net
             socket.SendFrame(identity, envelope.SerializeAsString());
         }
 
-        void SendBoardSync(ServerSocket& socket, const std::string& identity, const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
+        static void SendBoardSync(ServerSocket& socket, const std::string& identity, const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
         {
             chess::proto::Envelope envelope;
             *envelope.mutable_board_sync() = BoardToProto(board, ply);
             socket.SendFrame(identity, envelope.SerializeAsString());
         }
 
-        void SendBoardCheck(ServerSocket& socket, const std::string& identity, const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
+        static void SendBoardCheck(ServerSocket& socket, const std::string& identity, const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
         {
             chess::proto::Envelope envelope;
             *envelope.mutable_board_check() = BoardToProto(board, ply);
             socket.SendFrame(identity, envelope.SerializeAsString());
         }
 
-        void SendGameOver(
+        static void SendGameOver(
             ServerSocket& socket, const std::string& identity, Chess::eGameState state, const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
         {
             chess::proto::Envelope envelope;
@@ -74,7 +72,7 @@ namespace Chess::Net
 
         // Blocks until two distinct client identities have sent find_game. Disconnect
         // notifications (empty payload) and anything else received meanwhile are ignored.
-        std::pair<std::string, std::string> WaitForPlayers(ServerSocket& socket)
+        static std::pair<std::string, std::string> WaitForPlayers(ServerSocket& socket)
         {
             std::string white;
             while (white.empty())
@@ -102,7 +100,8 @@ namespace Chess::Net
             return { white, black };
         }
 
-        void RunMatch(ServerSocket& socket, const std::string& whiteId, const std::string& blackId, const std::shared_ptr<Chess::Chessboard>& board)
+        static void RunMatch(
+            ServerSocket& socket, const std::string& whiteId, const std::string& blackId, const std::shared_ptr<Chess::Chessboard>& board)
         {
             Chess::GameStateChecker checker;
             const std::string*      current  = &whiteId;
@@ -184,17 +183,18 @@ namespace Chess::Net
                 std::swap(current, opponent);
             }
         }
-    } // namespace
 
-    void GameHost::HostSingleMatch(ServerSocket& socket, std::vector<std::shared_ptr<Chess::Piece>> pieces)
-    {
-        const auto [whiteId, blackId] = WaitForPlayers(socket);
+    public:
+        static void HostSingleMatch(ServerSocket& socket, std::vector<std::shared_ptr<Chess::Piece>> pieces)
+        {
+            const auto [whiteId, blackId] = WaitForPlayers(socket);
 
-        const auto board = Chess::ChessboardFactory::Create(std::move(pieces), Chess::ePieceColor::WHITE);
+            const auto board = Chess::ChessboardFactory::Create(std::move(pieces), Chess::ePieceColor::WHITE);
 
-        SendGameStarted(socket, whiteId, Chess::ePieceColor::WHITE, board, 0);
-        SendGameStarted(socket, blackId, Chess::ePieceColor::BLACK, board, 0);
+            SendGameStarted(socket, whiteId, Chess::ePieceColor::WHITE, board, 0);
+            SendGameStarted(socket, blackId, Chess::ePieceColor::BLACK, board, 0);
 
-        RunMatch(socket, whiteId, blackId, board);
-    }
+            RunMatch(socket, whiteId, blackId, board);
+        }
+    };
 } // namespace Chess::Net
