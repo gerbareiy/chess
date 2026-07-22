@@ -7,8 +7,10 @@ import "PieceColorAndType.proto";
 
 message Chessboard
 {
-    repeated Piece pieces          = 1;
-    PieceColor     side_to_move    = 2;
-    uint32         half_move_clock = 3;
-    uint32         ply             = 4; 
+    reserved 3;
+    reserved "half_move_clock";
+
+    repeated Piece pieces       = 1;
+    PieceColor     side_to_move = 2;
+    uint32         ply          = 4;
 }

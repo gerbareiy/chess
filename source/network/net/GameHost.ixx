@@ -29,7 +29,7 @@ namespace Chess::Net
 
         static chess::proto::Chessboard BoardToProto(const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
         {
-            return Chess::Proto::Chessboard::ToProto(board->GetPieceDirector()->GetPiecesOnBoard(), board->GetSideToMove(), 0, ply);
+            return Chess::Proto::Chessboard::ToProto(board->GetPieceDirector()->GetPiecesOnBoard(), board->GetSideToMove(), ply);
         }
 
         static void SendGameStarted(

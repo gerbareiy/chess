@@ -79,7 +79,7 @@ namespace NetworkTests
             std::make_shared<Chess::Pawn>(Chess::ePieceColor::WHITE, Chess::Coordinate{ .file = 'A', .rank = 2 }),
         };
 
-        const auto restored = Chess::Proto::Chessboard::FromProto(Chess::Proto::Chessboard::ToProto(pieces, Chess::ePieceColor::WHITE, 7));
+        const auto restored = Chess::Proto::Chessboard::FromProto(Chess::Proto::Chessboard::ToProto(pieces, Chess::ePieceColor::WHITE));
 
         EXPECT_EQ(restored.size(), pieces.size());
     }

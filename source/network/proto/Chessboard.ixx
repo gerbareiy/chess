@@ -15,8 +15,7 @@ namespace Chess::Proto
     export class Chessboard
     {
     public:
-        static chess::proto::Chessboard ToProto(
-            const std::vector<std::shared_ptr<Chess::Piece>>& pieces, Chess::ePieceColor sideToMove, uint32_t halfMoveClock, uint32_t ply = 0)
+        static chess::proto::Chessboard ToProto(const std::vector<std::shared_ptr<Chess::Piece>>& pieces, Chess::ePieceColor sideToMove, uint32_t ply = 0)
         {
             chess::proto::Chessboard result;
             for (const auto& piece : pieces)
@@ -24,7 +23,6 @@ namespace Chess::Proto
                 *result.add_pieces() = Piece::ToProto(piece);
             }
             result.set_side_to_move(PieceColorAndType::ToProto(sideToMove));
-            result.set_half_move_clock(halfMoveClock);
             result.set_ply(ply);
             return result;
         }

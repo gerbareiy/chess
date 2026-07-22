@@ -29,7 +29,7 @@ namespace NetworkTests
 
         static std::vector<std::shared_ptr<Chess::Piece>> RoundTrip(const std::vector<std::shared_ptr<Chess::Piece>>& pieces)
         {
-            return Chess::Proto::Chessboard::FromProto(Chess::Proto::Chessboard::ToProto(pieces, Chess::ePieceColor::WHITE, 0, 0));
+            return Chess::Proto::Chessboard::FromProto(Chess::Proto::Chessboard::ToProto(pieces, Chess::ePieceColor::WHITE, 0));
         }
     };
 
