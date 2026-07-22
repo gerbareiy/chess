@@ -4,6 +4,7 @@
 #include <utility>
 import Chess.ChessboardBuilder;
 import Chess.Net.GameHost;
+import Chess.Net.Socket;
 
 int main()
 {
@@ -13,11 +14,13 @@ int main()
     {
         const auto path = std::filesystem::current_path().parent_path().parent_path().parent_path() / "resources" / "chessboard.json";
 
+        Chess::Net::ServerSocket socket(port);
+
         std::println("Chess server on port {}. Waiting for two players...", port);
         while (true)
         {
             auto pieces = Chess::ChessboardBuilder::InitBoard(path.string());
-            Chess::Net::GameHost::HostSingleMatch(port, std::move(pieces));
+            Chess::Net::GameHost::HostSingleMatch(socket, std::move(pieces));
             std::println("Match finished. Waiting for the next two players...");
         }
     }

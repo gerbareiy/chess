@@ -9,7 +9,7 @@ endif()
 # common options
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-find_package(Boost REQUIRED COMPONENTS asio json signals2 system)
+find_package(Boost REQUIRED COMPONENTS json signals2)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(magic_enum CONFIG REQUIRED)

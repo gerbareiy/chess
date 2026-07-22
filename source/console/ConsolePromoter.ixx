@@ -14,23 +14,24 @@ namespace Console::Chess
 {
     export class ConsolePromoter final : public ::Chess::Promoter
     {
+        static char GuessPromotionSymbol(char symbol)
+        {
+            const char upped = static_cast<char>(std::toupper(symbol));
+            if (upped == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::KING))
+            {
+                return ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::KNIGHT).value();
+            }
+            return upped;
+        }
+
         static std::optional<char> TryNormalizePromotionChoice(const std::string& input)
         {
             for (const unsigned char symbol : input)
             {
-                if (std::isspace(symbol))
+                if (!std::isspace(symbol))
                 {
-                    continue;
+                    return GuessPromotionSymbol(symbol);
                 }
-
-                auto normalized = static_cast<char>(std::toupper(symbol));
-
-                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::KING))
-                {
-                    normalized = static_cast<char>(std::tolower(static_cast<unsigned char>(normalized)));
-                }
-
-                return normalized;
             }
             return std::nullopt;
         }
@@ -49,7 +50,7 @@ namespace Console::Chess
             {
                 GetSignalOnEnter()(::Chess::eInputType::PROMOTION);
 
-                auto const input      = EnterPromotionType();
+                const auto input      = EnterPromotionType();
                 const auto normalized = TryNormalizePromotionChoice(input);
                 if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::BISHOP))
                 {

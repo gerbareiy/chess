@@ -1,26 +1,39 @@
 module;
-#include <memory>
 #include <string>
+#include <utility>
 export module Chess.Net.ClientConnection;
+import Chess.Net.Socket;
 
 namespace Chess::Net
 {
     export class ClientConnection
     {
-        struct Impl;
-        std::unique_ptr<Impl> m_impl;
+        ClientSocket m_socket;
 
-        explicit ClientConnection(std::unique_ptr<Impl> impl);
+        explicit ClientConnection(ClientSocket socket)
+            : m_socket(std::move(socket))
+        {
+        }
 
     public:
-        ClientConnection(ClientConnection&&) noexcept;
-        ClientConnection& operator=(ClientConnection&&) noexcept;
-        ~ClientConnection();
+        static ClientConnection Connect(const std::string& host, unsigned short port)
+        {
+            return ClientConnection(ClientSocket::Connect(host, port));
+        }
 
-        static ClientConnection Connect(const std::string& host, unsigned short port);
+        void SendBytes(const std::string& payload)
+        {
+            m_socket.SendBytes(payload);
+        }
 
-        void        SendBytes(const std::string& payload);
-        std::string ReceiveBytes();
-        void        Close();
+        std::string ReceiveBytes()
+        {
+            return m_socket.ReceiveBytes();
+        }
+
+        void Close()
+        {
+            m_socket.Close();
+        }
     };
 } // namespace Chess::Net

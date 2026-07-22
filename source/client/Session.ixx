@@ -30,8 +30,8 @@ namespace Chess::Client
         Net::ClientConnection       m_connection;
         std::shared_ptr<Chessboard> m_chessboard;
         ePieceColor                 m_myColor    = ePieceColor::NONE;
-        bool                        m_gameOver   = false;
         eGameState                  m_finalState = eGameState::PLAYING;
+        bool                        m_gameOver   = false;
         uint32_t                    m_ply        = 0;
 
         void Rebuild(const chess::proto::Chessboard& board)
@@ -88,7 +88,7 @@ namespace Chess::Client
 
         bool IsMyTurn() const
         {
-            return !m_gameOver && m_chessboard->GetSideToMove() == m_myColor;
+            return !IsGameOver() && m_chessboard->GetSideToMove() == m_myColor;
         }
 
         bool IsGameOver() const

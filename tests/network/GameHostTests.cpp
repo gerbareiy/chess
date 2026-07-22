@@ -11,6 +11,7 @@ import Chess.King;
 import Chess.Move;
 import Chess.Net.ClientConnection;
 import Chess.Net.GameHost;
+import Chess.Net.Socket;
 import Chess.Pawn;
 import Chess.Piece;
 import Chess.Proto.Move;
@@ -20,22 +21,6 @@ namespace NetworkTests
 {
     namespace
     {
-        Chess::Net::ClientConnection ConnectWithRetry(unsigned short port)
-        {
-            for (int attempt = 0; attempt < 100; ++attempt)
-            {
-                try
-                {
-                    return Chess::Net::ClientConnection::Connect("127.0.0.1", port);
-                }
-                catch (const std::exception&)
-                {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(20));
-                }
-            }
-            throw std::runtime_error("could not connect to game host");
-        }
-
         void SendFindGame(Chess::Net::ClientConnection& connection)
         {
             chess::proto::Envelope envelope;
@@ -69,10 +54,11 @@ namespace NetworkTests
             std::make_shared<Chess::Pawn>(Chess::ePieceColor::BLACK, Chess::Coordinate{ .file = 'A', .rank = 7 }),
         };
 
-        auto host = std::thread([pieces]() mutable { Chess::Net::GameHost::HostSingleMatch(port, std::move(pieces)); });
+        Chess::Net::ServerSocket socket(port);
+        auto                     host = std::thread([&socket, pieces]() mutable { Chess::Net::GameHost::HostSingleMatch(socket, std::move(pieces)); });
 
-        auto white = ConnectWithRetry(port);
-        auto black = ConnectWithRetry(port);
+        auto white = Chess::Net::ClientConnection::Connect("127.0.0.1", port);
+        auto black = Chess::Net::ClientConnection::Connect("127.0.0.1", port);
 
         SendFindGame(white);
         SendFindGame(black);
