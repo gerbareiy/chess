@@ -4,7 +4,7 @@ file(GLOB PROTO_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.proto")
 
 add_library(proto STATIC ${PROTO_FILES})
 
-target_link_libraries(proto PUBLIC protobuf::libprotobuf)
+target_link_libraries(proto PRIVATE protobuf::libprotobuf)
 
 target_include_directories(proto PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 

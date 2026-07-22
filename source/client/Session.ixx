@@ -1,5 +1,4 @@
 module;
-#include "Envelope.pb.h"
 #include <memory>
 #include <string>
 #include <utility>
@@ -10,11 +9,7 @@ import Chess.eGameState;
 import Chess.ePieceColor;
 import Chess.FixedPromoter;
 import Chess.Move;
-import Chess.Net.ClientConnection;
-import Chess.Proto.Chessboard;
-import Chess.Proto.Move;
-import Chess.Proto.PieceColorAndType;
-import Chess.Proto.Session;
+import Chess.Net.GameSession;
 
 namespace Chess::Client
 {
@@ -27,19 +22,17 @@ namespace Chess::Client
 
     export class Session
     {
-        Net::ClientConnection       m_connection;
+        Net::GameSession            m_session;
         std::shared_ptr<Chessboard> m_chessboard;
         ePieceColor                 m_myColor    = ePieceColor::NONE;
         eGameState                  m_finalState = eGameState::PLAYING;
         bool                        m_gameOver   = false;
         uint32_t                    m_ply        = 0;
 
-        void Rebuild(const chess::proto::Chessboard& board)
+        void Rebuild(Net::BoardSnapshot board)
         {
-            auto       pieces = Proto::Chessboard::FromProto(board);
-            const auto side   = Proto::PieceColorAndType::FromProto(board.side_to_move());
-            m_chessboard      = ChessboardFactory::Create(std::move(pieces), side);
-            m_ply             = board.ply();
+            m_ply        = board.ply;
+            m_chessboard = ChessboardFactory::Create(std::move(board.pieces), board.sideToMove);
         }
 
         bool ApplyMove(const Move& move)
@@ -56,24 +49,17 @@ namespace Chess::Client
             return true;
         }
 
-        Session(const std::string& host, unsigned short port)
-            : m_connection(Net::ClientConnection::Connect(host, port))
+        explicit Session(Net::GameSession session)
+            : m_session(std::move(session))
         {
-            chess::proto::Envelope findGame;
-            findGame.mutable_find_game();
-            m_connection.SendBytes(findGame.SerializeAsString());
-
-            chess::proto::Envelope started;
-            started.ParseFromString(m_connection.ReceiveBytes());
-
-            m_myColor = Proto::PieceColorAndType::FromProto(started.game_started().your_color());
-            Rebuild(started.game_started().board());
+            m_myColor = m_session.GetMyColor();
+            Rebuild(m_session.GetInitialBoard());
         }
 
     public:
         static std::unique_ptr<Session> Connect(const std::string& host, unsigned short port)
         {
-            return std::unique_ptr<Session>(new Session(host, port));
+            return std::unique_ptr<Session>(new Session(Net::GameSession::Connect(host, port)));
         }
 
         ePieceColor GetMyColor() const
@@ -108,35 +94,32 @@ namespace Chess::Client
                 return false;
             }
 
-            chess::proto::Envelope envelope;
-            *envelope.mutable_move() = Proto::Move::ToProto(move);
-            m_connection.SendBytes(envelope.SerializeAsString());
+            m_session.SendMove(move);
             return true;
         }
 
         eServerEvent ReceiveNext()
         {
-            chess::proto::Envelope envelope;
-            envelope.ParseFromString(m_connection.ReceiveBytes());
+            auto message = m_session.ReceiveNext();
 
-            switch (envelope.payload_case())
+            switch (message.event)
             {
-            case chess::proto::Envelope::kMove:
-                ApplyMove(Proto::Move::FromProto(envelope.move()));
+            case Net::eSessionEvent::OpponentMoved:
+                ApplyMove(*message.move);
                 return eServerEvent::OpponentMoved;
-            case chess::proto::Envelope::kBoardSync:
-                Rebuild(envelope.board_sync());
+            case Net::eSessionEvent::BoardSynced:
+                Rebuild(std::move(*message.board));
                 return eServerEvent::Resynced;
-            case chess::proto::Envelope::kBoardCheck:
-                if (envelope.board_check().ply() >= m_ply)
+            case Net::eSessionEvent::BoardChecked:
+                if (message.board->ply >= m_ply)
                 {
-                    Rebuild(envelope.board_check());
+                    Rebuild(std::move(*message.board));
                 }
                 return eServerEvent::Resynced;
-            case chess::proto::Envelope::kGameOver:
+            case Net::eSessionEvent::GameOver:
                 m_gameOver   = true;
-                m_finalState = Proto::Session::FromProto(envelope.game_over().state());
-                Rebuild(envelope.game_over().board());
+                m_finalState = *message.finalState;
+                Rebuild(std::move(*message.board));
                 return eServerEvent::GameOver;
             default:
                 return eServerEvent::Resynced;

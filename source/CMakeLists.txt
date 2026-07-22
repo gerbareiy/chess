@@ -10,6 +10,7 @@ endif()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 find_package(Boost REQUIRED COMPONENTS json signals2)
+find_package(cppzmq CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(magic_enum CONFIG REQUIRED)
@@ -29,7 +30,6 @@ add_subdirectory(window)
 
 target_link_libraries(client PRIVATE core)
 target_link_libraries(client PRIVATE network)
-target_link_libraries(client PRIVATE proto)
 target_link_libraries(client PRIVATE utils)
 
 target_link_libraries(console PRIVATE client)

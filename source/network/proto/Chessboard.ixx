@@ -15,7 +15,8 @@ namespace Chess::Proto
     export class Chessboard
     {
     public:
-        static chess::proto::Chessboard ToProto(const std::vector<std::shared_ptr<Chess::Piece>>& pieces, Chess::ePieceColor sideToMove, uint32_t ply = 0)
+        static chess::proto::Chessboard ToProto(
+            const std::vector<std::shared_ptr<Chess::Piece>>& pieces, Chess::ePieceColor sideToMove, uint32_t ply = 0)
         {
             chess::proto::Chessboard result;
             for (const auto& piece : pieces)
