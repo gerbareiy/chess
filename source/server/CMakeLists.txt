@@ -5,10 +5,8 @@ file(GLOB_RECURSE SERVER_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/*.ixx"
 )
-add_library(server ${SERVER_SOURCES})
+add_executable(server ${SERVER_SOURCES})
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SERVER_SOURCES})
 
-target_include_directories(server PUBLIC ${CMAKE_SOURCE_DIR}/source)
-target_include_directories(server PRIVATE ${Boost_INCLUDE_DIRS})
-target_link_libraries(server PRIVATE Boost::signals2 Boost::json)
+target_include_directories(server PRIVATE ${CMAKE_SOURCE_DIR}/source)

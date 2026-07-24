@@ -1,19 +1,16 @@
 module;
-#include <filesystem>
-#include <functional>
 #include <memory>
 #include <print>
 export module Console.Chess.Game;
 import Chess.Chessboard;
-import Chess.ChessboardBuilder;
 import Chess.Coordinate;
+import Chess.Client.Session;
 import Chess.eGameState;
-import Chess.GameStateChecker;
-import Chess.Piece;
-import Chess.PieceDirector;
+import Chess.ePieceColor;
+import Chess.ePieceType;
+import Chess.Move;
 import Console.Chess.ChessboardPresenter;
 import Console.Chess.ConsolePromoter;
-import Console.Chess.Controller;
 import Console.Chess.InputHandler;
 import Console.Chess.LabelPresenter;
 
@@ -21,83 +18,107 @@ namespace Console::Chess
 {
     export class Game
     {
-        std::shared_ptr<::Chess::Chessboard>       m_chessboard;
-        std::shared_ptr<Controller>                m_controller;
-        std::shared_ptr<ChessboardPresenter>       m_chessboardPresenter;
-        std::shared_ptr<InputHandler>              m_inputHandler;
-        std::unique_ptr<LabelPresenter>            m_labelPresenter;
-        std::shared_ptr<ConsolePromoter>           m_promoter;
-        std::unique_ptr<::Chess::GameStateChecker> m_gameStateChecker;
-
-        static void HandleInput(
-            const std::function<::Chess::Coordinate()>& inputFunction, const std::function<bool(const ::Chess::Coordinate&)>& initFunction)
+        static bool IsPromotion(const std::shared_ptr<::Chess::Chessboard>& board, const ::Chess::Coordinate& from, const ::Chess::Coordinate& to)
         {
-            while (true)
+            const auto piece = board->GetPieceDirector()->GetPiece(from);
+            if (!piece)
             {
-                if (initFunction(inputFunction()))
-                {
-                    break;
-                }
+                return false;
             }
+            const auto [color, type] = piece->GetColorAndType();
+            if (type != ::Chess::ePieceType::PAWN)
+            {
+                return false;
+            }
+            return (color == ::Chess::ePieceColor::WHITE && to.rank == 8) || (color == ::Chess::ePieceColor::BLACK && to.rank == 1);
         }
 
-        bool TryContinue() const
+        static void PrintOutcome(::Chess::eGameState state)
         {
-            switch (m_gameStateChecker->Calculate(m_chessboard))
+            switch (state)
             {
             case ::Chess::eGameState::CHECKMATE:
                 std::println("Checkmate!");
-                return false;
+                break;
             case ::Chess::eGameState::DRAW:
                 std::println("Draw!");
-                return false;
-            case ::Chess::eGameState::CHECK:
-                std::println("Check!");
-                return true;
-            case ::Chess::eGameState::PLAYING:
-                return true;
+                break;
+            default:
+                std::println("Game over.");
+                break;
             }
-            return true;
         }
 
     public:
-        Game(
-            const std::shared_ptr<::Chess::Chessboard>&  chessboard,
-            std::unique_ptr<Controller>&&                controller,
-            const std::shared_ptr<ChessboardPresenter>&  chessboardPresenter,
-            const std::shared_ptr<InputHandler>&         inputHandler,
-            std::unique_ptr<LabelPresenter>&&            labelPresenter,
-            std::unique_ptr<ConsolePromoter>&&           promoter,
-            std::unique_ptr<::Chess::GameStateChecker>&& gameStateChecker)
-            : m_chessboard(chessboard)
-            , m_controller(std::move(controller))
-            , m_chessboardPresenter(chessboardPresenter)
-            , m_inputHandler(inputHandler)
-            , m_labelPresenter(std::move(labelPresenter))
-            , m_promoter(std::move(promoter))
-            , m_gameStateChecker(std::move(gameStateChecker))
+        static void RunNetworkGame(::Chess::Client::Session& session)
         {
-        }
+            const auto inputHandler   = std::make_shared<InputHandler>();
+            auto       labelPresenter = LabelPresenter(inputHandler);
+            labelPresenter.Init();
+            const auto promoter = std::make_shared<ConsolePromoter>();
 
-        void Init()
-        {
-            m_chessboard->Init();
-            m_chessboardPresenter->Init();
-            m_chessboardPresenter->Show();
-            m_labelPresenter->Init();
-        }
+            std::println("You play {}.", session.GetMyColor() == ::Chess::ePieceColor::WHITE ? "White" : "Black");
 
-        void Play()
-        {
-            const auto trySelectPiece = std::bind(&Controller::TrySelectPiece, m_controller.get(), std::placeholders::_1);
-            const auto tryMovePiece   = [this](const ::Chess::Coordinate& to) -> bool
+            std::shared_ptr<::Chess::Chessboard> bound;
+            std::shared_ptr<ChessboardPresenter> presenter;
+            const auto                           render = [&]
             {
-                return m_controller->TryMovePiece(to, m_promoter);
+                if (bound != session.GetChessboard())
+                {
+                    bound     = session.GetChessboard();
+                    presenter = std::make_shared<ChessboardPresenter>(bound);
+                    presenter->Init();
+                }
+                presenter->Show();
             };
-            while (TryContinue())
+
+            while (true)
             {
-                HandleInput(std::bind(&InputHandler::EnterFrom, m_inputHandler), trySelectPiece);
-                HandleInput(std::bind(&InputHandler::EnterTo, m_inputHandler), tryMovePiece);
+                render();
+
+                if (session.IsGameOver())
+                {
+                    PrintOutcome(session.GetFinalState());
+                    break;
+                }
+
+                if (!session.IsMyTurn())
+                {
+                    std::println("Waiting for opponent...");
+                    session.ReceiveNext();
+                    continue;
+                }
+
+                if (session.GetChessboard()->GetMoveValidator()->GetPiecesCanMoveCount() == 0)
+                {
+                    std::println("No moves available. Waiting for result...");
+                    session.ReceiveNext();
+                    continue;
+                }
+
+                const auto from = inputHandler->EnterFrom();
+                if (!session.GetChessboard()->TrySelectPiece(from))
+                {
+                    std::println("No movable piece there.");
+                    continue;
+                }
+                render();
+
+                const auto to = inputHandler->EnterTo();
+
+                auto promotion = ::Chess::ePieceType::NONE;
+                if (IsPromotion(session.GetChessboard(), from, to))
+                {
+                    promotion = promoter->GetPromoteType();
+                }
+
+                if (!session.TrySubmitMove(::Chess::Move{ .from = from, .to = to, .promotion = promotion }))
+                {
+                    std::println("Illegal move.");
+                    continue;
+                }
+
+                session.ReceiveNext();
             }
         }
     };

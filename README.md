@@ -7,6 +7,10 @@ To make project works you need to execute `build.by` script by executing `python
 Короче говоря, тут то, что .clang-format отформатировать не может
 Также никаких свободный функций быть не должно. Если они нужны, то можно их поместить в отдельный класс и сделать статическими.
 
+Один файл (один модуль) - один класс, структура или enum class. Если классу нужен ещё один класс/структура/enum class рядом
+(например enum событий, которые он возвращает, или value-object, который он использует) - выносим его в отдельный файл/модуль и импортируем.
+Вложенные классы, структуры и enum class (объявленные прямо внутри тела другого класса) запрещены.
+
 ```cpp
 module; // если в файле #include-ы отсутствуют, то это ключевое слово использовать не надо
 #include "AnyOtherIncludeFile.h" // пусть тут решает .clang-format в какой последовательности они будут
@@ -18,18 +22,6 @@ namespace MyNamespace
     export class MyClass
     {
         friend class OtherNamespace::OtherClass; // лучше friend-ов избегать
-
-        class MySubclass
-        {
-        };
-
-        struct MySubstruct
-        {
-        };
-
-        enum class eMyEnumClass
-        {
-        };
 
         static constexpr int m_constexprFieldName = 5;
         static const int m_staticConstFieldNameOne = 5; // константы с inline инициализацией идут раньше
@@ -85,6 +77,10 @@ namespace MyNamespace
 }
 ```
 
+### Enum
+
+Обычные (unscoped) enum-ы полностью запрещены, кроме случаев, когда без них не обойтись (например того требует внешняя библиотека/API). Используем только `enum class`.
+
 ## Скобки
 
 ```cpp
@@ -134,6 +130,39 @@ class MyClass
 };
 ```
 
+### Классы, оборачивающие ресурс, который нужно настраивать (например сокет)
+
+Если создание объекта - это по сути настройка внешнего ресурса, которая может завершиться ошибкой (например connect/bind сокета), то это тоже "вычисления" и в конструкторе им не место.
+Вместо этого нужно делать приватный конструктор, который только сохраняет уже готовый ресурс, и публичный статический фабричный метод, который этот ресурс создаёт, настраивает и может бросить исключение.
+
+```cpp
+class ClientSocket
+{
+    zmq::socket_t m_socket;
+
+    explicit ClientSocket(zmq::socket_t socket)
+        : m_socket(std::move(socket))
+    {
+    }
+
+public:
+    static ClientSocket Connect(const std::string& host, unsigned short port)
+    {
+        zmq::socket_t socket(Context(), zmq::socket_type::dealer);
+        try
+        {
+            socket.set(zmq::sockopt::routing_id, GenerateIdentity());
+            socket.connect(Endpoint(host, port));
+        }
+        catch (const zmq::error_t& error)
+        {
+            throw ConnectionError(error.what());
+        }
+        return ClientSocket(std::move(socket));
+    }
+};
+```
+
 ## Во всех файлах отступы по **4 пробела**
 ```
 something
@@ -164,6 +193,17 @@ int c = 5;      // copy initialization - это
 int d(5);       // direct initialization
 int e{5};       // direct list initialization
 std::vector f = {5};    // copy list initialization - и это
+```
+
+Для агрегатов (структур) можно использовать designated initializers из 20 стандарта (`.name = value`). На них распространяется то же правило: для полей и локальных переменных пишем через `=` (copy list initialization):
+```cpp
+struct Coordinate
+{
+    char file;
+    int  rank;
+};
+
+const Coordinate coordinate = { .file = 'D', .rank = 4 }; // так, не Coordinate coordinate{ .file = 'D', .rank = 4 };
 ```
 
 ## Работа с std::optional

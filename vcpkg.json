@@ -3,10 +3,18 @@
     "dependencies": [
         "boost-json",
         "boost-signals2",
+        "cppzmq",
         "glfw3",
         "glm",
         "gtest",
         "magic-enum",
-        "vulkan"
+        "protobuf",
+        "vulkan",
+        {
+            "name": "zeromq",
+            "features": [
+                "draft"
+            ]
+        }
     ]
 }

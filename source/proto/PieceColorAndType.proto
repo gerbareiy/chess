@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package chess.proto;
+
+enum PieceColor
+{
+    PIECE_COLOR_NONE  = 0;
+    PIECE_COLOR_BLACK = 1;
+    PIECE_COLOR_WHITE = 2;
+}
+
+enum PieceType
+{
+    PIECE_TYPE_NONE   = 0;
+    PIECE_TYPE_BISHOP = 1;
+    PIECE_TYPE_KING   = 2;
+    PIECE_TYPE_KNIGHT = 3;
+    PIECE_TYPE_PAWN   = 4;
+    PIECE_TYPE_QUEEN  = 5;
+    PIECE_TYPE_ROOK   = 6;
+}
+
+message PieceColorAndType
+{
+    PieceColor color = 1;
+    PieceType  type  = 2;
+}

@@ -57,6 +57,7 @@ def main():
     # 4. Build
     print("Building the project...")
     run(["cmake", "--build", ".", "--config", "Release"])
+    run(["cmake", "--build", ".", "--config", "Debug"])
 
 if __name__ == "__main__":
     try:
