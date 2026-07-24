@@ -20,25 +20,25 @@ namespace Chess::Network
     export class BoardReconstructor
     {
     public:
-        static std::vector<std::shared_ptr<Chess::Core::Piece>> Reconstruct(const chess::proto::Chessboard& board)
+        static std::vector<std::shared_ptr<Core::Piece>> Reconstruct(const chess::proto::Chessboard& board)
         {
-            std::vector<std::shared_ptr<Chess::Core::Piece>> result;
+            std::vector<std::shared_ptr<Core::Piece>> result;
             result.reserve(board.pieces_size());
 
-            std::shared_ptr<Chess::Core::King> whiteKing;
-            std::shared_ptr<Chess::Core::King> blackKing;
+            std::shared_ptr<Core::King> whiteKing;
+            std::shared_ptr<Core::King> blackKing;
 
             for (const auto& piece : board.pieces())
             {
                 const auto [color, type] = PieceColorAndType::FromProto(piece.color_and_type());
-                if (type != Chess::Core::ePieceType::KING)
+                if (type != Core::ePieceType::KING)
                 {
                     continue;
                 }
 
                 const auto coordinate = Coordinate::FromProto(piece.coordinate());
-                auto       king       = std::make_shared<Chess::Core::King>(color, coordinate, piece.king_can_castle());
-                if (color == Chess::Core::ePieceColor::WHITE)
+                auto       king       = std::make_shared<Core::King>(color, coordinate, piece.king_can_castle());
+                if (color == Core::ePieceColor::WHITE)
                 {
                     whiteKing = king;
                 }
@@ -52,7 +52,7 @@ namespace Chess::Network
             for (const auto& piece : board.pieces())
             {
                 const auto colorAndType = PieceColorAndType::FromProto(piece.color_and_type());
-                if (colorAndType.type == Chess::Core::ePieceType::KING)
+                if (colorAndType.type == Core::ePieceType::KING)
                 {
                     continue;
                 }
@@ -61,21 +61,21 @@ namespace Chess::Network
 
                 switch (colorAndType.type)
                 {
-                case Chess::Core::ePieceType::ROOK:
+                case Core::ePieceType::ROOK:
                 {
                     const auto king = piece.rook_can_castle() ? KingOf(colorAndType.color, whiteKing, blackKing) : nullptr;
-                    result.push_back(std::make_shared<Chess::Core::Rook>(colorAndType.color, coordinate, king));
+                    result.push_back(std::make_shared<Core::Rook>(colorAndType.color, coordinate, king));
                     break;
                 }
-                case Chess::Core::ePieceType::PAWN:
+                case Core::ePieceType::PAWN:
                 {
-                    auto pawn = std::make_shared<Chess::Core::Pawn>(colorAndType.color, coordinate);
+                    auto pawn = std::make_shared<Core::Pawn>(colorAndType.color, coordinate);
                     pawn->RestoreState(piece.pawn_can_en_passant(), piece.pawn_is_not_moved());
                     result.push_back(std::move(pawn));
                     break;
                 }
                 default:
-                    result.push_back(Chess::Core::PieceFactory::Create(colorAndType, coordinate, nullptr));
+                    result.push_back(Core::PieceFactory::Create(colorAndType, coordinate, nullptr));
                     break;
                 }
             }
@@ -84,10 +84,10 @@ namespace Chess::Network
         }
 
     private:
-        static std::shared_ptr<Chess::Core::King> KingOf(
-            Chess::Core::ePieceColor color, const std::shared_ptr<Chess::Core::King>& whiteKing, const std::shared_ptr<Chess::Core::King>& blackKing)
+        static std::shared_ptr<Core::King> KingOf(
+            Core::ePieceColor color, const std::shared_ptr<Core::King>& whiteKing, const std::shared_ptr<Core::King>& blackKing)
         {
-            return color == Chess::Core::ePieceColor::WHITE ? whiteKing : blackKing;
+            return color == Core::ePieceColor::WHITE ? whiteKing : blackKing;
         }
     };
 } // namespace Chess::Network

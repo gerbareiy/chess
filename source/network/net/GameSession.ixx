@@ -39,7 +39,7 @@ namespace Chess::Network
             return GameSession(std::move(connection), myColor, std::move(board));
         }
 
-        Chess::Core::ePieceColor GetMyColor() const
+        Core::ePieceColor GetMyColor() const
         {
             return myColor_;
         }
@@ -49,7 +49,7 @@ namespace Chess::Network
             return initialBoard_;
         }
 
-        void SendMove(const Chess::Core::Move& move)
+        void SendMove(const Core::Move& move)
         {
             chess::proto::Envelope envelope;
             *envelope.mutable_move() = Move::ToProto(move);
@@ -84,16 +84,16 @@ namespace Chess::Network
         }
 
     private:
-        ClientConnection         connection_;
-        Chess::Core::ePieceColor myColor_;
-        BoardSnapshot            initialBoard_;
+        ClientConnection  connection_;
+        Core::ePieceColor myColor_;
+        BoardSnapshot     initialBoard_;
 
         static BoardSnapshot ToSnapshot(const chess::proto::Chessboard& board)
         {
             return BoardSnapshot{ Chessboard::FromProto(board), PieceColorAndType::FromProto(board.side_to_move()), board.ply() };
         }
 
-        GameSession(ClientConnection connection, Chess::Core::ePieceColor myColor, BoardSnapshot initialBoard)
+        GameSession(ClientConnection connection, Core::ePieceColor myColor, BoardSnapshot initialBoard)
             : connection_(std::move(connection))
             , myColor_(myColor)
             , initialBoard_(std::move(initialBoard))

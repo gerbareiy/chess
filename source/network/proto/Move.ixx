@@ -10,7 +10,7 @@ namespace Chess::Network
     export class Move
     {
     public:
-        static chess::proto::Move ToProto(const Chess::Core::Move& value)
+        static chess::proto::Move ToProto(const Core::Move& value)
         {
             chess::proto::Move result;
             *result.mutable_from() = Coordinate::ToProto(value.from);
@@ -19,11 +19,11 @@ namespace Chess::Network
             return result;
         }
 
-        static Chess::Core::Move FromProto(const chess::proto::Move& message)
+        static Core::Move FromProto(const chess::proto::Move& message)
         {
-            return Chess::Core::Move{ .from      = Coordinate::FromProto(message.from()),
-                                      .to        = Coordinate::FromProto(message.to()),
-                                      .promotion = PieceColorAndType::FromProto(message.promotion()) };
+            return Core::Move{ .from      = Coordinate::FromProto(message.from()),
+                               .to        = Coordinate::FromProto(message.to()),
+                               .promotion = PieceColorAndType::FromProto(message.promotion()) };
         }
     };
 } // namespace Chess::Network

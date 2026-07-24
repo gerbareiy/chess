@@ -28,14 +28,14 @@ namespace Chess::Network
     export class GameHost
     {
     public:
-        static void HostSingleMatch(ServerSocket& socket, std::vector<std::shared_ptr<Chess::Core::Piece>> pieces)
+        static void HostSingleMatch(ServerSocket& socket, std::vector<std::shared_ptr<Core::Piece>> pieces)
         {
             const auto [whiteId, blackId] = WaitForPlayers(socket);
 
-            const auto board = Chess::Core::ChessboardFactory::Create(std::move(pieces), Chess::Core::ePieceColor::WHITE);
+            const auto board = Core::ChessboardFactory::Create(std::move(pieces), Core::ePieceColor::WHITE);
 
-            SendGameStarted(socket, whiteId, Chess::Core::ePieceColor::WHITE, board, 0);
-            SendGameStarted(socket, blackId, Chess::Core::ePieceColor::BLACK, board, 0);
+            SendGameStarted(socket, whiteId, Core::ePieceColor::WHITE, board, 0);
+            SendGameStarted(socket, blackId, Core::ePieceColor::BLACK, board, 0);
 
             RunMatch(socket, whiteId, blackId, board);
         }
@@ -43,35 +43,29 @@ namespace Chess::Network
     private:
         static constexpr uint32_t BOARD_CHECK_PERIOD = 10;
 
-        static chess::proto::Chessboard BoardToProto(const std::shared_ptr<Chess::Core::Chessboard>& board, uint32_t ply)
+        static chess::proto::Chessboard BoardToProto(const std::shared_ptr<Core::Chessboard>& board, uint32_t ply)
         {
-            return Chess::Network::Chessboard::ToProto(board->GetPieceDirector()->GetPiecesOnBoard(), board->GetSideToMove(), ply);
+            return Chessboard::ToProto(board->GetPieceDirector()->GetPiecesOnBoard(), board->GetSideToMove(), ply);
         }
 
         static void SendGameStarted(
-            ServerSocket&                                   socket,
-            const std::string&                              identity,
-            Chess::Core::ePieceColor                        color,
-            const std::shared_ptr<Chess::Core::Chessboard>& board,
-            uint32_t                                        ply)
+            ServerSocket& socket, const std::string& identity, Core::ePieceColor color, const std::shared_ptr<Core::Chessboard>& board, uint32_t ply)
         {
             chess::proto::Envelope envelope;
             auto*                  started = envelope.mutable_game_started();
-            started->set_your_color(Chess::Network::PieceColorAndType::ToProto(color));
+            started->set_your_color(PieceColorAndType::ToProto(color));
             *started->mutable_board() = BoardToProto(board, ply);
             socket.SendFrame(identity, envelope.SerializeAsString());
         }
 
-        static void SendBoardSync(
-            ServerSocket& socket, const std::string& identity, const std::shared_ptr<Chess::Core::Chessboard>& board, uint32_t ply)
+        static void SendBoardSync(ServerSocket& socket, const std::string& identity, const std::shared_ptr<Core::Chessboard>& board, uint32_t ply)
         {
             chess::proto::Envelope envelope;
             *envelope.mutable_board_sync() = BoardToProto(board, ply);
             socket.SendFrame(identity, envelope.SerializeAsString());
         }
 
-        static void SendBoardCheck(
-            ServerSocket& socket, const std::string& identity, const std::shared_ptr<Chess::Core::Chessboard>& board, uint32_t ply)
+        static void SendBoardCheck(ServerSocket& socket, const std::string& identity, const std::shared_ptr<Core::Chessboard>& board, uint32_t ply)
         {
             chess::proto::Envelope envelope;
             *envelope.mutable_board_check() = BoardToProto(board, ply);
@@ -79,15 +73,11 @@ namespace Chess::Network
         }
 
         static void SendGameOver(
-            ServerSocket&                                   socket,
-            const std::string&                              identity,
-            Chess::Core::eGameState                         state,
-            const std::shared_ptr<Chess::Core::Chessboard>& board,
-            uint32_t                                        ply)
+            ServerSocket& socket, const std::string& identity, Core::eGameState state, const std::shared_ptr<Core::Chessboard>& board, uint32_t ply)
         {
             chess::proto::Envelope envelope;
             auto*                  over = envelope.mutable_game_over();
-            over->set_state(Chess::Network::Session::ToProto(state));
+            over->set_state(Session::ToProto(state));
             *over->mutable_board() = BoardToProto(board, ply);
             socket.SendFrame(identity, envelope.SerializeAsString());
         }
@@ -123,12 +113,12 @@ namespace Chess::Network
         }
 
         static void RunMatch(
-            ServerSocket& socket, const std::string& whiteId, const std::string& blackId, const std::shared_ptr<Chess::Core::Chessboard>& board)
+            ServerSocket& socket, const std::string& whiteId, const std::string& blackId, const std::shared_ptr<Core::Chessboard>& board)
         {
-            Chess::Core::GameStateChecker checker;
-            const std::string*            current  = &whiteId;
-            const std::string*            opponent = &blackId;
-            uint32_t                      ply      = 0;
+            Core::GameStateChecker checker;
+            const std::string*     current  = &whiteId;
+            const std::string*     opponent = &blackId;
+            uint32_t               ply      = 0;
 
             while (true)
             {
@@ -161,10 +151,10 @@ namespace Chess::Network
                     continue;
                 }
 
-                const auto [from, to, promotion] = Chess::Network::Move::FromProto(incoming.move());
-                const bool valid = board->TrySelectPiece(from) && board->TryMovePiece(to, std::make_shared<Chess::Core::FixedPromoter>(promotion));
+                const auto [from, to, promotion] = Move::FromProto(incoming.move());
+                const bool valid = board->TrySelectPiece(from) && board->TryMovePiece(to, std::make_shared<Core::FixedPromoter>(promotion));
 
-                auto state = Chess::Core::eGameState::PLAYING;
+                auto state = Core::eGameState::PLAYING;
                 if (valid)
                 {
                     ++ply;
@@ -183,7 +173,7 @@ namespace Chess::Network
                     *forwarded.mutable_move() = incoming.move();
                     socket.SendFrame(*opponent, forwarded.SerializeAsString());
 
-                    if (state == Chess::Core::eGameState::CHECKMATE || state == Chess::Core::eGameState::DRAW)
+                    if (state == Core::eGameState::CHECKMATE || state == Core::eGameState::DRAW)
                     {
                         SendGameOver(socket, whiteId, state, board, ply);
                         SendGameOver(socket, blackId, state, board, ply);

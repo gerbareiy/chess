@@ -12,18 +12,18 @@ import Chess.Utils.Converter;
 
 namespace Chess::Console
 {
-    export class InputHandler final : public ::Chess::Core::Inputter
+    export class InputHandler final : public Core::Inputter
     {
     public:
-        ::Chess::Core::Coordinate EnterFrom() const
+        Core::Coordinate EnterFrom() const
         {
-            GetSignalOnEnter()(::Chess::Core::eInputType::FROM);
+            GetSignalOnEnter()(Core::eInputType::FROM);
             return EnterCoordinate();
         }
 
-        ::Chess::Core::Coordinate EnterTo() const
+        Core::Coordinate EnterTo() const
         {
-            GetSignalOnEnter()(::Chess::Core::eInputType::TO);
+            GetSignalOnEnter()(Core::eInputType::TO);
             return EnterCoordinate();
         }
 
@@ -40,20 +40,20 @@ namespace Chess::Console
 
         std::optional<char> EnterFile() const
         {
-            GetSignalOnEnter()(::Chess::Core::eInputType::FILE);
-            const auto input = ::Chess::Utils::ConsoleReader::ReadLine();
+            GetSignalOnEnter()(Core::eInputType::FILE);
+            const auto input = Utils::ConsoleReader::ReadLine();
             return NormalizeFileInput(input);
         }
 
         std::optional<int32_t> EnterRank() const
         {
-            GetSignalOnEnter()(::Chess::Core::eInputType::RANK);
+            GetSignalOnEnter()(Core::eInputType::RANK);
 
-            const auto input = ::Chess::Utils::ConsoleReader::ReadLine();
-            return ::Chess::Utils::Converter::ToInt32(input);
+            const auto input = Utils::ConsoleReader::ReadLine();
+            return Utils::Converter::ToInt32(input);
         }
 
-        ::Chess::Core::Coordinate EnterCoordinate() const
+        Core::Coordinate EnterCoordinate() const
         {
             while (true)
             {

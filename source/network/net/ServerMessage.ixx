@@ -10,9 +10,9 @@ namespace Chess::Network
 {
     export struct ServerMessage
     {
-        eSessionEvent                          event;
-        std::optional<Chess::Core::Move>       move;
-        std::optional<BoardSnapshot>           board;
-        std::optional<Chess::Core::eGameState> finalState;
+        eSessionEvent                   event;
+        std::optional<Core::Move>       move;
+        std::optional<BoardSnapshot>    board;
+        std::optional<Core::eGameState> finalState;
     };
 } // namespace Chess::Network

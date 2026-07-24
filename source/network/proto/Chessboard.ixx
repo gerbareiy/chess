@@ -16,7 +16,7 @@ namespace Chess::Network
     {
     public:
         static chess::proto::Chessboard ToProto(
-            const std::vector<std::shared_ptr<Chess::Core::Piece>>& pieces, Chess::Core::ePieceColor sideToMove, uint32_t ply = 0)
+            const std::vector<std::shared_ptr<Core::Piece>>& pieces, Core::ePieceColor sideToMove, uint32_t ply = 0)
         {
             chess::proto::Chessboard result;
             for (const auto& piece : pieces)
@@ -28,7 +28,7 @@ namespace Chess::Network
             return result;
         }
 
-        static std::vector<std::shared_ptr<Chess::Core::Piece>> FromProto(const chess::proto::Chessboard& message)
+        static std::vector<std::shared_ptr<Core::Piece>> FromProto(const chess::proto::Chessboard& message)
         {
             return BoardReconstructor::Reconstruct(message);
         }

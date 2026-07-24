@@ -12,32 +12,32 @@ import Chess.Utils.ConsoleReader;
 
 namespace Chess::Console
 {
-    export class ConsolePromoter final : public ::Chess::Core::Promoter
+    export class ConsolePromoter final : public Core::Promoter
     {
     public:
-        virtual ::Chess::Core::ePieceType GetPromoteType() const override
+        virtual Core::ePieceType GetPromoteType() const override
         {
             while (true)
             {
-                GetSignalOnEnter()(::Chess::Core::eInputType::PROMOTION);
+                GetSignalOnEnter()(Core::eInputType::PROMOTION);
 
                 const auto input      = EnterPromotionType();
                 const auto normalized = TryNormalizePromotionChoice(input);
-                if (normalized == ::Chess::Core::PieceTypeConverter::TryConvertToChar(::Chess::Core::ePieceType::BISHOP))
+                if (normalized == Core::PieceTypeConverter::TryConvertToChar(Core::ePieceType::BISHOP))
                 {
-                    return ::Chess::Core::ePieceType::BISHOP;
+                    return Core::ePieceType::BISHOP;
                 }
-                if (normalized == ::Chess::Core::PieceTypeConverter::TryConvertToChar(::Chess::Core::ePieceType::KNIGHT))
+                if (normalized == Core::PieceTypeConverter::TryConvertToChar(Core::ePieceType::KNIGHT))
                 {
-                    return ::Chess::Core::ePieceType::KNIGHT;
+                    return Core::ePieceType::KNIGHT;
                 }
-                if (normalized == ::Chess::Core::PieceTypeConverter::TryConvertToChar(::Chess::Core::ePieceType::QUEEN))
+                if (normalized == Core::PieceTypeConverter::TryConvertToChar(Core::ePieceType::QUEEN))
                 {
-                    return ::Chess::Core::ePieceType::QUEEN;
+                    return Core::ePieceType::QUEEN;
                 }
-                if (normalized == ::Chess::Core::PieceTypeConverter::TryConvertToChar(::Chess::Core::ePieceType::ROOK))
+                if (normalized == Core::PieceTypeConverter::TryConvertToChar(Core::ePieceType::ROOK))
                 {
-                    return ::Chess::Core::ePieceType::ROOK;
+                    return Core::ePieceType::ROOK;
                 }
             }
         }
@@ -46,9 +46,9 @@ namespace Chess::Console
         static char GuessPromotionSymbol(char symbol)
         {
             const char upped = static_cast<char>(std::toupper(symbol));
-            if (upped == ::Chess::Core::PieceTypeConverter::TryConvertToChar(::Chess::Core::ePieceType::KING))
+            if (upped == Core::PieceTypeConverter::TryConvertToChar(Core::ePieceType::KING))
             {
-                return ::Chess::Core::PieceTypeConverter::TryConvertToChar(::Chess::Core::ePieceType::KNIGHT).value();
+                return Core::PieceTypeConverter::TryConvertToChar(Core::ePieceType::KNIGHT).value();
             }
             return upped;
         }
@@ -67,7 +67,7 @@ namespace Chess::Console
 
         static std::string EnterPromotionType()
         {
-            auto result = ::Chess::Utils::ConsoleReader::ReadLine();
+            auto result = Utils::ConsoleReader::ReadLine();
             std::getline(std::cin, result);
             return result;
         }
