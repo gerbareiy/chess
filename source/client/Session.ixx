@@ -15,9 +15,9 @@ namespace Chess::Client
 {
     export enum class eServerEvent
     {
-        OpponentMoved,
-        Resynced,
-        GameOver
+        OPPONENT_MOVED,
+        RESYNCED,
+        GAME_OVER
     };
 
     export class Session
@@ -57,9 +57,9 @@ namespace Chess::Client
         }
 
     public:
-        static std::unique_ptr<Session> Connect(const std::string& host, unsigned short port)
+        static Session Connect(const std::string& host, unsigned short port)
         {
-            return std::unique_ptr<Session>(new Session(Net::GameSession::Connect(host, port)));
+            return Session(Net::GameSession::Connect(host, port));
         }
 
         ePieceColor GetMyColor() const
@@ -87,42 +87,41 @@ namespace Chess::Client
             return m_finalState;
         }
 
-        bool SubmitMove(const Move& move)
+        bool TrySubmitMove(const Move& move)
         {
-            if (!IsMyTurn() || !ApplyMove(move))
+            if (IsMyTurn() && ApplyMove(move))
             {
-                return false;
+                m_session.SendMove(move);
+                return true;
             }
-
-            m_session.SendMove(move);
-            return true;
+            return false;
         }
 
         eServerEvent ReceiveNext()
         {
-            auto message = m_session.ReceiveNext();
+            auto [event, move, board, finalState] = m_session.ReceiveNext();
 
-            switch (message.event)
+            switch (event)
             {
-            case Net::eSessionEvent::OpponentMoved:
-                ApplyMove(*message.move);
-                return eServerEvent::OpponentMoved;
-            case Net::eSessionEvent::BoardSynced:
-                Rebuild(std::move(*message.board));
-                return eServerEvent::Resynced;
-            case Net::eSessionEvent::BoardChecked:
-                if (message.board->ply >= m_ply)
+            case Net::eSessionEvent::OPPONENT_MOVED:
+                ApplyMove(*move);
+                return eServerEvent::OPPONENT_MOVED;
+            case Net::eSessionEvent::BOARD_SYNCED:
+                Rebuild(std::move(*board));
+                return eServerEvent::RESYNCED;
+            case Net::eSessionEvent::BOARD_CHECKED:
+                if (board->ply >= m_ply)
                 {
-                    Rebuild(std::move(*message.board));
+                    Rebuild(std::move(*board));
                 }
-                return eServerEvent::Resynced;
-            case Net::eSessionEvent::GameOver:
+                return eServerEvent::RESYNCED;
+            case Net::eSessionEvent::GAME_OVER:
                 m_gameOver   = true;
-                m_finalState = *message.finalState;
-                Rebuild(std::move(*message.board));
-                return eServerEvent::GameOver;
+                m_finalState = *finalState;
+                Rebuild(std::move(*board));
+                return eServerEvent::GAME_OVER;
             default:
-                return eServerEvent::Resynced;
+                return eServerEvent::RESYNCED;
             }
         }
     };

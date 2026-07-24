@@ -1,6 +1,5 @@
 module;
 #include "Envelope.pb.h"
-#include <cstdint>
 #include <memory>
 #include <optional>
 #include <string>
@@ -28,11 +27,11 @@ namespace Chess::Net
 
     export enum class eSessionEvent
     {
-        OpponentMoved,
-        BoardSynced,
-        BoardChecked,
-        GameOver,
-        Unknown
+        OPPONENT_MOVED,
+        BOARD_SYNCED,
+        BOARD_CHECKED,
+        GAME_OVER,
+        UNKNOWN
     };
 
     export struct ServerMessage
@@ -106,18 +105,18 @@ namespace Chess::Net
             switch (envelope.payload_case())
             {
             case chess::proto::Envelope::kMove:
-                return ServerMessage{ eSessionEvent::OpponentMoved, Proto::Move::FromProto(envelope.move()), std::nullopt, std::nullopt };
+                return ServerMessage{ eSessionEvent::OPPONENT_MOVED, Proto::Move::FromProto(envelope.move()), std::nullopt, std::nullopt };
             case chess::proto::Envelope::kBoardSync:
-                return ServerMessage{ eSessionEvent::BoardSynced, std::nullopt, ToSnapshot(envelope.board_sync()), std::nullopt };
+                return ServerMessage{ eSessionEvent::BOARD_SYNCED, std::nullopt, ToSnapshot(envelope.board_sync()), std::nullopt };
             case chess::proto::Envelope::kBoardCheck:
-                return ServerMessage{ eSessionEvent::BoardChecked, std::nullopt, ToSnapshot(envelope.board_check()), std::nullopt };
+                return ServerMessage{ eSessionEvent::BOARD_CHECKED, std::nullopt, ToSnapshot(envelope.board_check()), std::nullopt };
             case chess::proto::Envelope::kGameOver:
-                return ServerMessage{ eSessionEvent::GameOver,
+                return ServerMessage{ eSessionEvent::GAME_OVER,
                                       std::nullopt,
                                       ToSnapshot(envelope.game_over().board()),
                                       Proto::Session::FromProto(envelope.game_over().state()) };
             default:
-                return ServerMessage{ eSessionEvent::Unknown, std::nullopt, std::nullopt, std::nullopt };
+                return ServerMessage{ eSessionEvent::UNKNOWN, std::nullopt, std::nullopt, std::nullopt };
             }
         }
 
