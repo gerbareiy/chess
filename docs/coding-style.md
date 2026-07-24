@@ -9,6 +9,9 @@ One file (one module) — one class, struct, or enum class. If a class needs ano
 Nested classes, structs, and enum classes (declared directly inside another class's body) are forbidden.
 This is a strict rule: a module is not a place to group unrelated declarations, it's the file's one export, named after it.
 
+No `.cpp` files for implementation — everything is implemented directly in the `.ixx` module. The only exceptions are
+`main.cpp` entry points and test files.
+
 Access sections are ordered `public`, then `protected`, then `private`. Private (and protected) member fields are named
 in camelCase with a trailing underscore (e.g. `fieldName_`) instead of an `m_` prefix.
 
@@ -42,7 +45,6 @@ namespace Chess::Core
             return staticConstFieldNameOne_;
         }
 
-        // prefer avoiding .cpp files and implementing directly in the module
         static int MyStaticMethod(int parameterOne, int paremeterTwo)
         {
             // ...
@@ -58,7 +60,6 @@ namespace Chess::Core
             return fieldName_;
         }
 
-        // prefer avoiding .cpp files and implementing directly in the module
         // if a method returns something, it must not change the class's state
         // exception: a method may return bool meaning whether it managed to change the state or not,
         // and its name must start with Try
@@ -67,7 +68,6 @@ namespace Chess::Core
             // ...
         }
 
-        // prefer avoiding .cpp files and implementing directly in the module
         void MyMethod(int parameterOne, int paremeterTwo)
         {
             // ...
