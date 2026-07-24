@@ -1,9 +1,10 @@
 module;
-#include <boost/signals2.hpp>
 #include <cstdlib>
+#include <functional>
 export module Chess.Core.King;
 import Chess.Core.Coordinate;
 import Chess.Core.eCastleSide;
+import Chess.Utils.Event;
 import Chess.Core.ePieceColor;
 import Chess.Core.ePieceType;
 import Chess.Core.ICastable;
@@ -74,7 +75,7 @@ namespace Chess::Core
                     throw Utils::ImpossibleMoveException();
                 }
 
-                onCastling_(to, side);
+                onCastling.Invoke(to, side);
             }
             DisableCastling();
             Piece::Move(to);
@@ -90,21 +91,31 @@ namespace Chess::Core
             isCheck_ = isCheck;
         }
 
-        std::optional<boost::signals2::connection> TryConnectOnCastling(const std::function<void(Coordinate, eCastleSide)>& subscriber)
+        bool TryTrackCastling(std::function<void(Coordinate, eCastleSide)>& subscriber)
         {
-            return GetCanMakeCastling() ? std::make_optional(onCastling_.connect(subscriber)) : std::nullopt;
+            if (!GetCanMakeCastling())
+            {
+                return false;
+            }
+            onCastling.Add(subscriber);
+            return true;
+        }
+
+        void UntrackCastling(std::function<void(Coordinate, eCastleSide)>& subscriber)
+        {
+            onCastling.Remove(subscriber);
         }
 
     private:
         bool canMakeCastling_ = false;
         bool isCheck_         = false;
 
-        boost::signals2::signal<void(Coordinate, eCastleSide)> onCastling_;
+        Utils::Event<void(Coordinate, eCastleSide), King> onCastling;
 
         void DisableCastling()
         {
             canMakeCastling_ = false;
-            onCastling_.disconnect_all_slots();
+            onCastling.DisconnectAll();
         }
     };
 } // namespace Chess::Core

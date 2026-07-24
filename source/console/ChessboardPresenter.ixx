@@ -1,5 +1,4 @@
 module;
-#include <boost/signals2/connection.hpp>
 #include <functional>
 #include <memory>
 #include <print>
@@ -32,14 +31,22 @@ namespace Chess::Console
             {
                 return;
             }
-            auto const subscriber = [weak = weak_from_this()]
+            handler_ = [weak = weak_from_this()]
             {
                 if (const auto shared = weak.lock())
                 {
                     shared->Show();
                 }
             };
-            connection_ = chessboard_->ConnectOnChessboardUpdated(subscriber);
+            chessboard_->onChessboardUpdated.Add(handler_);
+        }
+
+        ~ChessboardPresenter()
+        {
+            if (chessboard_)
+            {
+                chessboard_->onChessboardUpdated.Remove(handler_);
+            }
         }
 
         void Show() const
@@ -84,7 +91,7 @@ namespace Chess::Console
     private:
         std::shared_ptr<Core::Chessboard> chessboard_;
 
-        boost::signals2::scoped_connection connection_;
+        std::function<void()> handler_;
 
         static std::string GetChessboardFiles()
         {

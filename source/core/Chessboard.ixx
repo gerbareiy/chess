@@ -1,9 +1,10 @@
 module;
-#include <boost/signals2.hpp>
+#include <functional>
 #include <memory>
 #include <vector>
 export module Chess.Core.Chessboard;
 import Chess.Core.Coordinate;
+import Chess.Utils.Event;
 import Chess.Core.ePieceColor;
 import Chess.Core.MoveValidator;
 import Chess.Core.Piece;
@@ -16,6 +17,8 @@ namespace Chess::Core
     export class Chessboard
     {
     public:
+        Utils::Event<void(), Chessboard> onChessboardUpdated;
+
         Chessboard(
             const std::shared_ptr<Player>&        player,
             std::vector<std::shared_ptr<Piece>>&& piecesOnBoard,
@@ -77,7 +80,7 @@ namespace Chess::Core
                 return false;
             }
 
-            onChessboardUpdated_();
+            onChessboardUpdated.Invoke();
             return true;
         }
 
@@ -92,17 +95,12 @@ namespace Chess::Core
 
             validator_->ClearPossibleMoves();
             validator_->ClearPiecesCanMove();
-            director_->MovePiece(to, onChessboardUpdated_, promoter);
+            director_->MovePiece(to, [this] { onChessboardUpdated.Invoke(); }, promoter);
             validator_->RefreshPiecesCanMove();
 
-            onChessboardUpdated_();
+            onChessboardUpdated.Invoke();
 
             return true;
-        }
-
-        boost::signals2::connection ConnectOnChessboardUpdated(const std::function<void()>& subscriber)
-        {
-            return onChessboardUpdated_.connect(subscriber);
         }
 
     private:
@@ -113,7 +111,5 @@ namespace Chess::Core
 
         Coordinate from_ = { .file = 0, .rank = 0 };
         Coordinate to_   = { .file = 0, .rank = 0 };
-
-        boost::signals2::signal<void()> onChessboardUpdated_;
     };
 } // namespace Chess::Core

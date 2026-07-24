@@ -1,7 +1,6 @@
-module;
-#include <boost/signals2.hpp>
 export module Chess.Core.Inputter;
 import Chess.Core.eInputType;
+import Chess.Utils.Event;
 
 namespace Chess::Core
 {
@@ -10,18 +9,12 @@ namespace Chess::Core
     public:
         virtual ~Inputter() = default;
 
-        boost::signals2::connection ConnectOnEnter(const std::function<void(eInputType)>& subscriber)
-        {
-            return onEnter_.connect(subscriber);
-        }
+        Utils::Event<void(eInputType), Inputter> onEnter;
 
     protected:
-        const boost::signals2::signal<void(eInputType)>& GetOnEnter() const
+        void RaiseOnEnter(eInputType type) const
         {
-            return onEnter_;
+            onEnter.Invoke(type);
         }
-
-    private:
-        boost::signals2::signal<void(eInputType)> onEnter_;
     };
 } // namespace Chess::Core

@@ -1,5 +1,5 @@
 module;
-#include <boost/signals2.hpp>
+#include <functional>
 #include <memory>
 #include <print>
 export module Chess.Console.LabelPresenter;
@@ -40,17 +40,20 @@ namespace Chess::Console
 
         void Init()
         {
-            const auto show = [this](Core::eInputType type)
+            handler_ = [this](Core::eInputType type)
             {
                 Show(type);
             };
-            connection_ = inputter_->ConnectOnEnter(show);
+            inputter_->onEnter.Add(handler_);
         }
 
-        ~LabelPresenter() = default;
+        ~LabelPresenter()
+        {
+            inputter_->onEnter.Remove(handler_);
+        }
 
     private:
-        std::shared_ptr<Core::Inputter>    inputter_;
-        boost::signals2::scoped_connection connection_;
+        std::shared_ptr<Core::Inputter>       inputter_;
+        std::function<void(Core::eInputType)> handler_;
     };
 } // namespace Chess::Console

@@ -1,5 +1,6 @@
 module;
-#include <boost/signals2.hpp>
+#include <functional>
+#include <memory>
 export module Chess.Core.Rook;
 import Chess.Constants.Sizes;
 import Chess.Core.Coordinate;
@@ -23,6 +24,11 @@ namespace Chess::Core
             TryMakeTracking(king);
         }
 
+        ~Rook()
+        {
+            Untrack();
+        }
+
         virtual PieceColorAndType GetColorAndType() const override
         {
             return { GetColor(), ePieceType::ROOK };
@@ -30,7 +36,12 @@ namespace Chess::Core
 
         virtual bool GetCanMakeCastling() const override
         {
-            return connection_.connected();
+            if (!isTracking_)
+            {
+                return false;
+            }
+            const auto king = king_.lock();
+            return king != nullptr && king->GetCanMakeCastling();
         }
 
         virtual void Move(Coordinate to) override
@@ -44,12 +55,14 @@ namespace Chess::Core
                 throw Utils::ImpossibleMoveException();
             }
 
-            connection_.disconnect();
+            Untrack();
             Piece::Move(to);
         }
 
     private:
-        boost::signals2::scoped_connection connection_;
+        std::weak_ptr<King>                          king_;
+        std::function<void(Coordinate, eCastleSide)> handler_;
+        bool                                         isTracking_ = false;
 
         void TryMakeTracking(const std::shared_ptr<King>& king)
         {
@@ -57,11 +70,12 @@ namespace Chess::Core
             {
                 return;
             }
-            std::optional<boost::signals2::scoped_connection> connection =
-                king->TryConnectOnCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
-            if (connection.has_value())
+
+            handler_ = [this](Coordinate to, eCastleSide side) { OnCastling(to, side); };
+            if (king->TryTrackCastling(handler_))
             {
-                connection_ = std::move(connection).value();
+                king_       = king;
+                isTracking_ = true;
             }
         }
 
@@ -79,7 +93,21 @@ namespace Chess::Core
                 }
             }
 
-            connection_.disconnect();
+            Untrack();
+        }
+
+        void Untrack()
+        {
+            if (!isTracking_)
+            {
+                return;
+            }
+
+            isTracking_ = false;
+            if (const auto king = king_.lock())
+            {
+                king->UntrackCastling(handler_);
+            }
         }
     };
 } // namespace Chess::Core

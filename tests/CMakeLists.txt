@@ -4,5 +4,6 @@ find_package(GTest CONFIG REQUIRED)
 
 add_subdirectory(core)
 add_subdirectory(network)
+add_subdirectory(utils)
 
 target_link_libraries(network_tests PRIVATE proto)

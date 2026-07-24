@@ -1,7 +1,7 @@
 module;
-#include <boost/signals2.hpp>
 #include <cctype>
 #include <iostream>
+#include <optional>
 #include <string>
 export module Chess.Console.ConsolePromoter;
 import Chess.Core.eInputType;
@@ -19,7 +19,7 @@ namespace Chess::Console
         {
             while (true)
             {
-                GetOnEnter()(Core::eInputType::PROMOTION);
+                RaiseOnEnter(Core::eInputType::PROMOTION);
 
                 const auto input      = EnterPromotionType();
                 const auto normalized = TryNormalizePromotionChoice(input);

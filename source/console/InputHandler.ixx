@@ -1,7 +1,8 @@
 module;
-#include <boost/signals2.hpp>
+#include <algorithm>
 #include <cctype>
 #include <iostream>
+#include <optional>
 #include <string>
 export module Chess.Console.InputHandler;
 import Chess.Core.Coordinate;
@@ -17,13 +18,13 @@ namespace Chess::Console
     public:
         Core::Coordinate EnterFrom() const
         {
-            GetOnEnter()(Core::eInputType::FROM);
+            RaiseOnEnter(Core::eInputType::FROM);
             return EnterCoordinate();
         }
 
         Core::Coordinate EnterTo() const
         {
-            GetOnEnter()(Core::eInputType::TO);
+            RaiseOnEnter(Core::eInputType::TO);
             return EnterCoordinate();
         }
 
@@ -40,14 +41,14 @@ namespace Chess::Console
 
         std::optional<char> EnterFile() const
         {
-            GetOnEnter()(Core::eInputType::FILE);
+            RaiseOnEnter(Core::eInputType::FILE);
             const auto input = Utils::ConsoleReader::ReadLine();
             return NormalizeFileInput(input);
         }
 
         std::optional<int32_t> EnterRank() const
         {
-            GetOnEnter()(Core::eInputType::RANK);
+            RaiseOnEnter(Core::eInputType::RANK);
 
             const auto input = Utils::ConsoleReader::ReadLine();
             return Utils::Converter::ToInt32(input);
