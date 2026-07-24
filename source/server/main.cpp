@@ -2,9 +2,9 @@
 #include <filesystem>
 #include <print>
 #include <utility>
-import Chess.ChessboardBuilder;
-import Chess.Net.GameHost;
-import Chess.Net.ServerSocket;
+import Chess.Core.ChessboardBuilder;
+import Chess.Network.GameHost;
+import Chess.Network.ServerSocket;
 
 int main()
 {
@@ -14,13 +14,13 @@ int main()
     {
         const auto path = std::filesystem::current_path().parent_path().parent_path().parent_path() / "resources" / "chessboard.json";
 
-        auto socket = Chess::Net::ServerSocket::Bind(port);
+        auto socket = Chess::Network::ServerSocket::Bind(port);
 
         std::println("Chess server on port {}. Waiting for two players...", port);
         while (true)
         {
-            auto pieces = Chess::ChessboardBuilder::InitBoard(path.string());
-            Chess::Net::GameHost::HostSingleMatch(socket, std::move(pieces));
+            auto pieces = Chess::Core::ChessboardBuilder::InitBoard(path.string());
+            Chess::Network::GameHost::HostSingleMatch(socket, std::move(pieces));
             std::println("Match finished. Waiting for the next two players...");
         }
     }

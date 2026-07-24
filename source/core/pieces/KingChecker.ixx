@@ -2,20 +2,20 @@ module;
 #include <expected>
 #include <memory>
 #include <vector>
-export module Chess.KingChecker;
+export module Chess.Core.KingChecker;
 import Chess.Constants.Counts;
 import Chess.Constants.Sizes;
-import Chess.Coordinate;
-import Chess.CoordinateToPieceFactory;
-import Chess.ePieceColor;
-import Chess.Piece;
-import Chess.PieceFinder;
-import Chess.ICastable;
-import Chess.IMoveChecker;
-import Chess.King;
+import Chess.Core.Coordinate;
+import Chess.Core.CoordinateToPieceFactory;
+import Chess.Core.ePieceColor;
+import Chess.Core.ICastable;
+import Chess.Core.IMoveChecker;
+import Chess.Core.King;
+import Chess.Core.Piece;
+import Chess.Core.PieceFinder;
 import Chess.Utils.Exceptions;
 
-namespace Chess
+namespace Chess::Core
 {
     export class KingChecker final : public IMoveChecker
     {
@@ -136,4 +136,4 @@ namespace Chess
             return result;
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

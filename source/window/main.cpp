@@ -1,5 +1,5 @@
-import Chess.Engine.Engine;
 import Chess.Constants.ApplicationInformation;
+import Chess.Engine.Engine;
 
 int main()
 {

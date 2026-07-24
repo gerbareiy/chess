@@ -1,8 +1,8 @@
 module;
 #include <cstdint>
-export module Chess.ePieceType;
+export module Chess.Core.ePieceType;
 
-namespace Chess
+namespace Chess::Core
 {
     export enum class ePieceType : uint8_t
     {
@@ -14,4 +14,4 @@ namespace Chess
         QUEEN,
         ROOK
     };
-} // namespace Chess
+} // namespace Chess::Core

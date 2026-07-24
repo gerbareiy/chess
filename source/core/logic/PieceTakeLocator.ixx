@@ -1,14 +1,14 @@
 module;
 #include <memory>
 #include <vector>
-export module Chess.PieceTakeLocator;
-import Chess.Coordinate;
-import Chess.CoordinateToPieceFactory;
-import Chess.Pawn;
-import Chess.Piece;
-import Chess.PieceFinder;
+export module Chess.Core.PieceTakeLocator;
+import Chess.Core.Coordinate;
+import Chess.Core.CoordinateToPieceFactory;
+import Chess.Core.Pawn;
+import Chess.Core.Piece;
+import Chess.Core.PieceFinder;
 
-namespace Chess
+namespace Chess::Core
 {
     export class PieceTakeLocator
     {
@@ -29,4 +29,4 @@ namespace Chess
             return to;
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

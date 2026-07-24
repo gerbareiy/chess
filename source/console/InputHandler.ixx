@@ -3,27 +3,27 @@ module;
 #include <cctype>
 #include <iostream>
 #include <string>
-export module Console.Chess.InputHandler;
-import Chess.Coordinate;
-import Chess.eInputType;
-import Chess.Inputer;
+export module Chess.Console.InputHandler;
+import Chess.Core.Coordinate;
+import Chess.Core.eInputType;
+import Chess.Core.Inputter;
 import Chess.Utils.ConsoleReader;
 import Chess.Utils.Converter;
 
-namespace Console::Chess
+namespace Chess::Console
 {
-    export class InputHandler final : public ::Chess::Inputter
+    export class InputHandler final : public ::Chess::Core::Inputter
     {
     public:
-        ::Chess::Coordinate EnterFrom() const
+        ::Chess::Core::Coordinate EnterFrom() const
         {
-            GetSignalOnEnter()(::Chess::eInputType::FROM);
+            GetSignalOnEnter()(::Chess::Core::eInputType::FROM);
             return EnterCoordinate();
         }
 
-        ::Chess::Coordinate EnterTo() const
+        ::Chess::Core::Coordinate EnterTo() const
         {
-            GetSignalOnEnter()(::Chess::eInputType::TO);
+            GetSignalOnEnter()(::Chess::Core::eInputType::TO);
             return EnterCoordinate();
         }
 
@@ -40,20 +40,20 @@ namespace Console::Chess
 
         std::optional<char> EnterFile() const
         {
-            GetSignalOnEnter()(::Chess::eInputType::FILE);
+            GetSignalOnEnter()(::Chess::Core::eInputType::FILE);
             const auto input = ::Chess::Utils::ConsoleReader::ReadLine();
             return NormalizeFileInput(input);
         }
 
         std::optional<int32_t> EnterRank() const
         {
-            GetSignalOnEnter()(::Chess::eInputType::RANK);
+            GetSignalOnEnter()(::Chess::Core::eInputType::RANK);
 
             const auto input = ::Chess::Utils::ConsoleReader::ReadLine();
             return ::Chess::Utils::Converter::ToInt32(input);
         }
 
-        ::Chess::Coordinate EnterCoordinate() const
+        ::Chess::Core::Coordinate EnterCoordinate() const
         {
             while (true)
             {
@@ -67,4 +67,4 @@ namespace Console::Chess
             }
         }
     };
-} // namespace Console::Chess
+} // namespace Chess::Console

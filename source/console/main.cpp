@@ -1,14 +1,14 @@
 #include <exception>
 #include <print>
 import Chess.Client.Session;
-import Console.Chess.Game;
+import Chess.Console.Game;
 
 int main()
 {
     try
     {
         auto session = Chess::Client::Session::Connect("127.0.0.1", 5555);
-        Console::Chess::Game::RunNetworkGame(session);
+        Chess::Console::Game::RunNetworkGame(session);
     }
     catch (const std::exception& exception)
     {

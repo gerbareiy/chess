@@ -1,20 +1,20 @@
 module;
 #include <memory>
 #include <print>
-export module Console.Chess.Game;
-import Chess.Chessboard;
-import Chess.Coordinate;
+export module Chess.Console.Game;
 import Chess.Client.Session;
-import Chess.eGameState;
-import Chess.ePieceColor;
-import Chess.ePieceType;
-import Chess.Move;
-import Console.Chess.ChessboardPresenter;
-import Console.Chess.ConsolePromoter;
-import Console.Chess.InputHandler;
-import Console.Chess.LabelPresenter;
+import Chess.Console.ChessboardPresenter;
+import Chess.Console.ConsolePromoter;
+import Chess.Console.InputHandler;
+import Chess.Console.LabelPresenter;
+import Chess.Core.Chessboard;
+import Chess.Core.Coordinate;
+import Chess.Core.eGameState;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
+import Chess.Core.Move;
 
-namespace Console::Chess
+namespace Chess::Console
 {
     export class Game
     {
@@ -26,11 +26,11 @@ namespace Console::Chess
             labelPresenter.Init();
             const auto promoter = std::make_shared<ConsolePromoter>();
 
-            std::println("You play {}.", session.GetMyColor() == ::Chess::ePieceColor::WHITE ? "White" : "Black");
+            std::println("You play {}.", session.GetMyColor() == ::Chess::Core::ePieceColor::WHITE ? "White" : "Black");
 
-            std::shared_ptr<::Chess::Chessboard> bound;
-            std::shared_ptr<ChessboardPresenter> presenter;
-            const auto                           render = [&]
+            std::shared_ptr<::Chess::Core::Chessboard> bound;
+            std::shared_ptr<ChessboardPresenter>       presenter;
+            const auto                                 render = [&]
             {
                 if (bound != session.GetChessboard())
                 {
@@ -75,13 +75,13 @@ namespace Console::Chess
 
                 const auto to = inputHandler->EnterTo();
 
-                auto promotion = ::Chess::ePieceType::NONE;
+                auto promotion = ::Chess::Core::ePieceType::NONE;
                 if (IsPromotion(session.GetChessboard(), from, to))
                 {
                     promotion = promoter->GetPromoteType();
                 }
 
-                if (!session.TrySubmitMove(::Chess::Move{ .from = from, .to = to, .promotion = promotion }))
+                if (!session.TrySubmitMove(::Chess::Core::Move{ .from = from, .to = to, .promotion = promotion }))
                 {
                     std::println("Illegal move.");
                     continue;
@@ -92,7 +92,8 @@ namespace Console::Chess
         }
 
     private:
-        static bool IsPromotion(const std::shared_ptr<::Chess::Chessboard>& board, const ::Chess::Coordinate& from, const ::Chess::Coordinate& to)
+        static bool IsPromotion(
+            const std::shared_ptr<::Chess::Core::Chessboard>& board, const ::Chess::Core::Coordinate& from, const ::Chess::Core::Coordinate& to)
         {
             const auto piece = board->GetPieceDirector()->GetPiece(from);
             if (!piece)
@@ -100,21 +101,21 @@ namespace Console::Chess
                 return false;
             }
             const auto [color, type] = piece->GetColorAndType();
-            if (type != ::Chess::ePieceType::PAWN)
+            if (type != ::Chess::Core::ePieceType::PAWN)
             {
                 return false;
             }
-            return (color == ::Chess::ePieceColor::WHITE && to.rank == 8) || (color == ::Chess::ePieceColor::BLACK && to.rank == 1);
+            return (color == ::Chess::Core::ePieceColor::WHITE && to.rank == 8) || (color == ::Chess::Core::ePieceColor::BLACK && to.rank == 1);
         }
 
-        static void PrintOutcome(::Chess::eGameState state)
+        static void PrintOutcome(::Chess::Core::eGameState state)
         {
             switch (state)
             {
-            case ::Chess::eGameState::CHECKMATE:
+            case ::Chess::Core::eGameState::CHECKMATE:
                 std::println("Checkmate!");
                 break;
-            case ::Chess::eGameState::DRAW:
+            case ::Chess::Core::eGameState::DRAW:
                 std::println("Draw!");
                 break;
             default:
@@ -123,4 +124,4 @@ namespace Console::Chess
             }
         }
     };
-} // namespace Console::Chess
+} // namespace Chess::Console

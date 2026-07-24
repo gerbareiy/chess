@@ -7,17 +7,32 @@ No free functions are allowed. If one is needed, put it into a separate class an
 One file (one module) — one class, struct, or enum class. If a class needs another class/struct/enum class alongside it
 (e.g. an enum of events it returns, or a value object it uses), move that into its own file/module and import it.
 Nested classes, structs, and enum classes (declared directly inside another class's body) are forbidden.
+This is a strict rule: a module is not a place to group unrelated declarations, it's the file's one export, named after it.
 
 Access sections are ordered `public`, then `protected`, then `private`. Private (and protected) member fields are named
 in camelCase with a trailing underscore (e.g. `fieldName_`) instead of an `m_` prefix.
 
+## Namespaces and modules
+
+A namespace is built from the solution name (`Chess`) followed by the project name — the top-level CMake target the file
+belongs to (`Core`, `Network`, `Client`, `Console`, `Engine`, `Utils`, `Constants`, ...), both capitalized:
+`Chess::Core`, `Chess::Network`, `Chess::Client`. Subfolders inside a project (e.g. `core/pieces/logic`) are for
+organizing files on disk only — they don't add further namespace segments.
+
+A module's name must mirror this exactly, followed by the name of the one thing it exports — which is also the file's
+own name: `Chess.Core.Chessboard`, `Chess.Network.GameSession`, `Chess.Console.InputHandler`. File name, exported
+class/struct/enum class name, and module name are always the same string.
+
+Imports are always alphabetical, full stop. `.clang-format` has no setting for sorting `import` declarations (its
+`SortIncludes` only covers `#include`), so `format.py` sorts each block of consecutive `import` lines itself.
+
 ```cpp
 module; // omit this if the file has no #includes
 #include "AnyOtherIncludeFile.h" // let .clang-format decide the order
-export module MyNamespace.MyClass; // the module name is the namespace + class name
-import OtherNamespace.OtherClass; // imports are alphabetical
+export module Chess.Core.MyClass; // solution + project + the exported class's name
+import Chess.Core.OtherClass; // imports are alphabetical
 
-namespace MyNamespace
+namespace Chess::Core
 {
     export class MyClass
     {
@@ -65,7 +80,7 @@ namespace MyNamespace
         // exception: structs — inside them it's best to avoid methods altogether, but not mandatory
 
     private:
-        friend class OtherNamespace::OtherClass; // prefer avoiding friends
+        friend class Client::OtherClass; // prefer avoiding friends
 
         static constexpr int constexprFieldName_ = 5;
         static const int staticConstFieldNameOne_ = 5; // constants with inline initialization go first
@@ -77,7 +92,7 @@ namespace MyNamespace
         int constFieldNameTwo_;
         int fieldName_ = 5; // non-const fields must be initialized unless done by default
     };
-}
+} // namespace Chess::Core
 ```
 
 ## Enum

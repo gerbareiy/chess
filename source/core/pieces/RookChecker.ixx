@@ -1,20 +1,20 @@
 module;
 #include <memory>
 #include <vector>
-export module Chess.RookChecker;
+export module Chess.Core.RookChecker;
 import Chess.Constants.Counts;
-import Chess.Coordinate;
-import Chess.CoordinateToPieceFactory;
-import Chess.DirectionMoveChecker;
-import Chess.ePieceColor;
-import Chess.ePieceType;
-import Chess.IMoveChecker;
-import Chess.Piece;
-import Chess.PieceFinder;
-import Chess.Rook;
+import Chess.Core.Coordinate;
+import Chess.Core.CoordinateToPieceFactory;
+import Chess.Core.DirectionMoveChecker;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
+import Chess.Core.IMoveChecker;
+import Chess.Core.Piece;
+import Chess.Core.PieceFinder;
+import Chess.Core.Rook;
 import Chess.Utils.Exceptions;
 
-namespace Chess
+namespace Chess::Core
 {
     export class RookChecker final : public IMoveChecker
     {
@@ -53,4 +53,4 @@ namespace Chess
     private:
         std::shared_ptr<Rook> rook_;
     };
-} // namespace Chess
+} // namespace Chess::Core

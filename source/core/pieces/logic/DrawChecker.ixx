@@ -1,16 +1,16 @@
 module;
 #include <memory>
 #include <ranges>
-export module Chess.DrawChecker;
+export module Chess.Core.DrawChecker;
 import Chess.Constants.Counts;
 import Chess.Constants.Sizes;
-import Chess.Chessboard;
-import Chess.Coordinate;
-import Chess.ePieceColor;
-import Chess.ePieceType;
-import Chess.PieceDirector;
+import Chess.Core.Chessboard;
+import Chess.Core.Coordinate;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
+import Chess.Core.PieceDirector;
 
-namespace Chess
+namespace Chess::Core
 {
     export class DrawChecker
     {
@@ -122,4 +122,4 @@ namespace Chess
             }
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

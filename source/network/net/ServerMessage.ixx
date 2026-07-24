@@ -1,18 +1,18 @@
 module;
 #include <optional>
-export module Chess.Net.ServerMessage;
-import Chess.eGameState;
-import Chess.Move;
-import Chess.Net.BoardSnapshot;
-import Chess.Net.eSessionEvent;
+export module Chess.Network.ServerMessage;
+import Chess.Core.eGameState;
+import Chess.Core.Move;
+import Chess.Network.BoardSnapshot;
+import Chess.Network.eSessionEvent;
 
-namespace Chess::Net
+namespace Chess::Network
 {
     export struct ServerMessage
     {
-        eSessionEvent                event;
-        std::optional<Move>          move;
-        std::optional<BoardSnapshot> board;
-        std::optional<eGameState>    finalState;
+        eSessionEvent                          event;
+        std::optional<Chess::Core::Move>       move;
+        std::optional<BoardSnapshot>           board;
+        std::optional<Chess::Core::eGameState> finalState;
     };
-} // namespace Chess::Net
+} // namespace Chess::Network

@@ -2,16 +2,16 @@ module;
 #include <boost/signals2.hpp>
 #include <memory>
 #include <vector>
-export module Chess.Chessboard;
-import Chess.Coordinate;
-import Chess.ePieceColor;
-import Chess.MoveValidator;
-import Chess.Piece;
-import Chess.PieceDirector;
-import Chess.Player;
-import Chess.Promoter;
+export module Chess.Core.Chessboard;
+import Chess.Core.Coordinate;
+import Chess.Core.ePieceColor;
+import Chess.Core.MoveValidator;
+import Chess.Core.Piece;
+import Chess.Core.PieceDirector;
+import Chess.Core.Player;
+import Chess.Core.Promoter;
 
-namespace Chess
+namespace Chess::Core
 {
     export class Chessboard
     {
@@ -116,4 +116,4 @@ namespace Chess
 
         boost::signals2::signal<void()> signalChessboardUpdated_;
     };
-} // namespace Chess
+} // namespace Chess::Core

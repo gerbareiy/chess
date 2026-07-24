@@ -1,6 +1,6 @@
-export module Console.Chess.ConsoleColor;
+export module Chess.Console.eConsoleColor;
 
-namespace Console::Chess
+namespace Chess::Console
 {
     export enum class eConsoleColor
     {
@@ -15,4 +15,4 @@ namespace Console::Chess
         YELLOW   = 14,
         WHITE    = 15
     };
-} // namespace Console::Chess
+} // namespace Chess::Console

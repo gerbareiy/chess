@@ -1,7 +1,7 @@
-export module Chess.Player;
-import Chess.ePieceColor;
+export module Chess.Core.Player;
+import Chess.Core.ePieceColor;
 
-namespace Chess
+namespace Chess::Core
 {
     export class Player
     {
@@ -32,4 +32,4 @@ namespace Chess
     private:
         ePieceColor playerColor_;
     };
-} // namespace Chess
+} // namespace Chess::Core

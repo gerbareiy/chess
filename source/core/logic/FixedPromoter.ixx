@@ -1,8 +1,8 @@
-export module Chess.FixedPromoter;
-import Chess.ePieceType;
-import Chess.Promoter;
+export module Chess.Core.FixedPromoter;
+import Chess.Core.ePieceType;
+import Chess.Core.Promoter;
 
-namespace Chess
+namespace Chess::Core
 {
     export class FixedPromoter final : public Promoter
     {
@@ -20,4 +20,4 @@ namespace Chess
     private:
         ePieceType type_;
     };
-} // namespace Chess
+} // namespace Chess::Core

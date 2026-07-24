@@ -1,16 +1,16 @@
 module;
 #include <cstdlib>
 #include <memory>
-export module Chess.Pawn;
+export module Chess.Core.Pawn;
 import Chess.Constants.Counts;
-import Chess.Coordinate;
-import Chess.ePieceColor;
-import Chess.ePieceType;
-import Chess.Piece;
-import Chess.PieceColorAndType;
+import Chess.Core.Coordinate;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
+import Chess.Core.Piece;
+import Chess.Core.PieceColorAndType;
 import Chess.Utils.Exceptions;
 
-namespace Chess
+namespace Chess::Core
 {
     export class Pawn final : public Piece
     {
@@ -90,4 +90,4 @@ namespace Chess
             isOnPawnFirstMove_ = false;
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

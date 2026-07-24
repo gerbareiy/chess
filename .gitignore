@@ -5,3 +5,4 @@ vcpkg/
 
 *.user
 *.DotSettings
+__pycache__/

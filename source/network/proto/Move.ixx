@@ -1,16 +1,16 @@
 module;
 #include "Move.pb.h"
-export module Chess.Proto.Move;
-import Chess.Move;
-import Chess.Proto.Coordinate;
-import Chess.Proto.PieceColorAndType;
+export module Chess.Network.Move;
+import Chess.Core.Move;
+import Chess.Network.Coordinate;
+import Chess.Network.PieceColorAndType;
 
-namespace Chess::Proto
+namespace Chess::Network
 {
     export class Move
     {
     public:
-        static chess::proto::Move ToProto(const Chess::Move& value)
+        static chess::proto::Move ToProto(const Chess::Core::Move& value)
         {
             chess::proto::Move result;
             *result.mutable_from() = Coordinate::ToProto(value.from);
@@ -19,11 +19,11 @@ namespace Chess::Proto
             return result;
         }
 
-        static Chess::Move FromProto(const chess::proto::Move& message)
+        static Chess::Core::Move FromProto(const chess::proto::Move& message)
         {
-            return Chess::Move{ .from      = Coordinate::FromProto(message.from()),
-                                .to        = Coordinate::FromProto(message.to()),
-                                .promotion = PieceColorAndType::FromProto(message.promotion()) };
+            return Chess::Core::Move{ .from      = Coordinate::FromProto(message.from()),
+                                      .to        = Coordinate::FromProto(message.to()),
+                                      .promotion = PieceColorAndType::FromProto(message.promotion()) };
         }
     };
-} // namespace Chess::Proto
+} // namespace Chess::Network

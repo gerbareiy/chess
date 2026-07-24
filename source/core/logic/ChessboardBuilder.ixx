@@ -8,20 +8,20 @@ module;
 #include <ranges>
 #include <string>
 #include <vector>
-export module Chess.ChessboardBuilder;
+export module Chess.Core.ChessboardBuilder;
 import Chess.Constants.Counts;
-import Chess.Coordinate;
-import Chess.ePieceColor;
-import Chess.ePieceType;
-import Chess.King;
-import Chess.Piece;
-import Chess.PieceColorAndType;
-import Chess.PiecePlacement;
-import Chess.PiecesOnBoardCreator;
-import Chess.PieceTypeConverter;
+import Chess.Core.Coordinate;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
+import Chess.Core.King;
+import Chess.Core.Piece;
+import Chess.Core.PieceColorAndType;
+import Chess.Core.PiecePlacement;
+import Chess.Core.PiecesOnBoardCreator;
+import Chess.Core.PieceTypeConverter;
 import Chess.Utils.Converter;
 
-namespace Chess
+namespace Chess::Core
 {
     export class ChessboardBuilder
     {
@@ -141,4 +141,4 @@ namespace Chess
             }
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

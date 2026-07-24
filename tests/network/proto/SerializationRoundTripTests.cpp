@@ -1,85 +1,88 @@
 #include <gtest/gtest.h>
 #include <memory>
 #include <vector>
-import Chess.Coordinate;
-import Chess.ePieceColor;
-import Chess.ePieceType;
-import Chess.King;
-import Chess.Move;
-import Chess.Pawn;
-import Chess.Piece;
-import Chess.PieceColorAndType;
-import Chess.Proto.Chessboard;
-import Chess.Proto.Coordinate;
-import Chess.Proto.Move;
-import Chess.Proto.Piece;
-import Chess.Proto.PieceColorAndType;
+import Chess.Core.Coordinate;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
+import Chess.Core.King;
+import Chess.Core.Move;
+import Chess.Core.Pawn;
+import Chess.Core.Piece;
+import Chess.Core.PieceColorAndType;
+import Chess.Network.Chessboard;
+import Chess.Network.Coordinate;
+import Chess.Network.Move;
+import Chess.Network.Piece;
+import Chess.Network.PieceColorAndType;
 
 namespace NetworkTests
 {
     TEST(CoordinateProtoTests, RoundTrip)
     {
-        constexpr Chess::Coordinate coordinate = { .file = 'D', .rank = 4 };
-        EXPECT_EQ(Chess::Proto::Coordinate::FromProto(Chess::Proto::Coordinate::ToProto(coordinate)), coordinate);
+        constexpr Chess::Core::Coordinate coordinate = { .file = 'D', .rank = 4 };
+        EXPECT_EQ(Chess::Network::Coordinate::FromProto(Chess::Network::Coordinate::ToProto(coordinate)), coordinate);
     }
 
     TEST(PieceColorAndTypeProtoTests, ColorRoundTrip)
     {
-        for (const auto color : { Chess::ePieceColor::NONE, Chess::ePieceColor::WHITE, Chess::ePieceColor::BLACK })
+        for (const auto color : { Chess::Core::ePieceColor::NONE, Chess::Core::ePieceColor::WHITE, Chess::Core::ePieceColor::BLACK })
         {
-            EXPECT_EQ(Chess::Proto::PieceColorAndType::FromProto(Chess::Proto::PieceColorAndType::ToProto(color)), color);
+            EXPECT_EQ(Chess::Network::PieceColorAndType::FromProto(Chess::Network::PieceColorAndType::ToProto(color)), color);
         }
     }
 
     TEST(PieceColorAndTypeProtoTests, TypeRoundTrip)
     {
-        for (const auto type : { Chess::ePieceType::NONE,
-                                 Chess::ePieceType::BISHOP,
-                                 Chess::ePieceType::KING,
-                                 Chess::ePieceType::KNIGHT,
-                                 Chess::ePieceType::PAWN,
-                                 Chess::ePieceType::QUEEN,
-                                 Chess::ePieceType::ROOK })
+        for (const auto type : { Chess::Core::ePieceType::NONE,
+                                 Chess::Core::ePieceType::BISHOP,
+                                 Chess::Core::ePieceType::KING,
+                                 Chess::Core::ePieceType::KNIGHT,
+                                 Chess::Core::ePieceType::PAWN,
+                                 Chess::Core::ePieceType::QUEEN,
+                                 Chess::Core::ePieceType::ROOK })
         {
-            EXPECT_EQ(Chess::Proto::PieceColorAndType::FromProto(Chess::Proto::PieceColorAndType::ToProto(type)), type);
+            EXPECT_EQ(Chess::Network::PieceColorAndType::FromProto(Chess::Network::PieceColorAndType::ToProto(type)), type);
         }
     }
 
     TEST(PieceColorAndTypeProtoTests, MessageRoundTrip)
     {
-        constexpr Chess::PieceColorAndType value = { Chess::ePieceColor::BLACK, Chess::ePieceType::QUEEN };
-        EXPECT_EQ(Chess::Proto::PieceColorAndType::FromProto(Chess::Proto::PieceColorAndType::ToProto(value)), value);
+        constexpr Chess::Core::PieceColorAndType value = { Chess::Core::ePieceColor::BLACK, Chess::Core::ePieceType::QUEEN };
+        EXPECT_EQ(Chess::Network::PieceColorAndType::FromProto(Chess::Network::PieceColorAndType::ToProto(value)), value);
     }
 
     TEST(MoveProtoTests, RoundTripWithPromotion)
     {
-        constexpr Chess::Move move = { .from = { .file = 'E', .rank = 7 }, .to = { .file = 'E', .rank = 8 }, .promotion = Chess::ePieceType::QUEEN };
-        EXPECT_EQ(Chess::Proto::Move::FromProto(Chess::Proto::Move::ToProto(move)), move);
+        constexpr Chess::Core::Move move = { .from      = { .file = 'E', .rank = 7 },
+                                             .to        = { .file = 'E', .rank = 8 },
+                                             .promotion = Chess::Core::ePieceType::QUEEN };
+        EXPECT_EQ(Chess::Network::Move::FromProto(Chess::Network::Move::ToProto(move)), move);
     }
 
     TEST(PieceProtoTests, KingKeepsCastlingFlag)
     {
-        const auto king     = std::make_shared<Chess::King>(Chess::ePieceColor::WHITE, Chess::Coordinate{ .file = 'E', .rank = 1 }, false);
-        const auto restored = Chess::Proto::Piece::FromProto(Chess::Proto::Piece::ToProto(king));
+        const auto king =
+            std::make_shared<Chess::Core::King>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'E', .rank = 1 }, false);
+        const auto restored = Chess::Network::Piece::FromProto(Chess::Network::Piece::ToProto(king));
 
         ASSERT_NE(restored, nullptr);
         EXPECT_EQ(restored->GetColorAndType(), king->GetColorAndType());
         EXPECT_EQ(restored->GetPosition(), king->GetPosition());
 
-        const auto restoredKing = std::dynamic_pointer_cast<Chess::King>(restored);
+        const auto restoredKing = std::dynamic_pointer_cast<Chess::Core::King>(restored);
         ASSERT_NE(restoredKing, nullptr);
         EXPECT_FALSE(restoredKing->GetCanMakeCastling());
     }
 
     TEST(ChessboardProtoTests, PreservesPieceCount)
     {
-        const std::vector<std::shared_ptr<Chess::Piece>> pieces = {
-            std::make_shared<Chess::King>(Chess::ePieceColor::WHITE, Chess::Coordinate{ .file = 'E', .rank = 1 }, false),
-            std::make_shared<Chess::King>(Chess::ePieceColor::BLACK, Chess::Coordinate{ .file = 'E', .rank = 8 }, false),
-            std::make_shared<Chess::Pawn>(Chess::ePieceColor::WHITE, Chess::Coordinate{ .file = 'A', .rank = 2 }),
+        const std::vector<std::shared_ptr<Chess::Core::Piece>> pieces = {
+            std::make_shared<Chess::Core::King>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'E', .rank = 1 }, false),
+            std::make_shared<Chess::Core::King>(Chess::Core::ePieceColor::BLACK, Chess::Core::Coordinate{ .file = 'E', .rank = 8 }, false),
+            std::make_shared<Chess::Core::Pawn>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'A', .rank = 2 }),
         };
 
-        const auto restored = Chess::Proto::Chessboard::FromProto(Chess::Proto::Chessboard::ToProto(pieces, Chess::ePieceColor::WHITE));
+        const auto restored = Chess::Network::Chessboard::FromProto(Chess::Network::Chessboard::ToProto(pieces, Chess::Core::ePieceColor::WHITE));
 
         EXPECT_EQ(restored.size(), pieces.size());
     }

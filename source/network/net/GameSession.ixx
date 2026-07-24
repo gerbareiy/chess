@@ -3,19 +3,19 @@ module;
 #include <optional>
 #include <string>
 #include <utility>
-export module Chess.Net.GameSession;
-import Chess.ePieceColor;
-import Chess.Move;
-import Chess.Net.BoardSnapshot;
-import Chess.Net.ClientConnection;
-import Chess.Net.eSessionEvent;
-import Chess.Net.ServerMessage;
-import Chess.Proto.Chessboard;
-import Chess.Proto.Move;
-import Chess.Proto.PieceColorAndType;
-import Chess.Proto.Session;
+export module Chess.Network.GameSession;
+import Chess.Core.ePieceColor;
+import Chess.Core.Move;
+import Chess.Network.BoardSnapshot;
+import Chess.Network.Chessboard;
+import Chess.Network.ClientConnection;
+import Chess.Network.eSessionEvent;
+import Chess.Network.Move;
+import Chess.Network.PieceColorAndType;
+import Chess.Network.ServerMessage;
+import Chess.Network.Session;
 
-namespace Chess::Net
+namespace Chess::Network
 {
     // Owns the client side of the find-game/game-started handshake and the wire
     // (Envelope/protobuf) format, so callers only ever see domain types.
@@ -33,13 +33,13 @@ namespace Chess::Net
             chess::proto::Envelope started;
             started.ParseFromString(connection.ReceiveBytes());
 
-            const auto myColor = Proto::PieceColorAndType::FromProto(started.game_started().your_color());
+            const auto myColor = PieceColorAndType::FromProto(started.game_started().your_color());
             auto       board   = ToSnapshot(started.game_started().board());
 
             return GameSession(std::move(connection), myColor, std::move(board));
         }
 
-        Chess::ePieceColor GetMyColor() const
+        Chess::Core::ePieceColor GetMyColor() const
         {
             return myColor_;
         }
@@ -49,10 +49,10 @@ namespace Chess::Net
             return initialBoard_;
         }
 
-        void SendMove(const Chess::Move& move)
+        void SendMove(const Chess::Core::Move& move)
         {
             chess::proto::Envelope envelope;
-            *envelope.mutable_move() = Proto::Move::ToProto(move);
+            *envelope.mutable_move() = Move::ToProto(move);
             connection_.SendBytes(envelope.SerializeAsString());
         }
 
@@ -64,16 +64,15 @@ namespace Chess::Net
             switch (envelope.payload_case())
             {
             case chess::proto::Envelope::kMove:
-                return ServerMessage{ eSessionEvent::OPPONENT_MOVED, Proto::Move::FromProto(envelope.move()), std::nullopt, std::nullopt };
+                return ServerMessage{ eSessionEvent::OPPONENT_MOVED, Move::FromProto(envelope.move()), std::nullopt, std::nullopt };
             case chess::proto::Envelope::kBoardSync:
                 return ServerMessage{ eSessionEvent::BOARD_SYNCED, std::nullopt, ToSnapshot(envelope.board_sync()), std::nullopt };
             case chess::proto::Envelope::kBoardCheck:
                 return ServerMessage{ eSessionEvent::BOARD_CHECKED, std::nullopt, ToSnapshot(envelope.board_check()), std::nullopt };
             case chess::proto::Envelope::kGameOver:
-                return ServerMessage{ eSessionEvent::GAME_OVER,
-                                      std::nullopt,
-                                      ToSnapshot(envelope.game_over().board()),
-                                      Proto::Session::FromProto(envelope.game_over().state()) };
+                return ServerMessage{
+                    eSessionEvent::GAME_OVER, std::nullopt, ToSnapshot(envelope.game_over().board()), Session::FromProto(envelope.game_over().state())
+                };
             default:
                 return ServerMessage{ eSessionEvent::UNKNOWN, std::nullopt, std::nullopt, std::nullopt };
             }
@@ -85,20 +84,20 @@ namespace Chess::Net
         }
 
     private:
-        ClientConnection connection_;
-        ePieceColor      myColor_;
-        BoardSnapshot    initialBoard_;
+        ClientConnection         connection_;
+        Chess::Core::ePieceColor myColor_;
+        BoardSnapshot            initialBoard_;
 
         static BoardSnapshot ToSnapshot(const chess::proto::Chessboard& board)
         {
-            return BoardSnapshot{ Proto::Chessboard::FromProto(board), Proto::PieceColorAndType::FromProto(board.side_to_move()), board.ply() };
+            return BoardSnapshot{ Chessboard::FromProto(board), PieceColorAndType::FromProto(board.side_to_move()), board.ply() };
         }
 
-        GameSession(ClientConnection connection, Chess::ePieceColor myColor, BoardSnapshot initialBoard)
+        GameSession(ClientConnection connection, Chess::Core::ePieceColor myColor, BoardSnapshot initialBoard)
             : connection_(std::move(connection))
             , myColor_(myColor)
             , initialBoard_(std::move(initialBoard))
         {
         }
     };
-} // namespace Chess::Net
+} // namespace Chess::Network

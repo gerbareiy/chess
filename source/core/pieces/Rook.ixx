@@ -1,18 +1,18 @@
 module;
 #include <boost/signals2.hpp>
-export module Chess.Rook;
+export module Chess.Core.Rook;
 import Chess.Constants.Sizes;
-import Chess.Coordinate;
-import Chess.eCastleSide;
-import Chess.ePieceColor;
-import Chess.ePieceType;
-import Chess.ICastable;
-import Chess.King;
-import Chess.Piece;
-import Chess.PieceColorAndType;
+import Chess.Core.Coordinate;
+import Chess.Core.eCastleSide;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
+import Chess.Core.ICastable;
+import Chess.Core.King;
+import Chess.Core.Piece;
+import Chess.Core.PieceColorAndType;
 import Chess.Utils.Exceptions;
 
-namespace Chess
+namespace Chess::Core
 {
     export class Rook final : public Piece, public ICastable
     {
@@ -82,4 +82,4 @@ namespace Chess
             connection_.disconnect();
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

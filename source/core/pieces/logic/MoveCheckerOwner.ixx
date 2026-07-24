@@ -4,16 +4,16 @@ module;
 #include <memory>
 #include <optional>
 #include <vector>
-export module Chess.MoveCheckerOwner;
-import Chess.CheckChecker;
-import Chess.Coordinate;
-import Chess.CoordinateToPieceFactory;
-import Chess.IMoveChecker;
-import Chess.Piece;
-import Chess.PieceFinder;
-import Chess.PiecesOnBoardCreator;
+export module Chess.Core.MoveCheckerOwner;
+import Chess.Core.CheckChecker;
+import Chess.Core.Coordinate;
+import Chess.Core.CoordinateToPieceFactory;
+import Chess.Core.IMoveChecker;
+import Chess.Core.Piece;
+import Chess.Core.PieceFinder;
+import Chess.Core.PiecesOnBoardCreator;
 
-namespace Chess
+namespace Chess::Core
 {
     export class MoveCheckerOwner
     {
@@ -66,4 +66,4 @@ namespace Chess
             return !CheckChecker::IsCheck(piece_->GetColorAndType().color, piecesOnBoardCopy);
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

@@ -1,8 +1,8 @@
-export module Chess.Move;
-import Chess.Coordinate;
-import Chess.ePieceType;
+export module Chess.Core.Move;
+import Chess.Core.Coordinate;
+import Chess.Core.ePieceType;
 
-namespace Chess
+namespace Chess::Core
 {
     export struct Move
     {
@@ -12,4 +12,4 @@ namespace Chess
 
         bool operator==(const Move& other) const = default;
     };
-} // namespace Chess
+} // namespace Chess::Core

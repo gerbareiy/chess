@@ -1,17 +1,17 @@
 module;
 #include <boost/signals2.hpp>
 #include <cstdlib>
-export module Chess.King;
-import Chess.Coordinate;
-import Chess.eCastleSide;
-import Chess.ePieceColor;
-import Chess.ePieceType;
-import Chess.ICastable;
-import Chess.Piece;
-import Chess.PieceColorAndType;
+export module Chess.Core.King;
+import Chess.Core.Coordinate;
+import Chess.Core.eCastleSide;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
+import Chess.Core.ICastable;
+import Chess.Core.Piece;
+import Chess.Core.PieceColorAndType;
 import Chess.Utils.Exceptions;
 
-namespace Chess
+namespace Chess::Core
 {
     export class King final : public ICastable, public Piece
     {
@@ -107,4 +107,4 @@ namespace Chess
             signalCastling_.disconnect_all_slots();
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

@@ -5,23 +5,23 @@ module;
 #include <print>
 #include <ranges>
 #include <windows.h>
-export module Console.Chess.ChessboardPresenter;
+export module Chess.Console.ChessboardPresenter;
+import Chess.Console.eConsoleColor;
 import Chess.Constants.Sizes;
-import Chess.Chessboard;
-import Chess.Coordinate;
-import Chess.ePieceColor;
-import Chess.MoveValidator;
-import Chess.PieceColorAndType;
-import Chess.PieceDirector;
-import Chess.PieceTypeConverter;
-import Console.Chess.ConsoleColor;
+import Chess.Core.Chessboard;
+import Chess.Core.Coordinate;
+import Chess.Core.ePieceColor;
+import Chess.Core.MoveValidator;
+import Chess.Core.PieceColorAndType;
+import Chess.Core.PieceDirector;
+import Chess.Core.PieceTypeConverter;
 
-namespace Console::Chess
+namespace Chess::Console
 {
     export class ChessboardPresenter : public std::enable_shared_from_this<ChessboardPresenter>
     {
     public:
-        explicit ChessboardPresenter(const std::shared_ptr<::Chess::Chessboard>& chessboard)
+        explicit ChessboardPresenter(const std::shared_ptr<::Chess::Core::Chessboard>& chessboard)
             : chessboard_(chessboard)
         {
         }
@@ -45,9 +45,9 @@ namespace Console::Chess
         void Show() const
         {
             Clear();
-            ShowTakenPieces(::Chess::ePieceColor::WHITE);
+            ShowTakenPieces(::Chess::Core::ePieceColor::WHITE);
             ShowChessboardWithCoordinates();
-            ShowTakenPieces(::Chess::ePieceColor::BLACK);
+            ShowTakenPieces(::Chess::Core::ePieceColor::BLACK);
         }
 
         void ShowChessboardRowWithRank(int y, int originalTextColor) const
@@ -56,15 +56,15 @@ namespace Console::Chess
             {
                 auto       colorAndType = chessboard_->GetPieceDirector()->GetPieceColorAndType({ .file = x, .rank = y });
                 const auto textColor    = GetTextConsoleColor(colorAndType, originalTextColor);
-                const auto background   = GetBackgroundConsoleColor(::Chess::Coordinate(x, y));
+                const auto background   = GetBackgroundConsoleColor(::Chess::Core::Coordinate(x, y));
 
                 SetConsoleColor(textColor, background);
 
-                std::print("{}", ::Chess::PieceTypeConverter::TryConvertToChar(colorAndType.type).value_or(' '));
+                std::print("{}", ::Chess::Core::PieceTypeConverter::TryConvertToChar(colorAndType.type).value_or(' '));
             }
         }
 
-        void ShowTakenPieces(::Chess::ePieceColor color) const
+        void ShowTakenPieces(::Chess::Core::ePieceColor color) const
         {
             PrintEmpty();
 
@@ -73,7 +73,7 @@ namespace Console::Chess
             {
                 if (piece->GetColorAndType().color == color)
                 {
-                    std::print("{}", ::Chess::PieceTypeConverter::TryConvertToChar(piece->GetColorAndType().type).value_or(' '));
+                    std::print("{}", ::Chess::Core::PieceTypeConverter::TryConvertToChar(piece->GetColorAndType().type).value_or(' '));
                 }
             }
 
@@ -82,7 +82,7 @@ namespace Console::Chess
         }
 
     private:
-        std::shared_ptr<::Chess::Chessboard> chessboard_;
+        std::shared_ptr<::Chess::Core::Chessboard> chessboard_;
 
         boost::signals2::scoped_connection connection_;
 
@@ -105,13 +105,13 @@ namespace Console::Chess
             originalColors = consoleInfo.wAttributes;
         }
 
-        static eConsoleColor GetTextConsoleColor(const ::Chess::PieceColorAndType& colorAndType, int originalTextColor)
+        static eConsoleColor GetTextConsoleColor(const ::Chess::Core::PieceColorAndType& colorAndType, int originalTextColor)
         {
-            if (colorAndType.color == ::Chess::ePieceColor::BLACK)
+            if (colorAndType.color == ::Chess::Core::ePieceColor::BLACK)
             {
                 return eConsoleColor::BLACK;
             }
-            if (colorAndType.color == ::Chess::ePieceColor::WHITE)
+            if (colorAndType.color == ::Chess::Core::ePieceColor::WHITE)
             {
                 return eConsoleColor::WHITE;
             }
@@ -151,7 +151,7 @@ namespace Console::Chess
             std::print("{}{}{}", space, y, space);
         }
 
-        eConsoleColor GetBackgroundConsoleColor(const ::Chess::Coordinate& coordinate) const
+        eConsoleColor GetBackgroundConsoleColor(const ::Chess::Core::Coordinate& coordinate) const
         {
             if (coordinate == chessboard_->GetFrom())
             {
@@ -197,4 +197,4 @@ namespace Console::Chess
             ShowChessboardFiles(isChessboardSizeOneDigit);
         }
     };
-} // namespace Console::Chess
+} // namespace Chess::Console

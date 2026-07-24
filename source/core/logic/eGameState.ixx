@@ -1,6 +1,6 @@
-export module Chess.eGameState;
+export module Chess.Core.eGameState;
 
-namespace Chess
+namespace Chess::Core
 {
     export enum class eGameState
     {
@@ -9,4 +9,4 @@ namespace Chess
         CHECKMATE,
         DRAW
     };
-} // namespace Chess
+} // namespace Chess::Core

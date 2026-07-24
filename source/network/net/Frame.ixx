@@ -1,8 +1,8 @@
 module;
 #include <string>
-export module Chess.Net.Frame;
+export module Chess.Network.Frame;
 
-namespace Chess::Net
+namespace Chess::Network
 {
     export struct Frame
     {
@@ -10,4 +10,4 @@ namespace Chess::Net
         std::string payload;
         bool        disconnected = false;
     };
-} // namespace Chess::Net
+} // namespace Chess::Network

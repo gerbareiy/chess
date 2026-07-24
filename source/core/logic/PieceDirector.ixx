@@ -2,22 +2,22 @@ module;
 #include <boost/signals2.hpp>
 #include <memory>
 #include <vector>
-export module Chess.PieceDirector;
+export module Chess.Core.PieceDirector;
 import Chess.Constants.Counts;
 import Chess.Constants.Sizes;
-import Chess.CheckChecker;
-import Chess.Coordinate;
-import Chess.ePieceColor;
-import Chess.King;
-import Chess.Pawn;
-import Chess.Piece;
-import Chess.PieceColorAndType;
-import Chess.PieceTakeLocator;
-import Chess.Player;
-import Chess.Promoter;
-import Chess.Promotion;
+import Chess.Core.CheckChecker;
+import Chess.Core.Coordinate;
+import Chess.Core.ePieceColor;
+import Chess.Core.King;
+import Chess.Core.Pawn;
+import Chess.Core.Piece;
+import Chess.Core.PieceColorAndType;
+import Chess.Core.PieceTakeLocator;
+import Chess.Core.Player;
+import Chess.Core.Promoter;
+import Chess.Core.Promotion;
 
-namespace Chess
+namespace Chess::Core
 {
     export class PieceDirector
     {
@@ -126,4 +126,4 @@ namespace Chess
             piecesOnBoard_.erase(piecesOnBoard_.begin() + indexOnBoard);
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

@@ -1,9 +1,9 @@
 module;
 #include <boost/signals2.hpp>
-export module Chess.Inputer;
-import Chess.eInputType;
+export module Chess.Core.Inputter;
+import Chess.Core.eInputType;
 
-namespace Chess
+namespace Chess::Core
 {
     export class Inputter
     {
@@ -24,4 +24,4 @@ namespace Chess
     private:
         boost::signals2::signal<void(eInputType)> signalOnEnter_;
     };
-} // namespace Chess
+} // namespace Chess::Core

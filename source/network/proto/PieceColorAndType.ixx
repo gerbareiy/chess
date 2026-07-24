@@ -1,84 +1,84 @@
 module;
 #include "PieceColorAndType.pb.h"
-export module Chess.Proto.PieceColorAndType;
-import Chess.ePieceColor;
-import Chess.ePieceType;
-import Chess.PieceColorAndType;
+export module Chess.Network.PieceColorAndType;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
+import Chess.Core.PieceColorAndType;
 
-namespace Chess::Proto
+namespace Chess::Network
 {
     export class PieceColorAndType
     {
     public:
-        static chess::proto::PieceColor ToProto(Chess::ePieceColor color)
+        static chess::proto::PieceColor ToProto(Chess::Core::ePieceColor color)
         {
             switch (color)
             {
-            case Chess::ePieceColor::BLACK:
+            case Chess::Core::ePieceColor::BLACK:
                 return chess::proto::PIECE_COLOR_BLACK;
-            case Chess::ePieceColor::WHITE:
+            case Chess::Core::ePieceColor::WHITE:
                 return chess::proto::PIECE_COLOR_WHITE;
             default:
                 return chess::proto::PIECE_COLOR_NONE;
             }
         }
 
-        static Chess::ePieceColor FromProto(chess::proto::PieceColor color)
+        static Chess::Core::ePieceColor FromProto(chess::proto::PieceColor color)
         {
             switch (color)
             {
             case chess::proto::PIECE_COLOR_BLACK:
-                return Chess::ePieceColor::BLACK;
+                return Chess::Core::ePieceColor::BLACK;
             case chess::proto::PIECE_COLOR_WHITE:
-                return Chess::ePieceColor::WHITE;
+                return Chess::Core::ePieceColor::WHITE;
             default:
-                return Chess::ePieceColor::NONE;
+                return Chess::Core::ePieceColor::NONE;
             }
         }
 
-        static chess::proto::PieceType ToProto(Chess::ePieceType type)
+        static chess::proto::PieceType ToProto(Chess::Core::ePieceType type)
         {
             switch (type)
             {
-            case Chess::ePieceType::BISHOP:
+            case Chess::Core::ePieceType::BISHOP:
                 return chess::proto::PIECE_TYPE_BISHOP;
-            case Chess::ePieceType::KING:
+            case Chess::Core::ePieceType::KING:
                 return chess::proto::PIECE_TYPE_KING;
-            case Chess::ePieceType::KNIGHT:
+            case Chess::Core::ePieceType::KNIGHT:
                 return chess::proto::PIECE_TYPE_KNIGHT;
-            case Chess::ePieceType::PAWN:
+            case Chess::Core::ePieceType::PAWN:
                 return chess::proto::PIECE_TYPE_PAWN;
-            case Chess::ePieceType::QUEEN:
+            case Chess::Core::ePieceType::QUEEN:
                 return chess::proto::PIECE_TYPE_QUEEN;
-            case Chess::ePieceType::ROOK:
+            case Chess::Core::ePieceType::ROOK:
                 return chess::proto::PIECE_TYPE_ROOK;
             default:
                 return chess::proto::PIECE_TYPE_NONE;
             }
         }
 
-        static Chess::ePieceType FromProto(chess::proto::PieceType type)
+        static Chess::Core::ePieceType FromProto(chess::proto::PieceType type)
         {
             switch (type)
             {
             case chess::proto::PIECE_TYPE_BISHOP:
-                return Chess::ePieceType::BISHOP;
+                return Chess::Core::ePieceType::BISHOP;
             case chess::proto::PIECE_TYPE_KING:
-                return Chess::ePieceType::KING;
+                return Chess::Core::ePieceType::KING;
             case chess::proto::PIECE_TYPE_KNIGHT:
-                return Chess::ePieceType::KNIGHT;
+                return Chess::Core::ePieceType::KNIGHT;
             case chess::proto::PIECE_TYPE_PAWN:
-                return Chess::ePieceType::PAWN;
+                return Chess::Core::ePieceType::PAWN;
             case chess::proto::PIECE_TYPE_QUEEN:
-                return Chess::ePieceType::QUEEN;
+                return Chess::Core::ePieceType::QUEEN;
             case chess::proto::PIECE_TYPE_ROOK:
-                return Chess::ePieceType::ROOK;
+                return Chess::Core::ePieceType::ROOK;
             default:
-                return Chess::ePieceType::NONE;
+                return Chess::Core::ePieceType::NONE;
             }
         }
 
-        static chess::proto::PieceColorAndType ToProto(const Chess::PieceColorAndType& value)
+        static chess::proto::PieceColorAndType ToProto(const Chess::Core::PieceColorAndType& value)
         {
             chess::proto::PieceColorAndType result;
             result.set_color(ToProto(value.color));
@@ -86,9 +86,9 @@ namespace Chess::Proto
             return result;
         }
 
-        static Chess::PieceColorAndType FromProto(const chess::proto::PieceColorAndType& message)
+        static Chess::Core::PieceColorAndType FromProto(const chess::proto::PieceColorAndType& message)
         {
-            return Chess::PieceColorAndType{ FromProto(message.color()), FromProto(message.type()) };
+            return Chess::Core::PieceColorAndType{ FromProto(message.color()), FromProto(message.type()) };
         }
     };
-} // namespace Chess::Proto
+} // namespace Chess::Network

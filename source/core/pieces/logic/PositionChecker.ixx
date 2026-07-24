@@ -1,8 +1,8 @@
-export module Chess.PositionChecker;
-import Chess.Coordinate;
+export module Chess.Core.PositionChecker;
 import Chess.Constants.Sizes;
+import Chess.Core.Coordinate;
 
-namespace Chess
+namespace Chess::Core
 {
     export class PositionChecker
     {
@@ -13,4 +13,4 @@ namespace Chess
                    && position.rank <= Constants::Sizes::CHESSBOARD_SIZE;
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

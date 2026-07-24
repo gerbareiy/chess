@@ -5,20 +5,20 @@ module;
 #include <optional>
 #include <stdexcept>
 #include <vector>
-export module Chess.PawnChecker;
+export module Chess.Core.PawnChecker;
 import Chess.Constants.Counts;
-import Chess.Coordinate;
-import Chess.CoordinateToPieceFactory;
-import Chess.ePieceColor;
-import Chess.ePieceType;
-import Chess.IMoveChecker;
-import Chess.Pawn;
-import Chess.Piece;
-import Chess.PieceFinder;
-import Chess.PositionChecker;
+import Chess.Core.Coordinate;
+import Chess.Core.CoordinateToPieceFactory;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
+import Chess.Core.IMoveChecker;
+import Chess.Core.Pawn;
+import Chess.Core.Piece;
+import Chess.Core.PieceFinder;
+import Chess.Core.PositionChecker;
 import Chess.Utils.Exceptions;
 
-namespace Chess
+namespace Chess::Core
 {
     export class PawnChecker final : public IMoveChecker
     {
@@ -145,4 +145,4 @@ namespace Chess
             return {};
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

@@ -1,21 +1,21 @@
 module;
 #include <memory>
 #include <vector>
-export module Chess.Promotion;
+export module Chess.Core.Promotion;
 import Chess.Constants.Sizes;
-import Chess.Bishop;
-import Chess.Coordinate;
-import Chess.ePieceColor;
-import Chess.ePieceType;
-import Chess.Knight;
-import Chess.Pawn;
-import Chess.Piece;
-import Chess.PieceFinder;
-import Chess.Promoter;
-import Chess.Queen;
-import Chess.Rook;
+import Chess.Core.Bishop;
+import Chess.Core.Coordinate;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
+import Chess.Core.Knight;
+import Chess.Core.Pawn;
+import Chess.Core.Piece;
+import Chess.Core.PieceFinder;
+import Chess.Core.Promoter;
+import Chess.Core.Queen;
+import Chess.Core.Rook;
 
-namespace Chess
+namespace Chess::Core
 {
     export class Promotion
     {
@@ -63,4 +63,4 @@ namespace Chess
             }
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

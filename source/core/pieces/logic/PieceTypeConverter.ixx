@@ -2,10 +2,10 @@ module;
 #include <array>
 #include <optional>
 #include <string>
-export module Chess.PieceTypeConverter;
-import Chess.ePieceType;
+export module Chess.Core.PieceTypeConverter;
+import Chess.Core.ePieceType;
 
-namespace Chess
+namespace Chess::Core
 {
     export class PieceTypeConverter
     {
@@ -15,7 +15,7 @@ namespace Chess
         };
 
         /**
-         * @param type Chess piece type (e.g., Chess::ePieceType::ROOK)
+         * @param type Chess piece type (e.g., Chess::Core::ePieceType::ROOK)
          * @return short name of the piece (e.g., "R")
          */
         static std::optional<char> TryConvertToChar(ePieceType type)
@@ -42,7 +42,7 @@ namespace Chess
         }
 
         /**
-         * @param type Chess piece type (e.g., Chess::ePieceType::ROOK)
+         * @param type Chess piece type (e.g., Chess::Core::ePieceType::ROOK)
          * @return normal name of the piece (e.g., "Rook")
          */
         static std::string ConvertToString(ePieceType type)
@@ -69,7 +69,7 @@ namespace Chess
         }
 
         /**
-         * @param type Chess piece type (e.g., Chess::ePieceType::ROOK)
+         * @param type Chess piece type (e.g., Chess::Core::ePieceType::ROOK)
          * @return name of the piece that is used in config file (e.g., "rooks")
          */
         static std::string ConvertToConfigString(ePieceType type)
@@ -95,4 +95,4 @@ namespace Chess
             }
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

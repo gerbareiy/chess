@@ -1,6 +1,6 @@
-export module Chess.ICastable;
+export module Chess.Core.ICastable;
 
-namespace Chess
+namespace Chess::Core
 {
     export class ICastable
     {
@@ -9,4 +9,4 @@ namespace Chess
 
         virtual bool GetCanMakeCastling() const = 0;
     };
-} // namespace Chess
+} // namespace Chess::Core

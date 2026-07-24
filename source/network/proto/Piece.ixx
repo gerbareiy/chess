@@ -1,38 +1,38 @@
 module;
 #include "Piece.pb.h"
 #include <memory>
-export module Chess.Proto.Piece;
-import Chess.Coordinate;
-import Chess.ePieceType;
-import Chess.King;
-import Chess.Pawn;
-import Chess.Piece;
-import Chess.PieceColorAndType;
-import Chess.PieceFactory;
-import Chess.Proto.Coordinate;
-import Chess.Proto.PieceColorAndType;
-import Chess.Rook;
+export module Chess.Network.Piece;
+import Chess.Core.Coordinate;
+import Chess.Core.ePieceType;
+import Chess.Core.King;
+import Chess.Core.Pawn;
+import Chess.Core.Piece;
+import Chess.Core.PieceColorAndType;
+import Chess.Core.PieceFactory;
+import Chess.Core.Rook;
+import Chess.Network.Coordinate;
+import Chess.Network.PieceColorAndType;
 
-namespace Chess::Proto
+namespace Chess::Network
 {
     export class Piece
     {
     public:
-        static chess::proto::Piece ToProto(const std::shared_ptr<Chess::Piece>& piece)
+        static chess::proto::Piece ToProto(const std::shared_ptr<Chess::Core::Piece>& piece)
         {
             chess::proto::Piece result;
             *result.mutable_color_and_type() = PieceColorAndType::ToProto(piece->GetColorAndType());
             *result.mutable_coordinate()     = Coordinate::ToProto(piece->GetPosition());
 
-            if (const auto king = std::dynamic_pointer_cast<Chess::King>(piece))
+            if (const auto king = std::dynamic_pointer_cast<Chess::Core::King>(piece))
             {
                 result.set_king_can_castle(king->GetCanMakeCastling());
             }
-            else if (const auto rook = std::dynamic_pointer_cast<Chess::Rook>(piece))
+            else if (const auto rook = std::dynamic_pointer_cast<Chess::Core::Rook>(piece))
             {
                 result.set_rook_can_castle(rook->GetCanMakeCastling());
             }
-            else if (const auto pawn = std::dynamic_pointer_cast<Chess::Pawn>(piece))
+            else if (const auto pawn = std::dynamic_pointer_cast<Chess::Core::Pawn>(piece))
             {
                 result.set_pawn_can_en_passant(pawn->GetCanEnPassant());
                 result.set_pawn_is_not_moved(pawn->GetIsNotMoved());
@@ -40,16 +40,16 @@ namespace Chess::Proto
             return result;
         }
 
-        static std::shared_ptr<Chess::Piece> FromProto(const chess::proto::Piece& message)
+        static std::shared_ptr<Chess::Core::Piece> FromProto(const chess::proto::Piece& message)
         {
             const auto colorAndType = PieceColorAndType::FromProto(message.color_and_type());
             const auto coordinate   = Coordinate::FromProto(message.coordinate());
 
-            if (colorAndType.type == Chess::ePieceType::KING)
+            if (colorAndType.type == Chess::Core::ePieceType::KING)
             {
-                return std::make_shared<Chess::King>(colorAndType.color, coordinate, message.king_can_castle());
+                return std::make_shared<Chess::Core::King>(colorAndType.color, coordinate, message.king_can_castle());
             }
-            return Chess::PieceFactory::Create(colorAndType, coordinate, nullptr);
+            return Chess::Core::PieceFactory::Create(colorAndType, coordinate, nullptr);
         }
     };
-} // namespace Chess::Proto
+} // namespace Chess::Network

@@ -2,13 +2,13 @@ module;
 #include <cassert>
 #include <memory>
 #include <vector>
-export module Chess.CheckChecker;
-import Chess.ePieceColor;
-import Chess.King;
-import Chess.MoveCheckerFactory;
-import Chess.Piece;
+export module Chess.Core.CheckChecker;
+import Chess.Core.ePieceColor;
+import Chess.Core.King;
+import Chess.Core.MoveCheckerFactory;
+import Chess.Core.Piece;
 
-namespace Chess
+namespace Chess::Core
 {
     export class CheckChecker
     {
@@ -55,4 +55,4 @@ namespace Chess
             return false;
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

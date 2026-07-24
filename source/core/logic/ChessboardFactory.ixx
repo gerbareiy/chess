@@ -2,15 +2,15 @@ module;
 #include <memory>
 #include <utility>
 #include <vector>
-export module Chess.ChessboardFactory;
-import Chess.Chessboard;
-import Chess.ePieceColor;
-import Chess.MoveValidator;
-import Chess.Piece;
-import Chess.PieceDirector;
-import Chess.Player;
+export module Chess.Core.ChessboardFactory;
+import Chess.Core.Chessboard;
+import Chess.Core.ePieceColor;
+import Chess.Core.MoveValidator;
+import Chess.Core.Piece;
+import Chess.Core.PieceDirector;
+import Chess.Core.Player;
 
-namespace Chess
+namespace Chess::Core
 {
     export class ChessboardFactory
     {
@@ -25,4 +25,4 @@ namespace Chess
             return board;
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

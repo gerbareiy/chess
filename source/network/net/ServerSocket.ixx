@@ -2,11 +2,11 @@ module;
 #include <string>
 #include <utility>
 #include <zmq.hpp>
-export module Chess.Net.ServerSocket;
-import Chess.Net.ConnectionError;
-import Chess.Net.Frame;
+export module Chess.Network.ServerSocket;
+import Chess.Network.ConnectionError;
+import Chess.Network.Frame;
 
-namespace Chess::Net
+namespace Chess::Network
 {
     // Wraps a ZeroMQ ROUTER socket bound to all interfaces: accepts many
     // clients on a single port and addresses each reply by identity, so the
@@ -84,4 +84,4 @@ namespace Chess::Net
         {
         }
     };
-} // namespace Chess::Net
+} // namespace Chess::Network

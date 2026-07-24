@@ -2,11 +2,11 @@ module;
 #include <memory>
 #include <unordered_map>
 #include <vector>
-export module Chess.CoordinateToPieceFactory;
-import Chess.Coordinate;
-import Chess.Piece;
+export module Chess.Core.CoordinateToPieceFactory;
+import Chess.Core.Coordinate;
+import Chess.Core.Piece;
 
-namespace Chess
+namespace Chess::Core
 {
     export class CoordinateToPieceFactory
     {
@@ -22,4 +22,4 @@ namespace Chess
             return result;
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

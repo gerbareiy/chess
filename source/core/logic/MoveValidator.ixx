@@ -3,17 +3,17 @@ module;
 #include <cassert>
 #include <memory>
 #include <vector>
-export module Chess.MoveValidator;
+export module Chess.Core.MoveValidator;
 import Chess.Constants.Counts;
-import Chess.Coordinate;
-import Chess.CoordinateToPieceFactory;
-import Chess.MoveCheckerFactory;
-import Chess.MoveCheckerOwner;
-import Chess.Piece;
-import Chess.PieceFinder;
-import Chess.Player;
+import Chess.Core.Coordinate;
+import Chess.Core.CoordinateToPieceFactory;
+import Chess.Core.MoveCheckerFactory;
+import Chess.Core.MoveCheckerOwner;
+import Chess.Core.Piece;
+import Chess.Core.PieceFinder;
+import Chess.Core.Player;
 
-namespace Chess
+namespace Chess::Core
 {
     export class MoveValidator
     {
@@ -120,4 +120,4 @@ namespace Chess
         std::vector<std::shared_ptr<Piece>> piecesOnBoard_;
         std::shared_ptr<Player>             player_;
     };
-} // namespace Chess
+} // namespace Chess::Core

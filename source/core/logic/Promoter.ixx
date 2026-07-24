@@ -1,9 +1,9 @@
-export module Chess.Promoter;
-import Chess.eInputType;
-import Chess.ePieceType;
-import Chess.Inputer;
+export module Chess.Core.Promoter;
+import Chess.Core.eInputType;
+import Chess.Core.ePieceType;
+import Chess.Core.Inputter;
 
-namespace Chess
+namespace Chess::Core
 {
     export class Promoter : public Inputter
     {
@@ -12,4 +12,4 @@ namespace Chess
 
         virtual ePieceType GetPromoteType() const = 0;
     };
-} // namespace Chess
+} // namespace Chess::Core

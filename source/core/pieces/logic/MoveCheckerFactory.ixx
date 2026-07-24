@@ -1,25 +1,25 @@
 module;
 #include <memory>
 #include <stdexcept>
-export module Chess.MoveCheckerFactory;
-import Chess.Bishop;
-import Chess.BishopChecker;
-import Chess.ePieceType;
-import Chess.IMoveChecker;
-import Chess.King;
-import Chess.KingChecker;
-import Chess.Knight;
-import Chess.KnightChecker;
-import Chess.Pawn;
-import Chess.PawnChecker;
-import Chess.Piece;
-import Chess.PieceColorAndType;
-import Chess.Queen;
-import Chess.QueenChecker;
-import Chess.Rook;
-import Chess.RookChecker;
+export module Chess.Core.MoveCheckerFactory;
+import Chess.Core.Bishop;
+import Chess.Core.BishopChecker;
+import Chess.Core.ePieceType;
+import Chess.Core.IMoveChecker;
+import Chess.Core.King;
+import Chess.Core.KingChecker;
+import Chess.Core.Knight;
+import Chess.Core.KnightChecker;
+import Chess.Core.Pawn;
+import Chess.Core.PawnChecker;
+import Chess.Core.Piece;
+import Chess.Core.PieceColorAndType;
+import Chess.Core.Queen;
+import Chess.Core.QueenChecker;
+import Chess.Core.Rook;
+import Chess.Core.RookChecker;
 
-namespace Chess
+namespace Chess::Core
 {
     export class MoveCheckerFactory
     {
@@ -47,4 +47,4 @@ namespace Chess
             }
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

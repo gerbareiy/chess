@@ -2,16 +2,16 @@ module;
 #include <cstdint>
 #include <memory>
 #include <vector>
-export module Chess.Net.BoardSnapshot;
-import Chess.ePieceColor;
-import Chess.Piece;
+export module Chess.Network.BoardSnapshot;
+import Chess.Core.ePieceColor;
+import Chess.Core.Piece;
 
-namespace Chess::Net
+namespace Chess::Network
 {
     export struct BoardSnapshot
     {
-        std::vector<std::shared_ptr<Piece>> pieces;
-        ePieceColor                         sideToMove = ePieceColor::NONE;
-        uint32_t                            ply        = 0;
+        std::vector<std::shared_ptr<Core::Piece>> pieces;
+        Core::ePieceColor                         sideToMove = Core::ePieceColor::NONE;
+        uint32_t                                  ply        = 0;
     };
-} // namespace Chess::Net
+} // namespace Chess::Network

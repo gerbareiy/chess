@@ -5,10 +5,10 @@ module;
 #include <string>
 #include <utility>
 #include <zmq.hpp>
-export module Chess.Net.ClientSocket;
-import Chess.Net.ConnectionError;
+export module Chess.Network.ClientSocket;
+import Chess.Network.ConnectionError;
 
-namespace Chess::Net
+namespace Chess::Network
 {
     // Wraps a ZeroMQ DEALER socket: one logical connection to a server.
     // Portable across Windows/Linux/macOS, unlike raw WinSock.
@@ -96,4 +96,4 @@ namespace Chess::Net
         {
         }
     };
-} // namespace Chess::Net
+} // namespace Chess::Network

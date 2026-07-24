@@ -1,8 +1,8 @@
-export module Chess.PiecePlacement;
-import Chess.Coordinate;
-import Chess.PieceColorAndType;
+export module Chess.Core.PiecePlacement;
+import Chess.Core.Coordinate;
+import Chess.Core.PieceColorAndType;
 
-namespace Chess
+namespace Chess::Core
 {
     export struct PiecePlacement
     {
@@ -11,4 +11,4 @@ namespace Chess
 
         bool operator==(const PiecePlacement& other) const = default;
     };
-} // namespace Chess
+} // namespace Chess::Core

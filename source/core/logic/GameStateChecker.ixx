@@ -1,13 +1,13 @@
 module;
 #include <memory>
-export module Chess.GameStateChecker;
-import Chess.Chessboard;
-import Chess.DrawChecker;
-import Chess.eGameState;
-import Chess.MoveValidator;
-import Chess.PieceDirector;
+export module Chess.Core.GameStateChecker;
+import Chess.Core.Chessboard;
+import Chess.Core.DrawChecker;
+import Chess.Core.eGameState;
+import Chess.Core.MoveValidator;
+import Chess.Core.PieceDirector;
 
-namespace Chess
+namespace Chess::Core
 {
     export class GameStateChecker
     {
@@ -35,4 +35,4 @@ namespace Chess
     private:
         DrawChecker drawChecker_;
     };
-} // namespace Chess
+} // namespace Chess::Core

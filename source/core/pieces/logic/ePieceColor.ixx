@@ -1,6 +1,6 @@
-export module Chess.ePieceColor;
+export module Chess.Core.ePieceColor;
 
-namespace Chess
+namespace Chess::Core
 {
     export enum class ePieceColor
     {
@@ -8,4 +8,4 @@ namespace Chess
         BLACK,
         WHITE
     };
-} // namespace Chess
+} // namespace Chess::Core

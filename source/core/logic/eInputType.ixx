@@ -1,6 +1,6 @@
-export module Chess.eInputType;
+export module Chess.Core.eInputType;
 
-namespace Chess
+namespace Chess::Core
 {
     export enum class eInputType
     {
@@ -10,4 +10,4 @@ namespace Chess
         RANK,
         PROMOTION
     };
-} // namespace Chess
+} // namespace Chess::Core

@@ -3,41 +3,41 @@ module;
 #include <cctype>
 #include <iostream>
 #include <string>
-export module Console.Chess.ConsolePromoter;
-import Chess.eInputType;
-import Chess.ePieceType;
-import Chess.Promoter;
-import Chess.PieceTypeConverter;
+export module Chess.Console.ConsolePromoter;
+import Chess.Core.eInputType;
+import Chess.Core.ePieceType;
+import Chess.Core.PieceTypeConverter;
+import Chess.Core.Promoter;
 import Chess.Utils.ConsoleReader;
 
-namespace Console::Chess
+namespace Chess::Console
 {
-    export class ConsolePromoter final : public ::Chess::Promoter
+    export class ConsolePromoter final : public ::Chess::Core::Promoter
     {
     public:
-        virtual ::Chess::ePieceType GetPromoteType() const override
+        virtual ::Chess::Core::ePieceType GetPromoteType() const override
         {
             while (true)
             {
-                GetSignalOnEnter()(::Chess::eInputType::PROMOTION);
+                GetSignalOnEnter()(::Chess::Core::eInputType::PROMOTION);
 
                 const auto input      = EnterPromotionType();
                 const auto normalized = TryNormalizePromotionChoice(input);
-                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::BISHOP))
+                if (normalized == ::Chess::Core::PieceTypeConverter::TryConvertToChar(::Chess::Core::ePieceType::BISHOP))
                 {
-                    return ::Chess::ePieceType::BISHOP;
+                    return ::Chess::Core::ePieceType::BISHOP;
                 }
-                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::KNIGHT))
+                if (normalized == ::Chess::Core::PieceTypeConverter::TryConvertToChar(::Chess::Core::ePieceType::KNIGHT))
                 {
-                    return ::Chess::ePieceType::KNIGHT;
+                    return ::Chess::Core::ePieceType::KNIGHT;
                 }
-                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::QUEEN))
+                if (normalized == ::Chess::Core::PieceTypeConverter::TryConvertToChar(::Chess::Core::ePieceType::QUEEN))
                 {
-                    return ::Chess::ePieceType::QUEEN;
+                    return ::Chess::Core::ePieceType::QUEEN;
                 }
-                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::ROOK))
+                if (normalized == ::Chess::Core::PieceTypeConverter::TryConvertToChar(::Chess::Core::ePieceType::ROOK))
                 {
-                    return ::Chess::ePieceType::ROOK;
+                    return ::Chess::Core::ePieceType::ROOK;
                 }
             }
         }
@@ -46,9 +46,9 @@ namespace Console::Chess
         static char GuessPromotionSymbol(char symbol)
         {
             const char upped = static_cast<char>(std::toupper(symbol));
-            if (upped == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::KING))
+            if (upped == ::Chess::Core::PieceTypeConverter::TryConvertToChar(::Chess::Core::ePieceType::KING))
             {
-                return ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::KNIGHT).value();
+                return ::Chess::Core::PieceTypeConverter::TryConvertToChar(::Chess::Core::ePieceType::KNIGHT).value();
             }
             return upped;
         }
@@ -72,4 +72,4 @@ namespace Console::Chess
             return result;
         }
     };
-} // namespace Console::Chess
+} // namespace Chess::Console

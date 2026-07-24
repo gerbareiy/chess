@@ -2,19 +2,19 @@
 #include <gtest/gtest.h>
 #include <memory>
 #include <vector>
-import Chess.Coordinate;
-import Chess.ePieceColor;
-import Chess.Pawn;
-import Chess.Piece;
-import Chess.Rook;
-import Chess.RookChecker;
+import Chess.Core.Coordinate;
+import Chess.Core.ePieceColor;
+import Chess.Core.Pawn;
+import Chess.Core.Piece;
+import Chess.Core.Rook;
+import Chess.Core.RookChecker;
 
 namespace ServerTests
 {
     class RookCheckerTestHelper
     {
     public:
-        static bool Contains(const std::vector<Chess::Coordinate>& coordinates, const Chess::Coordinate& coordinate)
+        static bool Contains(const std::vector<Chess::Core::Coordinate>& coordinates, const Chess::Core::Coordinate& coordinate)
         {
             return std::ranges::contains(coordinates, coordinate);
         }
@@ -22,12 +22,12 @@ namespace ServerTests
 
     TEST(RookCheckerTests, StopsAtOwnPieceAndIncludesOpponentPiece)
     {
-        const auto rook     = std::make_shared<Chess::Rook>(Chess::ePieceColor::WHITE, Chess::Coordinate{ .file = 'D', .rank = 4 });
-        const auto ownPiece = std::make_shared<Chess::Pawn>(Chess::ePieceColor::WHITE, Chess::Coordinate{ .file = 'D', .rank = 6 });
-        const auto opponent = std::make_shared<Chess::Pawn>(Chess::ePieceColor::BLACK, Chess::Coordinate{ .file = 'B', .rank = 4 });
-        const std::vector<std::shared_ptr<Chess::Piece>> pieces = { rook, ownPiece, opponent };
+        const auto rook     = std::make_shared<Chess::Core::Rook>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'D', .rank = 4 });
+        const auto ownPiece = std::make_shared<Chess::Core::Pawn>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'D', .rank = 6 });
+        const auto opponent = std::make_shared<Chess::Core::Pawn>(Chess::Core::ePieceColor::BLACK, Chess::Core::Coordinate{ .file = 'B', .rank = 4 });
+        const std::vector<std::shared_ptr<Chess::Core::Piece>> pieces = { rook, ownPiece, opponent };
 
-        const auto checker = Chess::RookChecker(rook);
+        const auto checker = Chess::Core::RookChecker(rook);
         const auto moves   = checker.GetMoves(pieces);
 
         EXPECT_TRUE(RookCheckerTestHelper::Contains(moves, { .file = 'B', .rank = 4 }));

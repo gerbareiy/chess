@@ -2,20 +2,20 @@ module;
 #include <memory>
 #include <stdexcept>
 #include <vector>
-export module Chess.PiecesOnBoardCreator;
-import Chess.Coordinate;
-import Chess.CoordinateToPieceFactory;
-import Chess.ePieceColor;
-import Chess.ePieceType;
-import Chess.ICastable;
-import Chess.King;
-import Chess.Piece;
-import Chess.PieceColorAndType;
-import Chess.PieceFinder;
-import Chess.PieceFactory;
-import Chess.PiecePlacement;
+export module Chess.Core.PiecesOnBoardCreator;
+import Chess.Core.Coordinate;
+import Chess.Core.CoordinateToPieceFactory;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
+import Chess.Core.ICastable;
+import Chess.Core.King;
+import Chess.Core.Piece;
+import Chess.Core.PieceColorAndType;
+import Chess.Core.PieceFactory;
+import Chess.Core.PieceFinder;
+import Chess.Core.PiecePlacement;
 
-namespace Chess
+namespace Chess::Core
 {
     export class PiecesOnBoardCreator
     {
@@ -73,4 +73,4 @@ namespace Chess
         }
     };
 
-} // namespace Chess
+} // namespace Chess::Core

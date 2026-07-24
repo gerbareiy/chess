@@ -1,17 +1,17 @@
 #include <gtest/gtest.h>
-import Chess.ePieceColor;
-import Chess.PieceColorConverter;
+import Chess.Core.ePieceColor;
+import Chess.Core.PieceColorConverter;
 
 namespace ServerTests
 {
     TEST(PieceColorConverterTests, ConvertsKnownPieceColorsToDisplayValues)
     {
-        EXPECT_EQ(Chess::PieceColorConverter::ConvertToString(Chess::ePieceColor::WHITE), "w");
-        EXPECT_EQ(Chess::PieceColorConverter::ConvertToString(Chess::ePieceColor::BLACK), "b");
+        EXPECT_EQ(Chess::Core::PieceColorConverter::ConvertToString(Chess::Core::ePieceColor::WHITE), "w");
+        EXPECT_EQ(Chess::Core::PieceColorConverter::ConvertToString(Chess::Core::ePieceColor::BLACK), "b");
     }
 
     TEST(PieceColorConverterTests, HandlesUnknownEnumValues)
     {
-        EXPECT_EQ(Chess::PieceColorConverter::ConvertToString(static_cast<Chess::ePieceColor>(99)), "Unknown color");
+        EXPECT_EQ(Chess::Core::PieceColorConverter::ConvertToString(static_cast<Chess::Core::ePieceColor>(99)), "Unknown color");
     }
 } // namespace ServerTests

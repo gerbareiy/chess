@@ -1,11 +1,11 @@
 module;
 #include <memory>
 #include <vector>
-export module Chess.IMoveChecker;
-import Chess.Coordinate;
-import Chess.Piece;
+export module Chess.Core.IMoveChecker;
+import Chess.Core.Coordinate;
+import Chess.Core.Piece;
 
-namespace Chess
+namespace Chess::Core
 {
     export class IMoveChecker
     {
@@ -14,4 +14,4 @@ namespace Chess
 
         virtual std::vector<Coordinate> GetMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const = 0;
     };
-} // namespace Chess
+} // namespace Chess::Core

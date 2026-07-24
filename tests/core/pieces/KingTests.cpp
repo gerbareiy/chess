@@ -1,13 +1,13 @@
 #include <gtest/gtest.h>
-import Chess.ePieceColor;
-import Chess.King;
+import Chess.Core.ePieceColor;
+import Chess.Core.King;
 import Chess.Utils.Exceptions;
 
 namespace ServerTests
 {
     TEST(KingTests, DisablesCastlingAfterOrdinaryMoveAndRejectsImpossibleMoves)
     {
-        auto king = Chess::King(Chess::ePieceColor::WHITE, { .file = 'E', .rank = 1 });
+        auto king = Chess::Core::King(Chess::Core::ePieceColor::WHITE, { .file = 'E', .rank = 1 });
 
         EXPECT_TRUE(king.GetCanMakeCastling());
 
@@ -19,13 +19,13 @@ namespace ServerTests
 
     TEST(KingTests, RejectsTwoFileMoveWhenCastlingIsDisabled)
     {
-        auto king = Chess::King(Chess::ePieceColor::WHITE, { .file = 'E', .rank = 1 }, false);
+        auto king = Chess::Core::King(Chess::Core::ePieceColor::WHITE, { .file = 'E', .rank = 1 }, false);
         EXPECT_THROW(king.Move({ .file = 'G', .rank = 1 }), Chess::Utils::ImpossibleMoveException);
     }
 
     TEST(KingTests, RejectsEmptyMove)
     {
-        auto king = Chess::King(Chess::ePieceColor::WHITE, { .file = 'E', .rank = 1 });
+        auto king = Chess::Core::King(Chess::Core::ePieceColor::WHITE, { .file = 'E', .rank = 1 });
         EXPECT_THROW(king.Move({ .file = 'E', .rank = 1 }), Chess::Utils::ImpossibleMoveException);
     }
 } // namespace ServerTests

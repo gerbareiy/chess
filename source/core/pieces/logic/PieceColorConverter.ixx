@@ -1,9 +1,9 @@
 module;
 #include <string>
-export module Chess.PieceColorConverter;
-import Chess.ePieceColor;
+export module Chess.Core.PieceColorConverter;
+import Chess.Core.ePieceColor;
 
-namespace Chess
+namespace Chess::Core
 {
     export class PieceColorConverter
     {
@@ -23,4 +23,4 @@ namespace Chess
             }
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

@@ -1,20 +1,20 @@
 module;
 #include <memory>
 #include <stdexcept>
-export module Chess.PieceFactory;
-import Chess.Bishop;
-import Chess.Coordinate;
-import Chess.ePieceColor;
-import Chess.ePieceType;
-import Chess.King;
-import Chess.Knight;
-import Chess.Pawn;
-import Chess.Piece;
-import Chess.PieceColorAndType;
-import Chess.Queen;
-import Chess.Rook;
+export module Chess.Core.PieceFactory;
+import Chess.Core.Bishop;
+import Chess.Core.Coordinate;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
+import Chess.Core.King;
+import Chess.Core.Knight;
+import Chess.Core.Pawn;
+import Chess.Core.Piece;
+import Chess.Core.PieceColorAndType;
+import Chess.Core.Queen;
+import Chess.Core.Rook;
 
-namespace Chess
+namespace Chess::Core
 {
     export class PieceFactory
     {
@@ -42,4 +42,4 @@ namespace Chess
             }
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

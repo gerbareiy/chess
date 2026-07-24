@@ -1,41 +1,41 @@
 module;
 #include "Session.pb.h"
-export module Chess.Proto.Session;
-import Chess.eGameState;
+export module Chess.Network.Session;
+import Chess.Core.eGameState;
 
-namespace Chess::Proto
+namespace Chess::Network
 {
     export class Session
     {
     public:
-        static chess::proto::GameState ToProto(Chess::eGameState state)
+        static chess::proto::GameState ToProto(Chess::Core::eGameState state)
         {
             switch (state)
             {
-            case Chess::eGameState::CHECK:
+            case Chess::Core::eGameState::CHECK:
                 return chess::proto::GAME_STATE_CHECK;
-            case Chess::eGameState::CHECKMATE:
+            case Chess::Core::eGameState::CHECKMATE:
                 return chess::proto::GAME_STATE_CHECKMATE;
-            case Chess::eGameState::DRAW:
+            case Chess::Core::eGameState::DRAW:
                 return chess::proto::GAME_STATE_DRAW;
             default:
                 return chess::proto::GAME_STATE_PLAYING;
             }
         }
 
-        static Chess::eGameState FromProto(chess::proto::GameState state)
+        static Chess::Core::eGameState FromProto(chess::proto::GameState state)
         {
             switch (state)
             {
             case chess::proto::GAME_STATE_CHECK:
-                return Chess::eGameState::CHECK;
+                return Chess::Core::eGameState::CHECK;
             case chess::proto::GAME_STATE_CHECKMATE:
-                return Chess::eGameState::CHECKMATE;
+                return Chess::Core::eGameState::CHECKMATE;
             case chess::proto::GAME_STATE_DRAW:
-                return Chess::eGameState::DRAW;
+                return Chess::Core::eGameState::DRAW;
             default:
-                return Chess::eGameState::PLAYING;
+                return Chess::Core::eGameState::PLAYING;
             }
         }
     };
-} // namespace Chess::Proto
+} // namespace Chess::Network

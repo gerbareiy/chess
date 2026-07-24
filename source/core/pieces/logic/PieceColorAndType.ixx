@@ -1,8 +1,8 @@
-export module Chess.PieceColorAndType;
-import Chess.ePieceColor;
-import Chess.ePieceType;
+export module Chess.Core.PieceColorAndType;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
 
-namespace Chess
+namespace Chess::Core
 {
     export struct PieceColorAndType
     {
@@ -11,4 +11,4 @@ namespace Chess
 
         bool operator==(const PieceColorAndType& other) const = default;
     };
-} // namespace Chess
+} // namespace Chess::Core

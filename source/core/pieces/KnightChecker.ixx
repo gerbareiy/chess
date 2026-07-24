@@ -3,21 +3,21 @@ module;
 #include <expected>
 #include <memory>
 #include <vector>
-export module Chess.KnightChecker;
+export module Chess.Core.KnightChecker;
 import Chess.Constants.Counts;
 import Chess.Constants.Sizes;
-import Chess.Coordinate;
-import Chess.CoordinateToPieceFactory;
-import Chess.ePieceColor;
-import Chess.ePieceType;
-import Chess.IMoveChecker;
-import Chess.Knight;
-import Chess.Piece;
-import Chess.PieceFinder;
-import Chess.PositionChecker;
+import Chess.Core.Coordinate;
+import Chess.Core.CoordinateToPieceFactory;
+import Chess.Core.ePieceColor;
+import Chess.Core.ePieceType;
+import Chess.Core.IMoveChecker;
+import Chess.Core.Knight;
+import Chess.Core.Piece;
+import Chess.Core.PieceFinder;
+import Chess.Core.PositionChecker;
 import Chess.Utils.Exceptions;
 
-namespace Chess
+namespace Chess::Core
 {
     export class KnightChecker final : public IMoveChecker
     {
@@ -76,4 +76,4 @@ namespace Chess
             return result;
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

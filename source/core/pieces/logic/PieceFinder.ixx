@@ -2,12 +2,12 @@ module;
 #include <memory>
 #include <optional>
 #include <unordered_map>
-export module Chess.PieceFinder;
-import Chess.Coordinate;
-import Chess.Piece;
-import Chess.PieceColorAndType;
+export module Chess.Core.PieceFinder;
+import Chess.Core.Coordinate;
+import Chess.Core.Piece;
+import Chess.Core.PieceColorAndType;
 
-namespace Chess
+namespace Chess::Core
 {
     export class PieceFinder
     {
@@ -42,4 +42,4 @@ namespace Chess
     private:
         std::unordered_map<Coordinate, std::shared_ptr<Piece>> pieceMap_;
     };
-} // namespace Chess
+} // namespace Chess::Core

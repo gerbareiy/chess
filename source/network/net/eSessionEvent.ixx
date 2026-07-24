@@ -1,6 +1,6 @@
-export module Chess.Net.eSessionEvent;
+export module Chess.Network.eSessionEvent;
 
-namespace Chess::Net
+namespace Chess::Network
 {
     export enum class eSessionEvent
     {
@@ -10,4 +10,4 @@ namespace Chess::Net
         GAME_OVER,
         UNKNOWN
     };
-} // namespace Chess::Net
+} // namespace Chess::Network

@@ -1,14 +1,14 @@
 module;
 #include <memory>
 #include <vector>
-export module Chess.DirectionMoveChecker;
-import Chess.Coordinate;
-import Chess.ePieceColor;
-import Chess.Piece;
-import Chess.PieceFinder;
-import Chess.PositionChecker;
+export module Chess.Core.DirectionMoveChecker;
+import Chess.Core.Coordinate;
+import Chess.Core.ePieceColor;
+import Chess.Core.Piece;
+import Chess.Core.PieceFinder;
+import Chess.Core.PositionChecker;
 
-namespace Chess
+namespace Chess::Core
 {
     export class DirectionMoveChecker
     {
@@ -44,4 +44,4 @@ namespace Chess
             return moves;
         }
     };
-} // namespace Chess
+} // namespace Chess::Core

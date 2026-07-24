@@ -1,9 +1,9 @@
-export module Chess.Piece;
-import Chess.Coordinate;
-import Chess.ePieceColor;
-import Chess.PieceColorAndType;
+export module Chess.Core.Piece;
+import Chess.Core.Coordinate;
+import Chess.Core.ePieceColor;
+import Chess.Core.PieceColorAndType;
 
-namespace Chess
+namespace Chess::Core
 {
     export class Piece
     {
@@ -38,4 +38,4 @@ namespace Chess
         ePieceColor color_    = {};
         Coordinate  position_ = {};
     };
-} // namespace Chess
+} // namespace Chess::Core

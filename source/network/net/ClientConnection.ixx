@@ -1,10 +1,10 @@
 module;
 #include <string>
 #include <utility>
-export module Chess.Net.ClientConnection;
-import Chess.Net.ClientSocket;
+export module Chess.Network.ClientConnection;
+import Chess.Network.ClientSocket;
 
-namespace Chess::Net
+namespace Chess::Network
 {
     export class ClientConnection
     {
@@ -37,4 +37,4 @@ namespace Chess::Net
         {
         }
     };
-} // namespace Chess::Net
+} // namespace Chess::Network

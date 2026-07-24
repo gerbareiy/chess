@@ -2,9 +2,9 @@ module;
 #include <boost/functional/hash.hpp>
 #include <cstdint>
 #include <functional>
-export module Chess.Coordinate;
+export module Chess.Core.Coordinate;
 
-namespace Chess
+namespace Chess::Core
 {
     export struct Coordinate
     {
@@ -14,11 +14,11 @@ namespace Chess
         bool operator==(const Coordinate& other) const = default;
         bool operator!=(const Coordinate& other) const = default;
     };
-} // namespace Chess
+} // namespace Chess::Core
 
-template <> struct std::hash<Chess::Coordinate>
+template <> struct std::hash<Chess::Core::Coordinate>
 {
-    std::size_t operator()(const Chess::Coordinate& coordinate) const noexcept
+    std::size_t operator()(const Chess::Core::Coordinate& coordinate) const noexcept
     {
         std::size_t result = std::hash<char>{}(coordinate.file);
         boost::hash_combine(result, coordinate.rank);
