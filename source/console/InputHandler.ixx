@@ -17,13 +17,13 @@ namespace Chess::Console
     public:
         Core::Coordinate EnterFrom() const
         {
-            GetSignalOnEnter()(Core::eInputType::FROM);
+            GetOnEnter()(Core::eInputType::FROM);
             return EnterCoordinate();
         }
 
         Core::Coordinate EnterTo() const
         {
-            GetSignalOnEnter()(Core::eInputType::TO);
+            GetOnEnter()(Core::eInputType::TO);
             return EnterCoordinate();
         }
 
@@ -40,14 +40,14 @@ namespace Chess::Console
 
         std::optional<char> EnterFile() const
         {
-            GetSignalOnEnter()(Core::eInputType::FILE);
+            GetOnEnter()(Core::eInputType::FILE);
             const auto input = Utils::ConsoleReader::ReadLine();
             return NormalizeFileInput(input);
         }
 
         std::optional<int32_t> EnterRank() const
         {
-            GetSignalOnEnter()(Core::eInputType::RANK);
+            GetOnEnter()(Core::eInputType::RANK);
 
             const auto input = Utils::ConsoleReader::ReadLine();
             return Utils::Converter::ToInt32(input);

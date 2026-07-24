@@ -71,7 +71,7 @@ namespace Chess::Core
         }
 
         void MovePiece(
-            const Coordinate& to, const boost::signals2::signal<void()>& signalChessboardUndated, const std::shared_ptr<Promoter>& promoter)
+            const Coordinate& to, const boost::signals2::signal<void()>& chessboardUndated, const std::shared_ptr<Promoter>& promoter)
         {
             const auto from = PieceTakeLocator::Find(currentPiece_, piecesOnBoard_, to);
             const auto iter = std::ranges::find(piecesOnBoard_, from, &Piece::GetPosition);
@@ -91,7 +91,7 @@ namespace Chess::Core
                     || currentPiece_->GetPosition().rank == Constants::Sizes::CHESSBOARD_SIZE
                            && currentPiece_->GetColorAndType().color == ePieceColor::WHITE))
             {
-                signalChessboardUndated();
+                chessboardUndated();
                 Promotion::PromoteConditionally(std::static_pointer_cast<Pawn>(currentPiece_), piecesOnBoard_, promoter);
             }
 

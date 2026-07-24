@@ -12,16 +12,16 @@ namespace Chess::Core
 
         boost::signals2::connection ConnectOnEnter(const std::function<void(eInputType)>& subscriber)
         {
-            return signalOnEnter_.connect(subscriber);
+            return onEnter_.connect(subscriber);
         }
 
     protected:
-        const boost::signals2::signal<void(eInputType)>& GetSignalOnEnter() const
+        const boost::signals2::signal<void(eInputType)>& GetOnEnter() const
         {
-            return signalOnEnter_;
+            return onEnter_;
         }
 
     private:
-        boost::signals2::signal<void(eInputType)> signalOnEnter_;
+        boost::signals2::signal<void(eInputType)> onEnter_;
     };
 } // namespace Chess::Core

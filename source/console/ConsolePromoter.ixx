@@ -19,7 +19,7 @@ namespace Chess::Console
         {
             while (true)
             {
-                GetSignalOnEnter()(Core::eInputType::PROMOTION);
+                GetOnEnter()(Core::eInputType::PROMOTION);
 
                 const auto input      = EnterPromotionType();
                 const auto normalized = TryNormalizePromotionChoice(input);

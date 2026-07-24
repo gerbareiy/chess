@@ -77,7 +77,7 @@ namespace Chess::Core
                 return false;
             }
 
-            signalChessboardUpdated_();
+            onChessboardUpdated_();
             return true;
         }
 
@@ -92,17 +92,17 @@ namespace Chess::Core
 
             validator_->ClearPossibleMoves();
             validator_->ClearPiecesCanMove();
-            director_->MovePiece(to, signalChessboardUpdated_, promoter);
+            director_->MovePiece(to, onChessboardUpdated_, promoter);
             validator_->RefreshPiecesCanMove();
 
-            signalChessboardUpdated_();
+            onChessboardUpdated_();
 
             return true;
         }
 
-        boost::signals2::connection ConnectChessboardUpdated(const std::function<void()>& subscriber)
+        boost::signals2::connection ConnectOnChessboardUpdated(const std::function<void()>& subscriber)
         {
-            return signalChessboardUpdated_.connect(subscriber);
+            return onChessboardUpdated_.connect(subscriber);
         }
 
     private:
@@ -114,6 +114,6 @@ namespace Chess::Core
         Coordinate from_ = { .file = 0, .rank = 0 };
         Coordinate to_   = { .file = 0, .rank = 0 };
 
-        boost::signals2::signal<void()> signalChessboardUpdated_;
+        boost::signals2::signal<void()> onChessboardUpdated_;
     };
 } // namespace Chess::Core

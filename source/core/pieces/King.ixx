@@ -74,7 +74,7 @@ namespace Chess::Core
                     throw Utils::ImpossibleMoveException();
                 }
 
-                signalCastling_(to, side);
+                onCastling_(to, side);
             }
             DisableCastling();
             Piece::Move(to);
@@ -90,21 +90,21 @@ namespace Chess::Core
             isCheck_ = isCheck;
         }
 
-        std::optional<boost::signals2::connection> TryConnectCastling(const std::function<void(Coordinate, eCastleSide)>& subscriber)
+        std::optional<boost::signals2::connection> TryConnectOnCastling(const std::function<void(Coordinate, eCastleSide)>& subscriber)
         {
-            return GetCanMakeCastling() ? std::make_optional(signalCastling_.connect(subscriber)) : std::nullopt;
+            return GetCanMakeCastling() ? std::make_optional(onCastling_.connect(subscriber)) : std::nullopt;
         }
 
     private:
         bool canMakeCastling_ = false;
         bool isCheck_         = false;
 
-        boost::signals2::signal<void(Coordinate, eCastleSide)> signalCastling_;
+        boost::signals2::signal<void(Coordinate, eCastleSide)> onCastling_;
 
         void DisableCastling()
         {
             canMakeCastling_ = false;
-            signalCastling_.disconnect_all_slots();
+            onCastling_.disconnect_all_slots();
         }
     };
 } // namespace Chess::Core

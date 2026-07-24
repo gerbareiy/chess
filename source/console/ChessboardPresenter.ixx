@@ -39,7 +39,7 @@ namespace Chess::Console
                     shared->Show();
                 }
             };
-            connection_ = chessboard_->ConnectChessboardUpdated(subscriber);
+            connection_ = chessboard_->ConnectOnChessboardUpdated(subscriber);
         }
 
         void Show() const

@@ -58,7 +58,7 @@ namespace Chess::Core
                 return;
             }
             std::optional<boost::signals2::scoped_connection> connection =
-                king->TryConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
+                king->TryConnectOnCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
             if (connection.has_value())
             {
                 connection_ = std::move(connection).value();
