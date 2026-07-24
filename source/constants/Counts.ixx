@@ -1,5 +1,3 @@
-module;
-#include <cstdint>
 export module Chess.Constants.Counts;
 import Chess.Constants.Sizes;
 

@@ -1,16 +1,15 @@
 module;
 #include "Envelope.pb.h"
-#include <memory>
 #include <optional>
 #include <string>
 #include <utility>
-#include <vector>
 export module Chess.Net.GameSession;
-import Chess.eGameState;
 import Chess.ePieceColor;
 import Chess.Move;
+import Chess.Net.BoardSnapshot;
 import Chess.Net.ClientConnection;
-import Chess.Piece;
+import Chess.Net.eSessionEvent;
+import Chess.Net.ServerMessage;
 import Chess.Proto.Chessboard;
 import Chess.Proto.Move;
 import Chess.Proto.PieceColorAndType;
@@ -18,37 +17,13 @@ import Chess.Proto.Session;
 
 namespace Chess::Net
 {
-    export struct BoardSnapshot
-    {
-        std::vector<std::shared_ptr<Chess::Piece>> pieces;
-        Chess::ePieceColor                         sideToMove = Chess::ePieceColor::NONE;
-        uint32_t                                   ply        = 0;
-    };
-
-    export enum class eSessionEvent
-    {
-        OPPONENT_MOVED,
-        BOARD_SYNCED,
-        BOARD_CHECKED,
-        GAME_OVER,
-        UNKNOWN
-    };
-
-    export struct ServerMessage
-    {
-        eSessionEvent                    event;
-        std::optional<Chess::Move>       move;
-        std::optional<BoardSnapshot>     board;
-        std::optional<Chess::eGameState> finalState;
-    };
-
     // Owns the client side of the find-game/game-started handshake and the wire
     // (Envelope/protobuf) format, so callers only ever see domain types.
     export class GameSession
     {
-        ClientConnection   m_connection;
-        Chess::ePieceColor m_myColor;
-        BoardSnapshot      m_initialBoard;
+        ClientConnection m_connection;
+        ePieceColor      m_myColor;
+        BoardSnapshot    m_initialBoard;
 
         static BoardSnapshot ToSnapshot(const chess::proto::Chessboard& board)
         {
@@ -74,8 +49,8 @@ namespace Chess::Net
             chess::proto::Envelope started;
             started.ParseFromString(connection.ReceiveBytes());
 
-            auto myColor = Proto::PieceColorAndType::FromProto(started.game_started().your_color());
-            auto board   = ToSnapshot(started.game_started().board());
+            const auto myColor = Proto::PieceColorAndType::FromProto(started.game_started().your_color());
+            auto       board   = ToSnapshot(started.game_started().board());
 
             return GameSession(std::move(connection), myColor, std::move(board));
         }

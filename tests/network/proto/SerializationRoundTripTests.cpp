@@ -19,7 +19,7 @@ namespace NetworkTests
 {
     TEST(CoordinateProtoTests, RoundTrip)
     {
-        constexpr Chess::Coordinate coordinate{ .file = 'D', .rank = 4 };
+        constexpr Chess::Coordinate coordinate = { .file = 'D', .rank = 4 };
         EXPECT_EQ(Chess::Proto::Coordinate::FromProto(Chess::Proto::Coordinate::ToProto(coordinate)), coordinate);
     }
 
@@ -47,13 +47,13 @@ namespace NetworkTests
 
     TEST(PieceColorAndTypeProtoTests, MessageRoundTrip)
     {
-        constexpr Chess::PieceColorAndType value{ Chess::ePieceColor::BLACK, Chess::ePieceType::QUEEN };
+        constexpr Chess::PieceColorAndType value = { Chess::ePieceColor::BLACK, Chess::ePieceType::QUEEN };
         EXPECT_EQ(Chess::Proto::PieceColorAndType::FromProto(Chess::Proto::PieceColorAndType::ToProto(value)), value);
     }
 
     TEST(MoveProtoTests, RoundTripWithPromotion)
     {
-        constexpr Chess::Move move{ .from = { .file = 'E', .rank = 7 }, .to = { .file = 'E', .rank = 8 }, .promotion = Chess::ePieceType::QUEEN };
+        constexpr Chess::Move move = { .from = { .file = 'E', .rank = 7 }, .to = { .file = 'E', .rank = 8 }, .promotion = Chess::ePieceType::QUEEN };
         EXPECT_EQ(Chess::Proto::Move::FromProto(Chess::Proto::Move::ToProto(move)), move);
     }
 

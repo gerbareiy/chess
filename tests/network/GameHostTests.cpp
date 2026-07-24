@@ -11,7 +11,7 @@ import Chess.King;
 import Chess.Move;
 import Chess.Net.ClientConnection;
 import Chess.Net.GameHost;
-import Chess.Net.Socket;
+import Chess.Net.ServerSocket;
 import Chess.Pawn;
 import Chess.Piece;
 import Chess.Proto.Move;
@@ -55,8 +55,8 @@ namespace NetworkTests
             std::make_shared<Chess::Pawn>(Chess::ePieceColor::BLACK, Chess::Coordinate{ .file = 'A', .rank = 7 }),
         };
 
-        Chess::Net::ServerSocket socket(port);
-        auto host = std::thread([&socket, pieces]() mutable { Chess::Net::GameHost::HostSingleMatch(socket, std::move(pieces)); });
+        auto socket = Chess::Net::ServerSocket::Bind(port);
+        auto host   = std::thread([&socket, pieces]() mutable { Chess::Net::GameHost::HostSingleMatch(socket, std::move(pieces)); });
 
         auto white = Chess::Net::ClientConnection::Connect("127.0.0.1", port);
         auto black = Chess::Net::ClientConnection::Connect("127.0.0.1", port);

@@ -2,7 +2,7 @@ module;
 #include <string>
 #include <utility>
 export module Chess.Net.ClientConnection;
-import Chess.Net.Socket;
+import Chess.Net.ClientSocket;
 
 namespace Chess::Net
 {
