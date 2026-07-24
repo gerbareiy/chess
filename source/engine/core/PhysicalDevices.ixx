@@ -12,7 +12,21 @@ namespace Chess::Engine
 {
     export class PhysicalDevices
     {
-        std::vector<PhysicalDeviceInfo> m_devices;
+    public:
+        static std::unique_ptr<PhysicalDevices> Create(const VkInstance& instance, VkSurfaceKHR surface)
+        {
+            auto result = std::unique_ptr<PhysicalDevices>(new PhysicalDevices);
+            result->Init(instance, surface);
+            return result;
+        }
+
+        const std::vector<PhysicalDeviceInfo>& GetDevices() const
+        {
+            return devices_;
+        }
+
+    private:
+        std::vector<PhysicalDeviceInfo> devices_;
 
         static std::vector<VkPhysicalDevice> EnumeratePhysicalDevices(const VkInstance& instance)
         {
@@ -78,24 +92,11 @@ namespace Chess::Engine
         void Init(const VkInstance& instance, VkSurfaceKHR surface)
         {
             const auto devices = EnumeratePhysicalDevices(instance);
-            m_devices.reserve(devices.size());
+            devices_.reserve(devices.size());
             for (const auto device : devices)
             {
-                m_devices.push_back(BuildPhysicalDeviceInfo(device, surface));
+                devices_.push_back(BuildPhysicalDeviceInfo(device, surface));
             }
-        }
-
-    public:
-        static std::unique_ptr<PhysicalDevices> Create(const VkInstance& instance, VkSurfaceKHR surface)
-        {
-            auto result = std::unique_ptr<PhysicalDevices>(new PhysicalDevices);
-            result->Init(instance, surface);
-            return result;
-        }
-
-        const std::vector<PhysicalDeviceInfo>& GetDevices() const
-        {
-            return m_devices;
         }
     };
 } // namespace Chess::Engine

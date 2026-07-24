@@ -15,104 +15,105 @@ namespace Chess
 {
     export class Chessboard
     {
-        std::shared_ptr<Player>             m_player;
-        std::vector<std::shared_ptr<Piece>> m_piecesOnBoard;
-        std::shared_ptr<PieceDirector>      m_director;
-        std::shared_ptr<MoveValidator>      m_validator;
-
-        Coordinate m_from = { .file = 0, .rank = 0 };
-        Coordinate m_to   = { .file = 0, .rank = 0 };
-
-        boost::signals2::signal<void()> m_signalChessboardUpdated;
-
     public:
         Chessboard(
             const std::shared_ptr<Player>&        player,
             std::vector<std::shared_ptr<Piece>>&& piecesOnBoard,
             std::unique_ptr<PieceDirector>&&      director,
             std::unique_ptr<MoveValidator>&&      validator)
-            : m_player(player)
-            , m_piecesOnBoard(std::move(piecesOnBoard))
-            , m_director(std::move(director))
-            , m_validator(std::move(validator))
+            : player_(player)
+            , piecesOnBoard_(std::move(piecesOnBoard))
+            , director_(std::move(director))
+            , validator_(std::move(validator))
         {
         }
 
         void Init()
         {
-            m_player->Init();
-            m_validator->Init();
+            player_->Init();
+            validator_->Init();
         }
 
         Coordinate GetFrom() const
         {
-            return m_from;
+            return from_;
         }
 
         ePieceColor GetSideToMove() const
         {
-            return m_player->GetPlayerColor();
+            return player_->GetPlayerColor();
         }
 
         const std::shared_ptr<MoveValidator>& GetMoveValidator() const
         {
-            return m_validator;
+            return validator_;
         }
 
         const std::shared_ptr<PieceDirector>& GetPieceDirector() const
         {
-            return m_director;
+            return director_;
         }
 
         Coordinate GetTo() const
         {
-            return m_to;
+            return to_;
         }
 
         bool TrySelectPiece(const Coordinate& from)
         {
-            m_from = from;
-            m_to   = Coordinate(0, 0);
-            m_director->InitCurrentPiece(from);
+            from_ = from;
+            to_   = Coordinate(0, 0);
+            director_->InitCurrentPiece(from);
 
-            if (!m_director->GetCurrentPiece())
+            if (!director_->GetCurrentPiece())
             {
                 return false;
             }
 
-            m_validator->RefreshPossibleMoves(m_director->GetCurrentPiece());
+            validator_->RefreshPossibleMoves(director_->GetCurrentPiece());
 
-            if (m_validator->GetPossibleMoves().size() < 1)
+            if (validator_->GetPossibleMoves().size() < 1)
             {
                 return false;
             }
 
-            m_signalChessboardUpdated();
+            signalChessboardUpdated_();
             return true;
         }
 
         bool TryMovePiece(const Coordinate& to, const std::shared_ptr<Promoter>& promoter)
         {
-            m_to = to;
+            to_ = to;
 
-            if (!m_validator->IsValidMove(m_director->GetCurrentPiece(), to))
+            if (!validator_->IsValidMove(director_->GetCurrentPiece(), to))
             {
                 return false;
             }
 
-            m_validator->ClearPossibleMoves();
-            m_validator->ClearPiecesCanMove();
-            m_director->MovePiece(to, m_signalChessboardUpdated, promoter);
-            m_validator->RefreshPiecesCanMove();
+            validator_->ClearPossibleMoves();
+            validator_->ClearPiecesCanMove();
+            director_->MovePiece(to, signalChessboardUpdated_, promoter);
+            validator_->RefreshPiecesCanMove();
 
-            m_signalChessboardUpdated();
+            signalChessboardUpdated_();
 
             return true;
         }
 
         boost::signals2::connection ConnectChessboardUpdated(const std::function<void()>& subscriber)
         {
-            return m_signalChessboardUpdated.connect(subscriber);
+            return signalChessboardUpdated_.connect(subscriber);
         }
+
+    private:
+        std::shared_ptr<Player>             player_;
+        std::vector<std::shared_ptr<Piece>> piecesOnBoard_;
+        std::shared_ptr<PieceDirector>      director_;
+        std::shared_ptr<MoveValidator>      validator_;
+
+        Coordinate from_ = { .file = 0, .rank = 0 };
+        Coordinate to_   = { .file = 0, .rank = 0 };
+
+        boost::signals2::signal<void()> signalChessboardUpdated_;
     };
 } // namespace Chess

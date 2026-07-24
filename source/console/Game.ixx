@@ -18,37 +18,6 @@ namespace Console::Chess
 {
     export class Game
     {
-        static bool IsPromotion(const std::shared_ptr<::Chess::Chessboard>& board, const ::Chess::Coordinate& from, const ::Chess::Coordinate& to)
-        {
-            const auto piece = board->GetPieceDirector()->GetPiece(from);
-            if (!piece)
-            {
-                return false;
-            }
-            const auto [color, type] = piece->GetColorAndType();
-            if (type != ::Chess::ePieceType::PAWN)
-            {
-                return false;
-            }
-            return (color == ::Chess::ePieceColor::WHITE && to.rank == 8) || (color == ::Chess::ePieceColor::BLACK && to.rank == 1);
-        }
-
-        static void PrintOutcome(::Chess::eGameState state)
-        {
-            switch (state)
-            {
-            case ::Chess::eGameState::CHECKMATE:
-                std::println("Checkmate!");
-                break;
-            case ::Chess::eGameState::DRAW:
-                std::println("Draw!");
-                break;
-            default:
-                std::println("Game over.");
-                break;
-            }
-        }
-
     public:
         static void RunNetworkGame(::Chess::Client::Session& session)
         {
@@ -119,6 +88,38 @@ namespace Console::Chess
                 }
 
                 session.ReceiveNext();
+            }
+        }
+
+    private:
+        static bool IsPromotion(const std::shared_ptr<::Chess::Chessboard>& board, const ::Chess::Coordinate& from, const ::Chess::Coordinate& to)
+        {
+            const auto piece = board->GetPieceDirector()->GetPiece(from);
+            if (!piece)
+            {
+                return false;
+            }
+            const auto [color, type] = piece->GetColorAndType();
+            if (type != ::Chess::ePieceType::PAWN)
+            {
+                return false;
+            }
+            return (color == ::Chess::ePieceColor::WHITE && to.rank == 8) || (color == ::Chess::ePieceColor::BLACK && to.rank == 1);
+        }
+
+        static void PrintOutcome(::Chess::eGameState state)
+        {
+            switch (state)
+            {
+            case ::Chess::eGameState::CHECKMATE:
+                std::println("Checkmate!");
+                break;
+            case ::Chess::eGameState::DRAW:
+                std::println("Draw!");
+                break;
+            default:
+                std::println("Game over.");
+                break;
             }
         }
     };

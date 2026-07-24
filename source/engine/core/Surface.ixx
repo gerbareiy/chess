@@ -10,30 +10,12 @@ namespace Chess::Engine
 {
     export class Surface
     {
-        VkInstance   m_instance = VK_NULL_HANDLE;
-        VkSurfaceKHR m_surface  = VK_NULL_HANDLE;
-
-        static VkSurfaceKHR CalculateSurface(const VkInstance& instance, GLFWwindow* window)
-        {
-            VkSurfaceKHR result = VK_NULL_HANDLE;
-            VulkanChecker::ThrowIfNotSuccess(glfwCreateWindowSurface(instance, window, nullptr, std::addressof(result)));
-            return result;
-        }
-
-        Surface() = default;
-
-        void Init(const Instance& instance, GLFWwindow* window)
-        {
-            m_instance = instance.GetInstance();
-            m_surface  = CalculateSurface(m_instance, window);
-        }
-
     public:
         ~Surface()
         {
-            if (m_surface != VK_NULL_HANDLE)
+            if (surface_ != VK_NULL_HANDLE)
             {
-                vkDestroySurfaceKHR(m_instance, m_surface, nullptr);
+                vkDestroySurfaceKHR(instance_, surface_, nullptr);
             }
         }
 
@@ -52,7 +34,26 @@ namespace Chess::Engine
 
         VkSurfaceKHR GetSurface() const
         {
-            return m_surface;
+            return surface_;
+        }
+
+    private:
+        VkInstance   instance_ = VK_NULL_HANDLE;
+        VkSurfaceKHR surface_  = VK_NULL_HANDLE;
+
+        static VkSurfaceKHR CalculateSurface(const VkInstance& instance, GLFWwindow* window)
+        {
+            VkSurfaceKHR result = VK_NULL_HANDLE;
+            VulkanChecker::ThrowIfNotSuccess(glfwCreateWindowSurface(instance, window, nullptr, std::addressof(result)));
+            return result;
+        }
+
+        Surface() = default;
+
+        void Init(const Instance& instance, GLFWwindow* window)
+        {
+            instance_ = instance.GetInstance();
+            surface_  = CalculateSurface(instance_, window);
         }
     };
 } // namespace Chess::Engine

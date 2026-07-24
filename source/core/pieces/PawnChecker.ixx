@@ -22,7 +22,33 @@ namespace Chess
 {
     export class PawnChecker final : public IMoveChecker
     {
-        std::shared_ptr<Pawn> m_pawn;
+    public:
+        explicit PawnChecker(const std::shared_ptr<Pawn>& pawn)
+            : pawn_(pawn)
+        {
+        }
+
+        virtual std::vector<Coordinate> GetMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
+        {
+            if (pawn_ == nullptr)
+            {
+                throw Utils::PieceIsNullptrException();
+            }
+
+            auto       pieceMap      = CoordinateToPieceFactory::Create(piecesOnBoard);
+            const auto finder        = std::make_shared<PieceFinder>(std::move(pieceMap));
+            auto       forwardMoves  = GetForwardMoves(pawn_, finder);
+            auto       diagonalMoves = GetDiagonalMoves(pawn_, finder);
+
+            std::vector<Coordinate> result;
+            result.reserve(Constants::Counts::PAWN_WAYS_COUNT);
+            result.insert_range(result.end(), std::move(forwardMoves));
+            result.insert_range(result.end(), std::move(diagonalMoves));
+            return result;
+        }
+
+    private:
+        std::shared_ptr<Pawn> pawn_;
 
         static std::vector<Coordinate> GetForwardMoves(const std::shared_ptr<Pawn>& pawn, const std::shared_ptr<PieceFinder>& finder)
         {
@@ -117,31 +143,6 @@ namespace Chess
                 return std::unexpected("Piece is not correct");
             }
             return {};
-        }
-
-    public:
-        explicit PawnChecker(const std::shared_ptr<Pawn>& pawn)
-            : m_pawn(pawn)
-        {
-        }
-
-        virtual std::vector<Coordinate> GetMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
-        {
-            if (m_pawn == nullptr)
-            {
-                throw Utils::PieceIsNullptrException();
-            }
-
-            auto       pieceMap      = CoordinateToPieceFactory::Create(piecesOnBoard);
-            const auto finder        = std::make_shared<PieceFinder>(std::move(pieceMap));
-            auto       forwardMoves  = GetForwardMoves(m_pawn, finder);
-            auto       diagonalMoves = GetDiagonalMoves(m_pawn, finder);
-
-            std::vector<Coordinate> result;
-            result.reserve(Constants::Counts::PAWN_WAYS_COUNT);
-            result.insert_range(result.end(), std::move(forwardMoves));
-            result.insert_range(result.end(), std::move(diagonalMoves));
-            return result;
         }
     };
 } // namespace Chess

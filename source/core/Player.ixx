@@ -5,30 +5,31 @@ namespace Chess
 {
     export class Player
     {
-        ePieceColor m_playerColor;
-
     public:
         explicit Player(ePieceColor firstMoveColor)
-            : m_playerColor(firstMoveColor)
+            : playerColor_(firstMoveColor)
         {
         }
 
         void Init()
         {
-            if (m_playerColor == ePieceColor::NONE)
+            if (playerColor_ == ePieceColor::NONE)
             {
-                m_playerColor = ePieceColor::WHITE;
+                playerColor_ = ePieceColor::WHITE;
             }
         }
 
         void InverseColor()
         {
-            m_playerColor = m_playerColor == ePieceColor::BLACK ? ePieceColor::WHITE : ePieceColor::BLACK;
+            playerColor_ = playerColor_ == ePieceColor::BLACK ? ePieceColor::WHITE : ePieceColor::BLACK;
         }
 
         ePieceColor GetPlayerColor() const
         {
-            return m_playerColor;
+            return playerColor_;
         }
+
+    private:
+        ePieceColor playerColor_;
     };
 } // namespace Chess

@@ -19,7 +19,23 @@ namespace Chess
 {
     export class KingChecker final : public IMoveChecker
     {
-        std::shared_ptr<King> m_king;
+    public:
+        explicit KingChecker(const std::shared_ptr<King>& king)
+            : king_(king)
+        {
+        }
+
+        virtual std::vector<Coordinate> GetMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
+        {
+            if (king_ == nullptr)
+            {
+                throw Utils::PieceIsNullptrException();
+            }
+            return FindPossibleMoves(king_, king_->GetPosition(), king_->GetColorAndType().color, piecesOnBoard);
+        }
+
+    private:
+        std::shared_ptr<King> king_;
 
         static std::vector<Coordinate> FindCastlingMoves(const std::shared_ptr<const King>& king, const std::shared_ptr<PieceFinder>& finder)
         {
@@ -118,21 +134,6 @@ namespace Chess
             result.insert_range(result.end(), std::move(castlingMoves));
 
             return result;
-        }
-
-    public:
-        explicit KingChecker(const std::shared_ptr<King>& king)
-            : m_king(king)
-        {
-        }
-
-        virtual std::vector<Coordinate> GetMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
-        {
-            if (m_king == nullptr)
-            {
-                throw Utils::PieceIsNullptrException();
-            }
-            return FindPossibleMoves(m_king, m_king->GetPosition(), m_king->GetColorAndType().color, piecesOnBoard);
         }
     };
 } // namespace Chess

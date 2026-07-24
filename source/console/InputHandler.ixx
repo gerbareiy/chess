@@ -14,6 +14,20 @@ namespace Console::Chess
 {
     export class InputHandler final : public ::Chess::Inputter
     {
+    public:
+        ::Chess::Coordinate EnterFrom() const
+        {
+            GetSignalOnEnter()(::Chess::eInputType::FROM);
+            return EnterCoordinate();
+        }
+
+        ::Chess::Coordinate EnterTo() const
+        {
+            GetSignalOnEnter()(::Chess::eInputType::TO);
+            return EnterCoordinate();
+        }
+
+    private:
         static char NormalizeFileInput(const std::string& input)
         {
             if (input.size() != 1)
@@ -51,19 +65,6 @@ namespace Console::Chess
                     return { .file = file.value(), .rank = rank.value() };
                 }
             }
-        }
-
-    public:
-        ::Chess::Coordinate EnterFrom() const
-        {
-            GetSignalOnEnter()(::Chess::eInputType::FROM);
-            return EnterCoordinate();
-        }
-
-        ::Chess::Coordinate EnterTo() const
-        {
-            GetSignalOnEnter()(::Chess::eInputType::TO);
-            return EnterCoordinate();
         }
     };
 } // namespace Console::Chess

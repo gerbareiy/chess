@@ -11,8 +11,6 @@ namespace Chess
 {
     export class GameStateChecker
     {
-        DrawChecker m_drawChecker;
-
     public:
         eGameState Calculate(const std::shared_ptr<Chessboard>& chessboard)
         {
@@ -23,7 +21,7 @@ namespace Chess
             {
                 return eGameState::CHECKMATE;
             }
-            if (m_drawChecker.IsDraw(chessboard))
+            if (drawChecker_.IsDraw(chessboard))
             {
                 return eGameState::DRAW;
             }
@@ -33,5 +31,8 @@ namespace Chess
             }
             return eGameState::PLAYING;
         }
+
+    private:
+        DrawChecker drawChecker_;
     };
 } // namespace Chess

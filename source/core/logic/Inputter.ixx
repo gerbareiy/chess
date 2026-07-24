@@ -7,20 +7,21 @@ namespace Chess
 {
     export class Inputter
     {
-        boost::signals2::signal<void(eInputType)> m_signalOnEnter;
-
-    protected:
-        const boost::signals2::signal<void(eInputType)>& GetSignalOnEnter() const
-        {
-            return m_signalOnEnter;
-        }
-
     public:
         virtual ~Inputter() = default;
 
         boost::signals2::connection ConnectOnEnter(const std::function<void(eInputType)>& subscriber)
         {
-            return m_signalOnEnter.connect(subscriber);
+            return signalOnEnter_.connect(subscriber);
         }
+
+    protected:
+        const boost::signals2::signal<void(eInputType)>& GetSignalOnEnter() const
+        {
+            return signalOnEnter_;
+        }
+
+    private:
+        boost::signals2::signal<void(eInputType)> signalOnEnter_;
     };
 } // namespace Chess

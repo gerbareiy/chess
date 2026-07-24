@@ -13,15 +13,34 @@ namespace Chess::Engine
 {
     export class LogicalDevice
     {
-        static constexpr float      m_priority   = 1.f;
-        static constexpr std::array m_extensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
+    public:
+        static std::unique_ptr<LogicalDevice> Create(const PhysicalDeviceInfo& device)
+        {
+            auto result = std::unique_ptr<LogicalDevice>(new LogicalDevice);
+            result->Init(device);
+            return result;
+        }
 
-        VkDevice m_device = VK_NULL_HANDLE;
+        ~LogicalDevice()
+        {
+            vkDestroyDevice(device_, nullptr);
+        }
 
-        VkQueue m_graphicsQueue = VK_NULL_HANDLE;
-        VkQueue m_presentQueue  = VK_NULL_HANDLE;
-        VkQueue m_computeQueue  = VK_NULL_HANDLE;
-        VkQueue m_transferQueue = VK_NULL_HANDLE;
+        const VkDevice& GetDevice() const
+        {
+            return device_;
+        }
+
+    private:
+        static constexpr float      priority_   = 1.f;
+        static constexpr std::array extensions_ = { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
+
+        VkDevice device_ = VK_NULL_HANDLE;
+
+        VkQueue graphicsQueue_ = VK_NULL_HANDLE;
+        VkQueue presentQueue_  = VK_NULL_HANDLE;
+        VkQueue computeQueue_  = VK_NULL_HANDLE;
+        VkQueue transferQueue_ = VK_NULL_HANDLE;
 
         static std::vector<VkDeviceQueueCreateInfo> CalculateQueueCreateInfos(const PhysicalDeviceInfo& device)
         {
@@ -44,7 +63,7 @@ namespace Chess::Engine
                 info.sType            = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
                 info.queueFamilyIndex = family;
                 info.queueCount       = 1u;
-                info.pQueuePriorities = &m_priority;
+                info.pQueuePriorities = &priority_;
 
                 result.push_back(info);
             }
@@ -58,21 +77,21 @@ namespace Chess::Engine
         {
             for (const auto& family : device.queueFamilies)
             {
-                if (family.flags & VK_QUEUE_GRAPHICS_BIT && m_graphicsQueue == VK_NULL_HANDLE)
+                if (family.flags & VK_QUEUE_GRAPHICS_BIT && graphicsQueue_ == VK_NULL_HANDLE)
                 {
-                    vkGetDeviceQueue(m_device, family.index, 0, &m_graphicsQueue);
+                    vkGetDeviceQueue(device_, family.index, 0, &graphicsQueue_);
                 }
-                if (family.flags & VK_QUEUE_COMPUTE_BIT && m_computeQueue == VK_NULL_HANDLE)
+                if (family.flags & VK_QUEUE_COMPUTE_BIT && computeQueue_ == VK_NULL_HANDLE)
                 {
-                    vkGetDeviceQueue(m_device, family.index, 0, &m_computeQueue);
+                    vkGetDeviceQueue(device_, family.index, 0, &computeQueue_);
                 }
-                if (family.flags & VK_QUEUE_TRANSFER_BIT && m_transferQueue == VK_NULL_HANDLE)
+                if (family.flags & VK_QUEUE_TRANSFER_BIT && transferQueue_ == VK_NULL_HANDLE)
                 {
-                    vkGetDeviceQueue(m_device, family.index, 0, &m_transferQueue);
+                    vkGetDeviceQueue(device_, family.index, 0, &transferQueue_);
                 }
-                if (family.present && m_presentQueue == VK_NULL_HANDLE)
+                if (family.present && presentQueue_ == VK_NULL_HANDLE)
                 {
-                    vkGetDeviceQueue(m_device, family.index, 0, &m_presentQueue);
+                    vkGetDeviceQueue(device_, family.index, 0, &presentQueue_);
                 }
             }
         }
@@ -85,30 +104,12 @@ namespace Chess::Engine
             createInfo.sType                   = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
             createInfo.queueCreateInfoCount    = static_cast<uint32_t>(queueInfos.size());
             createInfo.pQueueCreateInfos       = queueInfos.data();
-            createInfo.enabledExtensionCount   = m_extensions.size();
-            createInfo.ppEnabledExtensionNames = m_extensions.data();
+            createInfo.enabledExtensionCount   = extensions_.size();
+            createInfo.ppEnabledExtensionNames = extensions_.data();
             createInfo.pEnabledFeatures        = &device.features;
 
-            VulkanChecker::ThrowIfNotSuccess(vkCreateDevice(device.device, &createInfo, nullptr, std::addressof(m_device)));
+            VulkanChecker::ThrowIfNotSuccess(vkCreateDevice(device.device, &createInfo, nullptr, std::addressof(device_)));
             InitializeQueues(device);
-        }
-
-    public:
-        static std::unique_ptr<LogicalDevice> Create(const PhysicalDeviceInfo& device)
-        {
-            auto result = std::unique_ptr<LogicalDevice>(new LogicalDevice);
-            result->Init(device);
-            return result;
-        }
-
-        ~LogicalDevice()
-        {
-            vkDestroyDevice(m_device, nullptr);
-        }
-
-        const VkDevice& GetDevice() const
-        {
-            return m_device;
         }
     };
 } // namespace Chess::Engine

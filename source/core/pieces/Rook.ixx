@@ -16,7 +16,40 @@ namespace Chess
 {
     export class Rook final : public Piece, public ICastable
     {
-        boost::signals2::scoped_connection m_connection;
+    public:
+        Rook(ePieceColor color, Coordinate coordinate, const std::shared_ptr<King>& king = nullptr)
+            : Piece(color, coordinate)
+        {
+            TryMakeTracking(king);
+        }
+
+        virtual PieceColorAndType GetColorAndType() const override
+        {
+            return { GetColor(), ePieceType::ROOK };
+        }
+
+        virtual bool GetCanMakeCastling() const override
+        {
+            return connection_.connected();
+        }
+
+        virtual void Move(Coordinate to) override
+        {
+            if (to.file != GetPosition().file && to.rank != GetPosition().rank)
+            {
+                throw Utils::ImpossibleMoveException();
+            }
+            if (to.file == GetPosition().file && to.rank == GetPosition().rank)
+            {
+                throw Utils::ImpossibleMoveException();
+            }
+
+            connection_.disconnect();
+            Piece::Move(to);
+        }
+
+    private:
+        boost::signals2::scoped_connection connection_;
 
         void TryMakeTracking(const std::shared_ptr<King>& king)
         {
@@ -28,7 +61,7 @@ namespace Chess
                 king->TryConnectCastling(std::bind(&Rook::OnCastling, this, std::placeholders::_1, std::placeholders::_2));
             if (connection.has_value())
             {
-                m_connection = std::move(connection).value();
+                connection_ = std::move(connection).value();
             }
         }
 
@@ -46,39 +79,7 @@ namespace Chess
                 }
             }
 
-            m_connection.disconnect();
-        }
-
-    public:
-        Rook(ePieceColor color, Coordinate coordinate, const std::shared_ptr<King>& king = nullptr)
-            : Piece(color, coordinate)
-        {
-            TryMakeTracking(king);
-        }
-
-        virtual PieceColorAndType GetColorAndType() const override
-        {
-            return { GetColor(), ePieceType::ROOK };
-        }
-
-        virtual bool GetCanMakeCastling() const override
-        {
-            return m_connection.connected();
-        }
-
-        virtual void Move(Coordinate to) override
-        {
-            if (to.file != GetPosition().file && to.rank != GetPosition().rank)
-            {
-                throw Utils::ImpossibleMoveException();
-            }
-            if (to.file == GetPosition().file && to.rank == GetPosition().rank)
-            {
-                throw Utils::ImpossibleMoveException();
-            }
-
-            m_connection.disconnect();
-            Piece::Move(to);
+            connection_.disconnect();
         }
     };
 } // namespace Chess

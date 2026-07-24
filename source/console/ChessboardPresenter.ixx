@@ -20,9 +20,71 @@ namespace Console::Chess
 {
     export class ChessboardPresenter : public std::enable_shared_from_this<ChessboardPresenter>
     {
-        std::shared_ptr<::Chess::Chessboard> m_chessboard;
+    public:
+        explicit ChessboardPresenter(const std::shared_ptr<::Chess::Chessboard>& chessboard)
+            : chessboard_(chessboard)
+        {
+        }
 
-        boost::signals2::scoped_connection m_connection;
+        void Init()
+        {
+            if (!chessboard_)
+            {
+                return;
+            }
+            auto const subscriber = [weak = weak_from_this()]
+            {
+                if (const auto shared = weak.lock())
+                {
+                    shared->Show();
+                }
+            };
+            connection_ = chessboard_->ConnectChessboardUpdated(subscriber);
+        }
+
+        void Show() const
+        {
+            Clear();
+            ShowTakenPieces(::Chess::ePieceColor::WHITE);
+            ShowChessboardWithCoordinates();
+            ShowTakenPieces(::Chess::ePieceColor::BLACK);
+        }
+
+        void ShowChessboardRowWithRank(int y, int originalTextColor) const
+        {
+            for (const char x : std::views::iota('A', 'A' + ::Chess::Constants::Sizes::CHESSBOARD_SIZE))
+            {
+                auto       colorAndType = chessboard_->GetPieceDirector()->GetPieceColorAndType({ .file = x, .rank = y });
+                const auto textColor    = GetTextConsoleColor(colorAndType, originalTextColor);
+                const auto background   = GetBackgroundConsoleColor(::Chess::Coordinate(x, y));
+
+                SetConsoleColor(textColor, background);
+
+                std::print("{}", ::Chess::PieceTypeConverter::TryConvertToChar(colorAndType.type).value_or(' '));
+            }
+        }
+
+        void ShowTakenPieces(::Chess::ePieceColor color) const
+        {
+            PrintEmpty();
+
+            const auto eatenPieces = chessboard_->GetPieceDirector()->GetEatenPieces();
+            for (const auto& piece : eatenPieces)
+            {
+                if (piece->GetColorAndType().color == color)
+                {
+                    std::print("{}", ::Chess::PieceTypeConverter::TryConvertToChar(piece->GetColorAndType().type).value_or(' '));
+                }
+            }
+
+            PrintEmpty();
+            PrintEmpty();
+        }
+
+    private:
+        std::shared_ptr<::Chess::Chessboard> chessboard_;
+
+        boost::signals2::scoped_connection connection_;
 
         static std::string GetChessboardFiles()
         {
@@ -91,21 +153,21 @@ namespace Console::Chess
 
         eConsoleColor GetBackgroundConsoleColor(const ::Chess::Coordinate& coordinate) const
         {
-            if (coordinate == m_chessboard->GetFrom())
+            if (coordinate == chessboard_->GetFrom())
             {
                 return eConsoleColor::BROWN;
             }
-            if (coordinate == m_chessboard->GetTo())
+            if (coordinate == chessboard_->GetTo())
             {
                 return eConsoleColor::YELLOW;
             }
 
             const auto isBlackSquare = (coordinate.file + 1 + coordinate.rank) % 2;
-            if (m_chessboard->GetMoveValidator()->IsCoordinateInPieceCanMove(coordinate))
+            if (chessboard_->GetMoveValidator()->IsCoordinateInPieceCanMove(coordinate))
             {
                 return isBlackSquare ? eConsoleColor::BLUE : eConsoleColor::CERULEAN;
             }
-            if (m_chessboard->GetMoveValidator()->IsCoordinateInPossibleMoves(coordinate))
+            if (chessboard_->GetMoveValidator()->IsCoordinateInPossibleMoves(coordinate))
             {
                 return isBlackSquare ? eConsoleColor::DARK_RED : eConsoleColor::RED;
             }
@@ -133,67 +195,6 @@ namespace Console::Chess
             }
 
             ShowChessboardFiles(isChessboardSizeOneDigit);
-        }
-
-    public:
-        explicit ChessboardPresenter(const std::shared_ptr<::Chess::Chessboard>& chessboard)
-            : m_chessboard(chessboard)
-        {
-        }
-
-        void Init()
-        {
-            if (!m_chessboard)
-            {
-                return;
-            }
-            auto const subscriber = [weak = weak_from_this()]
-            {
-                if (const auto shared = weak.lock())
-                {
-                    shared->Show();
-                }
-            };
-            m_connection = m_chessboard->ConnectChessboardUpdated(subscriber);
-        }
-
-        void Show() const
-        {
-            Clear();
-            ShowTakenPieces(::Chess::ePieceColor::WHITE);
-            ShowChessboardWithCoordinates();
-            ShowTakenPieces(::Chess::ePieceColor::BLACK);
-        }
-
-        void ShowChessboardRowWithRank(int y, int originalTextColor) const
-        {
-            for (const char x : std::views::iota('A', 'A' + ::Chess::Constants::Sizes::CHESSBOARD_SIZE))
-            {
-                auto       colorAndType = m_chessboard->GetPieceDirector()->GetPieceColorAndType({ .file = x, .rank = y });
-                const auto textColor    = GetTextConsoleColor(colorAndType, originalTextColor);
-                const auto background   = GetBackgroundConsoleColor(::Chess::Coordinate(x, y));
-
-                SetConsoleColor(textColor, background);
-
-                std::print("{}", ::Chess::PieceTypeConverter::TryConvertToChar(colorAndType.type).value_or(' '));
-            }
-        }
-
-        void ShowTakenPieces(::Chess::ePieceColor color) const
-        {
-            PrintEmpty();
-
-            const auto eatenPieces = m_chessboard->GetPieceDirector()->GetEatenPieces();
-            for (const auto& piece : eatenPieces)
-            {
-                if (piece->GetColorAndType().color == color)
-                {
-                    std::print("{}", ::Chess::PieceTypeConverter::TryConvertToChar(piece->GetColorAndType().type).value_or(' '));
-                }
-            }
-
-            PrintEmpty();
-            PrintEmpty();
         }
     };
 } // namespace Console::Chess

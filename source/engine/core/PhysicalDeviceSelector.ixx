@@ -16,26 +16,6 @@ namespace Chess::Engine
 {
     export class PhysicalDeviceSelector
     {
-        static bool HasQueue(const PhysicalDeviceInfo& device, VkQueueFlagBits flag)
-        {
-            return std::ranges::any_of(device.queueFamilies, [flag](const auto& family) { return (family.flags & flag) != 0; });
-        }
-
-        static bool HasPresentQueue(const PhysicalDeviceInfo& device)
-        {
-            return std::ranges::any_of(device.queueFamilies, [](const auto& family) { return family.present; });
-        }
-
-        static bool SupportsExtension(const PhysicalDeviceInfo& device, std::string_view name)
-        {
-            return std::ranges::any_of(device.extensions, [name](const auto& extension) { return name == extension.extensionName; });
-        }
-
-        static bool IsSuitable(const PhysicalDeviceInfo& device)
-        {
-            return HasQueue(device, VK_QUEUE_GRAPHICS_BIT) && HasPresentQueue(device) && SupportsExtension(device, VK_KHR_SWAPCHAIN_EXTENSION_NAME);
-        }
-
     public:
         static const PhysicalDeviceInfo& Select(const PhysicalDevices& devices)
         {
@@ -74,6 +54,27 @@ namespace Chess::Engine
             }
 
             return *suitable[index];
+        }
+
+    private:
+        static bool HasQueue(const PhysicalDeviceInfo& device, VkQueueFlagBits flag)
+        {
+            return std::ranges::any_of(device.queueFamilies, [flag](const auto& family) { return (family.flags & flag) != 0; });
+        }
+
+        static bool HasPresentQueue(const PhysicalDeviceInfo& device)
+        {
+            return std::ranges::any_of(device.queueFamilies, [](const auto& family) { return family.present; });
+        }
+
+        static bool SupportsExtension(const PhysicalDeviceInfo& device, std::string_view name)
+        {
+            return std::ranges::any_of(device.extensions, [name](const auto& extension) { return name == extension.extensionName; });
+        }
+
+        static bool IsSuitable(const PhysicalDeviceInfo& device)
+        {
+            return HasQueue(device, VK_QUEUE_GRAPHICS_BIT) && HasPresentQueue(device) && SupportsExtension(device, VK_KHR_SWAPCHAIN_EXTENSION_NAME);
         }
     };
 } // namespace Chess::Engine

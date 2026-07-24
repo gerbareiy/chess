@@ -21,7 +21,23 @@ namespace Chess
 {
     export class KnightChecker final : public IMoveChecker
     {
-        std::shared_ptr<Knight> m_knight;
+    public:
+        explicit KnightChecker(const std::shared_ptr<Knight>& knight)
+            : knight_(knight)
+        {
+        }
+
+        virtual std::vector<Coordinate> GetMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
+        {
+            if (knight_ == nullptr)
+            {
+                throw Utils::PieceIsNullptrException();
+            }
+            return FindPossibleMoves(knight_->GetPosition(), knight_->GetColorAndType().color, piecesOnBoard);
+        }
+
+    private:
+        std::shared_ptr<Knight> knight_;
 
         static std::vector<Coordinate> FindPossibleMoves(
             Coordinate position, ePieceColor color, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard)
@@ -58,21 +74,6 @@ namespace Chess
             }
 
             return result;
-        }
-
-    public:
-        explicit KnightChecker(const std::shared_ptr<Knight>& knight)
-            : m_knight(knight)
-        {
-        }
-
-        virtual std::vector<Coordinate> GetMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
-        {
-            if (m_knight == nullptr)
-            {
-                throw Utils::PieceIsNullptrException();
-            }
-            return FindPossibleMoves(m_knight->GetPosition(), m_knight->GetColorAndType().color, piecesOnBoard);
         }
     };
 } // namespace Chess

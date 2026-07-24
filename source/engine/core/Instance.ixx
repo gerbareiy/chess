@@ -10,7 +10,27 @@ namespace Chess::Engine
 {
     export class Instance
     {
-        VkInstance m_instance = VK_NULL_HANDLE;
+    public:
+        static std::unique_ptr<Instance> Create(
+            const char* applicationName, uint32_t applicationVersion, const char* engineName, uint32_t engineVersion, uint32_t apiVersion)
+        {
+            auto result = std::unique_ptr<Instance>(new Instance);
+            result->Init(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
+            return result;
+        }
+
+        ~Instance()
+        {
+            vkDestroyInstance(GetInstance(), nullptr);
+        }
+
+        const VkInstance& GetInstance() const
+        {
+            return instance_;
+        }
+
+    private:
+        VkInstance instance_ = VK_NULL_HANDLE;
 
         static std::vector<const char*> GetRequiredExtensions()
         {
@@ -56,26 +76,7 @@ namespace Chess::Engine
             const auto extensions      = GetRequiredExtensions();
             const auto applicationInfo = CreateApplicationInfo(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
             const auto createInfo      = CreateInstanceCreateInfo(extensions, applicationInfo);
-            m_instance                 = CreateInstance(createInfo);
-        }
-
-    public:
-        static std::unique_ptr<Instance> Create(
-            const char* applicationName, uint32_t applicationVersion, const char* engineName, uint32_t engineVersion, uint32_t apiVersion)
-        {
-            auto result = std::unique_ptr<Instance>(new Instance);
-            result->Init(applicationName, applicationVersion, engineName, engineVersion, apiVersion);
-            return result;
-        }
-
-        ~Instance()
-        {
-            vkDestroyInstance(GetInstance(), nullptr);
-        }
-
-        const VkInstance& GetInstance() const
-        {
-            return m_instance;
+            instance_                  = CreateInstance(createInfo);
         }
     };
 } // namespace Chess::Engine

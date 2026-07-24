@@ -6,17 +6,18 @@ namespace Chess
 {
     export class FixedPromoter final : public Promoter
     {
-        ePieceType m_type;
-
     public:
         explicit FixedPromoter(ePieceType type = ePieceType::QUEEN)
-            : m_type(type)
+            : type_(type)
         {
         }
 
         virtual ePieceType GetPromoteType() const override
         {
-            return m_type;
+            return type_;
         }
+
+    private:
+        ePieceType type_;
     };
 } // namespace Chess

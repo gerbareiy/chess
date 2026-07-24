@@ -14,6 +14,35 @@ namespace Console::Chess
 {
     export class ConsolePromoter final : public ::Chess::Promoter
     {
+    public:
+        virtual ::Chess::ePieceType GetPromoteType() const override
+        {
+            while (true)
+            {
+                GetSignalOnEnter()(::Chess::eInputType::PROMOTION);
+
+                const auto input      = EnterPromotionType();
+                const auto normalized = TryNormalizePromotionChoice(input);
+                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::BISHOP))
+                {
+                    return ::Chess::ePieceType::BISHOP;
+                }
+                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::KNIGHT))
+                {
+                    return ::Chess::ePieceType::KNIGHT;
+                }
+                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::QUEEN))
+                {
+                    return ::Chess::ePieceType::QUEEN;
+                }
+                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::ROOK))
+                {
+                    return ::Chess::ePieceType::ROOK;
+                }
+            }
+        }
+
+    private:
         static char GuessPromotionSymbol(char symbol)
         {
             const char upped = static_cast<char>(std::toupper(symbol));
@@ -41,34 +70,6 @@ namespace Console::Chess
             auto result = ::Chess::Utils::ConsoleReader::ReadLine();
             std::getline(std::cin, result);
             return result;
-        }
-
-    public:
-        virtual ::Chess::ePieceType GetPromoteType() const override
-        {
-            while (true)
-            {
-                GetSignalOnEnter()(::Chess::eInputType::PROMOTION);
-
-                const auto input      = EnterPromotionType();
-                const auto normalized = TryNormalizePromotionChoice(input);
-                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::BISHOP))
-                {
-                    return ::Chess::ePieceType::BISHOP;
-                }
-                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::KNIGHT))
-                {
-                    return ::Chess::ePieceType::KNIGHT;
-                }
-                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::QUEEN))
-                {
-                    return ::Chess::ePieceType::QUEEN;
-                }
-                if (normalized == ::Chess::PieceTypeConverter::TryConvertToChar(::Chess::ePieceType::ROOK))
-                {
-                    return ::Chess::ePieceType::ROOK;
-                }
-            }
         }
     };
 } // namespace Console::Chess

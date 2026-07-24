@@ -11,18 +11,16 @@ namespace Chess
 {
     export class PieceFinder
     {
-        std::unordered_map<Coordinate, std::shared_ptr<Piece>> m_pieceMap;
-
     public:
         explicit PieceFinder(std::unordered_map<Coordinate, std::shared_ptr<Piece>>&& pieceMap)
-            : m_pieceMap(std::move(pieceMap))
+            : pieceMap_(std::move(pieceMap))
         {
         }
 
         std::shared_ptr<Piece> TryFind(const Coordinate& coordinate) const
         {
-            const auto iter = m_pieceMap.find(coordinate);
-            if (iter == m_pieceMap.end())
+            const auto iter = pieceMap_.find(coordinate);
+            if (iter == pieceMap_.end())
             {
                 return nullptr;
             }
@@ -31,7 +29,7 @@ namespace Chess
 
         std::optional<Coordinate> TryFind(PieceColorAndType colorAndType) const
         {
-            for (const auto& [coordinate, currentPiece] : m_pieceMap)
+            for (const auto& [coordinate, currentPiece] : pieceMap_)
             {
                 if (colorAndType == currentPiece->GetColorAndType())
                 {
@@ -40,5 +38,8 @@ namespace Chess
             }
             return std::nullopt;
         }
+
+    private:
+        std::unordered_map<Coordinate, std::shared_ptr<Piece>> pieceMap_;
     };
 } // namespace Chess

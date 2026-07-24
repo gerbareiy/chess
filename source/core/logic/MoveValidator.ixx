@@ -17,15 +17,10 @@ namespace Chess
 {
     export class MoveValidator
     {
-        std::vector<std::shared_ptr<Piece>> m_piecesCanMove;
-        std::vector<Coordinate>             m_possibleMoves;
-        std::vector<std::shared_ptr<Piece>> m_piecesOnBoard;
-        std::shared_ptr<Player>             m_player;
-
     public:
         MoveValidator(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard, const std::shared_ptr<Player>& player)
-            : m_piecesOnBoard(piecesOnBoard)
-            , m_player(player)
+            : piecesOnBoard_(piecesOnBoard)
+            , player_(player)
         {
         }
 
@@ -36,7 +31,7 @@ namespace Chess
 
         std::vector<Coordinate> GetPossibleMoves()
         {
-            return m_possibleMoves;
+            return possibleMoves_;
         }
 
         void RefreshPiecesCanMove()
@@ -47,9 +42,9 @@ namespace Chess
             std::vector<std::shared_ptr<Piece>> pieces;
             pieces.reserve(Constants::Counts::MAX_ELEMENTS_COUNT);
 
-            for (const auto& piece : m_piecesOnBoard)
+            for (const auto& piece : piecesOnBoard_)
             {
-                if (piece->GetColorAndType().color == m_player->GetPlayerColor())
+                if (piece->GetColorAndType().color == player_->GetPlayerColor())
                 {
                     auto moveChecker = MoveCheckerFactory::Create(piece);
                     if (!moveChecker)
@@ -58,20 +53,20 @@ namespace Chess
                         std::unreachable();
                     }
 
-                    if (MoveCheckerOwner(piece, std::move(moveChecker)).HasFilteredMoves(m_piecesOnBoard))
+                    if (MoveCheckerOwner(piece, std::move(moveChecker)).HasFilteredMoves(piecesOnBoard_))
                     {
                         pieces.emplace_back(piece);
                     }
                 }
             }
 
-            m_piecesCanMove = pieces;
+            piecesCanMove_ = pieces;
         }
 
         void RefreshPossibleMoves(const std::shared_ptr<Piece>& piece)
         {
-            const auto iter = std::ranges::find(m_piecesCanMove, piece);
-            if (iter != m_piecesCanMove.end())
+            const auto iter = std::ranges::find(piecesCanMove_, piece);
+            if (iter != piecesCanMove_.end())
             {
                 auto moveChecker = MoveCheckerFactory::Create(piece);
                 if (!moveChecker)
@@ -79,35 +74,35 @@ namespace Chess
                     assert(false);
                     std::unreachable();
                 }
-                m_possibleMoves = MoveCheckerOwner(piece, std::move(moveChecker)).GetFilteredMoves(m_piecesOnBoard);
+                possibleMoves_ = MoveCheckerOwner(piece, std::move(moveChecker)).GetFilteredMoves(piecesOnBoard_);
             }
         }
 
         void ClearPossibleMoves()
         {
-            m_possibleMoves.clear();
+            possibleMoves_.clear();
         }
 
         void ClearPiecesCanMove()
         {
-            m_piecesCanMove.clear();
+            piecesCanMove_.clear();
         }
 
         size_t GetPiecesCanMoveCount() const
         {
-            return m_piecesCanMove.size();
+            return piecesCanMove_.size();
         }
 
         bool IsCoordinateInPieceCanMove(const Coordinate& coordinate) const
         {
-            auto       pieceMap = CoordinateToPieceFactory::Create(m_piecesCanMove);
+            auto       pieceMap = CoordinateToPieceFactory::Create(piecesCanMove_);
             const auto finder   = std::make_unique<PieceFinder>(std::move(pieceMap));
             return !!finder->TryFind(coordinate);
         }
 
         bool IsCoordinateInPossibleMoves(const Coordinate& coordinate) const
         {
-            return std::ranges::contains(m_possibleMoves, coordinate);
+            return std::ranges::contains(possibleMoves_, coordinate);
         }
 
         bool IsValidMove(const std::shared_ptr<Piece>& piece, const Coordinate& to) const
@@ -116,7 +111,13 @@ namespace Chess
             {
                 return false;
             }
-            return std::ranges::contains(m_possibleMoves, to);
+            return std::ranges::contains(possibleMoves_, to);
         }
+
+    private:
+        std::vector<std::shared_ptr<Piece>> piecesCanMove_;
+        std::vector<Coordinate>             possibleMoves_;
+        std::vector<std::shared_ptr<Piece>> piecesOnBoard_;
+        std::shared_ptr<Player>             player_;
     };
 } // namespace Chess

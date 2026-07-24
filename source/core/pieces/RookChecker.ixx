@@ -18,17 +18,15 @@ namespace Chess
 {
     export class RookChecker final : public IMoveChecker
     {
-        std::shared_ptr<Rook> m_rook;
-
     public:
         explicit RookChecker(const std::shared_ptr<Rook>& rook)
-            : m_rook(rook)
+            : rook_(rook)
         {
         }
 
         virtual std::vector<Coordinate> GetMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
         {
-            if (m_rook == nullptr)
+            if (rook_ == nullptr)
             {
                 throw Utils::PieceIsNullptrException();
             }
@@ -36,8 +34,8 @@ namespace Chess
             auto       pieceMap = CoordinateToPieceFactory::Create(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
-            const auto position = m_rook->GetPosition();
-            const auto color    = m_rook->GetColorAndType().color;
+            const auto position = rook_->GetPosition();
+            const auto color    = rook_->GetColorAndType().color;
             auto       first    = DirectionMoveChecker::FindPossibleMoves(finder, position, color, { -1, 0 });
             auto       second   = DirectionMoveChecker::FindPossibleMoves(finder, position, color, { 1, 0 });
             auto       third    = DirectionMoveChecker::FindPossibleMoves(finder, position, color, { 0, -1 });
@@ -51,5 +49,8 @@ namespace Chess
             moves.insert_range(moves.end(), std::move(fourth));
             return moves;
         }
+
+    private:
+        std::shared_ptr<Rook> rook_;
     };
 } // namespace Chess

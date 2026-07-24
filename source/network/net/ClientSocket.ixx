@@ -14,7 +14,58 @@ namespace Chess::Net
     // Portable across Windows/Linux/macOS, unlike raw WinSock.
     export class ClientSocket
     {
-        zmq::socket_t m_socket;
+    public:
+        static ClientSocket Connect(const std::string& host, unsigned short port)
+        {
+            zmq::socket_t socket(Context(), zmq::socket_type::dealer);
+            try
+            {
+                socket.set(zmq::sockopt::routing_id, GenerateIdentity());
+                socket.connect(Endpoint(host, port));
+            }
+            catch (const zmq::error_t& error)
+            {
+                throw ConnectionError(error.what());
+            }
+            return ClientSocket(std::move(socket));
+        }
+
+        void SendBytes(const std::string& payload)
+        {
+            try
+            {
+                socket_.send(zmq::buffer(payload), zmq::send_flags::none);
+            }
+            catch (const zmq::error_t& error)
+            {
+                throw ConnectionError(error.what());
+            }
+        }
+
+        std::string ReceiveBytes()
+        {
+            zmq::message_t message;
+            try
+            {
+                if (!socket_.recv(message))
+                {
+                    throw ConnectionError("recv failed");
+                }
+            }
+            catch (const zmq::error_t& error)
+            {
+                throw ConnectionError(error.what());
+            }
+            return message.to_string();
+        }
+
+        void Close()
+        {
+            socket_.close();
+        }
+
+    private:
+        zmq::socket_t socket_;
 
         static zmq::context_t& Context()
         {
@@ -41,58 +92,8 @@ namespace Chess::Net
         }
 
         explicit ClientSocket(zmq::socket_t socket)
-            : m_socket(std::move(socket))
+            : socket_(std::move(socket))
         {
-        }
-
-    public:
-        static ClientSocket Connect(const std::string& host, unsigned short port)
-        {
-            zmq::socket_t socket(Context(), zmq::socket_type::dealer);
-            try
-            {
-                socket.set(zmq::sockopt::routing_id, GenerateIdentity());
-                socket.connect(Endpoint(host, port));
-            }
-            catch (const zmq::error_t& error)
-            {
-                throw ConnectionError(error.what());
-            }
-            return ClientSocket(std::move(socket));
-        }
-
-        void SendBytes(const std::string& payload)
-        {
-            try
-            {
-                m_socket.send(zmq::buffer(payload), zmq::send_flags::none);
-            }
-            catch (const zmq::error_t& error)
-            {
-                throw ConnectionError(error.what());
-            }
-        }
-
-        std::string ReceiveBytes()
-        {
-            zmq::message_t message;
-            try
-            {
-                if (!m_socket.recv(message))
-                {
-                    throw ConnectionError("recv failed");
-                }
-            }
-            catch (const zmq::error_t& error)
-            {
-                throw ConnectionError(error.what());
-            }
-            return message.to_string();
-        }
-
-        void Close()
-        {
-            m_socket.close();
         }
     };
 } // namespace Chess::Net

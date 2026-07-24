@@ -14,8 +14,36 @@ namespace Chess::Engine
 {
     export class Swapchain
     {
-        VkDevice       m_device    = VK_NULL_HANDLE;
-        VkSwapchainKHR m_swapchain = VK_NULL_HANDLE;
+    public:
+        static std::unique_ptr<Swapchain> Create(VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface, GLFWwindow* window)
+        {
+            auto result = std::unique_ptr<Swapchain>(new Swapchain());
+            result->Init(physicalDevice, device, surface, window);
+            return result;
+        }
+
+        Swapchain(const Swapchain&)            = delete;
+        Swapchain& operator=(const Swapchain&) = delete;
+
+        Swapchain(Swapchain&&)            = delete;
+        Swapchain& operator=(Swapchain&&) = delete;
+
+        ~Swapchain()
+        {
+            if (swapchain_ != VK_NULL_HANDLE)
+            {
+                vkDestroySwapchainKHR(device_, swapchain_, nullptr);
+            }
+        }
+
+        VkSwapchainKHR GetSwapchain() const
+        {
+            return swapchain_;
+        }
+
+    private:
+        VkDevice       device_    = VK_NULL_HANDLE;
+        VkSwapchainKHR swapchain_ = VK_NULL_HANDLE;
 
         Swapchain() = default;
 
@@ -73,7 +101,7 @@ namespace Chess::Engine
 
         void Init(VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface, GLFWwindow* window)
         {
-            m_device = device;
+            device_ = device;
 
             VkSurfaceCapabilitiesKHR capabilities{};
             VulkanChecker::ThrowIfNotSuccess(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &capabilities));
@@ -97,34 +125,7 @@ namespace Chess::Engine
             createInfo.clipped          = VK_TRUE;
             createInfo.oldSwapchain     = VK_NULL_HANDLE;
 
-            VulkanChecker::ThrowIfNotSuccess(vkCreateSwapchainKHR(device, &createInfo, nullptr, std::addressof(m_swapchain)));
-        }
-
-    public:
-        static std::unique_ptr<Swapchain> Create(VkPhysicalDevice physicalDevice, VkDevice device, VkSurfaceKHR surface, GLFWwindow* window)
-        {
-            auto result = std::unique_ptr<Swapchain>(new Swapchain());
-            result->Init(physicalDevice, device, surface, window);
-            return result;
-        }
-
-        Swapchain(const Swapchain&)            = delete;
-        Swapchain& operator=(const Swapchain&) = delete;
-
-        Swapchain(Swapchain&&)            = delete;
-        Swapchain& operator=(Swapchain&&) = delete;
-
-        ~Swapchain()
-        {
-            if (m_swapchain != VK_NULL_HANDLE)
-            {
-                vkDestroySwapchainKHR(m_device, m_swapchain, nullptr);
-            }
-        }
-
-        VkSwapchainKHR GetSwapchain() const
-        {
-            return m_swapchain;
+            VulkanChecker::ThrowIfNotSuccess(vkCreateSwapchainKHR(device, &createInfo, nullptr, std::addressof(swapchain_)));
         }
     };
 } // namespace Chess::Engine

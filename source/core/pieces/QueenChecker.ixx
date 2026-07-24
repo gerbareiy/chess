@@ -18,25 +18,23 @@ namespace Chess
 {
     export class QueenChecker final : public IMoveChecker
     {
-        std::shared_ptr<Queen> m_queen;
-
     public:
         explicit QueenChecker(const std::shared_ptr<Queen>& queen)
-            : m_queen(queen)
+            : queen_(queen)
         {
         }
 
         virtual std::vector<Coordinate> GetMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
         {
-            if (m_queen == nullptr)
+            if (queen_ == nullptr)
             {
                 throw Utils::PieceIsNullptrException();
             }
             auto       pieceMap = CoordinateToPieceFactory::Create(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
-            const auto position = m_queen->GetPosition();
-            const auto color    = m_queen->GetColorAndType().color;
+            const auto position = queen_->GetPosition();
+            const auto color    = queen_->GetColorAndType().color;
             auto       first    = DirectionMoveChecker::FindPossibleMoves(finder, position, color, { -1, -1 });
             auto       second   = DirectionMoveChecker::FindPossibleMoves(finder, position, color, { -1, 1 });
             auto       third    = DirectionMoveChecker::FindPossibleMoves(finder, position, color, { 1, -1 });
@@ -58,5 +56,8 @@ namespace Chess
             result.insert_range(result.end(), std::move(eighth));
             return result;
         }
+
+    private:
+        std::shared_ptr<Queen> queen_;
     };
 } // namespace Chess

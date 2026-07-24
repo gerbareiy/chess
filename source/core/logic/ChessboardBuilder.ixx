@@ -25,6 +25,32 @@ namespace Chess
 {
     export class ChessboardBuilder
     {
+    public:
+        static std::vector<std::shared_ptr<Piece>> InitBoard(const std::string& configurationPath)
+        {
+            if (!std::filesystem::exists(configurationPath))
+            {
+                throw std::invalid_argument("Configuration was not found");
+            }
+
+            const auto config = GetConfig(configurationPath);
+
+            const auto whiteSide = config.at("white").as_object();
+            const auto whiteKing = ParseKing(whiteSide, ePieceColor::WHITE);
+
+            const auto blackSide = config.at("black").as_object();
+            const auto blackKing = ParseKing(blackSide, ePieceColor::BLACK);
+
+            std::vector<PiecePlacement> placements;
+            placements.reserve(Constants::Counts::MAX_ELEMENTS_COUNT);
+
+            ParseSidePieces(placements, whiteSide, ePieceColor::WHITE);
+            ParseSidePieces(placements, blackSide, ePieceColor::BLACK);
+
+            return PiecesOnBoardCreator::Create(whiteKing, blackKing, placements);
+        }
+
+    private:
         static boost::json::object GetConfig(const std::string& path)
         {
             std::ifstream file(path);
@@ -113,31 +139,6 @@ namespace Chess
             {
                 ParsePieces(placements, side, color, pieceType);
             }
-        }
-
-    public:
-        static std::vector<std::shared_ptr<Piece>> InitBoard(const std::string& configurationPath)
-        {
-            if (!std::filesystem::exists(configurationPath))
-            {
-                throw std::invalid_argument("Configuration was not found");
-            }
-
-            const auto config = GetConfig(configurationPath);
-
-            const auto whiteSide = config.at("white").as_object();
-            const auto whiteKing = ParseKing(whiteSide, ePieceColor::WHITE);
-
-            const auto blackSide = config.at("black").as_object();
-            const auto blackKing = ParseKing(blackSide, ePieceColor::BLACK);
-
-            std::vector<PiecePlacement> placements;
-            placements.reserve(Constants::Counts::MAX_ELEMENTS_COUNT);
-
-            ParseSidePieces(placements, whiteSide, ePieceColor::WHITE);
-            ParseSidePieces(placements, blackSide, ePieceColor::BLACK);
-
-            return PiecesOnBoardCreator::Create(whiteKing, blackKing, placements);
         }
     };
 } // namespace Chess

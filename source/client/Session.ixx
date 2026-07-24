@@ -19,44 +19,6 @@ namespace Chess::Client
 {
     export class Session
     {
-        Net::GameSession            m_session;
-        std::shared_ptr<Chessboard> m_chessboard;
-        ePieceColor                 m_myColor    = ePieceColor::NONE;
-        eGameState                  m_finalState = eGameState::PLAYING;
-        bool                        m_gameOver   = false;
-        uint32_t                    m_ply        = 0;
-
-        void Rebuild(Net::BoardSnapshot board)
-        {
-            m_ply        = board.ply;
-            m_chessboard = ChessboardFactory::Create(std::move(board.pieces), board.sideToMove);
-        }
-
-        bool TryApplyMove(const Move& move)
-        {
-            if (!m_chessboard->TrySelectPiece(move.from))
-            {
-                return false;
-            }
-            if (!m_chessboard->TryMovePiece(move.to, std::make_shared<FixedPromoter>(move.promotion)))
-            {
-                return false;
-            }
-            ++m_ply;
-            return true;
-        }
-
-        explicit Session(Net::GameSession session)
-            : m_session(std::move(session))
-        {
-        }
-
-        void Init()
-        {
-            m_myColor = m_session.GetMyColor();
-            Rebuild(m_session.GetInitialBoard());
-        }
-
     public:
         static Session Connect(const std::string& host, unsigned short port)
         {
@@ -67,34 +29,34 @@ namespace Chess::Client
 
         ePieceColor GetMyColor() const
         {
-            return m_myColor;
+            return myColor_;
         }
 
         const std::shared_ptr<Chessboard>& GetChessboard() const
         {
-            return m_chessboard;
+            return chessboard_;
         }
 
         bool IsMyTurn() const
         {
-            return !IsGameOver() && m_chessboard->GetSideToMove() == m_myColor;
+            return !IsGameOver() && chessboard_->GetSideToMove() == myColor_;
         }
 
         bool IsGameOver() const
         {
-            return m_gameOver;
+            return gameOver_;
         }
 
         eGameState GetFinalState() const
         {
-            return m_finalState;
+            return finalState_;
         }
 
         bool TrySubmitMove(const Move& move)
         {
             if (IsMyTurn() && TryApplyMove(move))
             {
-                m_session.SendMove(move);
+                session_.SendMove(move);
                 return true;
             }
             return false;
@@ -102,7 +64,7 @@ namespace Chess::Client
 
         eServerEvent ReceiveNext()
         {
-            auto [event, move, board, finalState] = m_session.ReceiveNext();
+            auto [event, move, board, finalState] = session_.ReceiveNext();
 
             switch (event)
             {
@@ -113,19 +75,58 @@ namespace Chess::Client
                 Rebuild(std::move(board).value());
                 return eServerEvent::RESYNCED;
             case Net::eSessionEvent::BOARD_CHECKED:
-                if (board.value().ply >= m_ply)
+                if (board.value().ply >= ply_)
                 {
                     Rebuild(std::move(board).value());
                 }
                 return eServerEvent::RESYNCED;
             case Net::eSessionEvent::GAME_OVER:
-                m_gameOver   = true;
-                m_finalState = finalState.value();
+                gameOver_   = true;
+                finalState_ = finalState.value();
                 Rebuild(std::move(board).value());
                 return eServerEvent::GAME_OVER;
             default:
                 return eServerEvent::RESYNCED;
             }
+        }
+
+    private:
+        Net::GameSession            session_;
+        std::shared_ptr<Chessboard> chessboard_;
+        ePieceColor                 myColor_    = ePieceColor::NONE;
+        eGameState                  finalState_ = eGameState::PLAYING;
+        bool                        gameOver_   = false;
+        uint32_t                    ply_        = 0;
+
+        void Rebuild(Net::BoardSnapshot board)
+        {
+            ply_        = board.ply;
+            chessboard_ = ChessboardFactory::Create(std::move(board.pieces), board.sideToMove);
+        }
+
+        bool TryApplyMove(const Move& move)
+        {
+            if (!chessboard_->TrySelectPiece(move.from))
+            {
+                return false;
+            }
+            if (!chessboard_->TryMovePiece(move.to, std::make_shared<FixedPromoter>(move.promotion)))
+            {
+                return false;
+            }
+            ++ply_;
+            return true;
+        }
+
+        explicit Session(Net::GameSession session)
+            : session_(std::move(session))
+        {
+        }
+
+        void Init()
+        {
+            myColor_ = session_.GetMyColor();
+            Rebuild(session_.GetInitialBoard());
         }
     };
 } // namespace Chess::Client

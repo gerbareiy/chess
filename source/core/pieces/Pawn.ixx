@@ -14,24 +14,6 @@ namespace Chess
 {
     export class Pawn final : public Piece
     {
-        bool m_canEnPassant      = false;
-        bool m_isOnPawnFirstMove = false;
-        bool m_isNotMoved        = true;
-
-        void LostEnPassant()
-        {
-            m_canEnPassant = false;
-        }
-
-        void MakeTracking()
-        {
-            if (!m_isOnPawnFirstMove)
-            {
-                LostEnPassant();
-            }
-            m_isOnPawnFirstMove = false;
-        }
-
     public:
         Pawn(ePieceColor color, const Coordinate& coordinate)
             : Piece(color, coordinate)
@@ -52,7 +34,7 @@ namespace Chess
 
             const bool isOneStepForward = fileDifference == 0 && rankDifference == moveVector;
             const bool isTwoStepsForward =
-                fileDifference == 0 && m_isNotMoved && rankDifference == moveVector * Constants::Counts::MAX_POSSIBLE_PAWN_MOVE_COUNT;
+                fileDifference == 0 && isNotMoved_ && rankDifference == moveVector * Constants::Counts::MAX_POSSIBLE_PAWN_MOVE_COUNT;
             const bool isDiagonalMove = fileDifference == 1 && rankDifference == moveVector;
             if (!isOneStepForward && !isTwoStepsForward && !isDiagonalMove)
             {
@@ -61,32 +43,51 @@ namespace Chess
 
             if (std::abs(rankDifference) == Constants::Counts::MAX_POSSIBLE_PAWN_MOVE_COUNT)
             {
-                m_canEnPassant = m_isNotMoved;
+                canEnPassant_ = isNotMoved_;
             }
             else
             {
                 LostEnPassant();
             }
 
-            m_isOnPawnFirstMove = m_isNotMoved;
-            m_isNotMoved        = false;
+            isOnPawnFirstMove_ = isNotMoved_;
+            isNotMoved_        = false;
             Piece::Move(to);
         }
 
         bool GetCanEnPassant() const
         {
-            return m_canEnPassant;
+            return canEnPassant_;
         }
 
         bool GetIsNotMoved() const
         {
-            return m_isNotMoved;
+            return isNotMoved_;
         }
 
         void RestoreState(bool canEnPassant, bool isNotMoved)
         {
-            m_canEnPassant = canEnPassant;
-            m_isNotMoved   = isNotMoved;
+            canEnPassant_ = canEnPassant;
+            isNotMoved_   = isNotMoved;
+        }
+
+    private:
+        bool canEnPassant_      = false;
+        bool isOnPawnFirstMove_ = false;
+        bool isNotMoved_        = true;
+
+        void LostEnPassant()
+        {
+            canEnPassant_ = false;
+        }
+
+        void MakeTracking()
+        {
+            if (!isOnPawnFirstMove_)
+            {
+                LostEnPassant();
+            }
+            isOnPawnFirstMove_ = false;
         }
     };
 } // namespace Chess

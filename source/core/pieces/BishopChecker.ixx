@@ -17,17 +17,15 @@ namespace Chess
 {
     export class BishopChecker final : public IMoveChecker
     {
-        std::shared_ptr<Bishop> m_bishop;
-
     public:
         explicit BishopChecker(const std::shared_ptr<Bishop>& bishop)
-            : m_bishop(bishop)
+            : bishop_(bishop)
         {
         }
 
         virtual std::vector<Coordinate> GetMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const override
         {
-            if (m_bishop == nullptr)
+            if (bishop_ == nullptr)
             {
                 throw Utils::PieceIsNullptrException();
             }
@@ -35,10 +33,10 @@ namespace Chess
             auto       pieceMap = CoordinateToPieceFactory::Create(piecesOnBoard);
             const auto finder   = std::make_shared<PieceFinder>(std::move(pieceMap));
 
-            auto first  = DirectionMoveChecker::FindPossibleMoves(finder, m_bishop->GetPosition(), m_bishop->GetColorAndType().color, { -1, -1 });
-            auto second = DirectionMoveChecker::FindPossibleMoves(finder, m_bishop->GetPosition(), m_bishop->GetColorAndType().color, { -1, 1 });
-            auto third  = DirectionMoveChecker::FindPossibleMoves(finder, m_bishop->GetPosition(), m_bishop->GetColorAndType().color, { 1, -1 });
-            auto fourth = DirectionMoveChecker::FindPossibleMoves(finder, m_bishop->GetPosition(), m_bishop->GetColorAndType().color, { 1, 1 });
+            auto first  = DirectionMoveChecker::FindPossibleMoves(finder, bishop_->GetPosition(), bishop_->GetColorAndType().color, { -1, -1 });
+            auto second = DirectionMoveChecker::FindPossibleMoves(finder, bishop_->GetPosition(), bishop_->GetColorAndType().color, { -1, 1 });
+            auto third  = DirectionMoveChecker::FindPossibleMoves(finder, bishop_->GetPosition(), bishop_->GetColorAndType().color, { 1, -1 });
+            auto fourth = DirectionMoveChecker::FindPossibleMoves(finder, bishop_->GetPosition(), bishop_->GetColorAndType().color, { 1, 1 });
 
             std::vector<Coordinate> result;
             result.reserve(Constants::Counts::BISHOP_WAYS_COUNT);
@@ -48,5 +46,8 @@ namespace Chess
             result.insert_range(result.end(), std::move(fourth));
             return result;
         }
+
+    private:
+        std::shared_ptr<Bishop> bishop_;
     };
 } // namespace Chess

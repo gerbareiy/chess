@@ -19,11 +19,6 @@ namespace Chess::Proto
 {
     export class BoardReconstructor
     {
-        static std::shared_ptr<King> KingOf(ePieceColor color, const std::shared_ptr<King>& whiteKing, const std::shared_ptr<King>& blackKing)
-        {
-            return color == ePieceColor::WHITE ? whiteKing : blackKing;
-        }
-
     public:
         static std::vector<std::shared_ptr<Piece>> Reconstruct(const chess::proto::Chessboard& board)
         {
@@ -86,6 +81,12 @@ namespace Chess::Proto
             }
 
             return result;
+        }
+
+    private:
+        static std::shared_ptr<King> KingOf(ePieceColor color, const std::shared_ptr<King>& whiteKing, const std::shared_ptr<King>& blackKing)
+        {
+            return color == ePieceColor::WHITE ? whiteKing : blackKing;
         }
     };
 } // namespace Chess::Proto

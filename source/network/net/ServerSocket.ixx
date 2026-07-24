@@ -13,24 +13,6 @@ namespace Chess::Net
     // server never touches an OS socket API directly.
     export class ServerSocket
     {
-        zmq::socket_t m_socket;
-
-        static zmq::context_t& Context()
-        {
-            static zmq::context_t context(1);
-            return context;
-        }
-
-        static std::string Endpoint(const std::string& host, unsigned short port)
-        {
-            return "tcp://" + host + ":" + std::to_string(port);
-        }
-
-        explicit ServerSocket(zmq::socket_t socket)
-            : m_socket(std::move(socket))
-        {
-        }
-
     public:
         static ServerSocket Bind(unsigned short port)
         {
@@ -58,7 +40,7 @@ namespace Chess::Net
             zmq::message_t payload;
             try
             {
-                if (!m_socket.recv(identity) || !m_socket.recv(payload))
+                if (!socket_.recv(identity) || !socket_.recv(payload))
                 {
                     throw ConnectionError("recv failed");
                 }
@@ -74,13 +56,32 @@ namespace Chess::Net
         {
             try
             {
-                m_socket.send(zmq::buffer(identity), zmq::send_flags::sndmore);
-                m_socket.send(zmq::buffer(payload), zmq::send_flags::none);
+                socket_.send(zmq::buffer(identity), zmq::send_flags::sndmore);
+                socket_.send(zmq::buffer(payload), zmq::send_flags::none);
             }
             catch (const zmq::error_t& error)
             {
                 throw ConnectionError(error.what());
             }
+        }
+
+    private:
+        zmq::socket_t socket_;
+
+        static zmq::context_t& Context()
+        {
+            static zmq::context_t context(1);
+            return context;
+        }
+
+        static std::string Endpoint(const std::string& host, unsigned short port)
+        {
+            return "tcp://" + host + ":" + std::to_string(port);
+        }
+
+        explicit ServerSocket(zmq::socket_t socket)
+            : socket_(std::move(socket))
+        {
         }
     };
 } // namespace Chess::Net

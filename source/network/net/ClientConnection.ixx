@@ -8,13 +8,6 @@ namespace Chess::Net
 {
     export class ClientConnection
     {
-        ClientSocket m_socket;
-
-        explicit ClientConnection(ClientSocket socket)
-            : m_socket(std::move(socket))
-        {
-        }
-
     public:
         static ClientConnection Connect(const std::string& host, unsigned short port)
         {
@@ -23,17 +16,25 @@ namespace Chess::Net
 
         void SendBytes(const std::string& payload)
         {
-            m_socket.SendBytes(payload);
+            socket_.SendBytes(payload);
         }
 
         std::string ReceiveBytes()
         {
-            return m_socket.ReceiveBytes();
+            return socket_.ReceiveBytes();
         }
 
         void Close()
         {
-            m_socket.Close();
+            socket_.Close();
+        }
+
+    private:
+        ClientSocket socket_;
+
+        explicit ClientConnection(ClientSocket socket)
+            : socket_(std::move(socket))
+        {
         }
     };
 } // namespace Chess::Net

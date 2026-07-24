@@ -10,9 +10,6 @@ namespace Console::Chess
 {
     export class LabelPresenter
     {
-        std::shared_ptr<::Chess::Inputter> m_inputter;
-        boost::signals2::scoped_connection m_connection;
-
     public:
         static void Show(::Chess::eInputType type)
         {
@@ -37,7 +34,7 @@ namespace Console::Chess
         }
 
         explicit LabelPresenter(const std::shared_ptr<::Chess::Inputter>& inputter)
-            : m_inputter(inputter)
+            : inputter_(inputter)
         {
         }
 
@@ -47,9 +44,13 @@ namespace Console::Chess
             {
                 Show(type);
             };
-            m_connection = m_inputter->ConnectOnEnter(show);
+            connection_ = inputter_->ConnectOnEnter(show);
         }
 
         ~LabelPresenter() = default;
+
+    private:
+        std::shared_ptr<::Chess::Inputter> inputter_;
+        boost::signals2::scoped_connection connection_;
     };
 } // namespace Console::Chess

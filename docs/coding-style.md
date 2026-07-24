@@ -8,6 +8,9 @@ One file (one module) — one class, struct, or enum class. If a class needs ano
 (e.g. an enum of events it returns, or a value object it uses), move that into its own file/module and import it.
 Nested classes, structs, and enum classes (declared directly inside another class's body) are forbidden.
 
+Access sections are ordered `public`, then `protected`, then `private`. Private (and protected) member fields are named
+in camelCase with a trailing underscore (e.g. `fieldName_`) instead of an `m_` prefix.
+
 ```cpp
 module; // omit this if the file has no #includes
 #include "AnyOtherIncludeFile.h" // let .clang-format decide the order
@@ -18,21 +21,10 @@ namespace MyNamespace
 {
     export class MyClass
     {
-        friend class OtherNamespace::OtherClass; // prefer avoiding friends
-
-        static constexpr int m_constexprFieldName = 5;
-        static const int m_staticConstFieldNameOne = 5; // constants with inline initialization go first
-        static const int m_staticConstFieldNameTwo;
-        // there should be no static non-const fields
-
-        constexpr int m_constexprFieldName = 5;
-        int m_constFieldNameOne = 5; // constants with inline initialization go first
-        int m_constFieldNameTwo;
-        int m_fieldName = 5; // non-const fields must be initialized unless done by default
-
+    public:
         static int GetMyConstStaticFieldNameOne() // same order as the field declarations
         {
-            return m_staticConstFieldNameOne;
+            return staticConstFieldNameOne_;
         }
 
         // prefer avoiding .cpp files and implementing directly in the module
@@ -48,7 +40,7 @@ namespace MyNamespace
 
         int GetMyFieldName() const // same order as the field declarations
         {
-            return m_fieldName;
+            return fieldName_;
         }
 
         // prefer avoiding .cpp files and implementing directly in the module
@@ -71,7 +63,19 @@ namespace MyNamespace
         // add the corresponding GetMyField/SetMyField methods, and replace every internal
         // interaction with the field by going through those methods too
         // exception: structs — inside them it's best to avoid methods altogether, but not mandatory
-    public:
+
+    private:
+        friend class OtherNamespace::OtherClass; // prefer avoiding friends
+
+        static constexpr int constexprFieldName_ = 5;
+        static const int staticConstFieldNameOne_ = 5; // constants with inline initialization go first
+        static const int staticConstFieldNameTwo_;
+        // there should be no static non-const fields
+
+        constexpr int constexprFieldName_ = 5;
+        int constFieldNameOne_ = 5; // constants with inline initialization go first
+        int constFieldNameTwo_;
+        int fieldName_ = 5; // non-const fields must be initialized unless done by default
     };
 }
 ```
@@ -119,8 +123,8 @@ class MyClass
     explicit MyClass(int value); // single-argument constructors should be explicit
 
     MyClass(int value1, int value2)
-        : m_value1(value1)
-        , m_value2(value2)
+        : value1_(value1)
+        , value2_(value2)
     {
         // no computation in the constructor. Two options instead:
         // - do the computation ahead of time, or
@@ -139,13 +143,6 @@ method that creates and configures the resource and may throw.
 ```cpp
 class ClientSocket
 {
-    zmq::socket_t m_socket;
-
-    explicit ClientSocket(zmq::socket_t socket)
-        : m_socket(std::move(socket))
-    {
-    }
-
 public:
     static ClientSocket Connect(const std::string& host, unsigned short port)
     {
@@ -160,6 +157,14 @@ public:
             throw ConnectionError(error.what());
         }
         return ClientSocket(std::move(socket));
+    }
+
+private:
+    zmq::socket_t socket_;
+
+    explicit ClientSocket(zmq::socket_t socket)
+        : socket_(std::move(socket))
+    {
     }
 };
 ```

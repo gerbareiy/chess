@@ -17,41 +17,23 @@ namespace Chess
 {
     export class MoveCheckerOwner
     {
-        std::shared_ptr<IMoveChecker> m_moveChecker;
-        std::shared_ptr<Piece>        m_piece;
-
-        bool IsUncheckedMove(const Coordinate& move, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
-        {
-            auto       piecesOnBoardCopy = PiecesOnBoardCreator::Create(piecesOnBoard);
-            auto       pieceMap          = CoordinateToPieceFactory::Create(piecesOnBoardCopy);
-            const auto finder            = std::make_shared<PieceFinder>(std::move(pieceMap));
-            if (const auto capturedPiece = finder->TryFind(move))
-            {
-                std::erase(piecesOnBoardCopy, capturedPiece);
-            }
-
-            auto const targetPieceCopy = finder->TryFind(m_piece->GetPosition());
-            targetPieceCopy->Move(move);
-            return !CheckChecker::IsCheck(m_piece->GetColorAndType().color, piecesOnBoardCopy);
-        }
-
     public:
         explicit MoveCheckerOwner(const std::shared_ptr<Piece>& piece, const std::shared_ptr<IMoveChecker>& moveChecker)
-            : m_moveChecker(moveChecker)
-            , m_piece(piece)
+            : moveChecker_(moveChecker)
+            , piece_(piece)
         {
         }
 
         bool HasFilteredMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
         {
-            auto moves = m_moveChecker->GetMoves(piecesOnBoard);
+            auto moves = moveChecker_->GetMoves(piecesOnBoard);
             return std::ranges::any_of(
                 std::move(moves), [this, &piecesOnBoard](const Coordinate& move) { return IsUncheckedMove(move, piecesOnBoard); });
         }
 
         std::vector<Coordinate> GetFilteredMoves(const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
         {
-            auto notFilteredMoves = m_moveChecker->GetMoves(piecesOnBoard);
+            auto notFilteredMoves = moveChecker_->GetMoves(piecesOnBoard);
 
             std::vector<Coordinate> result;
             result.reserve(notFilteredMoves.size());
@@ -63,6 +45,25 @@ namespace Chess
                 }
             }
             return result;
+        }
+
+    private:
+        std::shared_ptr<IMoveChecker> moveChecker_;
+        std::shared_ptr<Piece>        piece_;
+
+        bool IsUncheckedMove(const Coordinate& move, const std::vector<std::shared_ptr<Piece>>& piecesOnBoard) const
+        {
+            auto       piecesOnBoardCopy = PiecesOnBoardCreator::Create(piecesOnBoard);
+            auto       pieceMap          = CoordinateToPieceFactory::Create(piecesOnBoardCopy);
+            const auto finder            = std::make_shared<PieceFinder>(std::move(pieceMap));
+            if (const auto capturedPiece = finder->TryFind(move))
+            {
+                std::erase(piecesOnBoardCopy, capturedPiece);
+            }
+
+            auto const targetPieceCopy = finder->TryFind(piece_->GetPosition());
+            targetPieceCopy->Move(move);
+            return !CheckChecker::IsCheck(piece_->GetColorAndType().color, piecesOnBoardCopy);
         }
     };
 } // namespace Chess

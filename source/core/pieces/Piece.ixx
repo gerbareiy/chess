@@ -7,19 +7,10 @@ namespace Chess
 {
     export class Piece
     {
-        ePieceColor m_color    = {};
-        Coordinate  m_position = {};
-
-    protected:
-        ePieceColor GetColor() const
-        {
-            return m_color;
-        }
-
     public:
         Piece(const ePieceColor& color, const Coordinate& coordinate)
-            : m_color(color)
-            , m_position(coordinate)
+            : color_(color)
+            , position_(coordinate)
         {
         }
 
@@ -29,12 +20,22 @@ namespace Chess
 
         virtual void Move(Coordinate to)
         {
-            m_position = to;
+            position_ = to;
         }
 
         Coordinate GetPosition() const
         {
-            return m_position;
+            return position_;
         }
+
+    protected:
+        ePieceColor GetColor() const
+        {
+            return color_;
+        }
+
+    private:
+        ePieceColor color_    = {};
+        Coordinate  position_ = {};
     };
 } // namespace Chess

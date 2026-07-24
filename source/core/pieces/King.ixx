@@ -15,21 +15,10 @@ namespace Chess
 {
     export class King final : public ICastable, public Piece
     {
-        bool m_canMakeCastling = false;
-        bool m_isCheck         = false;
-
-        boost::signals2::signal<void(Coordinate, eCastleSide)> m_signalCastling;
-
-        void DisableCastling()
-        {
-            m_canMakeCastling = false;
-            m_signalCastling.disconnect_all_slots();
-        }
-
     public:
         King(ePieceColor color, const Coordinate& coordinate, bool canMakeCastling = true)
             : Piece(color, coordinate)
-            , m_canMakeCastling(canMakeCastling)
+            , canMakeCastling_(canMakeCastling)
         {
         }
 
@@ -40,7 +29,7 @@ namespace Chess
 
         virtual bool GetCanMakeCastling() const override
         {
-            return m_canMakeCastling;
+            return canMakeCastling_;
         }
 
         virtual void Move(Coordinate to) override
@@ -85,7 +74,7 @@ namespace Chess
                     throw Utils::ImpossibleMoveException();
                 }
 
-                m_signalCastling(to, side);
+                signalCastling_(to, side);
             }
             DisableCastling();
             Piece::Move(to);
@@ -93,17 +82,29 @@ namespace Chess
 
         bool GetIsCheck() const
         {
-            return m_isCheck;
+            return isCheck_;
         }
 
         void SetCheck(bool isCheck)
         {
-            m_isCheck = isCheck;
+            isCheck_ = isCheck;
         }
 
         std::optional<boost::signals2::connection> TryConnectCastling(const std::function<void(Coordinate, eCastleSide)>& subscriber)
         {
-            return GetCanMakeCastling() ? std::make_optional(m_signalCastling.connect(subscriber)) : std::nullopt;
+            return GetCanMakeCastling() ? std::make_optional(signalCastling_.connect(subscriber)) : std::nullopt;
+        }
+
+    private:
+        bool canMakeCastling_ = false;
+        bool isCheck_         = false;
+
+        boost::signals2::signal<void(Coordinate, eCastleSide)> signalCastling_;
+
+        void DisableCastling()
+        {
+            canMakeCastling_ = false;
+            signalCastling_.disconnect_all_slots();
         }
     };
 } // namespace Chess

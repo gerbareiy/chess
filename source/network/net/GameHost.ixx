@@ -27,6 +27,20 @@ namespace Chess::Net
 {
     export class GameHost
     {
+    public:
+        static void HostSingleMatch(ServerSocket& socket, std::vector<std::shared_ptr<Chess::Piece>> pieces)
+        {
+            const auto [whiteId, blackId] = WaitForPlayers(socket);
+
+            const auto board = Chess::ChessboardFactory::Create(std::move(pieces), Chess::ePieceColor::WHITE);
+
+            SendGameStarted(socket, whiteId, Chess::ePieceColor::WHITE, board, 0);
+            SendGameStarted(socket, blackId, Chess::ePieceColor::BLACK, board, 0);
+
+            RunMatch(socket, whiteId, blackId, board);
+        }
+
+    private:
         static constexpr uint32_t BOARD_CHECK_PERIOD = 10;
 
         static chess::proto::Chessboard BoardToProto(const std::shared_ptr<Chess::Chessboard>& board, uint32_t ply)
@@ -184,19 +198,6 @@ namespace Chess::Net
 
                 std::swap(current, opponent);
             }
-        }
-
-    public:
-        static void HostSingleMatch(ServerSocket& socket, std::vector<std::shared_ptr<Chess::Piece>> pieces)
-        {
-            const auto [whiteId, blackId] = WaitForPlayers(socket);
-
-            const auto board = Chess::ChessboardFactory::Create(std::move(pieces), Chess::ePieceColor::WHITE);
-
-            SendGameStarted(socket, whiteId, Chess::ePieceColor::WHITE, board, 0);
-            SendGameStarted(socket, blackId, Chess::ePieceColor::BLACK, board, 0);
-
-            RunMatch(socket, whiteId, blackId, board);
         }
     };
 } // namespace Chess::Net

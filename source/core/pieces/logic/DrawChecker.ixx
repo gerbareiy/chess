@@ -14,8 +14,20 @@ namespace Chess
 {
     export class DrawChecker
     {
-        int    m_halfMovesWithoutPawnMoveAndTaking = 0;
-        size_t m_lastEatenPiecesCount              = 0;
+    public:
+        bool IsDraw(const std::shared_ptr<Chessboard>& chessboard)
+        {
+            RefreshMovesCountWithoutPawnAndTaking(chessboard);
+
+            const bool isStalemate = chessboard->GetMoveValidator()->GetPiecesCanMoveCount() == 0 && !chessboard->GetPieceDirector()->GetIsCheck();
+
+            return isStalemate || halfMovesWithoutPawnMoveAndTaking_ >= Constants::Counts::MAX_HALF_MOVES_WITHOUT_PAWN_MOVE_AND_TAKING_COUNT
+                   || IsInsufficientMaterial(chessboard);
+        }
+
+    private:
+        int    halfMovesWithoutPawnMoveAndTaking_ = 0;
+        size_t lastEatenPiecesCount_              = 0;
 
         static bool IsInsufficientMaterial(const std::shared_ptr<Chessboard>& chessboard)
         {
@@ -99,26 +111,15 @@ namespace Chess
             }
 
             const auto eatenPiecesCount = chessboard->GetPieceDirector()->GetEatenPieces().size();
-            if (piece->GetColorAndType().type == ePieceType::PAWN || m_lastEatenPiecesCount != eatenPiecesCount)
+            if (piece->GetColorAndType().type == ePieceType::PAWN || lastEatenPiecesCount_ != eatenPiecesCount)
             {
-                m_halfMovesWithoutPawnMoveAndTaking = 0;
-                m_lastEatenPiecesCount              = eatenPiecesCount;
+                halfMovesWithoutPawnMoveAndTaking_ = 0;
+                lastEatenPiecesCount_              = eatenPiecesCount;
             }
             else
             {
-                ++m_halfMovesWithoutPawnMoveAndTaking;
+                ++halfMovesWithoutPawnMoveAndTaking_;
             }
-        }
-
-    public:
-        bool IsDraw(const std::shared_ptr<Chessboard>& chessboard)
-        {
-            RefreshMovesCountWithoutPawnAndTaking(chessboard);
-
-            const bool isStalemate = chessboard->GetMoveValidator()->GetPiecesCanMoveCount() == 0 && !chessboard->GetPieceDirector()->GetIsCheck();
-
-            return isStalemate || m_halfMovesWithoutPawnMoveAndTaking >= Constants::Counts::MAX_HALF_MOVES_WITHOUT_PAWN_MOVE_AND_TAKING_COUNT
-                   || IsInsufficientMaterial(chessboard);
         }
     };
 } // namespace Chess
