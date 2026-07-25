@@ -4,13 +4,13 @@ module;
 #include <vector>
 export module Chess.Core.Chessboard;
 import Chess.Core.Coordinate;
-import Chess.Utils.Event;
 import Chess.Core.ePieceColor;
 import Chess.Core.MoveValidator;
 import Chess.Core.Piece;
 import Chess.Core.PieceDirector;
 import Chess.Core.Player;
 import Chess.Core.Promoter;
+import Chess.Utils.Event;
 
 namespace Chess::Core
 {

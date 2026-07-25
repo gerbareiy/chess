@@ -71,8 +71,7 @@ namespace Chess::Core
             currentPiece_ = GetPiece(from);
         }
 
-        void MovePiece(
-            const Coordinate& to, const std::function<void()>& onChessboardUpdated, const std::shared_ptr<Promoter>& promoter)
+        void MovePiece(const Coordinate& to, const std::function<void()>& onChessboardUpdated, const std::shared_ptr<Promoter>& promoter)
         {
             const auto from = PieceTakeLocator::Find(currentPiece_, piecesOnBoard_, to);
             const auto iter = std::ranges::find(piecesOnBoard_, from, &Piece::GetPosition);

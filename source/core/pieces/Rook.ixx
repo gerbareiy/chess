@@ -1,5 +1,4 @@
 module;
-#include <functional>
 #include <memory>
 export module Chess.Core.Rook;
 import Chess.Constants.Sizes;
@@ -60,9 +59,8 @@ namespace Chess::Core
         }
 
     private:
-        std::weak_ptr<King>                          king_;
-        std::function<void(Coordinate, eCastleSide)> handler_;
-        bool                                         isTracking_ = false;
+        std::weak_ptr<King> king_;
+        bool                isTracking_ = false;
 
         void TryMakeTracking(const std::shared_ptr<King>& king)
         {
@@ -71,8 +69,7 @@ namespace Chess::Core
                 return;
             }
 
-            handler_ = [this](Coordinate to, eCastleSide side) { OnCastling(to, side); };
-            if (king->TryTrackCastling(handler_))
+            if (king->TryTrackCastling(&Rook::OnCastling, *this))
             {
                 king_       = king;
                 isTracking_ = true;
@@ -106,7 +103,7 @@ namespace Chess::Core
             isTracking_ = false;
             if (const auto king = king_.lock())
             {
-                king->UntrackCastling(handler_);
+                king->UntrackCastling(&Rook::OnCastling, *this);
             }
         }
     };

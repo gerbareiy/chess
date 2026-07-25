@@ -1,15 +1,14 @@
 module;
 #include <cstdlib>
-#include <functional>
 export module Chess.Core.King;
 import Chess.Core.Coordinate;
 import Chess.Core.eCastleSide;
-import Chess.Utils.Event;
 import Chess.Core.ePieceColor;
 import Chess.Core.ePieceType;
 import Chess.Core.ICastable;
 import Chess.Core.Piece;
 import Chess.Core.PieceColorAndType;
+import Chess.Utils.Event;
 import Chess.Utils.Exceptions;
 
 namespace Chess::Core
@@ -91,19 +90,19 @@ namespace Chess::Core
             isCheck_ = isCheck;
         }
 
-        bool TryTrackCastling(std::function<void(Coordinate, eCastleSide)>& subscriber)
+        template <typename Method, typename Class> bool TryTrackCastling(Method method, Class& subscriber)
         {
             if (!GetCanMakeCastling())
             {
                 return false;
             }
-            onCastling.Add(subscriber);
+            onCastling.Add(method, subscriber);
             return true;
         }
 
-        void UntrackCastling(std::function<void(Coordinate, eCastleSide)>& subscriber)
+        template <typename Method, typename Class> void UntrackCastling(Method method, Class& subscriber)
         {
-            onCastling.Remove(subscriber);
+            onCastling.Remove(method, subscriber);
         }
 
     private:

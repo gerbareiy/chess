@@ -1,5 +1,4 @@
 module;
-#include <functional>
 #include <memory>
 #include <print>
 #include <ranges>
@@ -17,7 +16,7 @@ import Chess.Core.PieceTypeConverter;
 
 namespace Chess::Console
 {
-    export class ChessboardPresenter : public std::enable_shared_from_this<ChessboardPresenter>
+    export class ChessboardPresenter
     {
     public:
         explicit ChessboardPresenter(const std::shared_ptr<Core::Chessboard>& chessboard)
@@ -31,21 +30,14 @@ namespace Chess::Console
             {
                 return;
             }
-            handler_ = [weak = weak_from_this()]
-            {
-                if (const auto shared = weak.lock())
-                {
-                    shared->Show();
-                }
-            };
-            chessboard_->onChessboardUpdated.Add(handler_);
+            chessboard_->onChessboardUpdated.Add(&ChessboardPresenter::Show, *this);
         }
 
         ~ChessboardPresenter()
         {
             if (chessboard_)
             {
-                chessboard_->onChessboardUpdated.Remove(handler_);
+                chessboard_->onChessboardUpdated.Remove(&ChessboardPresenter::Show, *this);
             }
         }
 
@@ -90,8 +82,6 @@ namespace Chess::Console
 
     private:
         std::shared_ptr<Core::Chessboard> chessboard_;
-
-        std::function<void()> handler_;
 
         static std::string GetChessboardFiles()
         {

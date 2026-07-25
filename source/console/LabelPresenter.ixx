@@ -1,5 +1,4 @@
 module;
-#include <functional>
 #include <memory>
 #include <print>
 export module Chess.Console.LabelPresenter;
@@ -11,7 +10,7 @@ namespace Chess::Console
     export class LabelPresenter
     {
     public:
-        static void Show(Core::eInputType type)
+        void Show(Core::eInputType type) const
         {
             switch (type)
             {
@@ -40,20 +39,15 @@ namespace Chess::Console
 
         void Init()
         {
-            handler_ = [this](Core::eInputType type)
-            {
-                Show(type);
-            };
-            inputter_->onEnter.Add(handler_);
+            inputter_->onEnter.Add(&LabelPresenter::Show, *this);
         }
 
         ~LabelPresenter()
         {
-            inputter_->onEnter.Remove(handler_);
+            inputter_->onEnter.Remove(&LabelPresenter::Show, *this);
         }
 
     private:
-        std::shared_ptr<Core::Inputter>       inputter_;
-        std::function<void(Core::eInputType)> handler_;
+        std::shared_ptr<Core::Inputter> inputter_;
     };
 } // namespace Chess::Console
