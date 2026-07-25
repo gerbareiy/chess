@@ -1,4 +1,6 @@
 module;
+#include <chrono>
+#include <optional>
 #include <string>
 #include <utility>
 #include <zmq.hpp>
@@ -22,6 +24,13 @@ namespace Chess::Network
                 // Peer disconnects don't otherwise unblock a pending recv() on a ROUTER
                 // socket, so ask libzmq to surface them as empty-payload frames instead.
                 socket.set(zmq::sockopt::router_notify, ZMQ_NOTIFY_DISCONNECT);
+
+                // libzmq lingers forever by default, so a socket closed while it still holds
+                // messages queued for a peer that already went away keeps the port bound -
+                // and the next bind on it fails with "Address in use". Undelivered messages
+                // are worthless once we are shutting down, so drop them and free the port.
+                socket.set(zmq::sockopt::linger, 0);
+
                 socket.bind(Endpoint("*", port));
             }
             catch (const zmq::error_t& error)
@@ -36,13 +45,31 @@ namespace Chess::Network
 
         Frame ReceiveFrame()
         {
+            const auto frame = TryReceiveFrame(std::chrono::milliseconds(-1));
+            if (!frame.has_value())
+            {
+                throw ConnectionError("recv failed");
+            }
+            return frame.value();
+        }
+
+        // A negative timeout blocks indefinitely; otherwise returns nullopt once the
+        // timeout expires with nothing to read, so a caller can stop on an idle socket.
+        std::optional<Frame> TryReceiveFrame(std::chrono::milliseconds timeout)
+        {
             zmq::message_t identity;
             zmq::message_t payload;
             try
             {
-                if (!socket_.recv(identity) || !socket_.recv(payload))
+                socket_.set(zmq::sockopt::rcvtimeo, static_cast<int>(timeout.count()));
+
+                if (!socket_.recv(identity))
                 {
-                    throw ConnectionError("recv failed");
+                    return std::nullopt;
+                }
+                if (!socket_.recv(payload))
+                {
+                    throw ConnectionError("recv failed after the identity part");
                 }
             }
             catch (const zmq::error_t& error)

@@ -52,6 +52,11 @@ namespace Chess::Client
             return finalState_;
         }
 
+        bool GetOpponentLeft() const
+        {
+            return opponentLeft_;
+        }
+
         bool TrySubmitMove(const Core::Move& move)
         {
             if (IsMyTurn() && TryApplyMove(move))
@@ -85,6 +90,10 @@ namespace Chess::Client
                 finalState_ = finalState.value();
                 Rebuild(std::move(board).value());
                 return eServerEvent::GAME_OVER;
+            case Network::eSessionEvent::OPPONENT_LEFT:
+                gameOver_     = true;
+                opponentLeft_ = true;
+                return eServerEvent::OPPONENT_LEFT;
             default:
                 return eServerEvent::RESYNCED;
             }
@@ -93,10 +102,11 @@ namespace Chess::Client
     private:
         Network::GameSession              session_;
         std::shared_ptr<Core::Chessboard> chessboard_;
-        Core::ePieceColor                 myColor_    = Core::ePieceColor::NONE;
-        Core::eGameState                  finalState_ = Core::eGameState::PLAYING;
-        bool                              gameOver_   = false;
-        uint32_t                          ply_        = 0;
+        Core::ePieceColor                 myColor_      = Core::ePieceColor::NONE;
+        Core::eGameState                  finalState_   = Core::eGameState::PLAYING;
+        bool                              gameOver_     = false;
+        bool                              opponentLeft_ = false;
+        uint32_t                          ply_          = 0;
 
         void Rebuild(Network::BoardSnapshot board)
         {

@@ -8,6 +8,7 @@ namespace Chess::Network
         BOARD_SYNCED,
         BOARD_CHECKED,
         GAME_OVER,
+        OPPONENT_LEFT,
         UNKNOWN
     };
 } // namespace Chess::Network

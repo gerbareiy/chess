@@ -6,6 +6,7 @@ namespace Chess::Client
     {
         OPPONENT_MOVED,
         RESYNCED,
-        GAME_OVER
+        GAME_OVER,
+        OPPONENT_LEFT
     };
 } // namespace Chess::Client

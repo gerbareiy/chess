@@ -28,3 +28,7 @@ message GameOver
     GameState  state = 1;
     Chessboard board = 2;
 }
+
+message OpponentLeft
+{
+}

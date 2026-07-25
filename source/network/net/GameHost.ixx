@@ -1,8 +1,15 @@
 module;
 #include "Envelope.pb.h"
+#include <algorithm>
+#include <chrono>
 #include <cstdint>
+#include <deque>
+#include <functional>
 #include <memory>
+#include <optional>
+#include <ranges>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 export module Chess.Network.GameHost;
@@ -10,14 +17,13 @@ import Chess.Core.Chessboard;
 import Chess.Core.ChessboardFactory;
 import Chess.Core.eGameState;
 import Chess.Core.ePieceColor;
-import Chess.Core.FixedPromoter;
-import Chess.Core.GameStateChecker;
 import Chess.Core.Move;
 import Chess.Core.Piece;
 import Chess.Core.PieceDirector;
 import Chess.Network.Chessboard;
 import Chess.Network.ConnectionError;
 import Chess.Network.Frame;
+import Chess.Network.Match;
 import Chess.Network.Move;
 import Chess.Network.PieceColorAndType;
 import Chess.Network.ServerSocket;
@@ -25,175 +31,264 @@ import Chess.Network.Session;
 
 namespace Chess::Network
 {
+    // Serves any number of games at once from a single receive loop: players asking for a
+    // game are queued and paired as they arrive, and every later message is routed to the
+    // match its sender belongs to.
     export class GameHost
     {
     public:
-        static void HostSingleMatch(ServerSocket& socket, std::vector<std::shared_ptr<Core::Piece>> pieces)
+        GameHost(ServerSocket& socket, std::function<std::vector<std::shared_ptr<Core::Piece>>()> createPieces)
+            : socket_(socket)
+            , createPieces_(std::move(createPieces))
         {
-            const auto [whiteId, blackId] = WaitForPlayers(socket);
+        }
 
-            const auto board = Core::ChessboardFactory::Create(std::move(pieces), Core::ePieceColor::WHITE);
+        // Serves forever, until the socket itself fails.
+        void Run()
+        {
+            while (TryHandleNextMessage(std::chrono::milliseconds(-1)))
+            {
+            }
+        }
 
-            SendGameStarted(socket, whiteId, Core::ePieceColor::WHITE, board, 0);
-            SendGameStarted(socket, blackId, Core::ePieceColor::BLACK, board, 0);
+        // Serves until no message arrives within idleTimeout, so a caller that knows the
+        // traffic has stopped can get control back instead of blocking forever.
+        void RunUntilIdle(std::chrono::milliseconds idleTimeout)
+        {
+            while (TryHandleNextMessage(idleTimeout))
+            {
+            }
+        }
 
-            RunMatch(socket, whiteId, blackId, board);
+        size_t GetActiveMatchesCount() const
+        {
+            return matches_.size();
+        }
+
+        size_t GetStartedMatchesCount() const
+        {
+            return startedMatchesCount_;
+        }
+
+        size_t GetWaitingPlayersCount() const
+        {
+            return waiting_.size();
+        }
+
+        bool TryHandleNextMessage(std::chrono::milliseconds timeout)
+        {
+            auto frame = std::optional<Frame>();
+            try
+            {
+                frame = socket_.TryReceiveFrame(timeout);
+            }
+            catch (const ConnectionError&)
+            {
+                return false;
+            }
+
+            if (!frame.has_value())
+            {
+                return false;
+            }
+
+            if (frame.value().disconnected)
+            {
+                HandleDisconnect(frame.value().identity);
+                return true;
+            }
+
+            chess::proto::Envelope incoming;
+            if (!incoming.ParseFromString(frame.value().payload))
+            {
+                return true;
+            }
+
+            switch (incoming.payload_case())
+            {
+            case chess::proto::Envelope::kFindGame:
+                HandleFindGame(frame.value().identity);
+                break;
+            case chess::proto::Envelope::kMove:
+                HandleMove(frame.value().identity, incoming.move());
+                break;
+            default:
+                break;
+            }
+            return true;
         }
 
     private:
         static constexpr uint32_t BOARD_CHECK_PERIOD = 10;
+
+        ServerSocket&                                              socket_;
+        std::function<std::vector<std::shared_ptr<Core::Piece>>()> createPieces_;
+        std::deque<std::string>                                    waiting_;
+        std::unordered_map<std::string, std::shared_ptr<Match>>    matches_;
+        size_t                                                     startedMatchesCount_ = 0;
 
         static chess::proto::Chessboard BoardToProto(const std::shared_ptr<Core::Chessboard>& board, uint32_t ply)
         {
             return Chessboard::ToProto(board->GetPieceDirector()->GetPiecesOnBoard(), board->GetSideToMove(), ply);
         }
 
-        static void SendGameStarted(
-            ServerSocket& socket, const std::string& identity, Core::ePieceColor color, const std::shared_ptr<Core::Chessboard>& board, uint32_t ply)
+        void HandleFindGame(const std::string& identity)
+        {
+            if (matches_.contains(identity) || std::ranges::find(waiting_, identity) != waiting_.end())
+            {
+                return;
+            }
+
+            if (waiting_.empty())
+            {
+                waiting_.push_back(identity);
+                return;
+            }
+
+            const auto whiteId = waiting_.front();
+            waiting_.pop_front();
+
+            auto match = std::make_shared<Match>(whiteId, identity, Core::ChessboardFactory::Create(createPieces_(), Core::ePieceColor::WHITE));
+            matches_.emplace(whiteId, match);
+            matches_.emplace(identity, match);
+            ++startedMatchesCount_;
+
+            if (!TrySendGameStarted(*match, whiteId) || !TrySendGameStarted(*match, identity))
+            {
+                // One of the pair vanished between asking for a game and being given one.
+                DropMatch(*match);
+            }
+        }
+
+        void HandleMove(const std::string& identity, const chess::proto::Move& move)
+        {
+            const auto found = matches_.find(identity);
+            if (found == matches_.end())
+            {
+                return;
+            }
+
+            // Held by value: ending a match erases it from the map, which destroys it, so
+            // nothing may outlive that as a reference into the match itself.
+            const auto matchOwner = found->second;
+            auto&      match      = *matchOwner;
+            const auto opponent   = match.GetOtherPlayerId(identity);
+
+            if (identity != match.GetCurrentId())
+            {
+                // A message from the player who isn't on move — ignore it.
+                return;
+            }
+
+            if (!match.TryApplyMove(Move::FromProto(move)))
+            {
+                TrySendBoardSync(match, identity);
+                return;
+            }
+
+            chess::proto::Envelope forwarded;
+            *forwarded.mutable_move() = move;
+            if (!TrySend(opponent, forwarded))
+            {
+                EndMatchBecausePlayerLeft(match, opponent);
+                return;
+            }
+
+            if (match.GetIsFinished())
+            {
+                TrySendGameOver(match, match.GetWhiteId());
+                TrySendGameOver(match, match.GetBlackId());
+                DropMatch(match);
+                return;
+            }
+
+            if (match.GetPly() % BOARD_CHECK_PERIOD == 0)
+            {
+                TrySendBoardCheck(match, match.GetWhiteId());
+                TrySendBoardCheck(match, match.GetBlackId());
+            }
+        }
+
+        void HandleDisconnect(const std::string& identity)
+        {
+            const auto waitingPlace = std::ranges::find(waiting_, identity);
+            if (waitingPlace != waiting_.end())
+            {
+                waiting_.erase(waitingPlace);
+            }
+
+            const auto found = matches_.find(identity);
+            if (found == matches_.end())
+            {
+                return;
+            }
+
+            const auto matchOwner = found->second;
+            EndMatchBecausePlayerLeft(*matchOwner, identity);
+        }
+
+        void EndMatchBecausePlayerLeft(const Match& match, const std::string& leaverId)
+        {
+            const auto survivorId = match.GetOtherPlayerId(leaverId);
+
+            DropMatch(match);
+
+            chess::proto::Envelope envelope;
+            envelope.mutable_opponent_left();
+            TrySend(survivorId, envelope);
+        }
+
+        void DropMatch(const Match& match)
+        {
+            const auto whiteId = match.GetWhiteId();
+            const auto blackId = match.GetBlackId();
+            matches_.erase(whiteId);
+            matches_.erase(blackId);
+        }
+
+        bool TrySend(const std::string& identity, const chess::proto::Envelope& envelope)
+        {
+            try
+            {
+                socket_.SendFrame(identity, envelope.SerializeAsString());
+            }
+            catch (const ConnectionError&)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        bool TrySendGameStarted(const Match& match, const std::string& identity)
         {
             chess::proto::Envelope envelope;
             auto*                  started = envelope.mutable_game_started();
-            started->set_your_color(PieceColorAndType::ToProto(color));
-            *started->mutable_board() = BoardToProto(board, ply);
-            socket.SendFrame(identity, envelope.SerializeAsString());
+            started->set_your_color(PieceColorAndType::ToProto(match.GetColorOf(identity)));
+            *started->mutable_board() = BoardToProto(match.GetBoard(), match.GetPly());
+            return TrySend(identity, envelope);
         }
 
-        static void SendBoardSync(ServerSocket& socket, const std::string& identity, const std::shared_ptr<Core::Chessboard>& board, uint32_t ply)
+        bool TrySendBoardSync(const Match& match, const std::string& identity)
         {
             chess::proto::Envelope envelope;
-            *envelope.mutable_board_sync() = BoardToProto(board, ply);
-            socket.SendFrame(identity, envelope.SerializeAsString());
+            *envelope.mutable_board_sync() = BoardToProto(match.GetBoard(), match.GetPly());
+            return TrySend(identity, envelope);
         }
 
-        static void SendBoardCheck(ServerSocket& socket, const std::string& identity, const std::shared_ptr<Core::Chessboard>& board, uint32_t ply)
+        bool TrySendBoardCheck(const Match& match, const std::string& identity)
         {
             chess::proto::Envelope envelope;
-            *envelope.mutable_board_check() = BoardToProto(board, ply);
-            socket.SendFrame(identity, envelope.SerializeAsString());
+            *envelope.mutable_board_check() = BoardToProto(match.GetBoard(), match.GetPly());
+            return TrySend(identity, envelope);
         }
 
-        static void SendGameOver(
-            ServerSocket& socket, const std::string& identity, Core::eGameState state, const std::shared_ptr<Core::Chessboard>& board, uint32_t ply)
+        bool TrySendGameOver(const Match& match, const std::string& identity)
         {
             chess::proto::Envelope envelope;
             auto*                  over = envelope.mutable_game_over();
-            over->set_state(Session::ToProto(state));
-            *over->mutable_board() = BoardToProto(board, ply);
-            socket.SendFrame(identity, envelope.SerializeAsString());
-        }
-
-        // Blocks until two distinct client identities have sent find_game. Disconnect
-        // notifications (empty payload) and anything else received meanwhile are ignored.
-        static std::pair<std::string, std::string> WaitForPlayers(ServerSocket& socket)
-        {
-            std::string white;
-            while (white.empty())
-            {
-                const auto             frame = socket.ReceiveFrame();
-                chess::proto::Envelope envelope;
-                if (!frame.disconnected && envelope.ParseFromString(frame.payload) && envelope.payload_case() == chess::proto::Envelope::kFindGame)
-                {
-                    white = frame.identity;
-                }
-            }
-
-            std::string black;
-            while (black.empty())
-            {
-                const auto             frame = socket.ReceiveFrame();
-                chess::proto::Envelope envelope;
-                if (frame.identity != white && !frame.disconnected && envelope.ParseFromString(frame.payload)
-                    && envelope.payload_case() == chess::proto::Envelope::kFindGame)
-                {
-                    black = frame.identity;
-                }
-            }
-
-            return { white, black };
-        }
-
-        static void RunMatch(
-            ServerSocket& socket, const std::string& whiteId, const std::string& blackId, const std::shared_ptr<Core::Chessboard>& board)
-        {
-            Core::GameStateChecker checker;
-            const std::string*     current  = &whiteId;
-            const std::string*     opponent = &blackId;
-            uint32_t               ply      = 0;
-
-            while (true)
-            {
-                Frame frame;
-                try
-                {
-                    frame = socket.ReceiveFrame();
-                }
-                catch (const ConnectionError&)
-                {
-                    // a player disconnected, end the match.
-                    return;
-                }
-
-                if (frame.disconnected && (frame.identity == whiteId || frame.identity == blackId))
-                {
-                    // a player disconnected, end the match.
-                    return;
-                }
-
-                if (frame.identity != *current)
-                {
-                    // message from the player who isn't on move — ignore it.
-                    continue;
-                }
-
-                chess::proto::Envelope incoming;
-                if (!incoming.ParseFromString(frame.payload) || incoming.payload_case() != chess::proto::Envelope::kMove)
-                {
-                    continue;
-                }
-
-                const auto [from, to, promotion] = Move::FromProto(incoming.move());
-                const bool valid = board->TrySelectPiece(from) && board->TryMovePiece(to, std::make_shared<Core::FixedPromoter>(promotion));
-
-                auto state = Core::eGameState::PLAYING;
-                if (valid)
-                {
-                    ++ply;
-                    state = checker.Calculate(board);
-                }
-
-                try
-                {
-                    if (!valid)
-                    {
-                        SendBoardSync(socket, *current, board, ply);
-                        continue;
-                    }
-
-                    chess::proto::Envelope forwarded;
-                    *forwarded.mutable_move() = incoming.move();
-                    socket.SendFrame(*opponent, forwarded.SerializeAsString());
-
-                    if (state == Core::eGameState::CHECKMATE || state == Core::eGameState::DRAW)
-                    {
-                        SendGameOver(socket, whiteId, state, board, ply);
-                        SendGameOver(socket, blackId, state, board, ply);
-                        return;
-                    }
-
-                    if (ply % BOARD_CHECK_PERIOD == 0)
-                    {
-                        SendBoardCheck(socket, whiteId, board, ply);
-                        SendBoardCheck(socket, blackId, board, ply);
-                    }
-                }
-                catch (const ConnectionError&)
-                {
-                    // one of the players disconnected, end the match.
-                    return;
-                }
-
-                std::swap(current, opponent);
-            }
+            over->set_state(Session::ToProto(match.GetState()));
+            *over->mutable_board() = BoardToProto(match.GetBoard(), match.GetPly());
+            return TrySend(identity, envelope);
         }
     };
 } // namespace Chess::Network

@@ -1,4 +1,7 @@
 #include "Envelope.pb.h"
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#include <atomic>
 #include <chrono>
 #include <exception>
 #include <gtest/gtest.h>
@@ -42,21 +45,33 @@ namespace NetworkTests
             *envelope.mutable_move() = Chess::Network::Move::ToProto(move);
             connection.SendBytes(envelope.SerializeAsString());
         }
+
+        // Hardcoded ports made these tests fail with "Address in use" whenever a port was
+        // still held by another run, so each case claims its own instead.
+        static unsigned short NextPort()
+        {
+            static std::atomic<unsigned short> offset = static_cast<unsigned short>(GetCurrentProcessId() % 20000);
+            return static_cast<unsigned short>(40000 + offset++ % 20000);
+        }
+
+        static std::vector<std::shared_ptr<Chess::Core::Piece>> CreateSparsePieces()
+        {
+            return {
+                std::make_shared<Chess::Core::King>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'E', .rank = 1 }, false),
+                std::make_shared<Chess::Core::King>(Chess::Core::ePieceColor::BLACK, Chess::Core::Coordinate{ .file = 'E', .rank = 8 }, false),
+                std::make_shared<Chess::Core::Rook>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'H', .rank = 1 }),
+                std::make_shared<Chess::Core::Pawn>(Chess::Core::ePieceColor::BLACK, Chess::Core::Coordinate{ .file = 'A', .rank = 7 }),
+            };
+        }
     };
 
     TEST(GameHostTests, RelaysLegalMoveAndRejectsIllegalMove)
     {
-        constexpr unsigned short port = 5599;
-
-        std::vector<std::shared_ptr<Chess::Core::Piece>> pieces = {
-            std::make_shared<Chess::Core::King>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'E', .rank = 1 }, false),
-            std::make_shared<Chess::Core::King>(Chess::Core::ePieceColor::BLACK, Chess::Core::Coordinate{ .file = 'E', .rank = 8 }, false),
-            std::make_shared<Chess::Core::Rook>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'H', .rank = 1 }),
-            std::make_shared<Chess::Core::Pawn>(Chess::Core::ePieceColor::BLACK, Chess::Core::Coordinate{ .file = 'A', .rank = 7 }),
-        };
+        const unsigned short port = GameHostTestHelpers::NextPort();
 
         auto socket = Chess::Network::ServerSocket::Bind(port);
-        auto host   = std::thread([&socket, pieces]() mutable { Chess::Network::GameHost::HostSingleMatch(socket, std::move(pieces)); });
+        auto host   = Chess::Network::GameHost(socket, &GameHostTestHelpers::CreateSparsePieces);
+        auto thread = std::thread([&host] { host.RunUntilIdle(std::chrono::seconds(2)); });
 
         auto white = Chess::Network::ClientConnection::Connect("127.0.0.1", port);
         auto black = Chess::Network::ClientConnection::Connect("127.0.0.1", port);
@@ -82,6 +97,73 @@ namespace NetworkTests
 
         white.Close();
         black.Close();
-        host.join();
+        thread.join();
+    }
+
+    TEST(GameHostTests, HostsTwoMatchesAtTheSameTime)
+    {
+        const unsigned short port = GameHostTestHelpers::NextPort();
+
+        auto socket = Chess::Network::ServerSocket::Bind(port);
+        auto host   = Chess::Network::GameHost(socket, &GameHostTestHelpers::CreateSparsePieces);
+        auto thread = std::thread([&host] { host.RunUntilIdle(std::chrono::seconds(2)); });
+
+        auto firstWhite  = Chess::Network::ClientConnection::Connect("127.0.0.1", port);
+        auto firstBlack  = Chess::Network::ClientConnection::Connect("127.0.0.1", port);
+        auto secondWhite = Chess::Network::ClientConnection::Connect("127.0.0.1", port);
+        auto secondBlack = Chess::Network::ClientConnection::Connect("127.0.0.1", port);
+
+        GameHostTestHelpers::SendFindGame(firstWhite);
+        GameHostTestHelpers::SendFindGame(firstBlack);
+        GameHostTestHelpers::SendFindGame(secondWhite);
+        GameHostTestHelpers::SendFindGame(secondBlack);
+
+        // All four are given a game, so the second pair is served without waiting for the
+        // first match to end.
+        EXPECT_EQ(GameHostTestHelpers::Receive(firstWhite).game_started().your_color(), chess::proto::PIECE_COLOR_WHITE);
+        EXPECT_EQ(GameHostTestHelpers::Receive(firstBlack).game_started().your_color(), chess::proto::PIECE_COLOR_BLACK);
+        EXPECT_EQ(GameHostTestHelpers::Receive(secondWhite).game_started().your_color(), chess::proto::PIECE_COLOR_WHITE);
+        EXPECT_EQ(GameHostTestHelpers::Receive(secondBlack).game_started().your_color(), chess::proto::PIECE_COLOR_BLACK);
+
+        // Both matches are live at once: each relays its own moves independently.
+        GameHostTestHelpers::SendMove(secondWhite, Chess::Core::Move{ .from = { .file = 'H', .rank = 1 }, .to = { .file = 'H', .rank = 5 } });
+        EXPECT_EQ(GameHostTestHelpers::Receive(secondBlack).payload_case(), chess::proto::Envelope::kMove);
+
+        GameHostTestHelpers::SendMove(firstWhite, Chess::Core::Move{ .from = { .file = 'H', .rank = 1 }, .to = { .file = 'H', .rank = 3 } });
+        EXPECT_EQ(GameHostTestHelpers::Receive(firstBlack).payload_case(), chess::proto::Envelope::kMove);
+
+        firstWhite.Close();
+        firstBlack.Close();
+        secondWhite.Close();
+        secondBlack.Close();
+        thread.join();
+    }
+
+    TEST(GameHostTests, TellsTheSurvivorWhenTheOpponentDisconnects)
+    {
+        const unsigned short port = GameHostTestHelpers::NextPort();
+
+        auto socket = Chess::Network::ServerSocket::Bind(port);
+        auto host   = Chess::Network::GameHost(socket, &GameHostTestHelpers::CreateSparsePieces);
+        auto thread = std::thread([&host] { host.RunUntilIdle(std::chrono::seconds(2)); });
+
+        auto white = Chess::Network::ClientConnection::Connect("127.0.0.1", port);
+        {
+            auto black = Chess::Network::ClientConnection::Connect("127.0.0.1", port);
+
+            GameHostTestHelpers::SendFindGame(white);
+            GameHostTestHelpers::SendFindGame(black);
+
+            EXPECT_EQ(GameHostTestHelpers::Receive(white).payload_case(), chess::proto::Envelope::kGameStarted);
+            EXPECT_EQ(GameHostTestHelpers::Receive(black).payload_case(), chess::proto::Envelope::kGameStarted);
+
+            black.Close();
+        }
+
+        // Previously the surviving player was told nothing and blocked here forever.
+        EXPECT_EQ(GameHostTestHelpers::Receive(white).payload_case(), chess::proto::Envelope::kOpponentLeft);
+
+        white.Close();
+        thread.join();
     }
 } // namespace NetworkTests

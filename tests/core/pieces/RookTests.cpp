@@ -29,8 +29,9 @@ namespace ServerTests
 
     TEST(RookTests, FollowsKingWhenItCastles)
     {
-        auto king = std::make_shared<Chess::Core::King>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'E', .rank = 1 });
-        auto rook = std::make_shared<Chess::Core::Rook>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'H', .rank = 1 }, king);
+        auto       king = std::make_shared<Chess::Core::King>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'E', .rank = 1 });
+        const auto rook =
+            std::make_shared<Chess::Core::Rook>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'H', .rank = 1 }, king);
 
         EXPECT_TRUE(rook->GetCanMakeCastling());
 
@@ -42,8 +43,9 @@ namespace ServerTests
 
     TEST(RookTests, LosesCastlingRightsWhenKingMovesNormally)
     {
-        auto king = std::make_shared<Chess::Core::King>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'E', .rank = 1 });
-        auto rook = std::make_shared<Chess::Core::Rook>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'H', .rank = 1 }, king);
+        auto       king = std::make_shared<Chess::Core::King>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'E', .rank = 1 });
+        const auto rook =
+            std::make_shared<Chess::Core::Rook>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'H', .rank = 1 }, king);
 
         king->Move({ .file = 'E', .rank = 2 });
 
@@ -53,8 +55,9 @@ namespace ServerTests
 
     TEST(RookTests, LosesCastlingRightsAfterOwnMove)
     {
-        auto king = std::make_shared<Chess::Core::King>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'E', .rank = 1 });
-        auto rook = std::make_shared<Chess::Core::Rook>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'H', .rank = 1 }, king);
+        auto       king = std::make_shared<Chess::Core::King>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'E', .rank = 1 });
+        const auto rook =
+            std::make_shared<Chess::Core::Rook>(Chess::Core::ePieceColor::WHITE, Chess::Core::Coordinate{ .file = 'H', .rank = 1 }, king);
 
         rook->Move({ .file = 'H', .rank = 4 });
 

@@ -47,7 +47,14 @@ namespace Chess::Console
 
                 if (session.IsGameOver())
                 {
-                    PrintOutcome(session.GetFinalState());
+                    if (session.GetOpponentLeft())
+                    {
+                        std::println("Opponent left the game.");
+                    }
+                    else
+                    {
+                        PrintOutcome(session.GetFinalState());
+                    }
                     break;
                 }
 

@@ -73,6 +73,8 @@ namespace Chess::Network
                 return ServerMessage{
                     eSessionEvent::GAME_OVER, std::nullopt, ToSnapshot(envelope.game_over().board()), Session::FromProto(envelope.game_over().state())
                 };
+            case chess::proto::Envelope::kOpponentLeft:
+                return ServerMessage{ eSessionEvent::OPPONENT_LEFT, std::nullopt, std::nullopt, std::nullopt };
             default:
                 return ServerMessage{ eSessionEvent::UNKNOWN, std::nullopt, std::nullopt, std::nullopt };
             }

@@ -45,6 +45,7 @@ target_link_libraries(engine PRIVATE utils)
 target_link_libraries(network PRIVATE core)
 target_link_libraries(network PRIVATE proto)
 
+target_link_libraries(server PRIVATE constants)
 target_link_libraries(server PRIVATE core)
 target_link_libraries(server PRIVATE network)
 

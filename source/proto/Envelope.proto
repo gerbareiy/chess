@@ -10,11 +10,12 @@ message Envelope
 {
     oneof payload
     {
-        Move        move         = 1;
-        Chessboard  board_sync   = 2;
-        FindGame    find_game    = 3;
-        GameStarted game_started = 4;
-        GameOver    game_over    = 5;
-        Chessboard  board_check  = 6;
+        Move         move          = 1;
+        Chessboard   board_sync    = 2;
+        FindGame     find_game     = 3;
+        GameStarted  game_started  = 4;
+        GameOver     game_over     = 5;
+        Chessboard   board_check   = 6;
+        OpponentLeft opponent_left = 7;
     }
 }
