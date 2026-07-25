@@ -9,6 +9,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # solution options
 project(chess)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(CollectSources)
+
 add_subdirectory(source)
 
 enable_testing()

@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.30)
 
-file(GLOB_RECURSE TEST_UTILS_SOURCES CONFIGURE_DEPENDS
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
-)
+collect_sources(TEST_UTILS_SOURCES)
 add_executable(utils_tests ${TEST_UTILS_SOURCES})
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${TEST_UTILS_SOURCES})
