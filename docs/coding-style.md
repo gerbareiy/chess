@@ -29,6 +29,9 @@ class/struct/enum class name, and module name are always the same string.
 Imports are always alphabetical, full stop. `.clang-format` has no setting for sorting `import` declarations (its
 `SortIncludes` only covers `#include`), so `format.py` sorts each block of consecutive `import` lines itself.
 
+Run `python format.py` from the repository root to format everything in place, or `python format.py --check` to only
+report what is not formatted (this is what the `Format` GitHub workflow runs, with clang-format 22.1.0).
+
 ```cpp
 module; // omit this if the file has no #includes
 #include "AnyOtherIncludeFile.h" // let .clang-format decide the order
