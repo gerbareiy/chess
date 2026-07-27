@@ -2,8 +2,8 @@ module;
 #include <memory>
 #include <print>
 #include <ranges>
-#include <windows.h>
 export module Chess.Console.ChessboardPresenter;
+import Chess.Console.ConsoleScreen;
 import Chess.Console.eConsoleColor;
 import Chess.Constants.Sizes;
 import Chess.Core.Chessboard;
@@ -43,21 +43,21 @@ namespace Chess::Console
 
         void Show() const
         {
-            Clear();
+            ConsoleScreen::Clear();
             ShowTakenPieces(Core::ePieceColor::WHITE);
             ShowChessboardWithCoordinates();
             ShowTakenPieces(Core::ePieceColor::BLACK);
         }
 
-        void ShowChessboardRowWithRank(int y, int originalTextColor) const
+        void ShowChessboardRowWithRank(int y) const
         {
             for (const char x : std::views::iota('A', 'A' + Constants::Sizes::CHESSBOARD_SIZE))
             {
                 auto       colorAndType = chessboard_->GetPieceDirector()->GetPieceColorAndType({ .file = x, .rank = y });
-                const auto textColor    = GetTextConsoleColor(colorAndType, originalTextColor);
+                const auto textColor    = GetTextConsoleColor(colorAndType);
                 const auto background   = GetBackgroundConsoleColor(Core::Coordinate(x, y));
 
-                SetConsoleColor(textColor, background);
+                ConsoleScreen::SetColor(textColor, background);
 
                 std::print("{}", Core::PieceTypeConverter::TryConvertToChar(colorAndType.type).value_or(' '));
             }
@@ -94,15 +94,7 @@ namespace Chess::Console
             return result;
         }
 
-        static void GetOriginalConsoleColor(WORD& originalColors)
-        {
-            const auto                 handleConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-            CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
-            GetConsoleScreenBufferInfo(handleConsole, &consoleInfo);
-            originalColors = consoleInfo.wAttributes;
-        }
-
-        static eConsoleColor GetTextConsoleColor(const Core::PieceColorAndType& colorAndType, int originalTextColor)
+        static eConsoleColor GetTextConsoleColor(const Core::PieceColorAndType& colorAndType)
         {
             if (colorAndType.color == Core::ePieceColor::BLACK)
             {
@@ -112,18 +104,7 @@ namespace Chess::Console
             {
                 return eConsoleColor::WHITE;
             }
-            return static_cast<eConsoleColor>(originalTextColor);
-        }
-
-        static void SetConsoleColor(eConsoleColor textColor, eConsoleColor backgroundColor)
-        {
-            const auto hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-            SetConsoleTextAttribute(hConsole, static_cast<int>(backgroundColor) << 4 | static_cast<int>(textColor));
-        }
-
-        static void Clear()
-        {
-            system("CLS");
+            return eConsoleColor::DEFAULT;
         }
 
         static void PrintEmpty()
@@ -173,11 +154,6 @@ namespace Chess::Console
 
         void ShowChessboardWithCoordinates() const
         {
-            WORD originalColors;
-            GetOriginalConsoleColor(originalColors);
-
-            auto           originalTextColor        = originalColors & 0x0F;
-            auto           originalBackgroundColor  = (originalColors & 0xF0) >> 4;
             constexpr auto isChessboardSizeOneDigit = Constants::Sizes::CHESSBOARD_SIZE < 10;
 
             ShowChessboardFiles(isChessboardSizeOneDigit);
@@ -185,8 +161,8 @@ namespace Chess::Console
             for (auto y = Constants::Sizes::CHESSBOARD_SIZE; y > 0; --y)
             {
                 ShowChessboardRank(y, isChessboardSizeOneDigit);
-                ShowChessboardRowWithRank(y, originalTextColor);
-                SetConsoleColor(static_cast<eConsoleColor>(originalTextColor), static_cast<eConsoleColor>(originalBackgroundColor));
+                ShowChessboardRowWithRank(y);
+                ConsoleScreen::ResetColor();
                 ShowChessboardRank(y, isChessboardSizeOneDigit);
                 PrintEmpty();
             }

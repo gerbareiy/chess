@@ -8,6 +8,7 @@ import Chess.Constants.Network;
 import Chess.Core.ChessboardBuilder;
 import Chess.Network.GameHost;
 import Chess.Network.ServerSocket;
+import Chess.Utils.ResourceLocator;
 
 int main(int argc, char* argv[])
 {
@@ -26,9 +27,18 @@ int main(int argc, char* argv[])
         port = parsed;
     }
 
+    const auto relativePath   = std::filesystem::path("resources") / "chessboard.json";
+    const auto executablePath = argc > 0 ? std::filesystem::path(argv[0]) : std::filesystem::path();
+    const auto foundPath      = Chess::Utils::ResourceLocator::TryFind(relativePath, executablePath);
+    if (!foundPath.has_value())
+    {
+        std::println("Server error: {} was not found next to the server executable or in any of its parent directories.", relativePath.string());
+        return 1;
+    }
+
     try
     {
-        const auto path = std::filesystem::current_path().parent_path().parent_path().parent_path() / "resources" / "chessboard.json";
+        const auto path = foundPath.value();
 
         // Fail before binding if the starting position is unreadable, rather than only when
         // the first pair of players is already waiting for a board.

@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 3.30)
 
-collect_sources(TEST_UTILS_SOURCES)
-add_executable(utils_tests ${TEST_UTILS_SOURCES})
-
-source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${TEST_UTILS_SOURCES})
+add_executable(utils_tests)
+add_target_sources(utils_tests)
 
 target_link_libraries(utils_tests PRIVATE utils GTest::gtest_main)
 target_include_directories(utils_tests PRIVATE ${CMAKE_SOURCE_DIR}/source)

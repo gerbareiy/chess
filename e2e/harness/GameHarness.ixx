@@ -1,8 +1,7 @@
 module;
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
 #include <atomic>
 #include <chrono>
+#include <random>
 #include <ranges>
 #include <stdexcept>
 #include <string>
@@ -85,7 +84,7 @@ namespace Chess::E2E
 
         static unsigned short NextCandidatePort()
         {
-            static std::atomic<unsigned short> offset = static_cast<unsigned short>(GetCurrentProcessId() % CANDIDATE_PORTS_RANGE);
+            static std::atomic<unsigned short> offset = static_cast<unsigned short>(std::random_device{}() % CANDIDATE_PORTS_RANGE);
             return static_cast<unsigned short>(LOWEST_CANDIDATE_PORT + offset++ % CANDIDATE_PORTS_RANGE);
         }
 
@@ -107,7 +106,7 @@ namespace Chess::E2E
                 lastOutput = server.GetAccumulatedOutput();
             }
             throw std::runtime_error(
-                "server.exe exited immediately on all " + std::to_string(CANDIDATE_PORTS_COUNT)
+                "the server exited immediately on all " + std::to_string(CANDIDATE_PORTS_COUNT)
                 + " candidate ports (last tried: " + std::to_string(lastPort) + "). Path: " + ChessExecutables::GetServerPath().string()
                 + ", working directory: " + ChessExecutables::GetOwnDirectory().string() + ", its output: [" + lastOutput + "]");
         }

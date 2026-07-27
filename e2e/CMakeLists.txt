@@ -4,12 +4,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 find_package(GTest CONFIG REQUIRED)
 
-collect_sources(E2E_SOURCES)
-add_executable(e2e_tests ${E2E_SOURCES})
-
-source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${E2E_SOURCES})
+add_executable(e2e_tests)
+add_target_sources(e2e_tests)
 
 target_link_libraries(e2e_tests PRIVATE GTest::gtest_main)
+target_link_libraries(e2e_tests PRIVATE utils)
 target_include_directories(e2e_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_dependencies(e2e_tests console server)

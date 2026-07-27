@@ -1,11 +1,10 @@
 #include "Envelope.pb.h"
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
 #include <atomic>
 #include <chrono>
 #include <exception>
 #include <gtest/gtest.h>
 #include <memory>
+#include <random>
 #include <thread>
 #include <vector>
 import Chess.Core.Coordinate;
@@ -50,7 +49,7 @@ namespace NetworkTests
         // still held by another run, so each case claims its own instead.
         static unsigned short NextPort()
         {
-            static std::atomic<unsigned short> offset = static_cast<unsigned short>(GetCurrentProcessId() % 20000);
+            static std::atomic<unsigned short> offset = static_cast<unsigned short>(std::random_device{}() % 20000);
             return static_cast<unsigned short>(40000 + offset++ % 20000);
         }
 

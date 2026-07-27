@@ -10,7 +10,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(chess)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-include(CollectSources)
+include(TargetSources)
 
 add_subdirectory(source)
 

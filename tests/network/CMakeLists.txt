@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 3.30)
 
-collect_sources(TEST_NETWORK_SOURCES)
-add_executable(network_tests ${TEST_NETWORK_SOURCES})
-
-source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${TEST_NETWORK_SOURCES})
+add_executable(network_tests)
+add_target_sources(network_tests)
 
 target_link_libraries(network_tests PRIVATE network core GTest::gtest_main)
 target_include_directories(network_tests PRIVATE ${CMAKE_SOURCE_DIR}/source)

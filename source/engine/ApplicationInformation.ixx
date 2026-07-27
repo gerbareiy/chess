@@ -1,9 +1,9 @@
 module;
-#include <string>
+#include <string_view>
 #include <vulkan/vulkan_core.h>
-export module Chess.Constants.ApplicationInformation;
+export module Chess.Engine.ApplicationInformation;
 
-namespace Chess::Constants::ApplicationInformation
+namespace Chess::Engine::ApplicationInformation
 {
     export constexpr std::string_view APP_NAME    = "Chess";
     export constexpr uint32_t         APP_VERSION = VK_MAKE_VERSION(0, 0, 1);
@@ -12,4 +12,4 @@ namespace Chess::Constants::ApplicationInformation
     export constexpr uint32_t         ENGINE_VERSION = VK_MAKE_VERSION(0, 0, 1);
 
     export constexpr uint32_t API_VERSION = VK_API_VERSION_1_4;
-} // namespace Chess::Constants::ApplicationInformation
+} // namespace Chess::Engine::ApplicationInformation

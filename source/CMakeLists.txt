@@ -48,6 +48,6 @@ target_link_libraries(network PRIVATE proto)
 target_link_libraries(server PRIVATE constants)
 target_link_libraries(server PRIVATE core)
 target_link_libraries(server PRIVATE network)
+target_link_libraries(server PRIVATE utils)
 
-target_link_libraries(window PRIVATE constants)
 target_link_libraries(window PRIVATE engine)
