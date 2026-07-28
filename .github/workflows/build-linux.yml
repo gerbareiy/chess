@@ -1,4 +1,4 @@
-name: Build
+name: Build Linux
 
 on:
   push:
@@ -8,36 +8,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: windows-2022
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup vcpkg
-        uses: lukka/run-vcpkg@v11
-        with:
-          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-          vcpkgGitCommitId: 86dc619bd8d9697405ae5c944b474117ea9457ce
-
-      - name: Configure
-        run: cmake -S . -B build -A x64 -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
-
-      - name: Build (Release)
-        run: cmake --build build --config Release --parallel
-
-      - name: Run tests (Release)
-        working-directory: build
-        run: ctest -C Release --output-on-failure
-
-      - name: Build (Debug)
-        run: cmake --build build --config Debug --parallel
-
-      - name: Run tests (Debug)
-        working-directory: build
-        run: ctest -C Debug --output-on-failure
-
   build-linux:
     runs-on: ubuntu-24.04
 

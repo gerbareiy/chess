@@ -1,6 +1,7 @@
 module;
 #include <algorithm>
 #include <cassert>
+#include <cstddef>
 #include <memory>
 #include <vector>
 export module Chess.Core.MoveValidator;

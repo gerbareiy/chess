@@ -1,5 +1,6 @@
 module;
 #include <charconv>
+#include <cstdint>
 #include <optional>
 #include <string>
 export module Chess.Utils.Converter;

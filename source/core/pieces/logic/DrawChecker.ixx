@@ -1,4 +1,5 @@
 module;
+#include <cstddef>
 #include <memory>
 #include <ranges>
 export module Chess.Core.DrawChecker;
