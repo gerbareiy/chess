@@ -20,6 +20,7 @@ import Chess.Core.PiecePlacement;
 import Chess.Core.PiecesOnBoardCreator;
 import Chess.Core.PieceTypeConverter;
 import Chess.Utils.Converter;
+import Chess.Utils.Format;
 
 namespace Chess::Core
 {
@@ -74,7 +75,7 @@ namespace Chess::Core
         {
             if (IsPieceOnBoard(placements, coordinate))
             {
-                throw std::invalid_argument(std::format("Two pieces cannot occupy the same square: {},{}", coordinate.file, coordinate.rank));
+                throw std::invalid_argument(Utils::Format::Text("Two pieces cannot occupy the same square: {},{}", coordinate.file, coordinate.rank));
             }
         }
 
@@ -82,17 +83,17 @@ namespace Chess::Core
         {
             if (!piece.contains("file"))
             {
-                throw std::invalid_argument(std::format("{} is missing 'file' in configuration", PieceTypeConverter::ConvertToString(type)));
+                throw std::invalid_argument(Utils::Format::Text("{} is missing 'file' in configuration", PieceTypeConverter::ConvertToString(type)));
             }
             if (!piece.contains("rank"))
             {
-                throw std::invalid_argument(std::format("{} is missing 'rank' in configuration", PieceTypeConverter::ConvertToString(type)));
+                throw std::invalid_argument(Utils::Format::Text("{} is missing 'rank' in configuration", PieceTypeConverter::ConvertToString(type)));
             }
 
             const std::string files = piece.at("file").as_string().c_str();
             if (files.size() != 1)
             {
-                throw std::invalid_argument(std::format("{} has invalid 'file' in configuration", PieceTypeConverter::ConvertToString(type)));
+                throw std::invalid_argument(Utils::Format::Text("{} has invalid 'file' in configuration", PieceTypeConverter::ConvertToString(type)));
             }
 
             const char        file       = files[0];

@@ -1,9 +1,9 @@
 module;
-#include <format>
 #include <magic_enum/magic_enum.hpp>
 #include <vulkan/vulkan_core.h>
 export module Chess.Engine.VulkanChecker;
 import Chess.Utils.Exceptions;
+import Chess.Utils.Format;
 
 namespace Chess::Engine
 {
@@ -14,7 +14,7 @@ namespace Chess::Engine
         {
             if (result != VK_SUCCESS)
             {
-                throw Utils::VulcanException(std::format("{}", magic_enum::enum_name(result)));
+                throw Utils::VulcanException(Utils::Format::Text("{}", magic_enum::enum_name(result)));
             }
         }
     };

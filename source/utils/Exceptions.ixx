@@ -49,4 +49,16 @@ namespace Chess::Utils
         {
         }
     };
+
+    // Thrown by Format when a format string that is only known at runtime does not match the arguments it is given.
+    // It derives from std::runtime_error, the very base std::format_error uses, so the two stay interchangeable for
+    // anyone catching the general case.
+    export class FormatException : public std::runtime_error
+    {
+    public:
+        FormatException(std::string formatString, std::string reason)
+            : runtime_error(std::format("Format error in \"{}\": {}", formatString, reason))
+        {
+        }
+    };
 } // namespace Chess::Utils
